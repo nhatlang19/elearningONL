@@ -1,7 +1,10 @@
 <?php
+namespace App\Libraries;
+
 use PhpOffice\PhpWord\Autoloader;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\IOFactory;
+use App\Libraries\AppComponent;
 
 error_reporting(E_ALL);
 require_once __DIR__ . '/../PhpOffice/PhpWord/Autoloader.php';
@@ -14,6 +17,8 @@ class WordComponent
 
     function __construct()
     {
+        parent::__construct();
+        
         Autoloader::register();
         Settings::loadConfig();
         

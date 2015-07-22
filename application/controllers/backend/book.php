@@ -59,6 +59,6 @@ class Book extends Ext_Controller
         $data['user'] = $this->getUserInfo();
         $data['topic_manage'] = $this->topic_manage_model->getAllTopicManage();
         $content = $this->load->view(BACK_END_TMPL_PATH . 'book/edit', $data, TRUE);
-        $this->_loadTemnplateAdmin($header, $content);
+        $this->loadTemnplateAdmin($header, $content);
     }
 }

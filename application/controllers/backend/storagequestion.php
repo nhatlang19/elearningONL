@@ -36,7 +36,7 @@ class Storagequestion extends Ext_Controller
         $data['pagination'] = $this->pagination;
         
         $content = $this->load->view(BACK_END_TMPL_PATH . 'storage_questions/lists', $data, TRUE);
-        $this->_loadTemnplateAdmin($header, $content);
+        $this->loadTemnplateAdmin($header, $content);
     }
 
     function delete($id)
@@ -139,7 +139,7 @@ class Storagequestion extends Ext_Controller
         $data['storage'] = $this->storage_model->getStorageAllByUser($this->getUserInfo()->subjects_id);
         
         $content = $this->load->view(BACK_END_TMPL_PATH . 'storage_questions/edit', $data, TRUE);
-        $this->_loadTemnplateAdmin($header, $content);
+        $this->loadTemnplateAdmin($header, $content);
     }
 }
 

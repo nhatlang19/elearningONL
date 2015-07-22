@@ -41,7 +41,7 @@ class Storage extends Ext_Controller
         
         $content = $this->_loadContent();
         
-        $this->_loadTemnplateAdmin($header, $content);
+        $this->loadTemnplateAdmin($header, $content);
     }
 
     function edit($id = null)
@@ -84,7 +84,7 @@ class Storage extends Ext_Controller
         $data['user'] = $this->getUserInfo();
         $data['subjects'] = $this->subject_model->getAllSubjects();
         $content = $this->load->view(BACK_END_TMPL_PATH . 'storage/edit', $data, TRUE);
-        $this->_loadTemnplateAdmin($header, $content);
+        $this->loadTemnplateAdmin($header, $content);
     }
     
     // xuat excel

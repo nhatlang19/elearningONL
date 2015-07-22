@@ -1,37 +1,35 @@
 <?php
+namespace App\Libraries;
 
-if (! defined('BASEPATH'))
-    exit('No direct script access allowed');
+use App\Libraries\AppComponent;
 
-/**
- *
- * @author nhox
- *         refs: http://ellislab.com/codeigniter/user-guide/database/utilities.html
- */
-class Mybackup
+class BackupComponent extends AppComponent
 {
 
-    public function _do($download = true)
+    function __construct()
     {
-        $CI = & get_instance();
-        
+        parent::__construct();
+    }
+    
+    public function doBackup($download = true)
+    {
         // Load the DB utility class
         $CI->load->dbutil();
-        
+    
         // Backup your entire database and assign it to a variable
         $backup = & $CI->dbutil->backup();
-        
+    
         // Load the file helper and write the file to your server
         $CI->load->helper('file');
         write_file(BACK_END_BACKUP_PATH_ROOT . NAME_BACKUP, $backup);
-        
+    
         if ($download) {
             // Load the download helper and send the file to your desktop
             $CI->load->helper('download');
             force_download(NAME_BACKUP, $backup);
         }
     }
-
+    
     /**
      * SET FOREIGN_KEY_CHECKS = 0;
      *
@@ -44,13 +42,11 @@ class Mybackup
      * TRUNCATE `topic`;
      * TRUNCATE `topic_manage`;
      * SET FOREIGN_KEY_CHECKS = 1;
-     * 
-     * @param unknown $tables            
+     *
+     * @param unknown $tables
      */
-    public function _truncateTables($tables = array())
+    public function truncateTables($tables = [])
     {
-        $CI = & get_instance();
-        
         if (! count($tables)) {
             $tables = $CI->db->list_tables();
             $CI->db->query("SET FOREIGN_KEY_CHECKS = 0");
@@ -60,13 +56,11 @@ class Mybackup
             $CI->db->query("SET FOREIGN_KEY_CHECKS = 1");
         }
     }
-
-    public function _dropTables($tables = array())
+    
+    public function dropTables($tables = [])
     {
         $this->_truncateTables($tables);
-        
-        $CI = & get_instance();
-        
+    
         $CI->load->dbforge();
         if (! count($tables)) {
             $tables = $CI->db->list_tables();
@@ -78,5 +72,3 @@ class Mybackup
         }
     }
 }
-
-/* End of file Someclass.php */

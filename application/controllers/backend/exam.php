@@ -39,7 +39,7 @@ class Exam extends Ext_Controller
         $data['pagination'] = $this->pagination;
         
         $content = $this->load->view(BACK_END_TMPL_PATH . 'exam/lists', $data, TRUE);
-        $this->_loadTemnplateAdmin($header, $content);
+        $this->loadTemnplateAdmin($header, $content);
     }
 
     public function edit($id = null)
@@ -76,7 +76,7 @@ class Exam extends Ext_Controller
         $data['title'] = $header['title'];
         $data['task'] = $task;
         $content = $this->load->view(BACK_END_TMPL_PATH . 'exam/edit', $data, TRUE);
-        $this->_loadTemnplateAdmin($header, $content);
+        $this->loadTemnplateAdmin($header, $content);
     }
 
     public function published()

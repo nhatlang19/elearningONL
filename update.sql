@@ -1,4 +1,4 @@
-ALTER TABLE  `topic_manage` CHANGE  `status`  `status` ENUM(  'ACTIVE',  'DELETED' ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'ACTIVE';
+ALTER TABLE  `topic_manage` ADD  `status`  ENUM(  'ACTIVE',  'DELETED' ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'ACTIVE';
 ALTER TABLE  `topic_manage` ADD  `review` ENUM(  'SHOW',  'HIDE' ) NOT NULL DEFAULT  'HIDE';
 ALTER TABLE  `student_mark` ADD  `ip_address` VARCHAR( 20 ) NOT NULL ;
 

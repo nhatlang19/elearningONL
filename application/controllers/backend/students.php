@@ -45,7 +45,7 @@ class Students extends Ext_Controller
         $data['class_id'] = $class_id;
         $data['name'] = $name;
         $content = $this->load->view(BACK_END_TMPL_PATH . 'students/lists', $data, TRUE);
-        $this->_loadTemnplateAdmin($header, $content);
+        $this->loadTemnplateAdmin($header, $content);
     }
 
     public function edit($id = null)
@@ -81,7 +81,7 @@ class Students extends Ext_Controller
         $data['title'] = $header['title'];
         $data['task'] = $task;
         $content = $this->load->view(BACK_END_TMPL_PATH . 'students/edit', $data, TRUE);
-        $this->_loadTemnplateAdmin($header, $content);
+        $this->loadTemnplateAdmin($header, $content);
     }
 
     function import()
@@ -103,7 +103,7 @@ class Students extends Ext_Controller
         $data['title'] = $header['title'];
         $data['classes'] = $this->class_model->getAllClass();
         $content = $this->load->view(BACK_END_TMPL_PATH . 'students/import', $data, TRUE);
-        $this->_loadTemnplateAdmin($header, $content);
+        $this->loadTemnplateAdmin($header, $content);
     }
 
     private function _saveFileData($class_id, $fileName)

@@ -30,7 +30,7 @@ define('SEPARATE_CORRECT_ANSWER', ',');
  * Use define direction path
  * Usefuly for all controller using this path to load template
  */
-define('ROOT', '/phuoc');
+define('ROOT', '');
 define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT'] . ROOT);
 define('BACK_END_TMPL_PATH', 'backend/');
 define('BACK_END_INC_TMPL_PATH', 'backend/inc/');

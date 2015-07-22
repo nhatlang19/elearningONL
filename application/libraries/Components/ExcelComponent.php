@@ -1,16 +1,19 @@
 <?php
+namespace App\Libraries;
+
 error_reporting(E_ALL);
 ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);
 // date_default_timezone_set('Europe/London');
-class ExcelComponent
-{
 
-    var $CI;
+use App\Libraries\AppComponent;
+
+class ExcelComponent extends AppComponent
+{
 
     function __construct()
     {
-        $this->CI = & get_instance();
+        parent::__construct();
         
         $this->CI->load->library('PhpOffice/PHPExcel');
         

@@ -1,14 +1,14 @@
 <?php
+namespace App\Libraries;
+use App\Libraries\AppComponent;
 
-class ScoreComponent
+class ScoreComponent extends AppComponent
 {
-
-    var $_CI;
 
     function __construct()
     {
-        $this->_CI = & get_instance();
-        
+        parent::__construct();
+
         $this->_CI->load->model('topic_model');
         $this->_CI->load->model('score_model');
         $this->_CI->load->model('student_mark_model');

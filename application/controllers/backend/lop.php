@@ -45,7 +45,7 @@ class Lop extends Ext_Controller
         $data['pagination'] = $this->pagination;
         
         $content = $this->load->view(BACK_END_TMPL_PATH . 'lop/lists', $data, TRUE);
-        $this->_loadTemnplateAdmin($header, $content);
+        $this->loadTemnplateAdmin($header, $content);
     }
 
     public function edit($id = null)
@@ -82,7 +82,7 @@ class Lop extends Ext_Controller
         $data['blocks'] = $this->block_model->getAllBlock();
         
         $content = $this->load->view(BACK_END_TMPL_PATH . 'lop/edit', $data, TRUE);
-        $this->_loadTemnplateAdmin($header, $content);
+        $this->loadTemnplateAdmin($header, $content);
     }
 
     public function published()

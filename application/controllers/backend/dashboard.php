@@ -18,7 +18,7 @@ class Dashboard extends Ext_Controller
         $data = array();
         
         $content = $this->load->view(BACK_END_TMPL_PATH . 'dashboard/index', $data, TRUE);
-        $this->_loadTemnplateAdmin($header, $content);
+        $this->loadTemnplateAdmin($header, $content);
     }
 
     function backup()
@@ -55,7 +55,7 @@ class Dashboard extends Ext_Controller
         $data['title'] = $header['title'];
         $data['classes'] = $this->class_model->getAllClass();
         $content = $this->load->view(BACK_END_TMPL_PATH . 'dashboard/import_db', $data, TRUE);
-        $this->_loadTemnplateAdmin($header, $content);
+        $this->loadTemnplateAdmin($header, $content);
     }
 
     private function _saveFileData($class_id, $fileName)

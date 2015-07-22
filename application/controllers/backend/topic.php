@@ -44,7 +44,7 @@ class Topic extends Ext_Controller
         $data['pagination'] = $this->pagination;
         
         $content = $this->load->view(BACK_END_TMPL_PATH . 'topic/lists', $data, TRUE);
-        $this->_loadTemnplateAdmin($header, $content);
+        $this->loadTemnplateAdmin($header, $content);
     }
 
     /**
@@ -72,7 +72,7 @@ class Topic extends Ext_Controller
         $data['pagination'] = $this->pagination;
         
         $content = $this->load->view(BACK_END_TMPL_PATH . 'topic/list_trash', $data, TRUE);
-        $this->_loadTemnplateAdmin($header, $content);
+        $this->loadTemnplateAdmin($header, $content);
     }
 
     function published($topic_manage_id)
@@ -308,7 +308,7 @@ class Topic extends Ext_Controller
         $data['list_exam'] = $this->exam_model->getAllExam();
         
         $content = $this->load->view(BACK_END_TMPL_PATH . 'topic/edit', $data, TRUE);
-        $this->_loadTemnplateAdmin($header, $content);
+        $this->loadTemnplateAdmin($header, $content);
     }
 
     function change_review()

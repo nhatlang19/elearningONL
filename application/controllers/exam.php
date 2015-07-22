@@ -64,7 +64,7 @@ class Exam extends CI_Controller
             // load template
             $content = $this->load->view(FRONT_END_TMPL_PATH . 'result', $data, TRUE);
             $header['title'] = EXAM_RESULT;
-            $this->_loadTemplate($header, $content);
+            $this->loadTemplate($header, $content);
         } else {
             show_404();
         }
@@ -188,7 +188,7 @@ class Exam extends CI_Controller
                 $page['code'] = $topic['code'];
                 $content = $this->load->view(FRONT_END_TMPL_PATH . 'topics', $page, TRUE);
             }
-            $this->_loadTemplate($header, $content);
+            $this->loadTemplate($header, $content);
         } else {
             show_404();
         }
@@ -211,7 +211,7 @@ class Exam extends CI_Controller
      * $header : array header data
      * $content : content data
      */
-    function _loadTemplate($header = "", $content = "")
+    function loadTemplate($header = "", $content = "")
     {
         
         // load header template

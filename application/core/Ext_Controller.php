@@ -1,5 +1,4 @@
 <?php
-
 if (! defined('BASEPATH'))
     exit('No direct script access allowed');
 
@@ -10,7 +9,7 @@ class Ext_Controller extends CI_Controller
 
     var $url_return = '';
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         
@@ -22,13 +21,12 @@ class Ext_Controller extends CI_Controller
         $this->output->set_header('Content-Type: text/html; charset=UTF-8');
     }
 
-    function getUserInfo()
+    protected function getUserInfo()
     {
-        $user = $this->session->userdata('user');
-        return $user;
+        return $this->session->userdata('user');
     }
 
-    function __configUpload($path = 'public/images/products/')
+    protected function __configUpload($path = 'public/images/products/')
     {
         $config['upload_path'] = $path;
         $config['allowed_types'] = 'gif|jpg|png|jpeg|GIF|JPG|PNG|JPEG';
@@ -38,7 +36,7 @@ class Ext_Controller extends CI_Controller
         return $config;
     }
 
-    function _loadTemnplateAdmin($header = "", $content = "")
+    protected function loadTemnplateAdmin($header = "", $content = "")
     {
         $temp['header'] = $this->load->view(BACK_END_INC_TMPL_PATH . 'inc_header', $header, TRUE);
         $temp['sidebar'] = $this->load->view(BACK_END_INC_TMPL_PATH . 'inc_sidebar', null, TRUE);
@@ -47,7 +45,7 @@ class Ext_Controller extends CI_Controller
         $this->load->view(BACK_END_TMPL_PATH . 'template', $temp);
     }
 
-    function configPagination($base_url, $total_rows, $per_page = 20, $uri_segment = 4)
+    protected function configPagination($base_url, $total_rows, $per_page = 20, $uri_segment = 4)
     {
         $config['base_url'] = $base_url;
         $config['total_rows'] = $total_rows;
@@ -67,7 +65,7 @@ class Ext_Controller extends CI_Controller
      * $header : array header data
      * $content : content data
      */
-    function _loadTemplate($header = "", $content = "")
+    protected function loadTemplate($header = "", $content = "")
     {
         
         // load header template
@@ -81,14 +79,14 @@ class Ext_Controller extends CI_Controller
         $this->load->view(COMMON_TMPL_PATH . 'template', $template);
     }
 
-    function sendAjax($status = 0, $message = '')
+    protected function sendAjax($status = 0, $message = '')
     {
-        $data = array(
+        $data = [
             'status' => $status,
             'message' => $message
-        );
-        echo json_encode($data);
-        exit();
+        ];
+        
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 }
 

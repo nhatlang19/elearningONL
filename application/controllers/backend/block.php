@@ -39,7 +39,7 @@ class Block extends Ext_Controller
         $data['pagination'] = $this->pagination;
         
         $content = $this->load->view(BACK_END_TMPL_PATH . 'block/lists', $data, TRUE);
-        $this->_loadTemnplateAdmin($header, $content);
+        $this->loadTemnplateAdmin($header, $content);
     }
 
     public function edit($id = null)
@@ -72,7 +72,7 @@ class Block extends Ext_Controller
         $data['title'] = $header['title'];
         $data['task'] = $task;
         $content = $this->load->view(BACK_END_TMPL_PATH . 'block/edit', $data, TRUE);
-        $this->_loadTemnplateAdmin($header, $content);
+        $this->loadTemnplateAdmin($header, $content);
     }
 }
 
