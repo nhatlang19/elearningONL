@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Reader;
 
 use PhpOffice\PhpWord\PhpWord;
@@ -27,54 +26,56 @@ use PhpOffice\PhpWord\Shared\XMLReader;
  */
 class ODText extends AbstractReader implements ReaderInterface
 {
+
     /**
      * Loads PhpWord from file
      *
-     * @param string $docFile
+     * @param string $docFile            
      * @return \PhpOffice\PhpWord\PhpWord
      */
     public function load($docFile)
     {
         $phpWord = new PhpWord();
         $relationships = $this->readRelationships($docFile);
-
+        
         $readerParts = array(
             'content.xml' => 'Content',
-            'meta.xml' => 'Meta',
+            'meta.xml' => 'Meta'
         );
-
+        
         foreach ($readerParts as $xmlFile => $partName) {
             $this->readPart($phpWord, $relationships, $partName, $docFile, $xmlFile);
         }
-
+        
         return $phpWord;
     }
 
     /**
      * Read document part
      *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
-     * @param array $relationships
-     * @param string $partName
-     * @param string $docFile
-     * @param string $xmlFile
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord            
+     * @param array $relationships            
+     * @param string $partName            
+     * @param string $docFile            
+     * @param string $xmlFile            
      */
     private function readPart(PhpWord &$phpWord, $relationships, $partName, $docFile, $xmlFile)
     {
         $partClass = "PhpOffice\\PhpWord\\Reader\\ODText\\{$partName}";
         if (class_exists($partClass)) {
-            /** @var \PhpOffice\PhpWord\Reader\ODText\AbstractPart $part Type hint */
+            /**
+             * @var \PhpOffice\PhpWord\Reader\ODText\AbstractPart $part Type hint
+             */
             $part = new $partClass($docFile, $xmlFile);
             $part->setRels($relationships);
             $part->read($phpWord);
         }
-
     }
 
     /**
      * Read all relationship files
      *
-     * @param string $docFile
+     * @param string $docFile            
      * @return array
      */
     private function readRelationships($docFile)
@@ -87,9 +88,12 @@ class ODText extends AbstractReader implements ReaderInterface
         foreach ($nodes as $node) {
             $type = $xmlReader->getAttribute('manifest:media-type', $node);
             $target = $xmlReader->getAttribute('manifest:full-path', $node);
-            $rels[] = array('type' => $type, 'target' => $target);
+            $rels[] = array(
+                'type' => $type,
+                'target' => $target
+            );
         }
-
+        
         return $rels;
     }
 }

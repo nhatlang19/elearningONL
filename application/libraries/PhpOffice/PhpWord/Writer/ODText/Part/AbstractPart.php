@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
 use PhpOffice\PhpWord\Settings;
@@ -28,7 +27,9 @@ use PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart as Word2007AbstractPart;
  */
 abstract class AbstractPart extends Word2007AbstractPart
 {
+
     /**
+     *
      * @var string Date format
      */
     protected $dateFormat = 'Y-m-d\TH:i:s.000';
@@ -80,11 +81,11 @@ abstract class AbstractPart extends Word2007AbstractPart
             foreach ($styles as $style) {
                 // Font
                 if ($style instanceof Font) {
-                    $numFonts++;
+                    $numFonts ++;
                     $name = $style->getName();
-                    if (!in_array($name, $fontTable)) {
+                    if (! in_array($name, $fontTable)) {
                         $fontTable[] = $name;
-
+                        
                         // style:font-face
                         $xmlWriter->startElement('style:font-face');
                         $xmlWriter->writeAttribute('style:name', $name);
@@ -94,7 +95,7 @@ abstract class AbstractPart extends Word2007AbstractPart
                 }
             }
         }
-        if (!in_array(Settings::getDefaultFontName(), $fontTable)) {
+        if (! in_array(Settings::getDefaultFontName(), $fontTable)) {
             $xmlWriter->startElement('style:font-face');
             $xmlWriter->writeAttribute('style:name', Settings::getDefaultFontName());
             $xmlWriter->writeAttribute('svg:font-family', Settings::getDefaultFontName());

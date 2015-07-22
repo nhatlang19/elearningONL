@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 /**
@@ -24,6 +23,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
  */
 class TextRun extends Text
 {
+
     /**
      * Write textrun element
      */
@@ -31,12 +31,12 @@ class TextRun extends Text
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
-
+        
         $this->writeOpeningWP();
-
+        
         $containerWriter = new Container($xmlWriter, $element);
         $containerWriter->write();
-
+        
         $this->writeClosingWP();
     }
 }

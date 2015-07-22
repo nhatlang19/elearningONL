@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord;
 
 /**
@@ -22,7 +21,10 @@ namespace PhpOffice\PhpWord;
  */
 class Autoloader
 {
-    /** @const string */
+
+    /**
+     * @const string
+     */
     const NAMESPACE_PREFIX = 'PhpOffice\\PhpWord\\';
 
     /**
@@ -32,13 +34,16 @@ class Autoloader
      */
     public static function register()
     {
-        spl_autoload_register(array(new self, 'autoload'));
+        spl_autoload_register(array(
+            new self(),
+            'autoload'
+        ));
     }
 
     /**
      * Autoload
      *
-     * @param string $class
+     * @param string $class            
      */
     public static function autoload($class)
     {
@@ -47,7 +52,9 @@ class Autoloader
             $file = str_replace('\\', DIRECTORY_SEPARATOR, substr($class, $prefixLength));
             $file = realpath(__DIR__ . (empty($file) ? '' : DIRECTORY_SEPARATOR) . $file . '.php');
             if (file_exists($file)) {
-                /** @noinspection PhpIncludeInspection Dynamic includes */
+                /**
+                 * @noinspection PhpIncludeInspection Dynamic includes
+                 */
                 require_once $file;
             }
         }

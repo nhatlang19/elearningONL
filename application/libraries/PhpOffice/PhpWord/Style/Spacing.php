@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Style;
 
 /**
@@ -25,6 +24,7 @@ namespace PhpOffice\PhpWord\Style;
  */
 class Spacing extends AbstractStyle
 {
+
     /**
      * Spacing above paragraph (twip)
      *
@@ -56,7 +56,7 @@ class Spacing extends AbstractStyle
     /**
      * Create a new instance
      *
-     * @param array $style
+     * @param array $style            
      */
     public function __construct($style = array())
     {
@@ -76,13 +76,13 @@ class Spacing extends AbstractStyle
     /**
      * Set before
      *
-     * @param int|float $value
+     * @param int|float $value            
      * @return self
      */
     public function setBefore($value = null)
     {
         $this->before = $this->setNumericVal($value, $this->before);
-
+        
         return $this;
     }
 
@@ -99,13 +99,13 @@ class Spacing extends AbstractStyle
     /**
      * Set after
      *
-     * @param int|float $value
+     * @param int|float $value            
      * @return self
      */
     public function setAfter($value = null)
     {
         $this->after = $this->setNumericVal($value, $this->after);
-
+        
         return $this;
     }
 
@@ -122,13 +122,13 @@ class Spacing extends AbstractStyle
     /**
      * Set distance
      *
-     * @param int|float $value
+     * @param int|float $value            
      * @return self
      */
     public function setLine($value = null)
     {
         $this->line = $this->setNumericVal($value, $this->line);
-
+        
         return $this;
     }
 
@@ -145,13 +145,13 @@ class Spacing extends AbstractStyle
     /**
      * Set line rule
      *
-     * @param string $value
+     * @param string $value            
      * @return self
      */
     public function setRule($value = null)
     {
         $this->rule = $value;
-
+        
         return $this;
     }
 }

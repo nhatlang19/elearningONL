@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
-
 namespace PhpOffice\PhpWord\Collection;
 
 /**
@@ -24,6 +23,7 @@ namespace PhpOffice\PhpWord\Collection;
  */
 abstract class AbstractCollection
 {
+
     /**
      * Items
      *
@@ -44,7 +44,7 @@ abstract class AbstractCollection
     /**
      * Get item by index
      *
-     * @param int $index
+     * @param int $index            
      * @return mixed
      */
     public function getItem($index)
@@ -59,8 +59,8 @@ abstract class AbstractCollection
     /**
      * Set item
      *
-     * @param int $index
-     * @param mixed $item
+     * @param int $index            
+     * @param mixed $item            
      */
     public function setItem($index, $item)
     {
@@ -72,14 +72,14 @@ abstract class AbstractCollection
     /**
      * Add new item
      *
-     * @param mixed $item
+     * @param mixed $item            
      * @return int
      */
     public function addItem($item)
     {
         $index = $this->countItems() + 1;
         $this->items[$index] = $item;
-
+        
         return $index;
     }
 

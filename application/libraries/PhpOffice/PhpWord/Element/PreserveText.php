@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Shared\String;
@@ -26,6 +25,7 @@ use PhpOffice\PhpWord\Style\Paragraph;
  */
 class PreserveText extends AbstractElement
 {
+
     /**
      * Text content
      *
@@ -47,26 +47,25 @@ class PreserveText extends AbstractElement
      */
     private $paragraphStyle;
 
-
     /**
      * Create a new Preserve Text Element
      *
-     * @param string $text
-     * @param mixed $fontStyle
-     * @param mixed $paragraphStyle
+     * @param string $text            
+     * @param mixed $fontStyle            
+     * @param mixed $paragraphStyle            
      * @return self
      */
     public function __construct($text = null, $fontStyle = null, $paragraphStyle = null)
     {
         $this->fontStyle = $this->setStyle(new Font('text'), $fontStyle);
         $this->paragraphStyle = $this->setStyle(new Paragraph(), $paragraphStyle);
-
+        
         $this->text = String::toUTF8($text);
         $matches = preg_split('/({.*?})/', $this->text, null, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
         if (isset($matches[0])) {
             $this->text = $matches;
         }
-
+        
         return $this;
     }
 

@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
 /**
@@ -24,17 +23,18 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Style;
  */
 class Shading extends AbstractStyle
 {
+
     /**
      * Write style
      */
     public function write()
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Shading) {
+        if (! $style instanceof \PhpOffice\PhpWord\Style\Shading) {
             return;
         }
         $xmlWriter = $this->getXmlWriter();
-
+        
         $xmlWriter->startElement('w:shd');
         $xmlWriter->writeAttribute('w:val', $style->getPattern());
         $xmlWriter->writeAttribute('w:color', $style->getColor());

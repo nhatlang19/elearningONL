@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Exception\Exception;
@@ -26,6 +25,7 @@ use PhpOffice\PhpWord\Shared\ZipArchive;
  */
 class Template
 {
+
     /**
      * ZipArchive object
      *
@@ -64,92 +64,92 @@ class Template
     /**
      * Create a new Template Object
      *
-     * @param string $strFilename
+     * @param string $strFilename            
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function __construct($strFilename)
     {
-//     	echo sys_get_temp_dir();exit;
-    	$this->tempFileName = tempnam(sys_get_temp_dir(), '');
+        // echo sys_get_temp_dir();exit;
+        $this->tempFileName = tempnam(sys_get_temp_dir(), '');
         if (empty($this->tempFileName) || $this->tempFileName === false) {
             throw new Exception('Could not create temporary file with unique name in the default temporary directory.');
         }
-       
+        
         // Copy the source File to the temp File
-        if (!copy($strFilename, $this->tempFileName)) {
+        if (! copy($strFilename, $this->tempFileName)) {
             throw new Exception("Could not copy the template from {$strFilename} to {$this->tempFileName}.");
         }
         
         $this->zipClass = new ZipArchive();
         $this->zipClass->open($this->tempFileName);
         // Edited by Luan Nguyen
-        if(!file_exists(BACK_END_TRASH_PATH)) {
-        	mkdir(BACK_END_TRASH_PATH, 0777);
+        if (! file_exists(BACK_END_TRASH_PATH)) {
+            mkdir(BACK_END_TRASH_PATH, 0777);
         }
         $this->zipClass->extractTo(BACK_END_TRASH_PATH);
-
+        
         // Find and load headers and footers
         $index = 1;
         while ($this->zipClass->locateName($this->getHeaderName($index)) !== false) {
             $this->headerXMLs[$index] = $this->zipClass->getFromName($this->getHeaderName($index));
-            $index++;
+            $index ++;
         }
-
+        
         $index = 1;
         while ($this->zipClass->locateName($this->getFooterName($index)) !== false) {
             $this->footerXMLs[$index] = $this->zipClass->getFromName($this->getFooterName($index));
-            $index++;
+            $index ++;
         }
-
+        
         $this->documentXML = $this->zipClass->getFromName('word/document.xml');
     }
 
     /**
      * Applies XSL style sheet to template's parts
      *
-     * @param \DOMDocument $xslDOMDocument
-     * @param array $xslOptions
-     * @param string $xslOptionsURI
+     * @param \DOMDocument $xslDOMDocument            
+     * @param array $xslOptions            
+     * @param string $xslOptionsURI            
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function applyXslStyleSheet(&$xslDOMDocument, $xslOptions = array(), $xslOptionsURI = '')
     {
         $processor = new \XSLTProcessor();
-
+        
         $processor->importStylesheet($xslDOMDocument);
-
+        
         if ($processor->setParameter($xslOptionsURI, $xslOptions) === false) {
             throw new Exception('Could not set values for the given XSL style sheet parameters.');
         }
-
+        
         $xmlDOMDocument = new \DOMDocument();
         if ($xmlDOMDocument->loadXML($this->documentXML) === false) {
             throw new Exception('Could not load XML from the given template.');
         }
-
+        
         $xmlTransformed = $processor->transformToXml($xmlDOMDocument);
         if ($xmlTransformed === false) {
             throw new Exception('Could not transform the given XML document.');
         }
-
+        
         $this->documentXML = $xmlTransformed;
     }
 
     /**
      * Set a Template value
      *
-     * @param mixed $search
-     * @param mixed $replace
-     * @param integer $limit
+     * @param mixed $search            
+     * @param mixed $replace            
+     * @param integer $limit            
      */
     public function setValue($search, $replace, $limit = -1)
     {
         foreach ($this->headerXMLs as $index => $headerXML) {
             $this->headerXMLs[$index] = $this->setValueForPart($this->headerXMLs[$index], $search, $replace, $limit);
         }
-
+        
         $this->documentXML = $this->setValueForPart($this->documentXML, $search, $replace, $limit);
-
+        
         foreach ($this->footerXMLs as $index => $headerXML) {
             $this->footerXMLs[$index] = $this->setValueForPart($this->footerXMLs[$index], $search, $replace, $limit);
         }
@@ -157,45 +157,46 @@ class Template
 
     /**
      * Returns array of all variables in template
+     * 
      * @return string[]
      */
     public function getVariables()
     {
         $variables = $this->getVariablesForPart($this->documentXML);
-
+        
         foreach ($this->headerXMLs as $headerXML) {
             $variables = array_merge($variables, $this->getVariablesForPart($headerXML));
         }
-
+        
         foreach ($this->footerXMLs as $footerXML) {
             $variables = array_merge($variables, $this->getVariablesForPart($footerXML));
         }
-
+        
         return array_unique($variables);
     }
 
     /**
      * Clone a table row in a template document
      *
-     * @param string $search
-     * @param integer $numberOfClones
+     * @param string $search            
+     * @param integer $numberOfClones            
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function cloneRow($search, $numberOfClones)
     {
-        if (substr($search, 0, 2) !== '${' && substr($search, -1) !== '}') {
+        if (substr($search, 0, 2) !== '${' && substr($search, - 1) !== '}') {
             $search = '${' . $search . '}';
         }
-
+        
         $tagPos = strpos($this->documentXML, $search);
-        if (!$tagPos) {
+        if (! $tagPos) {
             throw new Exception("Can not clone row, template variable not found or variable contains markup.");
         }
-
+        
         $rowStart = $this->findRowStart($tagPos);
         $rowEnd = $this->findRowEnd($tagPos);
         $xmlRow = $this->getSlice($rowStart, $rowEnd);
-
+        
         // Check if there's a cell spanning multiple rows.
         if (preg_match('#<w:vMerge w:val="restart"/>#', $xmlRow)) {
             // $extraRowStart = $rowEnd;
@@ -203,16 +204,15 @@ class Template
             while (true) {
                 $extraRowStart = $this->findRowStart($extraRowEnd + 1);
                 $extraRowEnd = $this->findRowEnd($extraRowEnd + 1);
-
+                
                 // If extraRowEnd is lower then 7, there was no next row found.
                 if ($extraRowEnd < 7) {
                     break;
                 }
-
+                
                 // If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
                 $tmpXmlRow = $this->getSlice($extraRowStart, $extraRowEnd);
-                if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) &&
-                    !preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)) {
+                if (! preg_match('#<w:vMerge/>#', $tmpXmlRow) && ! preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)) {
                     break;
                 }
                 // This row was a spanned row, update $rowEnd and search for the next row.
@@ -220,79 +220,63 @@ class Template
             }
             $xmlRow = $this->getSlice($rowStart, $rowEnd);
         }
-
+        
         $result = $this->getSlice(0, $rowStart);
-        for ($i = 1; $i <= $numberOfClones; $i++) {
+        for ($i = 1; $i <= $numberOfClones; $i ++) {
             $result .= preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $xmlRow);
         }
         $result .= $this->getSlice($rowEnd);
-
+        
         $this->documentXML = $result;
     }
 
     /**
      * Clone a block
      *
-     * @param string $blockname
-     * @param integer $clones
-     * @param boolean $replace
+     * @param string $blockname            
+     * @param integer $clones            
+     * @param boolean $replace            
      * @return string|null
      */
     public function cloneBlock($blockname, $clones = 1, $replace = true)
     {
         $xmlBlock = null;
-        preg_match(
-            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
-            $this->documentXML,
-            $matches
-        );
-
+        preg_match('/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is', $this->documentXML, $matches);
+        
         if (isset($matches[3])) {
             $xmlBlock = $matches[3];
             $cloned = array();
-            for ($i = 1; $i <= $clones; $i++) {
+            for ($i = 1; $i <= $clones; $i ++) {
                 $cloned[] = $xmlBlock;
             }
-
+            
             if ($replace) {
-                $this->documentXML = str_replace(
-                    $matches[2] . $matches[3] . $matches[4],
-                    implode('', $cloned),
-                    $this->documentXML
-                );
+                $this->documentXML = str_replace($matches[2] . $matches[3] . $matches[4], implode('', $cloned), $this->documentXML);
             }
         }
-
+        
         return $xmlBlock;
     }
 
     /**
      * Replace a block
      *
-     * @param string $blockname
-     * @param string $replacement
+     * @param string $blockname            
+     * @param string $replacement            
      */
     public function replaceBlock($blockname, $replacement)
     {
-        preg_match(
-            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
-            $this->documentXML,
-            $matches
-        );
-
+        preg_match('/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is', $this->documentXML, $matches);
+        
         if (isset($matches[3])) {
-            $this->documentXML = str_replace(
-                $matches[2] . $matches[3] . $matches[4],
-                $replacement,
-                $this->documentXML
-            );
+            $this->documentXML = str_replace($matches[2] . $matches[3] . $matches[4], $replacement, $this->documentXML);
         }
     }
 
     /**
      * Delete a block of text
      *
-     * @param string $blockname
+     * @param string $blockname            
      */
     public function deleteBlock($blockname)
     {
@@ -310,45 +294,45 @@ class Template
         foreach ($this->headerXMLs as $index => $headerXML) {
             $this->zipClass->addFromString($this->getHeaderName($index), $this->headerXMLs[$index]);
         }
-
+        
         $this->zipClass->addFromString('word/document.xml', $this->documentXML);
-
+        
         foreach ($this->footerXMLs as $index => $headerXML) {
             $this->zipClass->addFromString($this->getFooterName($index), $this->footerXMLs[$index]);
         }
-
+        
         // Close zip file
         if ($this->zipClass->close() === false) {
             throw new Exception('Could not close zip file.');
         }
-
+        
         return $this->tempFileName;
     }
 
     /**
      * Save XML to defined name
      *
-     * @param string $strFilename
+     * @param string $strFilename            
      * @since 0.8.0
      */
     public function saveAs($strFilename)
     {
         $tempFilename = $this->save();
-
+        
         if (file_exists($strFilename)) {
             unlink($strFilename);
         }
-
+        
         rename($tempFilename, $strFilename);
     }
 
     /**
      * Find and replace placeholders in the given XML section.
      *
-     * @param string $documentPartXML
-     * @param string $search
-     * @param string $replace
-     * @param integer $limit
+     * @param string $documentPartXML            
+     * @param string $search            
+     * @param string $replace            
+     * @param integer $limit            
      * @return string
      */
     protected function setValueForPart($documentPartXML, $search, $replace, $limit)
@@ -360,16 +344,16 @@ class Template
             $valueCleaned = preg_replace('/<\/[^>]+>/', '', $valueCleaned);
             $documentPartXML = str_replace($value, $valueCleaned, $documentPartXML);
         }
-
-        if (substr($search, 0, 2) !== '${' && substr($search, -1) !== '}') {
+        
+        if (substr($search, 0, 2) !== '${' && substr($search, - 1) !== '}') {
             $search = '${' . $search . '}';
         }
-
-        if (!String::isUTF8($replace)) {
+        
+        if (! String::isUTF8($replace)) {
             $replace = utf8_encode($replace);
         }
         $replace = htmlspecialchars($replace);
-
+        
         $regExpDelim = '/';
         $escapedSearch = preg_quote($search, $regExpDelim);
         return preg_replace("{$regExpDelim}{$escapedSearch}{$regExpDelim}u", $replace, $documentPartXML, $limit);
@@ -377,19 +361,21 @@ class Template
 
     /**
      * Find all variables in $documentPartXML
-     * @param string $documentPartXML
+     * 
+     * @param string $documentPartXML            
      * @return string[]
      */
     protected function getVariablesForPart($documentPartXML)
     {
         preg_match_all('/\$\{(.*?)}/i', $documentPartXML, $matches);
-
+        
         return $matches[1];
     }
 
     /**
      * Get the name of the footer file for $index
-     * @param integer $index
+     * 
+     * @param integer $index            
      * @return string
      */
     private function getFooterName($index)
@@ -399,7 +385,8 @@ class Template
 
     /**
      * Get the name of the header file for $index
-     * @param integer $index
+     * 
+     * @param integer $index            
      * @return string
      */
     private function getHeaderName($index)
@@ -410,17 +397,17 @@ class Template
     /**
      * Find the start position of the nearest table row before $offset
      *
-     * @param integer $offset
+     * @param integer $offset            
      * @return integer
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     private function findRowStart($offset)
     {
-        $rowStart = strrpos($this->documentXML, "<w:tr ", ((strlen($this->documentXML) - $offset) * -1));
-        if (!$rowStart) {
-            $rowStart = strrpos($this->documentXML, "<w:tr>", ((strlen($this->documentXML) - $offset) * -1));
+        $rowStart = strrpos($this->documentXML, "<w:tr ", ((strlen($this->documentXML) - $offset) * - 1));
+        if (! $rowStart) {
+            $rowStart = strrpos($this->documentXML, "<w:tr>", ((strlen($this->documentXML) - $offset) * - 1));
         }
-        if (!$rowStart) {
+        if (! $rowStart) {
             throw new Exception("Can not find the start position of the row to clone.");
         }
         return $rowStart;
@@ -429,7 +416,7 @@ class Template
     /**
      * Find the end position of the nearest table row after $offset
      *
-     * @param integer $offset
+     * @param integer $offset            
      * @return integer
      */
     private function findRowEnd($offset)
@@ -441,114 +428,118 @@ class Template
     /**
      * Get a slice of a string
      *
-     * @param integer $startPosition
-     * @param integer $endPosition
+     * @param integer $startPosition            
+     * @param integer $endPosition            
      * @return string
      */
     private function getSlice($startPosition, $endPosition = 0)
     {
-        if (!$endPosition) {
+        if (! $endPosition) {
             $endPosition = strlen($this->documentXML);
         }
         return substr($this->documentXML, $startPosition, ($endPosition - $startPosition));
     }
-
-    // Edited by Luan Nguyen
-    function getContentTable() {
-    	$xml = $this->documentXML;
-    	$rowData = array();
-    	$rows = $this->_filterRows($xml);
-    	$index = 1;
-    	foreach($rows as $row) {
-    		$cells = $this->_filterCells($row);
-    		$cellData = array();
-    		foreach($cells as $cell) {
-    			$paragraphs = $this->_filterParagraph($cell);
-    			$html = array();
-    			foreach($paragraphs as $key => $paragraph) {
-    				$html[] = $this->_getContent($paragraph, $index);
-    			}
-    			$cellData[] = implode('<br>', $html);
-    		}
-    		$rowData[] = $cellData;
-    	}
-    	
-    	$CI =& get_instance();
-    	$CI->load->library('commonobj');
-    	$CI->commonobj->deleteDir(BACK_END_TRASH_PATH);
-
-    	return $rowData;
-    }
     
-
-    private function _filterRows($resources) {
-    	$pattern = '/<w\:tr(.*?)>(.*?)<\/w\:tr>/';
-    	preg_match_all($pattern, $resources, $matches);
-    	if(isset($matches[0])) {
-    		return $matches[0];
-    	}
-    	return array();
+    // Edited by Luan Nguyen
+    function getContentTable()
+    {
+        $xml = $this->documentXML;
+        $rowData = array();
+        $rows = $this->_filterRows($xml);
+        $index = 1;
+        foreach ($rows as $row) {
+            $cells = $this->_filterCells($row);
+            $cellData = array();
+            foreach ($cells as $cell) {
+                $paragraphs = $this->_filterParagraph($cell);
+                $html = array();
+                foreach ($paragraphs as $key => $paragraph) {
+                    $html[] = $this->_getContent($paragraph, $index);
+                }
+                $cellData[] = implode('<br>', $html);
+            }
+            $rowData[] = $cellData;
+        }
+        
+        $CI = & get_instance();
+        $CI->load->library('commonobj');
+        $CI->commonobj->deleteDir(BACK_END_TRASH_PATH);
+        
+        return $rowData;
     }
 
-    private function _filterCells($resources) {
-    	$pattern = '/<w\:tc(.*?)>(.*?)<\/w\:tc>/';
-    	preg_match_all($pattern, $resources, $matches);
-    	if(isset($matches[0])) {
-    		return $matches[0];
-    	}
-    	return array();
+    private function _filterRows($resources)
+    {
+        $pattern = '/<w\:tr(.*?)>(.*?)<\/w\:tr>/';
+        preg_match_all($pattern, $resources, $matches);
+        if (isset($matches[0])) {
+            return $matches[0];
+        }
+        return array();
     }
 
-    private function _filterParagraph($resources) {
-    	$pattern = '/<w\:p(.*?)>(.*?)<\/w\:p>/';
-    	preg_match_all($pattern, $resources, $matches);
-    	if(isset($matches[0])) {
-    		return $matches[0];
-    	}
-    	return array();
+    private function _filterCells($resources)
+    {
+        $pattern = '/<w\:tc(.*?)>(.*?)<\/w\:tc>/';
+        preg_match_all($pattern, $resources, $matches);
+        if (isset($matches[0])) {
+            return $matches[0];
+        }
+        return array();
     }
 
-    private function _getContent($resources, &$index) {
-    	$pattern = '/<w\:r(.*?)>(.*?)<\/w\:r>/';
-    	preg_match_all($pattern, $resources, $matches);
-    	$html = '';
-    	if(isset($matches[0])) {
-    		$rows = $matches[0];
-    		foreach($rows as $row) {
-    			$pattern = '/<w\:t(.*?)>(.*?)<\/w\:t>/';
-    			preg_match($pattern, $row, $matches);
-    			if(empty($matches)) {
-    				// get images
-    				$html .= $this->_getImage($row, $index);
-    			} else {
-    				if(isset($matches[count($matches) - 1])) {
-    					$html .= $matches[count($matches) - 1] . ' ';
-    				}
-    			}
-
-    		}
-    	}
-    	return $html;
+    private function _filterParagraph($resources)
+    {
+        $pattern = '/<w\:p(.*?)>(.*?)<\/w\:p>/';
+        preg_match_all($pattern, $resources, $matches);
+        if (isset($matches[0])) {
+            return $matches[0];
+        }
+        return array();
     }
 
-    private function _getImage($resources, &$index) {
-    	$pattern = '/(descr)="([^"]*)"/';
-    	preg_match($pattern, $resources, $matches);
-    	if(isset($matches[2])) {
-//     		$array = preg_split("/[\\/]+/", $matches[2]);
-    		$array = preg_split("/[\\\\\/]/", $matches[2]);
-    		$newPath = array_pop($array);
-    		$ext = pathinfo($newPath, PATHINFO_EXTENSION);
-    		if($ext == 'jpg') {
-    			$ext = 'jpeg';
-    		}
-    		
-    		$desc = PATH_UPLOADS_NO_ROOT . 'images/' . $newPath;
-    		$newPath = base_url() . 'public/uploads/images/' . $newPath;
+    private function _getContent($resources, &$index)
+    {
+        $pattern = '/<w\:r(.*?)>(.*?)<\/w\:r>/';
+        preg_match_all($pattern, $resources, $matches);
+        $html = '';
+        if (isset($matches[0])) {
+            $rows = $matches[0];
+            foreach ($rows as $row) {
+                $pattern = '/<w\:t(.*?)>(.*?)<\/w\:t>/';
+                preg_match($pattern, $row, $matches);
+                if (empty($matches)) {
+                    // get images
+                    $html .= $this->_getImage($row, $index);
+                } else {
+                    if (isset($matches[count($matches) - 1])) {
+                        $html .= $matches[count($matches) - 1] . ' ';
+                    }
+                }
+            }
+        }
+        return $html;
+    }
 
-    		@copy(BACK_END_TRASH_PATH . '/word/media/image' . $index++ . '.' . $ext, $desc);
-    		return "<img src='$newPath' /> ";
-    	}
-    	return '';
+    private function _getImage($resources, &$index)
+    {
+        $pattern = '/(descr)="([^"]*)"/';
+        preg_match($pattern, $resources, $matches);
+        if (isset($matches[2])) {
+            // $array = preg_split("/[\\/]+/", $matches[2]);
+            $array = preg_split("/[\\\\\/]/", $matches[2]);
+            $newPath = array_pop($array);
+            $ext = pathinfo($newPath, PATHINFO_EXTENSION);
+            if ($ext == 'jpg') {
+                $ext = 'jpeg';
+            }
+            
+            $desc = PATH_UPLOADS_NO_ROOT . 'images/' . $newPath;
+            $newPath = base_url() . 'public/uploads/images/' . $newPath;
+            
+            @copy(BACK_END_TRASH_PATH . '/word/media/image' . $index ++ . '.' . $ext, $desc);
+            return "<img src='$newPath' /> ";
+        }
+        return '';
     }
 }

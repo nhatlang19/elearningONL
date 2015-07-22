@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\ODText\Style;
 
 /**
@@ -24,20 +23,21 @@ namespace PhpOffice\PhpWord\Writer\ODText\Style;
  */
 class Paragraph extends AbstractStyle
 {
+
     /**
      * Write style
      */
     public function write()
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Paragraph) {
+        if (! $style instanceof \PhpOffice\PhpWord\Style\Paragraph) {
             return;
         }
         $xmlWriter = $this->getXmlWriter();
-
+        
         $marginTop = is_null($style->getSpaceBefore()) ? '0' : round(17.6 / $style->getSpaceBefore(), 2);
         $marginBottom = is_null($style->getSpaceAfter()) ? '0' : round(17.6 / $style->getSpaceAfter(), 2);
-
+        
         $xmlWriter->startElement('style:style');
         $xmlWriter->writeAttribute('style:name', $style->getStyleName());
         $xmlWriter->writeAttribute('style:family', 'paragraph');
@@ -45,7 +45,7 @@ class Paragraph extends AbstractStyle
             $xmlWriter->writeAttribute('style:parent-style-name', 'Standard');
             $xmlWriter->writeAttribute('style:master-page-name', 'Standard');
         }
-
+        
         $xmlWriter->startElement('style:paragraph-properties');
         if ($style->isAuto()) {
             $xmlWriter->writeAttribute('style:page-number', 'auto');
@@ -54,8 +54,8 @@ class Paragraph extends AbstractStyle
             $xmlWriter->writeAttribute('fo:margin-bottom', $marginBottom . 'cm');
             $xmlWriter->writeAttribute('fo:text-align', $style->getAlign());
         }
-        $xmlWriter->endElement(); //style:paragraph-properties
-
-        $xmlWriter->endElement(); //style:style
+        $xmlWriter->endElement(); // style:paragraph-properties
+        
+        $xmlWriter->endElement(); // style:style
     }
 }

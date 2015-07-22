@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
 /**
@@ -24,6 +23,7 @@ namespace PhpOffice\PhpWord\Writer\RTF\Element;
  */
 class TextRun extends AbstractElement
 {
+
     /**
      * Write element
      *
@@ -32,14 +32,14 @@ class TextRun extends AbstractElement
     public function write()
     {
         $writer = new Container($this->parentWriter, $this->element);
-
+        
         $content = '';
         $content .= $this->writeOpening();
         $content .= '{';
         $content .= $writer->write();
         $content .= '}';
         $content .= $this->writeClosing();
-
+        
         return $content;
     }
 }

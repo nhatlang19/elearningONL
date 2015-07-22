@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 /**
@@ -24,6 +23,7 @@ namespace PhpOffice\PhpWord\Writer\HTML\Element;
  */
 class Footnote extends AbstractElement
 {
+
     /**
      * Note type footnote|endnote
      *
@@ -38,18 +38,20 @@ class Footnote extends AbstractElement
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Footnote) {
+        if (! $this->element instanceof \PhpOffice\PhpWord\Element\Footnote) {
             return '';
         }
-        /** @var \PhpOffice\PhpWord\Writer\HTML $parentWriter Type hint */
+        /**
+         * @var \PhpOffice\PhpWord\Writer\HTML $parentWriter Type hint
+         */
         $parentWriter = $this->parentWriter;
-
+        
         $noteId = count($parentWriter->getNotes()) + 1;
         $noteMark = $this->noteType . '-' . $this->element->getRelationId();
         $content = "<a name=\"{$noteMark}\"><a href=\"#note-{$noteId}\" class=\"NoteRef\"><sup>{$noteId}</sup></a>";
-
+        
         $parentWriter->addNote($noteId, $noteMark);
-
+        
         return $content;
     }
 }

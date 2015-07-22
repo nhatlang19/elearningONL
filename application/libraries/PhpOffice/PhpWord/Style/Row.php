@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Style;
 
 /**
@@ -24,6 +23,7 @@ namespace PhpOffice\PhpWord\Style;
  */
 class Row extends AbstractStyle
 {
+
     /**
      * Repeat table row on every new page
      *
@@ -49,8 +49,7 @@ class Row extends AbstractStyle
      * Create a new row style
      */
     public function __construct()
-    {
-    }
+    {}
 
     /**
      * Is tblHeader
@@ -65,13 +64,13 @@ class Row extends AbstractStyle
     /**
      * Is tblHeader
      *
-     * @param bool $value
+     * @param bool $value            
      * @return self
      */
     public function setTblHeader($value = true)
     {
         $this->tblHeader = $this->setBoolVal($value, $this->tblHeader);
-
+        
         return $this;
     }
 
@@ -88,13 +87,13 @@ class Row extends AbstractStyle
     /**
      * Is cantSplit
      *
-     * @param bool $value
+     * @param bool $value            
      * @return self
      */
     public function setCantSplit($value = true)
     {
         $this->cantSplit = $this->setBoolVal($value, $this->cantSplit);
-
+        
         return $this;
     }
 
@@ -111,13 +110,13 @@ class Row extends AbstractStyle
     /**
      * Set exactHeight
      *
-     * @param bool $value
+     * @param bool $value            
      * @return self
      */
     public function setExactHeight($value = true)
     {
         $this->exactHeight = $this->setBoolVal($value, $this->exactHeight);
-
+        
         return $this;
     }
 
@@ -125,7 +124,7 @@ class Row extends AbstractStyle
      * Get tblHeader
      *
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public function getTblHeader()
     {
@@ -136,7 +135,7 @@ class Row extends AbstractStyle
      * Get cantSplit
      *
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public function getCantSplit()
     {
@@ -147,7 +146,7 @@ class Row extends AbstractStyle
      * Get exactHeight
      *
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public function getExactHeight()
     {

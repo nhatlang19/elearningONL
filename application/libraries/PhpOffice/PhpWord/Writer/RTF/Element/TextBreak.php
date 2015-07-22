@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
 /**
@@ -24,6 +23,7 @@ namespace PhpOffice\PhpWord\Writer\RTF\Element;
  */
 class TextBreak extends AbstractElement
 {
+
     /**
      * Write element
      *
@@ -31,10 +31,12 @@ class TextBreak extends AbstractElement
      */
     public function write()
     {
-        /** @var \PhpOffice\PhpWord\Writer\RTF $parentWriter Type hint */
+        /**
+         * @var \PhpOffice\PhpWord\Writer\RTF $parentWriter Type hint
+         */
         $parentWriter = $this->parentWriter;
         $parentWriter->setLastParagraphStyle();
-
+        
         return '\pard\par' . PHP_EOL;
     }
 }

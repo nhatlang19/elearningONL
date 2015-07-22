@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Element;
 
 /**
@@ -22,17 +21,21 @@ namespace PhpOffice\PhpWord\Element;
  */
 class Footer extends AbstractContainer
 {
+
     /**
      * Header/footer types constants
      *
      * @var string
      * @link http://www.schemacentral.com/sc/ooxml/a-wtype-4.html Header or Footer Type
      */
-    const AUTO  = 'default';  // default and odd pages
+    const AUTO = 'default';
+ // default and odd pages
     const FIRST = 'first';
-    const EVEN  = 'even';
+
+    const EVEN = 'even';
 
     /**
+     *
      * @var string Container type
      */
     protected $container = 'Footer';
@@ -47,9 +50,9 @@ class Footer extends AbstractContainer
     /**
      * Create new instance
      *
-     * @param int $sectionId
-     * @param int $containerId
-     * @param string $type
+     * @param int $sectionId            
+     * @param int $containerId            
+     * @param string $type            
      */
     public function __construct($sectionId, $containerId = 1, $type = self::AUTO)
     {
@@ -61,12 +64,16 @@ class Footer extends AbstractContainer
     /**
      * Set type
      *
-     * @param string $value
+     * @param string $value            
      * @since 0.10.0
      */
     public function setType($value = self::AUTO)
     {
-        if (!in_array($value, array(self::AUTO, self::FIRST, self::EVEN))) {
+        if (! in_array($value, array(
+            self::AUTO,
+            self::FIRST,
+            self::EVEN
+        ))) {
             $value = self::AUTO;
         }
         $this->type = $value;

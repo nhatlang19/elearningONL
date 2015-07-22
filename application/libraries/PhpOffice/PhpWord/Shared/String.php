@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Shared;
 
 /**
@@ -22,6 +21,7 @@ namespace PhpOffice\PhpWord\Shared;
  */
 class String
 {
+
     /**
      * Control characters array
      *
@@ -32,7 +32,8 @@ class String
     /**
      * Convert from OpenXML escaped control character to PHP control character
      *
-     * @param string $value Value to unescape
+     * @param string $value
+     *            Value to unescape
      * @return string
      */
     public static function controlCharacterOOXML2PHP($value = '')
@@ -40,14 +41,15 @@ class String
         if (empty(self::$controlCharacters)) {
             self::buildControlCharacters();
         }
-
+        
         return str_replace(array_keys(self::$controlCharacters), array_values(self::$controlCharacters), $value);
     }
 
     /**
      * Convert from PHP control character to OpenXML escaped control character
      *
-     * @param string $value Value to escape
+     * @param string $value
+     *            Value to escape
      * @return string
      */
     public static function controlCharacterPHP2OOXML($value = '')
@@ -55,14 +57,14 @@ class String
         if (empty(self::$controlCharacters)) {
             self::buildControlCharacters();
         }
-
+        
         return str_replace(array_values(self::$controlCharacters), array_keys(self::$controlCharacters), $value);
     }
 
     /**
      * Check if a string contains UTF-8 data
      *
-     * @param string $value
+     * @param string $value            
      * @return boolean
      */
     public static function isUTF8($value = '')
@@ -73,15 +75,15 @@ class String
     /**
      * Return UTF8 encoded value
      *
-     * @param string $value
+     * @param string $value            
      * @return string
      */
     public static function toUTF8($value = '')
     {
-        if (!is_null($value) && !self::isUTF8($value)) {
+        if (! is_null($value) && ! self::isUTF8($value)) {
             $value = utf8_encode($value);
         }
-
+        
         return $value;
     }
 
@@ -90,7 +92,8 @@ class String
      *
      * The function is splitted to reduce cyclomatic complexity
      *
-     * @param string $text UTF8 text
+     * @param string $text
+     *            UTF8 text
      * @return string Unicode text
      * @since 0.11.0
      */
@@ -102,7 +105,8 @@ class String
     /**
      * Returns unicode array from UTF8 text
      *
-     * @param string $text UTF8 text
+     * @param string $text
+     *            UTF8 text
      * @return array
      * @since 0.11.0
      * @link http://www.randomchaos.com/documents/?source=php_and_unicode
@@ -112,9 +116,9 @@ class String
         $unicode = array();
         $values = array();
         $lookingFor = 1;
-
+        
         // Gets unicode for each character
-        for ($i = 0; $i < strlen($text); $i++) {
+        for ($i = 0; $i < strlen($text); $i ++) {
             $thisValue = ord($text[$i]);
             if ($thisValue < 128) {
                 $unicode[] = $thisValue;
@@ -135,14 +139,14 @@ class String
                 }
             }
         }
-
+        
         return $unicode;
     }
 
     /**
      * Returns entites from unicode array
      *
-     * @param array $unicode
+     * @param array $unicode            
      * @return string
      * @since 0.11.0
      * @link http://www.randomchaos.com/documents/?source=php_and_unicode
@@ -150,30 +154,30 @@ class String
     private static function unicodeToEntities($unicode)
     {
         $entities = '';
-
+        
         foreach ($unicode as $value) {
             if ($value != 65279) {
                 $entities .= $value > 127 ? '\uc0{\u' . $value . '}' : chr($value);
             }
         }
-
+        
         return $entities;
     }
 
     /**
      * Return name without underscore for < 0.10.0 variable name compatibility
      *
-     * @param string $value
+     * @param string $value            
      * @return string
      */
     public static function removeUnderscorePrefix($value)
     {
-        if (!is_null($value)) {
+        if (! is_null($value)) {
             if (substr($value, 0, 1) == '_') {
                 $value = substr($value, 1);
             }
         }
-
+        
         return $value;
     }
 
@@ -182,7 +186,7 @@ class String
      */
     private static function buildControlCharacters()
     {
-        for ($i = 0; $i <= 19; ++$i) {
+        for ($i = 0; $i <= 19; ++ $i) {
             if ($i != 9 && $i != 10 && $i != 13) {
                 $find = '_x' . sprintf('%04s', strtoupper(dechex($i))) . '_';
                 $replace = chr($i);

@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Style;
 
 /**
@@ -22,30 +21,42 @@ namespace PhpOffice\PhpWord\Style;
  */
 class Tab extends AbstractStyle
 {
+
     /**
      * Tab stop types
      *
      * @const string
      */
-    const TAB_STOP_CLEAR   = 'clear';
-    const TAB_STOP_LEFT    = 'left';
-    const TAB_STOP_CENTER  = 'center';
-    const TAB_STOP_RIGHT   = 'right';
+    const TAB_STOP_CLEAR = 'clear';
+
+    const TAB_STOP_LEFT = 'left';
+
+    const TAB_STOP_CENTER = 'center';
+
+    const TAB_STOP_RIGHT = 'right';
+
     const TAB_STOP_DECIMAL = 'decimal';
-    const TAB_STOP_BAR     = 'bar';
-    const TAB_STOP_NUM     = 'num';
+
+    const TAB_STOP_BAR = 'bar';
+
+    const TAB_STOP_NUM = 'num';
 
     /**
      * Tab leader types
      *
      * @const string
      */
-    const TAB_LEADER_NONE       = 'none';
-    const TAB_LEADER_DOT        = 'dot';
-    const TAB_LEADER_HYPHEN     = 'hyphen';
+    const TAB_LEADER_NONE = 'none';
+
+    const TAB_LEADER_DOT = 'dot';
+
+    const TAB_LEADER_HYPHEN = 'hyphen';
+
     const TAB_LEADER_UNDERSCORE = 'underscore';
-    const TAB_LEADER_HEAVY      = 'heavy';
-    const TAB_LEADER_MIDDLEDOT  = 'middleDot';
+
+    const TAB_LEADER_HEAVY = 'heavy';
+
+    const TAB_LEADER_MIDDLEDOT = 'middleDot';
 
     /**
      * Tab stop type
@@ -69,25 +80,38 @@ class Tab extends AbstractStyle
     private $position = 0;
 
     /**
-     * Create a new instance of Tab. Both $type and $leader
+     * Create a new instance of Tab.
+     * Both $type and $leader
      * must conform to the values put forth in the schema. If they do not
      * they will be changed to default values.
      *
-     * @param string $type Defaults to 'clear' if value is not possible.
-     * @param int $position Must be numeric; otherwise defaults to 0.
-     * @param string $leader Defaults to null if value is not possible.
+     * @param string $type
+     *            Defaults to 'clear' if value is not possible.
+     * @param int $position
+     *            Must be numeric; otherwise defaults to 0.
+     * @param string $leader
+     *            Defaults to null if value is not possible.
      */
     public function __construct($type = null, $position = 0, $leader = null)
     {
         $stopTypes = array(
-            self::TAB_STOP_CLEAR, self::TAB_STOP_LEFT,self::TAB_STOP_CENTER,
-            self::TAB_STOP_RIGHT, self::TAB_STOP_DECIMAL, self::TAB_STOP_BAR, self::TAB_STOP_NUM
+            self::TAB_STOP_CLEAR,
+            self::TAB_STOP_LEFT,
+            self::TAB_STOP_CENTER,
+            self::TAB_STOP_RIGHT,
+            self::TAB_STOP_DECIMAL,
+            self::TAB_STOP_BAR,
+            self::TAB_STOP_NUM
         );
         $leaderTypes = array(
-            self::TAB_LEADER_NONE, self::TAB_LEADER_DOT, self::TAB_LEADER_HYPHEN,
-            self::TAB_LEADER_UNDERSCORE, self::TAB_LEADER_HEAVY, self::TAB_LEADER_MIDDLEDOT
+            self::TAB_LEADER_NONE,
+            self::TAB_LEADER_DOT,
+            self::TAB_LEADER_HYPHEN,
+            self::TAB_LEADER_UNDERSCORE,
+            self::TAB_LEADER_HEAVY,
+            self::TAB_LEADER_MIDDLEDOT
         );
-
+        
         $this->type = $this->setEnumVal($type, $stopTypes, $this->type);
         $this->position = $this->setNumericVal($position, $this->position);
         $this->leader = $this->setEnumVal($leader, $leaderTypes, $this->leader);
@@ -106,18 +130,22 @@ class Tab extends AbstractStyle
     /**
      * Set stop type
      *
-     * @param string $value
+     * @param string $value            
      * @return self
      */
     public function setType($value)
     {
         $enum = array(
-            self::TAB_STOP_CLEAR, self::TAB_STOP_LEFT, self::TAB_STOP_CENTER,
-            self::TAB_STOP_RIGHT, self::TAB_STOP_DECIMAL, self::TAB_STOP_BAR,
-            self::TAB_STOP_NUM,
+            self::TAB_STOP_CLEAR,
+            self::TAB_STOP_LEFT,
+            self::TAB_STOP_CENTER,
+            self::TAB_STOP_RIGHT,
+            self::TAB_STOP_DECIMAL,
+            self::TAB_STOP_BAR,
+            self::TAB_STOP_NUM
         );
         $this->type = $this->setEnumVal($value, $enum, $this->type);
-
+        
         return $this;
     }
 
@@ -134,17 +162,21 @@ class Tab extends AbstractStyle
     /**
      * Set leader
      *
-     * @param string $value
+     * @param string $value            
      * @return self
      */
     public function setLeader($value)
     {
         $enum = array(
-            self::TAB_LEADER_NONE, self::TAB_LEADER_DOT, self::TAB_LEADER_HYPHEN,
-            self::TAB_LEADER_UNDERSCORE, self::TAB_LEADER_HEAVY, self::TAB_LEADER_MIDDLEDOT,
+            self::TAB_LEADER_NONE,
+            self::TAB_LEADER_DOT,
+            self::TAB_LEADER_HYPHEN,
+            self::TAB_LEADER_UNDERSCORE,
+            self::TAB_LEADER_HEAVY,
+            self::TAB_LEADER_MIDDLEDOT
         );
         $this->leader = $this->setEnumVal($value, $enum, $this->leader);
-
+        
         return $this;
     }
 
@@ -161,13 +193,13 @@ class Tab extends AbstractStyle
     /**
      * Set position
      *
-     * @param int|float $value
+     * @param int|float $value            
      * @return self
      */
     public function setPosition($value)
     {
         $this->position = $this->setNumericVal($value, $this->position);
-
+        
         return $this;
     }
 }

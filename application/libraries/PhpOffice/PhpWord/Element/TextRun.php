@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Style\Paragraph;
@@ -24,7 +23,9 @@ use PhpOffice\PhpWord\Style\Paragraph;
  */
 class TextRun extends AbstractContainer
 {
+
     /**
+     *
      * @var string Container type
      */
     protected $container = 'TextRun';
@@ -39,7 +40,7 @@ class TextRun extends AbstractContainer
     /**
      * Create new instance
      *
-     * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
+     * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle            
      */
     public function __construct($paragraphStyle = null)
     {

@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
 /**
@@ -24,6 +23,7 @@ namespace PhpOffice\PhpWord\Writer\ODText\Element;
  */
 class Title extends AbstractElement
 {
+
     /**
      * Write element
      */
@@ -31,10 +31,10 @@ class Title extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
-        if (!$element instanceof \PhpOffice\PhpWord\Element\Title) {
+        if (! $element instanceof \PhpOffice\PhpWord\Element\Title) {
             return;
         }
-
+        
         $xmlWriter->startElement('text:h');
         $xmlWriter->writeAttribute('text:outline-level', $element->getDepth());
         $xmlWriter->writeRaw($element->getText());

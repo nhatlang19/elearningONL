@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Style;
 
 /**
@@ -24,6 +23,7 @@ namespace PhpOffice\PhpWord\Style;
  */
 class TextBox extends Image
 {
+
     /**
      * margin top
      *
@@ -69,7 +69,7 @@ class TextBox extends Image
     /**
      * Set margin top
      *
-     * @param int $value
+     * @param int $value            
      */
     public function setInnerMarginTop($value = null)
     {
@@ -89,7 +89,7 @@ class TextBox extends Image
     /**
      * Set margin left
      *
-     * @param int $value
+     * @param int $value            
      */
     public function setInnerMarginLeft($value = null)
     {
@@ -109,7 +109,7 @@ class TextBox extends Image
     /**
      * Set margin right
      *
-     * @param int $value
+     * @param int $value            
      */
     public function setInnerMarginRight($value = null)
     {
@@ -129,7 +129,7 @@ class TextBox extends Image
     /**
      * Set margin bottom
      *
-     * @param int $value
+     * @param int $value            
      */
     public function setInnerMarginBottom($value = null)
     {
@@ -149,7 +149,8 @@ class TextBox extends Image
     /**
      * Set TLRB cell margin
      *
-     * @param int $value Margin in twips
+     * @param int $value
+     *            Margin in twips
      */
     public function setInnerMargin($value = null)
     {
@@ -166,7 +167,12 @@ class TextBox extends Image
      */
     public function getInnerMargin()
     {
-        return array($this->innerMarginLeft, $this->innerMarginTop, $this->innerMarginRight, $this->innerMarginBottom);
+        return array(
+            $this->innerMarginLeft,
+            $this->innerMarginTop,
+            $this->innerMarginRight,
+            $this->innerMarginBottom
+        );
     }
 
     /**
@@ -178,19 +184,20 @@ class TextBox extends Image
     {
         $hasInnerMargins = false;
         $margins = $this->getInnerMargin();
-        for ($i = 0; $i < count($margins); $i++) {
+        for ($i = 0; $i < count($margins); $i ++) {
             if ($margins[$i] !== null) {
                 $hasInnerMargins = true;
             }
         }
-
+        
         return $hasInnerMargins;
     }
 
     /**
      * Set border size
      *
-     * @param int $value Size in points
+     * @param int $value
+     *            Size in points
      */
     public function setBorderSize($value = null)
     {
@@ -210,7 +217,7 @@ class TextBox extends Image
     /**
      * Set border color
      *
-     * @param string $value
+     * @param string $value            
      */
     public function setBorderColor($value = null)
     {

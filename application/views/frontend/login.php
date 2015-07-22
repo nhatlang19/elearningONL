@@ -34,7 +34,7 @@
 			<div class="col-md-6">
 				<?php if(isset($error)): ?>
 				<div class="alert alert-dismissable alert-danger">
-				  <strong><?php echo $error; ?></strong> 
+					<strong><?php echo $error; ?></strong>
 				</div>
 				<?php endif; ?>
 				<form class="form-horizontal" method="post" id="login">

@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
 /**
@@ -24,6 +23,7 @@ namespace PhpOffice\PhpWord\Writer\RTF\Element;
  */
 class Text extends AbstractElement
 {
+
     /**
      * Write element
      *
@@ -31,15 +31,17 @@ class Text extends AbstractElement
      */
     public function write()
     {
-        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
+        /**
+         * @var \PhpOffice\PhpWord\Element\Text $element Type hint
+         */
         $element = $this->element;
         $elementClass = str_replace('\\Writer\\RTF', '', get_class($this));
-        if (!$element instanceof $elementClass) {
+        if (! $element instanceof $elementClass) {
             return '';
         }
-
+        
         $this->getStyles();
-
+        
         $content = '';
         $content .= $this->writeOpening();
         $content .= '{';
@@ -47,7 +49,7 @@ class Text extends AbstractElement
         $content .= $this->writeText($element->getText());
         $content .= '}';
         $content .= $this->writeClosing();
-
+        
         return $content;
     }
 }

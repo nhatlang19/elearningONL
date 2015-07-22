@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use PhpOffice\PhpWord\PhpWord;
@@ -27,6 +26,7 @@ use PhpOffice\PhpWord\Shared\XMLReader;
  */
 class DocPropsCore extends AbstractPart
 {
+
     /**
      * Property mapping
      *
@@ -41,7 +41,7 @@ class DocPropsCore extends AbstractPart
         'cp:category' => 'setCategory',
         'cp:lastModifiedBy' => 'setLastModifiedBy',
         'dcterms:created' => 'setCreated',
-        'dcterms:modified' => 'setModified',
+        'dcterms:modified' => 'setModified'
     );
 
     /**
@@ -49,24 +49,27 @@ class DocPropsCore extends AbstractPart
      *
      * @var array
      */
-    protected $callbacks = array('dcterms:created' => 'strtotime', 'dcterms:modified' => 'strtotime');
+    protected $callbacks = array(
+        'dcterms:created' => 'strtotime',
+        'dcterms:modified' => 'strtotime'
+    );
 
     /**
      * Read core/extended document properties
      *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord            
      */
     public function read(PhpWord &$phpWord)
     {
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
-
+        
         $docProps = $phpWord->getDocumentProperties();
-
+        
         $nodes = $xmlReader->getElements('*');
         if ($nodes->length > 0) {
             foreach ($nodes as $node) {
-                if (!array_key_exists($node->nodeName, $this->mapping)) {
+                if (! array_key_exists($node->nodeName, $this->mapping)) {
                     continue;
                 }
                 $method = $this->mapping[$node->nodeName];

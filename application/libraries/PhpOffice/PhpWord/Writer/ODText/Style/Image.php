@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\ODText\Style;
 
 /**
@@ -24,18 +23,21 @@ namespace PhpOffice\PhpWord\Writer\ODText\Style;
  */
 class Image extends AbstractStyle
 {
+
     /**
      * Write style
      */
     public function write()
     {
-        /** @var \PhpOffice\PhpWord\Style\Image $style Type hint */
+        /**
+         * @var \PhpOffice\PhpWord\Style\Image $style Type hint
+         */
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Image) {
+        if (! $style instanceof \PhpOffice\PhpWord\Style\Image) {
             return;
         }
         $xmlWriter = $this->getXmlWriter();
-
+        
         $xmlWriter->startElement('style:style');
         $xmlWriter->writeAttribute('style:name', $style->getStyleName());
         $xmlWriter->writeAttribute('style:family', 'graphic');

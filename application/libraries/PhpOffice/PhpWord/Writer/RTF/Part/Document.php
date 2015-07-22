@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\RTF\Part;
 
 use PhpOffice\PhpWord\Settings;
@@ -27,6 +26,7 @@ use PhpOffice\PhpWord\Writer\RTF\Element\Container;
  */
 class Document extends AbstractPart
 {
+
     /**
      * Write part
      *
@@ -35,11 +35,11 @@ class Document extends AbstractPart
     public function write()
     {
         $content = '';
-
+        
         $content .= $this->writeInfo();
         $content .= $this->writeFormatting();
         $content .= $this->writeSections();
-
+        
         return $content;
     }
 
@@ -50,15 +50,36 @@ class Document extends AbstractPart
      */
     private function writeInfo()
     {
-        $docProps = $this->getParentWriter()->getPhpWord()->getDocumentProperties();
-        $properties = array('title', 'subject', 'category', 'keywords', 'comment',
-            'author', 'operator', 'creatim', 'revtim', 'company', 'manager');
-        $mapping = array('comment' => 'description', 'author' => 'creator', 'operator' => 'lastModifiedBy',
-            'creatim' => 'created', 'revtim' => 'modified');
-        $dateFields = array('creatim', 'revtim');
-
+        $docProps = $this->getParentWriter()
+            ->getPhpWord()
+            ->getDocumentProperties();
+        $properties = array(
+            'title',
+            'subject',
+            'category',
+            'keywords',
+            'comment',
+            'author',
+            'operator',
+            'creatim',
+            'revtim',
+            'company',
+            'manager'
+        );
+        $mapping = array(
+            'comment' => 'description',
+            'author' => 'creator',
+            'operator' => 'lastModifiedBy',
+            'creatim' => 'created',
+            'revtim' => 'modified'
+        );
+        $dateFields = array(
+            'creatim',
+            'revtim'
+        );
+        
         $content = '';
-
+        
         $content .= '{';
         $content .= '\info';
         foreach ($properties as $property) {
@@ -69,7 +90,7 @@ class Document extends AbstractPart
         }
         $content .= '}';
         $content .= PHP_EOL;
-
+        
         return $content;
     }
 
@@ -81,10 +102,10 @@ class Document extends AbstractPart
     private function writeFormatting()
     {
         $content = '';
-
+        
         $content .= '\deftab720'; // Set the default tab size (720 twips)
         $content .= '\viewkind1'; // Set the view mode of the document
-
+        
         $content .= '\uc1'; // Set the numberof bytes that follows a unicode character
         $content .= '\pard'; // Resets to default paragraph properties.
         $content .= '\nowidctlpar'; // No widow/orphan control
@@ -92,7 +113,7 @@ class Document extends AbstractPart
         $content .= '\kerning1'; // Point size (in half-points) above which to kern character pairs
         $content .= '\fs' . (Settings::getDefaultFontSize() * 2); // Set the font size in half-points
         $content .= PHP_EOL;
-
+        
         return $content;
     }
 
@@ -104,13 +125,15 @@ class Document extends AbstractPart
     private function writeSections()
     {
         $content = '';
-
-        $sections = $this->getParentWriter()->getPhpWord()->getSections();
+        
+        $sections = $this->getParentWriter()
+            ->getPhpWord()
+            ->getSections();
         foreach ($sections as $section) {
             $writer = new Container($this->getParentWriter(), $section);
             $content .= $writer->write();
         }
-
+        
         return $content;
     }
 
@@ -119,7 +142,7 @@ class Document extends AbstractPart
      *
      * The format of date value is `\yr?\mo?\dy?\hr?\min?\sec?`
      *
-     * @param int $value
+     * @param int $value            
      * @return string
      */
     private function getDateValue($value)
@@ -130,13 +153,13 @@ class Document extends AbstractPart
             'd' => 'dy',
             'H' => 'hr',
             'i' => 'min',
-            's' => 'sec',
+            's' => 'sec'
         );
         $result = '';
         foreach ($dateParts as $dateFormat => $controlWord) {
             $result .= '\\' . $controlWord . date($dateFormat, $value);
         }
-
+        
         return $result;
     }
 }

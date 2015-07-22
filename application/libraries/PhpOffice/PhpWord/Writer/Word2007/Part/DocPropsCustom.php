@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 /**
@@ -24,6 +23,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
  */
 class DocPropsCustom extends AbstractPart
 {
+
     /**
      * Write part
      *
@@ -33,18 +33,18 @@ class DocPropsCustom extends AbstractPart
     {
         $phpWord = $this->getParentWriter()->getPhpWord();
         $xmlWriter = $this->getXmlWriter();
-
+        
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('Properties');
         $xmlWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/officeDocument/2006/custom-properties');
         $xmlWriter->writeAttribute('xmlns:vt', 'http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes');
-
+        
         $docProps = $phpWord->getDocumentProperties();
         $properties = $docProps->getCustomProperties();
         foreach ($properties as $key => $property) {
             $propertyValue = $docProps->getCustomPropertyValue($property);
             $propertyType = $docProps->getCustomPropertyType($property);
-
+            
             $xmlWriter->startElement('property');
             $xmlWriter->writeAttribute('fmtid', '{D5CDD505-2E9C-101B-9397-08002B2CF9AE}');
             $xmlWriter->writeAttribute('pid', $key + 2);
@@ -70,9 +70,9 @@ class DocPropsCustom extends AbstractPart
             }
             $xmlWriter->endElement(); // property
         }
-
+        
         $xmlWriter->endElement(); // Properties
-
+        
         return $xmlWriter->getData();
     }
 }

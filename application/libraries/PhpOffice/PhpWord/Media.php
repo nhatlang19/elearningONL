@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Element\Image;
@@ -25,6 +24,7 @@ use PhpOffice\PhpWord\Exception\Exception;
  */
 class Media
 {
+
     /**
      * Media elements
      *
@@ -35,10 +35,12 @@ class Media
     /**
      * Add new media element
      *
-     * @param string $container section|headerx|footerx|footnote|endnote
-     * @param string $mediaType image|object|link
-     * @param string $source
-     * @param \PhpOffice\PhpWord\Element\Image $image
+     * @param string $container
+     *            section|headerx|footerx|footnote|endnote
+     * @param string $mediaType
+     *            image|object|link
+     * @param string $source            
+     * @param \PhpOffice\PhpWord\Element\Image $image            
      * @return integer
      * @throws \PhpOffice\PhpWord\Exception\Exception
      * @since 0.9.2
@@ -48,19 +50,21 @@ class Media
     {
         // Assign unique media Id and initiate media container if none exists
         $mediaId = md5($container . $source);
-        if (!array_key_exists($container, self::$elements)) {
+        if (! array_key_exists($container, self::$elements)) {
             self::$elements[$container] = array();
         }
-
+        
         // Add media if not exists or point to existing media
-        if (!array_key_exists($mediaId, self::$elements[$container])) {
+        if (! array_key_exists($mediaId, self::$elements[$container])) {
             $mediaCount = self::countElements($container);
             $mediaTypeCount = self::countElements($container, $mediaType);
-            $mediaTypeCount++;
-            $rId = ++$mediaCount;
+            $mediaTypeCount ++;
+            $rId = ++ $mediaCount;
             $target = null;
-            $mediaData = array('mediaIndex' => $mediaTypeCount);
-
+            $mediaData = array(
+                'mediaIndex' => $mediaTypeCount
+            );
+            
             switch ($mediaType) {
                 // Images
                 case 'image':
@@ -70,7 +74,7 @@ class Media
                     $isMemImage = $image->isMemImage();
                     $extension = $image->getImageExtension();
                     // change extension jpg to jpeg
-                    $extension = $extension === 'jpg'?'jpeg':$extension;
+                    $extension = $extension === 'jpg' ? 'jpeg' : $extension;
                     $mediaData['imageExtension'] = $extension;
                     $mediaData['imageType'] = $image->getImageType();
                     if ($isMemImage) {
@@ -78,23 +82,23 @@ class Media
                         $mediaData['createFunction'] = $image->getImageCreateFunction();
                         $mediaData['imageFunction'] = $image->getImageFunction();
                     }
-//                     $target = "{$container}_image{$mediaTypeCount}.{$extension}";
+                    // $target = "{$container}_image{$mediaTypeCount}.{$extension}";
                     $target = "image{$mediaTypeCount}.{$extension}";
                     $image->setTarget($target);
                     $image->setMediaIndex($mediaTypeCount);
                     break;
-
+                
                 // Objects
                 case 'object':
                     $target = "{$container}_oleObject{$mediaTypeCount}.bin";
                     break;
-
+                
                 // Links
                 case 'link':
                     $target = $source;
                     break;
             }
-
+            
             $mediaData['source'] = $source;
             $mediaData['target'] = $target;
             $mediaData['type'] = $mediaType;
@@ -103,7 +107,7 @@ class Media
             return $rId;
         } else {
             $mediaData = self::$elements[$container][$mediaId];
-            if (!is_null($image)) {
+            if (! is_null($image)) {
                 $image->setTarget($mediaData['target']);
                 $image->setMediaIndex($mediaData['mediaIndex']);
             }
@@ -114,42 +118,46 @@ class Media
     /**
      * Get media elements count
      *
-     * @param string $container section|headerx|footerx|footnote|endnote
-     * @param string $mediaType image|object|link
+     * @param string $container
+     *            section|headerx|footerx|footnote|endnote
+     * @param string $mediaType
+     *            image|object|link
      * @return integer
      * @since 0.10.0
      */
     public static function countElements($container, $mediaType = null)
     {
         $mediaCount = 0;
-
+        
         if (array_key_exists($container, self::$elements)) {
             foreach (self::$elements[$container] as $mediaData) {
-                if (!is_null($mediaType)) {
+                if (! is_null($mediaType)) {
                     if ($mediaType == $mediaData['type']) {
-                        $mediaCount++;
+                        $mediaCount ++;
                     }
                 } else {
-                    $mediaCount++;
+                    $mediaCount ++;
                 }
             }
         }
-
+        
         return $mediaCount;
     }
 
     /**
      * Get media elements
      *
-     * @param string $container section|headerx|footerx|footnote|endnote
-     * @param string $type image|object|link
+     * @param string $container
+     *            section|headerx|footerx|footnote|endnote
+     * @param string $type
+     *            image|object|link
      * @return array
      * @since 0.10.0
      */
     public static function getElements($container, $type = null)
     {
         $elements = array();
-
+        
         // If header/footer, search for headerx and footerx where x is number
         if ($container == 'header' || $container == 'footer') {
             foreach (self::$elements as $key => $val) {
@@ -159,7 +167,7 @@ class Media
             }
             return $elements;
         } else {
-            if (!array_key_exists($container, self::$elements)) {
+            if (! array_key_exists($container, self::$elements)) {
                 return $elements;
             }
             return self::getElementsByType($container, $type);
@@ -169,15 +177,17 @@ class Media
     /**
      * Get elements by media type
      *
-     * @param string $container section|footnote|endnote
-     * @param string $type image|object|link
+     * @param string $container
+     *            section|footnote|endnote
+     * @param string $type
+     *            image|object|link
      * @return array
      * @since 0.11.0 Splitted from `getElements` to reduce complexity
      */
     private static function getElementsByType($container, $type = null)
     {
         $elements = array();
-
+        
         foreach (self::$elements[$container] as $key => $data) {
             if ($type !== null) {
                 if ($type == $data['type']) {
@@ -187,7 +197,7 @@ class Media
                 $elements[$key] = $data;
             }
         }
-
+        
         return $elements;
     }
 
@@ -202,12 +212,12 @@ class Media
     /**
      * Add new Section Media Element
      *
-     * @param  string $src
-     * @param  string $type
-     * @param  \PhpOffice\PhpWord\Element\Image $image
+     * @param string $src            
+     * @param string $type            
+     * @param \PhpOffice\PhpWord\Element\Image $image            
      * @return integer
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public static function addSectionMediaElement($src, $type, Image $image = null)
     {
@@ -217,10 +227,10 @@ class Media
     /**
      * Add new Section Link Element
      *
-     * @param string $linkSrc
+     * @param string $linkSrc            
      * @return integer
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public static function addSectionLinkElement($linkSrc)
     {
@@ -230,10 +240,10 @@ class Media
     /**
      * Get Section Media Elements
      *
-     * @param string $key
+     * @param string $key            
      * @return array
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public static function getSectionMediaElements($key = null)
     {
@@ -243,10 +253,10 @@ class Media
     /**
      * Get Section Media Elements Count
      *
-     * @param string $key
+     * @param string $key            
      * @return integer
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public static function countSectionMediaElements($key = null)
     {
@@ -256,12 +266,12 @@ class Media
     /**
      * Add new Header Media Element
      *
-     * @param  integer $headerCount
-     * @param  string $src
-     * @param  \PhpOffice\PhpWord\Element\Image $image
+     * @param integer $headerCount            
+     * @param string $src            
+     * @param \PhpOffice\PhpWord\Element\Image $image            
      * @return integer
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public static function addHeaderMediaElement($headerCount, $src, Image $image = null)
     {
@@ -271,10 +281,10 @@ class Media
     /**
      * Get Header Media Elements Count
      *
-     * @param string $key
+     * @param string $key            
      * @return integer
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public static function countHeaderMediaElements($key)
     {
@@ -286,7 +296,7 @@ class Media
      *
      * @return array
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public static function getHeaderMediaElements()
     {
@@ -296,12 +306,12 @@ class Media
     /**
      * Add new Footer Media Element
      *
-     * @param  integer $footerCount
-     * @param  string $src
-     * @param  \PhpOffice\PhpWord\Element\Image $image
+     * @param integer $footerCount            
+     * @param string $src            
+     * @param \PhpOffice\PhpWord\Element\Image $image            
      * @return integer
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public static function addFooterMediaElement($footerCount, $src, Image $image = null)
     {
@@ -311,10 +321,10 @@ class Media
     /**
      * Get Footer Media Elements Count
      *
-     * @param string $key
+     * @param string $key            
      * @return integer
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public static function countFooterMediaElements($key)
     {
@@ -326,7 +336,7 @@ class Media
      *
      * @return array
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public static function getFooterMediaElements()
     {

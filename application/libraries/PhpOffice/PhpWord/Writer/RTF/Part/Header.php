@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\RTF\Part;
 
 use PhpOffice\PhpWord\Settings;
@@ -29,6 +28,7 @@ use PhpOffice\PhpWord\Style\Font;
  */
 class Header extends AbstractPart
 {
+
     /**
      * Font table
      *
@@ -67,16 +67,16 @@ class Header extends AbstractPart
     public function write()
     {
         $this->registerFont();
-
+        
         $content = '';
-
+        
         $content .= $this->writeCharset();
         $content .= $this->writeDefaults();
         $content .= $this->writeFontTable();
         $content .= $this->writeColorTable();
         $content .= $this->writeGenerator();
         $content .= PHP_EOL;
-
+        
         return $content;
     }
 
@@ -88,11 +88,11 @@ class Header extends AbstractPart
     private function writeCharset()
     {
         $content = '';
-
+        
         $content .= '\ansi';
         $content .= '\ansicpg1252';
         $content .= PHP_EOL;
-
+        
         return $content;
     }
 
@@ -104,10 +104,10 @@ class Header extends AbstractPart
     private function writeDefaults()
     {
         $content = '';
-
+        
         $content .= '\deff0';
         $content .= PHP_EOL;
-
+        
         return $content;
     }
 
@@ -119,7 +119,7 @@ class Header extends AbstractPart
     private function writeFontTable()
     {
         $content = '';
-
+        
         $content .= '{';
         $content .= '\fonttbl';
         foreach ($this->fontTable as $index => $font) {
@@ -127,7 +127,7 @@ class Header extends AbstractPart
         }
         $content .= '}';
         $content .= PHP_EOL;
-
+        
         return $content;
     }
 
@@ -139,16 +139,16 @@ class Header extends AbstractPart
     private function writeColorTable()
     {
         $content = '';
-
+        
         $content .= '{';
         $content .= '\colortbl';
         foreach ($this->colorTable as $color) {
-            list($red, $green, $blue) = Drawing::htmlToRGB($color);
+            list ($red, $green, $blue) = Drawing::htmlToRGB($color);
             $content .= ";\\red{$red}\\green{$green}\\blue{$blue}";
         }
         $content .= '}';
         $content .= PHP_EOL;
-
+        
         return $content;
     }
 
@@ -160,10 +160,10 @@ class Header extends AbstractPart
     private function writeGenerator()
     {
         $content = '';
-
+        
         $content .= '{\*\generator PhpWord;}'; // Set the generator
         $content .= PHP_EOL;
-
+        
         return $content;
     }
 
@@ -174,13 +174,13 @@ class Header extends AbstractPart
     {
         $phpWord = $this->getParentWriter()->getPhpWord();
         $this->fontTable[] = Settings::getDefaultFontName();
-
+        
         // Search named styles
         $styles = Style::getStyles();
         foreach ($styles as $style) {
             $this->registerFontItems($style);
         }
-
+        
         // Search inline styles
         $sections = $phpWord->getSections();
         foreach ($sections as $section) {
@@ -197,13 +197,13 @@ class Header extends AbstractPart
     /**
      * Register fonts and colors
      *
-     * @param \PhpOffice\PhpWord\Style\AbstractStyle $style
+     * @param \PhpOffice\PhpWord\Style\AbstractStyle $style            
      */
     private function registerFontItems($style)
     {
         $defaultFont = Settings::getDefaultFontName();
         $defaultColor = Settings::DEFAULT_FONT_COLOR;
-
+        
         if ($style instanceof Font) {
             $this->registerFontItem($this->fontTable, $style->getName(), $defaultFont);
             $this->registerFontItem($this->colorTable, $style->getColor(), $defaultColor);
@@ -214,9 +214,9 @@ class Header extends AbstractPart
     /**
      * Register individual font and color
      *
-     * @param array $table
-     * @param string $value
-     * @param string $default
+     * @param array $table            
+     * @param string $value            
+     * @param string $default            
      */
     private function registerFontItem(&$table, $value, $default)
     {

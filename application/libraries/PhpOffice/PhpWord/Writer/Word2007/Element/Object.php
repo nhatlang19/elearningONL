@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\PhpWord\Writer\Word2007\Style\Image as ImageStyleWriter;
@@ -26,6 +25,7 @@ use PhpOffice\PhpWord\Writer\Word2007\Style\Image as ImageStyleWriter;
  */
 class Object extends AbstractElement
 {
+
     /**
      * Write object element
      */
@@ -33,18 +33,18 @@ class Object extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
-        if (!$element instanceof \PhpOffice\PhpWord\Element\Object) {
+        if (! $element instanceof \PhpOffice\PhpWord\Element\Object) {
             return;
         }
-
+        
         $rIdObject = $element->getRelationId() + ($element->isInSection() ? 6 : 0);
         $rIdImage = $element->getImageRelationId() + ($element->isInSection() ? 6 : 0);
         $shapeId = md5($rIdObject . '_' . $rIdImage);
         $objectId = $element->getRelationId() + 1325353440;
         $style = $element->getStyle();
         $styleWriter = new ImageStyleWriter($xmlWriter, $style);
-
-        if (!$this->withoutP) {
+        
+        if (! $this->withoutP) {
             $xmlWriter->startElement('w:p');
             $styleWriter->writeAlignment();
         }
@@ -72,7 +72,7 @@ class Object extends AbstractElement
         $xmlWriter->endElement(); // o:OLEObject
         $xmlWriter->endElement(); // w:object
         $xmlWriter->endElement(); // w:r
-        if (!$this->withoutP) {
+        if (! $this->withoutP) {
             $xmlWriter->endElement(); // w:p
         }
     }

@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 /**
@@ -24,6 +23,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
  */
 class PreserveText extends Text
 {
+
     /**
      * Write preserve text element
      */
@@ -31,43 +31,45 @@ class PreserveText extends Text
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
-        if (!$element instanceof \PhpOffice\PhpWord\Element\PreserveText) {
+        if (! $element instanceof \PhpOffice\PhpWord\Element\PreserveText) {
             return;
         }
-
+        
         $texts = $element->getText();
-        if (!is_array($texts)) {
-            $texts = array($texts);
+        if (! is_array($texts)) {
+            $texts = array(
+                $texts
+            );
         }
-
+        
         $this->writeOpeningWP();
-
+        
         foreach ($texts as $text) {
             if (substr($text, 0, 1) == '{') {
-                $text = substr($text, 1, -1);
-
+                $text = substr($text, 1, - 1);
+                
                 $xmlWriter->startElement('w:r');
                 $xmlWriter->startElement('w:fldChar');
                 $xmlWriter->writeAttribute('w:fldCharType', 'begin');
                 $xmlWriter->endElement();
                 $xmlWriter->endElement();
-
+                
                 $xmlWriter->startElement('w:r');
-
+                
                 $this->writeFontStyle();
-
+                
                 $xmlWriter->startElement('w:instrText');
                 $xmlWriter->writeAttribute('xml:space', 'preserve');
                 $xmlWriter->writeRaw($text);
                 $xmlWriter->endElement();
                 $xmlWriter->endElement();
-
+                
                 $xmlWriter->startElement('w:r');
                 $xmlWriter->startElement('w:fldChar');
                 $xmlWriter->writeAttribute('w:fldCharType', 'separate');
                 $xmlWriter->endElement();
                 $xmlWriter->endElement();
-
+                
                 $xmlWriter->startElement('w:r');
                 $xmlWriter->startElement('w:fldChar');
                 $xmlWriter->writeAttribute('w:fldCharType', 'end');
@@ -75,9 +77,9 @@ class PreserveText extends Text
                 $xmlWriter->endElement();
             } else {
                 $xmlWriter->startElement('w:r');
-
+                
                 $this->writeFontStyle();
-
+                
                 $xmlWriter->startElement('w:t');
                 $xmlWriter->writeAttribute('xml:space', 'preserve');
                 $xmlWriter->writeRaw($this->getText($text));
@@ -85,7 +87,7 @@ class PreserveText extends Text
                 $xmlWriter->endElement();
             }
         }
-
+        
         $this->writeClosingWP();
     }
 }

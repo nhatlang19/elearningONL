@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 /**
@@ -24,6 +23,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
  */
 class DocPropsApp extends AbstractPart
 {
+
     /**
      * Write part
      *
@@ -34,18 +34,20 @@ class DocPropsApp extends AbstractPart
         $phpWord = $this->getParentWriter()->getPhpWord();
         $xmlWriter = $this->getXmlWriter();
         $schema = 'http://schemas.openxmlformats.org/officeDocument/2006/extended-properties';
-
+        
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('Properties');
         $xmlWriter->writeAttribute('xmlns', $schema);
         $xmlWriter->writeAttribute('xmlns:vt', 'http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes');
-
+        
         $xmlWriter->writeElement('Application', 'PHPWord');
-        $xmlWriter->writeElement('Company', $phpWord->getDocumentProperties()->getCompany());
-        $xmlWriter->writeElement('Manager', $phpWord->getDocumentProperties()->getManager());
-
+        $xmlWriter->writeElement('Company', $phpWord->getDocumentProperties()
+            ->getCompany());
+        $xmlWriter->writeElement('Manager', $phpWord->getDocumentProperties()
+            ->getManager());
+        
         $xmlWriter->endElement(); // Properties
-
+        
         return $xmlWriter->getData();
     }
 }

@@ -38,7 +38,7 @@
 				<fieldset>
 
 					<!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
-					
+
 					<div class="ui-widget">
 						<label>Chọn đề thi</label> <select id="combobox"
 							class="small-input">
@@ -53,11 +53,10 @@
 
 
 					<p>
-					<input type="hidden" name="topic_manage_id" id="topic_manage_id" value="" />
-						<input class="button" id="submit" type="submit" value="Submit" />
-
-						<input class="button" type="button" value="Cancel"
-							onclick="goback();" />
+						<input type="hidden" name="topic_manage_id" id="topic_manage_id"
+							value="" /> <input class="button" id="submit" type="submit"
+							value="Submit" /> <input class="button" type="button"
+							value="Cancel" onclick="goback();" />
 					</p>
 
 				</fieldset>
@@ -79,8 +78,9 @@
 		var lstTopic = new Array();
 		
 		<?php
-		$i = 1; 
-		foreach($topic_manage as $value) :?>
+$i = 1;
+foreach ($topic_manage as $value) :
+    ?>
 			lstTopic[<?php echo $i++;?>] = <?php echo $value['topic_manage_id']; ?>;
 		<?php endforeach;?>
 	(function( $ ) {

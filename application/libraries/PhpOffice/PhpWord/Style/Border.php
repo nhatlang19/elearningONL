@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Style;
 
 /**
@@ -22,6 +21,7 @@ namespace PhpOffice\PhpWord\Style;
  */
 class Border extends AbstractStyle
 {
+
     /**
      * Border Top Size
      *
@@ -89,14 +89,14 @@ class Border extends AbstractStyle
             $this->getBorderTopSize(),
             $this->getBorderLeftSize(),
             $this->getBorderRightSize(),
-            $this->getBorderBottomSize(),
+            $this->getBorderBottomSize()
         );
     }
 
     /**
      * Set border size
      *
-     * @param int|float $value
+     * @param int|float $value            
      * @return self
      */
     public function setBorderSize($value = null)
@@ -105,7 +105,7 @@ class Border extends AbstractStyle
         $this->setBorderLeftSize($value);
         $this->setBorderRightSize($value);
         $this->setBorderBottomSize($value);
-
+        
         return $this;
     }
 
@@ -120,14 +120,14 @@ class Border extends AbstractStyle
             $this->getBorderTopColor(),
             $this->getBorderLeftColor(),
             $this->getBorderRightColor(),
-            $this->getBorderBottomColor(),
+            $this->getBorderBottomColor()
         );
     }
 
     /**
      * Set border color
      *
-     * @param string $value
+     * @param string $value            
      * @return self
      */
     public function setBorderColor($value = null)
@@ -136,7 +136,7 @@ class Border extends AbstractStyle
         $this->setBorderLeftColor($value);
         $this->setBorderRightColor($value);
         $this->setBorderBottomColor($value);
-
+        
         return $this;
     }
 
@@ -153,13 +153,13 @@ class Border extends AbstractStyle
     /**
      * Set border top size
      *
-     * @param int|float $value
+     * @param int|float $value            
      * @return self
      */
     public function setBorderTopSize($value = null)
     {
         $this->borderTopSize = $this->setNumericVal($value, $this->borderTopSize);
-
+        
         return $this;
     }
 
@@ -176,13 +176,13 @@ class Border extends AbstractStyle
     /**
      * Set border top color
      *
-     * @param string $value
+     * @param string $value            
      * @return self
      */
     public function setBorderTopColor($value = null)
     {
         $this->borderTopColor = $value;
-
+        
         return $this;
     }
 
@@ -199,13 +199,13 @@ class Border extends AbstractStyle
     /**
      * Set border left size
      *
-     * @param int|float $value
+     * @param int|float $value            
      * @return self
      */
     public function setBorderLeftSize($value = null)
     {
         $this->borderLeftSize = $this->setNumericVal($value, $this->borderLeftSize);
-
+        
         return $this;
     }
 
@@ -222,13 +222,13 @@ class Border extends AbstractStyle
     /**
      * Set border left color
      *
-     * @param string $value
+     * @param string $value            
      * @return self
      */
     public function setBorderLeftColor($value = null)
     {
         $this->borderLeftColor = $value;
-
+        
         return $this;
     }
 
@@ -245,13 +245,13 @@ class Border extends AbstractStyle
     /**
      * Set border right size
      *
-     * @param int|float $value
+     * @param int|float $value            
      * @return self
      */
     public function setBorderRightSize($value = null)
     {
         $this->borderRightSize = $this->setNumericVal($value, $this->borderRightSize);
-
+        
         return $this;
     }
 
@@ -268,13 +268,13 @@ class Border extends AbstractStyle
     /**
      * Set border right color
      *
-     * @param string $value
+     * @param string $value            
      * @return self
      */
     public function setBorderRightColor($value = null)
     {
         $this->borderRightColor = $value;
-
+        
         return $this;
     }
 
@@ -291,13 +291,13 @@ class Border extends AbstractStyle
     /**
      * Set border bottom size
      *
-     * @param int|float $value
+     * @param int|float $value            
      * @return self
      */
     public function setBorderBottomSize($value = null)
     {
         $this->borderBottomSize = $this->setNumericVal($value, $this->borderBottomSize);
-
+        
         return $this;
     }
 
@@ -314,13 +314,13 @@ class Border extends AbstractStyle
     /**
      * Set border bottom color
      *
-     * @param string $value
+     * @param string $value            
      * @return self
      */
     public function setBorderBottomColor($value = null)
     {
         $this->borderBottomColor = $value;
-
+        
         return $this;
     }
 
@@ -332,7 +332,7 @@ class Border extends AbstractStyle
     public function hasBorder()
     {
         $borders = $this->getBorderSize();
-
+        
         return $borders !== array_filter($borders, 'is_null');
     }
 }

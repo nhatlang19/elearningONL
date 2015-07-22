@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
 use PhpOffice\PhpWord\Writer\Word2007\Element\Container as Word2007Container;
@@ -26,6 +25,7 @@ use PhpOffice\PhpWord\Writer\Word2007\Element\Container as Word2007Container;
  */
 class Container extends Word2007Container
 {
+
     /**
      * Namespace; Can't use __NAMESPACE__ in inherited class (ODText)
      *

@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Style;
 
 /**
@@ -22,28 +21,46 @@ namespace PhpOffice\PhpWord\Style;
  */
 class Font extends AbstractStyle
 {
+
     /**
      * Underline types
      *
      * @const string
      */
     const UNDERLINE_NONE = 'none';
+
     const UNDERLINE_DASH = 'dash';
+
     const UNDERLINE_DASHHEAVY = 'dashHeavy';
+
     const UNDERLINE_DASHLONG = 'dashLong';
+
     const UNDERLINE_DASHLONGHEAVY = 'dashLongHeavy';
+
     const UNDERLINE_DOUBLE = 'dbl';
+
     const UNDERLINE_DOTHASH = 'dotDash';
+
     const UNDERLINE_DOTHASHHEAVY = 'dotDashHeavy';
+
     const UNDERLINE_DOTDOTDASH = 'dotDotDash';
+
     const UNDERLINE_DOTDOTDASHHEAVY = 'dotDotDashHeavy';
+
     const UNDERLINE_DOTTED = 'dotted';
+
     const UNDERLINE_DOTTEDHEAVY = 'dottedHeavy';
+
     const UNDERLINE_HEAVY = 'heavy';
+
     const UNDERLINE_SINGLE = 'single';
+
     const UNDERLINE_WAVY = 'wavy';
+
     const UNDERLINE_WAVYDOUBLE = 'wavyDbl';
+
     const UNDERLINE_WAVYHEAVY = 'wavyHeavy';
+
     const UNDERLINE_WORDS = 'words';
 
     /**
@@ -52,19 +69,33 @@ class Font extends AbstractStyle
      * @const string
      */
     const FGCOLOR_YELLOW = 'yellow';
+
     const FGCOLOR_LIGHTGREEN = 'green';
+
     const FGCOLOR_CYAN = 'cyan';
+
     const FGCOLOR_MAGENTA = 'magenta';
+
     const FGCOLOR_BLUE = 'blue';
+
     const FGCOLOR_RED = 'red';
+
     const FGCOLOR_DARKBLUE = 'darkBlue';
+
     const FGCOLOR_DARKCYAN = 'darkCyan';
+
     const FGCOLOR_DARKGREEN = 'darkGreen';
+
     const FGCOLOR_DARKMAGENTA = 'darkMagenta';
+
     const FGCOLOR_DARKRED = 'darkRed';
+
     const FGCOLOR_DARKYELLOW = 'darkYellow';
+
     const FGCOLOR_DARKGRAY = 'darkGray';
+
     const FGCOLOR_LIGHTGRAY = 'lightGray';
+
     const FGCOLOR_BLACK = 'black';
 
     /**
@@ -72,7 +103,9 @@ class Font extends AbstractStyle
      *
      * @var array
      */
-    protected $aliases = array('line-height' => 'lineHeight');
+    protected $aliases = array(
+        'line-height' => 'lineHeight'
+    );
 
     /**
      * Font style type
@@ -186,7 +219,7 @@ class Font extends AbstractStyle
      *
      * @var int
      */
-
+    
     /**
      * Paragraph style
      *
@@ -204,8 +237,10 @@ class Font extends AbstractStyle
     /**
      * Create new font style
      *
-     * @param string $type Type of font
-     * @param array $paragraph Paragraph styles definition
+     * @param string $type
+     *            Type of font
+     * @param array $paragraph
+     *            Paragraph styles definition
      */
     public function __construct($type = 'text', $paragraph = null)
     {
@@ -236,13 +271,13 @@ class Font extends AbstractStyle
     /**
      * Set font name
      *
-     * @param  string $value
+     * @param string $value            
      * @return self
      */
     public function setName($value = null)
     {
         $this->name = $value;
-
+        
         return $this;
     }
 
@@ -259,20 +294,20 @@ class Font extends AbstractStyle
     /**
      * Set Font Content Type
      *
-     * @param  string $value
+     * @param string $value            
      * @return self
      */
     public function setHint($value = null)
     {
         $this->hint = $value;
-
+        
         return $this;
     }
 
     /**
      * Get font size
      *
-     * @return  int|float
+     * @return int|float
      */
     public function getSize()
     {
@@ -282,13 +317,13 @@ class Font extends AbstractStyle
     /**
      * Set font size
      *
-     * @param  int|float $value
+     * @param int|float $value            
      * @return self
      */
     public function setSize($value = null)
     {
         $this->size = $this->setNumericVal($value, $this->size);
-
+        
         return $this;
     }
 
@@ -305,13 +340,13 @@ class Font extends AbstractStyle
     /**
      * Set font color
      *
-     * @param  string $value
+     * @param string $value            
      * @return self
      */
     public function setColor($value = null)
     {
         $this->color = $value;
-
+        
         return $this;
     }
 
@@ -328,13 +363,13 @@ class Font extends AbstractStyle
     /**
      * Set bold
      *
-     * @param  bool $value
+     * @param bool $value            
      * @return self
      */
     public function setBold($value = true)
     {
         $this->bold = $this->setBoolVal($value, $this->bold);
-
+        
         return $this;
     }
 
@@ -351,13 +386,13 @@ class Font extends AbstractStyle
     /**
      * Set italic
      *
-     * @param  bool $value
+     * @param bool $value            
      * @return self
      */
     public function setItalic($value = true)
     {
         $this->italic = $this->setBoolVal($value, $this->italic);
-
+        
         return $this;
     }
 
@@ -374,13 +409,13 @@ class Font extends AbstractStyle
     /**
      * Set underline
      *
-     * @param  string $value
+     * @param string $value            
      * @return self
      */
     public function setUnderline($value = self::UNDERLINE_NONE)
     {
         $this->underline = $this->setNonEmptyVal($value, self::UNDERLINE_NONE);
-
+        
         return $this;
     }
 
@@ -397,7 +432,7 @@ class Font extends AbstractStyle
     /**
      * Set superscript
      *
-     * @param  bool $value
+     * @param bool $value            
      * @return self
      */
     public function setSuperScript($value = true)
@@ -418,7 +453,7 @@ class Font extends AbstractStyle
     /**
      * Set subscript
      *
-     * @param  bool $value
+     * @param bool $value            
      * @return self
      */
     public function setSubScript($value = true)
@@ -439,7 +474,7 @@ class Font extends AbstractStyle
     /**
      * Set strikethrough
      *
-     * @param  bool $value
+     * @param bool $value            
      * @return self
      */
     public function setStrikethrough($value = true)
@@ -460,7 +495,7 @@ class Font extends AbstractStyle
     /**
      * Set double strikethrough
      *
-     * @param  bool $value
+     * @param bool $value            
      * @return self
      */
     public function setDoubleStrikethrough($value = true)
@@ -481,7 +516,7 @@ class Font extends AbstractStyle
     /**
      * Set small caps
      *
-     * @param  bool $value
+     * @param bool $value            
      * @return self
      */
     public function setSmallCaps($value = true)
@@ -502,7 +537,7 @@ class Font extends AbstractStyle
     /**
      * Set all caps
      *
-     * @param  bool $value
+     * @param bool $value            
      * @return self
      */
     public function setAllCaps($value = true)
@@ -523,13 +558,13 @@ class Font extends AbstractStyle
     /**
      * Set foreground/highlight color
      *
-     * @param  string $value
+     * @param string $value            
      * @return self
      */
     public function setFgColor($value = null)
     {
         $this->fgColor = $value;
-
+        
         return $this;
     }
 
@@ -550,12 +585,14 @@ class Font extends AbstractStyle
     /**
      * Set background
      *
-     * @param string $value
+     * @param string $value            
      * @return \PhpOffice\PhpWord\Style\Table
      */
     public function setBgColor($value = null)
     {
-        $this->setShading(array('fill' => $value));
+        $this->setShading(array(
+            'fill' => $value
+        ));
     }
 
     /**
@@ -571,13 +608,15 @@ class Font extends AbstractStyle
     /**
      * Set lineheight
      *
-     * @param  int|float|string $value
+     * @param int|float|string $value            
      * @return self
      */
     public function setLineHeight($value)
     {
-        $this->setParagraph(array('lineHeight' => $value));
-
+        $this->setParagraph(array(
+            'lineHeight' => $value
+        ));
+        
         return $this;
     }
 
@@ -594,13 +633,13 @@ class Font extends AbstractStyle
     /**
      * Set shading
      *
-     * @param mixed $value
+     * @param mixed $value            
      * @return self
      */
     public function setParagraph($value = null)
     {
         $this->setObjectVal($value, 'Paragraph', $this->paragraph);
-
+        
         return $this;
     }
 
@@ -617,22 +656,22 @@ class Font extends AbstractStyle
     /**
      * Set shading
      *
-     * @param mixed $value
+     * @param mixed $value            
      * @return self
      */
     public function setShading($value = null)
     {
         $this->setObjectVal($value, 'Shading', $this->shading);
-
+        
         return $this;
     }
 
     /**
      * Set $property value and set $pairProperty = false when $value = true
      *
-     * @param bool $property
-     * @param bool $pairProperty
-     * @param bool $value
+     * @param bool $property            
+     * @param bool $pairProperty            
+     * @param bool $value            
      * @return self
      */
     private function setPairedProperty(&$property, &$pairProperty, $value)
@@ -641,7 +680,7 @@ class Font extends AbstractStyle
         if ($value == true) {
             $pairProperty = false;
         }
-
+        
         return $this;
     }
 
@@ -649,7 +688,7 @@ class Font extends AbstractStyle
      * Get bold
      *
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public function getBold()
     {
@@ -660,7 +699,7 @@ class Font extends AbstractStyle
      * Get italic
      *
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public function getItalic()
     {
@@ -671,7 +710,7 @@ class Font extends AbstractStyle
      * Get superscript
      *
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public function getSuperScript()
     {
@@ -682,7 +721,7 @@ class Font extends AbstractStyle
      * Get subscript
      *
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public function getSubScript()
     {
@@ -693,7 +732,7 @@ class Font extends AbstractStyle
      * Get strikethrough
      *
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public function getStrikethrough()
     {
@@ -704,7 +743,7 @@ class Font extends AbstractStyle
      * Get paragraph style
      *
      * @deprecated 0.11.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public function getParagraphStyle()
     {

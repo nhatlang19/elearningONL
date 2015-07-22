@@ -21,15 +21,20 @@ namespace PhpOffice\PhpWord\Style;
  */
 class Image extends AbstractStyle
 {
+
     /**
      * Wrapping styles
      *
      * @const string
      */
     const WRAPPING_STYLE_INLINE = 'inline';
+
     const WRAPPING_STYLE_SQUARE = 'square';
+
     const WRAPPING_STYLE_TIGHT = 'tight';
+
     const WRAPPING_STYLE_BEHIND = 'behind';
+
     const WRAPPING_STYLE_INFRONT = 'infront';
 
     /**
@@ -38,7 +43,9 @@ class Image extends AbstractStyle
      * @const string
      */
     const POSITION_HORIZONTAL_LEFT = 'left';
+
     const POSITION_HORIZONTAL_CENTER = 'center';
+
     const POSITION_HORIZONTAL_RIGHT = 'right';
 
     /**
@@ -47,9 +54,13 @@ class Image extends AbstractStyle
      * @const string
      */
     const POSITION_VERTICAL_TOP = 'top';
+
     const POSITION_VERTICAL_CENTER = 'center';
+
     const POSITION_VERTICAL_BOTTOM = 'bottom';
+
     const POSITION_VERTICAL_INSIDE = 'inside';
+
     const POSITION_VERTICAL_OUTSIDE = 'outside';
 
     /**
@@ -58,16 +69,27 @@ class Image extends AbstractStyle
      * @const string
      */
     const POSITION_RELATIVE_TO_MARGIN = 'margin';
+
     const POSITION_RELATIVE_TO_PAGE = 'page';
-    const POSITION_RELATIVE_TO_COLUMN = 'column'; // horizontal only
-    const POSITION_RELATIVE_TO_CHAR = 'char'; // horizontal only
-    const POSITION_RELATIVE_TO_TEXT = 'text'; // vertical only
-    const POSITION_RELATIVE_TO_LINE = 'line'; // vertical only
-    const POSITION_RELATIVE_TO_LMARGIN = 'left-margin-area'; // horizontal only
-    const POSITION_RELATIVE_TO_RMARGIN = 'right-margin-area'; // horizontal only
-    const POSITION_RELATIVE_TO_TMARGIN = 'top-margin-area'; // vertical only
-    const POSITION_RELATIVE_TO_BMARGIN = 'bottom-margin-area'; // vertical only
+
+    const POSITION_RELATIVE_TO_COLUMN = 'column';
+ // horizontal only
+    const POSITION_RELATIVE_TO_CHAR = 'char';
+ // horizontal only
+    const POSITION_RELATIVE_TO_TEXT = 'text';
+ // vertical only
+    const POSITION_RELATIVE_TO_LINE = 'line';
+ // vertical only
+    const POSITION_RELATIVE_TO_LMARGIN = 'left-margin-area';
+ // horizontal only
+    const POSITION_RELATIVE_TO_RMARGIN = 'right-margin-area';
+ // horizontal only
+    const POSITION_RELATIVE_TO_TMARGIN = 'top-margin-area';
+ // vertical only
+    const POSITION_RELATIVE_TO_BMARGIN = 'bottom-margin-area';
+ // vertical only
     const POSITION_RELATIVE_TO_IMARGIN = 'inner-margin-area';
+
     const POSITION_RELATIVE_TO_OMARGIN = 'outer-margin-area';
 
     /**
@@ -76,6 +98,7 @@ class Image extends AbstractStyle
      * @const string
      */
     const POSITION_ABSOLUTE = 'absolute';
+
     const POSITION_RELATIVE = 'relative';
 
     /**
@@ -176,13 +199,13 @@ class Image extends AbstractStyle
     /**
      * Set width
      *
-     * @param int $value
+     * @param int $value            
      * @return self
      */
     public function setWidth($value = null)
     {
         $this->width = $value;
-
+        
         return $this;
     }
 
@@ -199,13 +222,13 @@ class Image extends AbstractStyle
     /**
      * Set height
      *
-     * @param int $value
+     * @param int $value            
      * @return self
      */
     public function setHeight($value = null)
     {
         $this->height = $value;
-
+        
         return $this;
     }
 
@@ -222,13 +245,13 @@ class Image extends AbstractStyle
     /**
      * Set alignment
      *
-     * @param string $value
+     * @param string $value            
      * @return self
      */
     public function setAlign($value = null)
     {
         $this->alignment->setValue($value);
-
+        
         return $this;
     }
 
@@ -245,14 +268,14 @@ class Image extends AbstractStyle
     /**
      * Set margin top
      *
-     * @ignoreScrutinizerPatch
-     * @param int|float $value
+     * @ignore ScrutinizerPatch
+     * @param int|float $value            
      * @return self
      */
     public function setMarginTop($value = 0)
     {
         $this->marginTop = $this->setNumericVal($value, 0);
-
+        
         return $this;
     }
 
@@ -269,14 +292,14 @@ class Image extends AbstractStyle
     /**
      * Set margin left
      *
-     * @ignoreScrutinizerPatch
-     * @param int|float $value
+     * @ignore ScrutinizerPatch
+     * @param int|float $value            
      * @return self
      */
     public function setMarginLeft($value = 0)
     {
         $this->marginLeft = $this->setNumericVal($value, 0);
-
+        
         return $this;
     }
 
@@ -293,7 +316,7 @@ class Image extends AbstractStyle
     /**
      * Set wrapping style
      *
-     * @param string $wrappingStyle
+     * @param string $wrappingStyle            
      * @throws \InvalidArgumentException
      * @return self
      */
@@ -301,11 +324,13 @@ class Image extends AbstractStyle
     {
         $enum = array(
             self::WRAPPING_STYLE_INLINE,
-            self::WRAPPING_STYLE_INFRONT, self::WRAPPING_STYLE_BEHIND,
-            self::WRAPPING_STYLE_SQUARE, self::WRAPPING_STYLE_TIGHT,
+            self::WRAPPING_STYLE_INFRONT,
+            self::WRAPPING_STYLE_BEHIND,
+            self::WRAPPING_STYLE_SQUARE,
+            self::WRAPPING_STYLE_TIGHT
         );
         $this->wrappingStyle = $this->setEnumVal($wrappingStyle, $enum, $this->wrappingStyle);
-
+        
         return $this;
     }
 
@@ -322,15 +347,18 @@ class Image extends AbstractStyle
     /**
      * Set positioning type
      *
-     * @param string $positioning
+     * @param string $positioning            
      * @throws \InvalidArgumentException
      * @return self
      */
     public function setPositioning($positioning)
     {
-        $enum = array(self::POSITION_RELATIVE, self::POSITION_ABSOLUTE);
+        $enum = array(
+            self::POSITION_RELATIVE,
+            self::POSITION_ABSOLUTE
+        );
         $this->positioning = $this->setEnumVal($positioning, $enum, $this->positioning);
-
+        
         return $this;
     }
 
@@ -347,18 +375,20 @@ class Image extends AbstractStyle
     /**
      * Set horizontal alignment
      *
-     * @param string $alignment
+     * @param string $alignment            
      * @throws \InvalidArgumentException
      * @return self
      */
     public function setPosHorizontal($alignment)
     {
         $enum = array(
-            self::POSITION_HORIZONTAL_LEFT, self::POSITION_HORIZONTAL_CENTER,
-            self::POSITION_HORIZONTAL_RIGHT, self::POSITION_ABSOLUTE
+            self::POSITION_HORIZONTAL_LEFT,
+            self::POSITION_HORIZONTAL_CENTER,
+            self::POSITION_HORIZONTAL_RIGHT,
+            self::POSITION_ABSOLUTE
         );
         $this->posHorizontal = $this->setEnumVal($alignment, $enum, $this->posHorizontal);
-
+        
         return $this;
     }
 
@@ -375,19 +405,22 @@ class Image extends AbstractStyle
     /**
      * Set vertical alignment
      *
-     * @param string $alignment
+     * @param string $alignment            
      * @throws \InvalidArgumentException
      * @return self
      */
     public function setPosVertical($alignment)
     {
         $enum = array(
-            self::POSITION_VERTICAL_TOP, self::POSITION_VERTICAL_CENTER,
-            self::POSITION_VERTICAL_BOTTOM, self::POSITION_VERTICAL_INSIDE,
-            self::POSITION_VERTICAL_OUTSIDE, self::POSITION_ABSOLUTE
+            self::POSITION_VERTICAL_TOP,
+            self::POSITION_VERTICAL_CENTER,
+            self::POSITION_VERTICAL_BOTTOM,
+            self::POSITION_VERTICAL_INSIDE,
+            self::POSITION_VERTICAL_OUTSIDE,
+            self::POSITION_ABSOLUTE
         );
         $this->posVertical = $this->setEnumVal($alignment, $enum, $this->posVertical);
-
+        
         return $this;
     }
 
@@ -404,20 +437,24 @@ class Image extends AbstractStyle
     /**
      * Set horizontal relation
      *
-     * @param string $relto
+     * @param string $relto            
      * @throws \InvalidArgumentException
      * @return self
      */
     public function setPosHorizontalRel($relto)
     {
         $enum = array(
-            self::POSITION_RELATIVE_TO_MARGIN, self::POSITION_RELATIVE_TO_PAGE,
-            self::POSITION_RELATIVE_TO_COLUMN, self::POSITION_RELATIVE_TO_CHAR,
-            self::POSITION_RELATIVE_TO_LMARGIN, self::POSITION_RELATIVE_TO_RMARGIN,
-            self::POSITION_RELATIVE_TO_IMARGIN, self::POSITION_RELATIVE_TO_OMARGIN,
+            self::POSITION_RELATIVE_TO_MARGIN,
+            self::POSITION_RELATIVE_TO_PAGE,
+            self::POSITION_RELATIVE_TO_COLUMN,
+            self::POSITION_RELATIVE_TO_CHAR,
+            self::POSITION_RELATIVE_TO_LMARGIN,
+            self::POSITION_RELATIVE_TO_RMARGIN,
+            self::POSITION_RELATIVE_TO_IMARGIN,
+            self::POSITION_RELATIVE_TO_OMARGIN
         );
         $this->posHorizontalRel = $this->setEnumVal($relto, $enum, $this->posHorizontalRel);
-
+        
         return $this;
     }
 
@@ -434,20 +471,24 @@ class Image extends AbstractStyle
     /**
      * Set vertical relation
      *
-     * @param string $relto
+     * @param string $relto            
      * @throws \InvalidArgumentException
      * @return self
      */
     public function setPosVerticalRel($relto)
     {
         $enum = array(
-            self::POSITION_RELATIVE_TO_MARGIN, self::POSITION_RELATIVE_TO_PAGE,
-            self::POSITION_RELATIVE_TO_TEXT, self::POSITION_RELATIVE_TO_LINE,
-            self::POSITION_RELATIVE_TO_TMARGIN, self::POSITION_RELATIVE_TO_BMARGIN,
-            self::POSITION_RELATIVE_TO_IMARGIN, self::POSITION_RELATIVE_TO_OMARGIN,
+            self::POSITION_RELATIVE_TO_MARGIN,
+            self::POSITION_RELATIVE_TO_PAGE,
+            self::POSITION_RELATIVE_TO_TEXT,
+            self::POSITION_RELATIVE_TO_LINE,
+            self::POSITION_RELATIVE_TO_TMARGIN,
+            self::POSITION_RELATIVE_TO_BMARGIN,
+            self::POSITION_RELATIVE_TO_IMARGIN,
+            self::POSITION_RELATIVE_TO_OMARGIN
         );
         $this->posVerticalRel = $this->setEnumVal($relto, $enum, $this->posVerticalRel);
-
+        
         return $this;
     }
 }

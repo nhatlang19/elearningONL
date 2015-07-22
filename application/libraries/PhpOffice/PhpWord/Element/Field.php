@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Element;
 
 /**
@@ -25,33 +24,81 @@ namespace PhpOffice\PhpWord\Element;
  */
 class Field extends AbstractElement
 {
+
     /**
-     * Field properties and options. Depending on type, a field can have different properties
+     * Field properties and options.
+     * Depending on type, a field can have different properties
      * and options
      *
      * @var array
      */
     protected $fieldsArray = array(
-        'PAGE'=>array(
-           'properties'=>array(
-               'format' => array('Arabic', 'ArabicDash', 'alphabetic', 'ALPHABETIC', 'roman', 'ROMAN'),
-           ),
-           'options'=>array('PreserveFormat')
-        ),
-        'NUMPAGES'=>array(
-           'properties'=>array(
-               'format' => array('Arabic', 'ArabicDash', 'alphabetic', 'ALPHABETIC', 'roman', 'ROMAN'),
-               'numformat' => array('0', '0,00', '#.##0', '#.##0,00', '€ #.##0,00(€ #.##0,00)', '0%', '0,00%')
-           ),
-           'options'=>array('PreserveFormat')
-        ),
-        'DATE'=>array(
-            'properties'=> array(
-               'dateformat' =>array('d-M-yyyy', 'dddd d MMMM yyyy', 'd MMMM yyyy', 'd-M-yy', 'yyyy-MM-dd',
-                    'd-MMM-yy', 'd/M/yyyy', 'd MMM. yy', 'd/M/yy', 'MMM-yy', 'd-M-yyy H:mm', 'd-M-yyyy H:mm:ss',
-                    'h:mm am/pm', 'h:mm:ss am/pm', 'HH:mm', 'HH:mm:ss')
+        'PAGE' => array(
+            'properties' => array(
+                'format' => array(
+                    'Arabic',
+                    'ArabicDash',
+                    'alphabetic',
+                    'ALPHABETIC',
+                    'roman',
+                    'ROMAN'
+                )
             ),
-            'options'=>array('PreserveFormat', 'LunarCalendar', 'SakaEraCalendar', 'LastUsedFormat')
+            'options' => array(
+                'PreserveFormat'
+            )
+        ),
+        'NUMPAGES' => array(
+            'properties' => array(
+                'format' => array(
+                    'Arabic',
+                    'ArabicDash',
+                    'alphabetic',
+                    'ALPHABETIC',
+                    'roman',
+                    'ROMAN'
+                ),
+                'numformat' => array(
+                    '0',
+                    '0,00',
+                    '#.##0',
+                    '#.##0,00',
+                    '€ #.##0,00(€ #.##0,00)',
+                    '0%',
+                    '0,00%'
+                )
+            ),
+            'options' => array(
+                'PreserveFormat'
+            )
+        ),
+        'DATE' => array(
+            'properties' => array(
+                'dateformat' => array(
+                    'd-M-yyyy',
+                    'dddd d MMMM yyyy',
+                    'd MMMM yyyy',
+                    'd-M-yy',
+                    'yyyy-MM-dd',
+                    'd-MMM-yy',
+                    'd/M/yyyy',
+                    'd MMM. yy',
+                    'd/M/yy',
+                    'MMM-yy',
+                    'd-M-yyy H:mm',
+                    'd-M-yyyy H:mm:ss',
+                    'h:mm am/pm',
+                    'h:mm:ss am/pm',
+                    'HH:mm',
+                    'HH:mm:ss'
+                )
+            ),
+            'options' => array(
+                'PreserveFormat',
+                'LunarCalendar',
+                'SakaEraCalendar',
+                'LastUsedFormat'
+            )
         )
     );
 
@@ -79,9 +126,9 @@ class Field extends AbstractElement
     /**
      * Create a new Field Element
      *
-     * @param string $type
-     * @param array $properties
-     * @param array $options
+     * @param string $type            
+     * @param array $properties            
+     * @param array $options            
      */
     public function __construct($type = null, $properties = array(), $options = array())
     {
@@ -93,7 +140,7 @@ class Field extends AbstractElement
     /**
      * Set Field type
      *
-     * @param string $type
+     * @param string $type            
      * @return string
      * @throws \InvalidArgumentException
      */
@@ -122,7 +169,7 @@ class Field extends AbstractElement
     /**
      * Set Field properties
      *
-     * @param array $properties
+     * @param array $properties            
      * @return self
      * @throws \InvalidArgumentException
      */
@@ -130,7 +177,7 @@ class Field extends AbstractElement
     {
         if (is_array($properties)) {
             foreach (array_keys($properties) as $propkey) {
-                if (!(array_key_exists($propkey, $this->fieldsArray[$this->type]['properties']))) {
+                if (! (array_key_exists($propkey, $this->fieldsArray[$this->type]['properties']))) {
                     throw new \InvalidArgumentException("Invalid property");
                 }
             }
@@ -152,7 +199,7 @@ class Field extends AbstractElement
     /**
      * Set Field options
      *
-     * @param array $options
+     * @param array $options            
      * @return self
      * @throws \InvalidArgumentException
      */
@@ -160,7 +207,7 @@ class Field extends AbstractElement
     {
         if (is_array($options)) {
             foreach (array_keys($options) as $optionkey) {
-                if (!(array_key_exists($optionkey, $this->fieldsArray[$this->type]['options']))) {
+                if (! (array_key_exists($optionkey, $this->fieldsArray[$this->type]['options']))) {
                     throw new \InvalidArgumentException("Invalid option");
                 }
             }

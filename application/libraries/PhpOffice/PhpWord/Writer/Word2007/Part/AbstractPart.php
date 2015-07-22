@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\Exception\Exception;
@@ -26,6 +25,7 @@ use PhpOffice\PhpWord\Writer\AbstractWriter;
  */
 abstract class AbstractPart
 {
+
     /**
      * Parent writer
      *
@@ -34,6 +34,7 @@ abstract class AbstractPart
     protected $parentWriter;
 
     /**
+     *
      * @var string Date format
      */
     protected $dateFormat = 'Y-m-d\TH:i:sP';
@@ -48,7 +49,7 @@ abstract class AbstractPart
     /**
      * Set parent writer
      *
-     * @param \PhpOffice\PhpWord\Writer\AbstractWriter $writer
+     * @param \PhpOffice\PhpWord\Writer\AbstractWriter $writer            
      */
     public function setParentWriter(AbstractWriter $writer = null)
     {
@@ -63,7 +64,7 @@ abstract class AbstractPart
      */
     public function getParentWriter()
     {
-        if (!is_null($this->parentWriter)) {
+        if (! is_null($this->parentWriter)) {
             return $this->parentWriter;
         } else {
             throw new Exception('No parent WriterInterface assigned.');
@@ -78,7 +79,7 @@ abstract class AbstractPart
     protected function getXmlWriter()
     {
         $useDiskCaching = false;
-        if (!is_null($this->parentWriter)) {
+        if (! is_null($this->parentWriter)) {
             if ($this->parentWriter->isUseDiskCaching()) {
                 $useDiskCaching = true;
             }

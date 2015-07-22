@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Exception\Exception;
@@ -25,7 +24,9 @@ use PhpOffice\PhpWord\Style\Section as SectionSettings;
  */
 class Section extends AbstractContainer
 {
+
     /**
+     *
      * @var string Container type
      */
     protected $container = 'Section';
@@ -54,8 +55,8 @@ class Section extends AbstractContainer
     /**
      * Create new instance
      *
-     * @param int $sectionCount
-     * @param array $settings
+     * @param int $sectionCount            
+     * @param array $settings            
      */
     public function __construct($sectionCount, $settings = null)
     {
@@ -68,11 +69,11 @@ class Section extends AbstractContainer
     /**
      * Set section settings
      *
-     * @param array $settings
+     * @param array $settings            
      */
     public function setSettings($settings = null)
     {
-        if (!is_null($settings) && is_array($settings)) {
+        if (! is_null($settings) && is_array($settings)) {
             foreach ($settings as $key => $value) {
                 if (is_null($value)) {
                     continue;
@@ -95,8 +96,8 @@ class Section extends AbstractContainer
     /**
      * Add a Title Element
      *
-     * @param string $text
-     * @param int $depth
+     * @param string $text            
+     * @param int $depth            
      * @return \PhpOffice\PhpWord\Element\Title
      */
     public function addTitle($text, $depth = 1)
@@ -115,10 +116,10 @@ class Section extends AbstractContainer
     /**
      * Add a Table-of-Contents Element
      *
-     * @param mixed $fontStyle
-     * @param mixed $tocStyle
-     * @param integer $minDepth
-     * @param integer $maxDepth
+     * @param mixed $fontStyle            
+     * @param mixed $tocStyle            
+     * @param integer $minDepth            
+     * @param integer $maxDepth            
      * @return \PhpOffice\PhpWord\Element\TOC
      */
     public function addTOC($fontStyle = null, $tocStyle = null, $minDepth = 1, $maxDepth = 9)
@@ -129,7 +130,7 @@ class Section extends AbstractContainer
     /**
      * Add header
      *
-     * @param string $type
+     * @param string $type            
      * @return Header
      * @since 0.10.0
      */
@@ -141,7 +142,7 @@ class Section extends AbstractContainer
     /**
      * Add footer
      *
-     * @param string $type
+     * @param string $type            
      * @return Footer
      * @since 0.10.0
      */
@@ -191,31 +192,35 @@ class Section extends AbstractContainer
     /**
      * Add header/footer
      *
-     * @param string $type
-     * @param boolean $header
+     * @param string $type            
+     * @param boolean $header            
      * @return Header|Footer
      * @throws \PhpOffice\PhpWord\Exception\Exception
      * @since 0.10.0
      */
     private function addHeaderFooter($type = Header::AUTO, $header = true)
     {
-        $containerClass = substr(get_class($this), 0, strrpos(get_class($this), '\\')) . '\\' .
-            ($header ? 'Header' : 'Footer');
+        $containerClass = substr(get_class($this), 0, strrpos(get_class($this), '\\')) . '\\' . ($header ? 'Header' : 'Footer');
         $collectionArray = $header ? 'headers' : 'footers';
         $collection = &$this->$collectionArray;
-
-        if (in_array($type, array(Header::AUTO, Header::FIRST, Header::EVEN))) {
+        
+        if (in_array($type, array(
+            Header::AUTO,
+            Header::FIRST,
+            Header::EVEN
+        ))) {
             $index = count($collection);
-            /** @var \PhpOffice\PhpWord\Element\AbstractContainer $container Type hint */
-            $container = new $containerClass($this->sectionId, ++$index, $type);
+            /**
+             * @var \PhpOffice\PhpWord\Element\AbstractContainer $container Type hint
+             */
+            $container = new $containerClass($this->sectionId, ++ $index, $type);
             $container->setPhpWord($this->phpWord);
-
+            
             $collection[$index] = $container;
             return $container;
         } else {
             throw new Exception('Invalid header/footer type.');
         }
-
     }
 
     /**
@@ -223,7 +228,7 @@ class Section extends AbstractContainer
      *
      * @return Header
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public function createHeader()
     {
@@ -235,7 +240,7 @@ class Section extends AbstractContainer
      *
      * @return Footer
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public function createFooter()
     {
@@ -247,7 +252,7 @@ class Section extends AbstractContainer
      *
      * @return Footer
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public function getFooter()
     {

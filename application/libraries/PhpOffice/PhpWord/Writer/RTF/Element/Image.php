@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
 use PhpOffice\PhpWord\Element\Image as ImageElement;
@@ -27,6 +26,7 @@ use PhpOffice\PhpWord\Shared\Font;
  */
 class Image extends AbstractElement
 {
+
     /**
      * Write element
      *
@@ -34,13 +34,13 @@ class Image extends AbstractElement
      */
     public function write()
     {
-        if (!$this->element instanceof ImageElement) {
+        if (! $this->element instanceof ImageElement) {
             return '';
         }
-
+        
         $this->getStyles();
         $style = $this->element->getStyle();
-
+        
         $content = '';
         $content .= $this->writeOpening();
         $content .= '{\*\shppict {\pict';
@@ -51,7 +51,7 @@ class Image extends AbstractElement
         $content .= $this->element->getImageStringData();
         $content .= '}}';
         $content .= $this->writeClosing();
-
+        
         return $content;
     }
 }

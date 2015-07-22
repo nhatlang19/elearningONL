@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\PhpWord\Element\Line as LineElement;
@@ -22,26 +21,26 @@ use PhpOffice\PhpWord\Writer\Word2007\Style\Line as LineStyleWriter;
 
 /**
  * Line element writer
- *
  */
 class Line extends AbstractElement
 {
+
     /**
      * Write element
      */
     public function write()
     {
         $xmlWriter = $this->getXmlWriter();
-        $element   = $this->getElement();
-        if (!$element instanceof LineElement) {
+        $element = $this->getElement();
+        if (! $element instanceof LineElement) {
             return;
         }
-
-        $style       = $element->getStyle();
+        
+        $style = $element->getStyle();
         $styleWriter = new LineStyleWriter($xmlWriter, $style);
-
+        
         $elementId = $element->getElementIndex();
-        if (!$this->withoutP) {
+        if (! $this->withoutP) {
             $xmlWriter->startElement('w:p');
             $styleWriter->writeAlignment();
         }
@@ -69,15 +68,15 @@ class Line extends AbstractElement
         }
         $xmlWriter->startElement('v:shape');
         $xmlWriter->writeAttribute('id', sprintf('_x0000_s1%1$03d', $elementId));
-        $xmlWriter->writeAttribute('type', '#_x0000_t32'); //type should correspond to shapetype id
+        $xmlWriter->writeAttribute('type', '#_x0000_t32'); // type should correspond to shapetype id
         $styleWriter->write();
         $styleWriter->writeStroke();
         $styleWriter->writeW10Wrap();
         $xmlWriter->endElement(); // v:shape
         $xmlWriter->endElement(); // w:pict
         $xmlWriter->endElement(); // w:r
-
-        if (!$this->withoutP) {
+        
+        if (! $this->withoutP) {
             $xmlWriter->endElement(); // w:p
         }
     }

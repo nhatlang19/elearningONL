@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\Settings as PhpWordSettings;
@@ -31,10 +30,11 @@ use PhpOffice\PhpWord\Writer\Word2007\Style\Table as TableStyleWriter;
  * Word2007 styles part writer: word/styles.xml
  *
  * @todo Do something with the numbering style introduced in 0.10.0
- * @SuppressWarnings(PHPMD.UnusedPrivateMethod) For writeFontStyle, writeParagraphStyle, and writeTableStyle
+ *       @SuppressWarnings(PHPMD.UnusedPrivateMethod) For writeFontStyle, writeParagraphStyle, and writeTableStyle
  */
 class Styles extends AbstractPart
 {
+
     /**
      * Write part
      *
@@ -43,23 +43,23 @@ class Styles extends AbstractPart
     public function write()
     {
         $xmlWriter = $this->getXmlWriter();
-
+        
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('w:styles');
         $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
         $xmlWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
-
+        
         // Write default styles
         $styles = Style::getStyles();
         $this->writeDefaultStyles($xmlWriter, $styles);
-
+        
         // Write styles
         if (count($styles) > 0) {
             foreach ($styles as $styleName => $style) {
                 if ($styleName == 'Normal') {
                     continue;
                 }
-
+                
                 // Get style class and execute if the private method exists
                 $styleClass = substr(get_class($style), strrpos(get_class($style), '\\') + 1);
                 $method = "write{$styleClass}Style";
@@ -68,23 +68,23 @@ class Styles extends AbstractPart
                 }
             }
         }
-
+        
         $xmlWriter->endElement(); // w:styles
-
+        
         return $xmlWriter->getData();
     }
 
     /**
      * Write default font and other default styles
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Style\AbstractStyle[] $styles
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter            
+     * @param \PhpOffice\PhpWord\Style\AbstractStyle[] $styles            
      */
     private function writeDefaultStyles(XMLWriter $xmlWriter, $styles)
     {
         $fontName = PhpWordSettings::getDefaultFontName();
         $fontSize = PhpWordSettings::getDefaultFontSize();
-
+        
         // Default font
         $xmlWriter->startElement('w:docDefaults');
         $xmlWriter->startElement('w:rPrDefault');
@@ -104,7 +104,7 @@ class Styles extends AbstractPart
         $xmlWriter->endElement(); // w:rPr
         $xmlWriter->endElement(); // w:rPrDefault
         $xmlWriter->endElement(); // w:docDefaults
-
+                                  
         // Normal style
         $xmlWriter->startElement('w:style');
         $xmlWriter->writeAttribute('w:type', 'paragraph');
@@ -118,9 +118,9 @@ class Styles extends AbstractPart
             $styleWriter->write();
         }
         $xmlWriter->endElement(); // w:style
-
+                                  
         // FootnoteReference style
-        if (!array_key_exists('FootnoteReference', $styles)) {
+        if (! array_key_exists('FootnoteReference', $styles)) {
             $xmlWriter->startElement('w:style');
             $xmlWriter->writeAttribute('w:type', 'character');
             $xmlWriter->writeAttribute('w:styleId', 'FootnoteReference');
@@ -141,22 +141,22 @@ class Styles extends AbstractPart
     /**
      * Write font style
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param string $styleName
-     * @param \PhpOffice\PhpWord\Style\Font $style
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter            
+     * @param string $styleName            
+     * @param \PhpOffice\PhpWord\Style\Font $style            
      */
     private function writeFontStyle(XMLWriter $xmlWriter, $styleName, FontStyle $style)
     {
         $paragraphStyle = $style->getParagraph();
         $styleType = $style->getStyleType();
         $type = ($styleType == 'title') ? 'paragraph' : 'character';
-        if (!is_null($paragraphStyle)) {
+        if (! is_null($paragraphStyle)) {
             $type = 'paragraph';
         }
-
+        
         $xmlWriter->startElement('w:style');
         $xmlWriter->writeAttribute('w:type', $type);
-
+        
         // Heading style
         if ($styleType == 'title') {
             $arrStyle = explode('_', $styleName);
@@ -164,39 +164,39 @@ class Styles extends AbstractPart
             $styleName = 'heading ' . $arrStyle[1];
             $styleLink = 'Heading' . $arrStyle[1] . 'Char';
             $xmlWriter->writeAttribute('w:styleId', $styleId);
-
+            
             $xmlWriter->startElement('w:link');
             $xmlWriter->writeAttribute('w:val', $styleLink);
             $xmlWriter->endElement();
         }
-
+        
         // Style name
         $xmlWriter->startElement('w:name');
         $xmlWriter->writeAttribute('w:val', $styleName);
         $xmlWriter->endElement();
-
+        
         // Parent style
-        $xmlWriter->writeElementIf(!is_null($paragraphStyle), 'w:basedOn', 'w:val', 'Normal');
-
+        $xmlWriter->writeElementIf(! is_null($paragraphStyle), 'w:basedOn', 'w:val', 'Normal');
+        
         // w:pPr
-        if (!is_null($paragraphStyle)) {
+        if (! is_null($paragraphStyle)) {
             $styleWriter = new ParagraphStyleWriter($xmlWriter, $paragraphStyle);
             $styleWriter->write();
         }
-
+        
         // w:rPr
         $styleWriter = new FontStyleWriter($xmlWriter, $style);
         $styleWriter->write();
-
+        
         $xmlWriter->endElement();
     }
 
     /**
      * Write paragraph style
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param string $styleName
-     * @param \PhpOffice\PhpWord\Style\Paragraph $style
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter            
+     * @param string $styleName            
+     * @param \PhpOffice\PhpWord\Style\Paragraph $style            
      */
     private function writeParagraphStyle(XMLWriter $xmlWriter, $styleName, ParagraphStyle $style)
     {
@@ -207,28 +207,28 @@ class Styles extends AbstractPart
         $xmlWriter->startElement('w:name');
         $xmlWriter->writeAttribute('w:val', $styleName);
         $xmlWriter->endElement();
-
+        
         // Parent style
         $basedOn = $style->getBasedOn();
-        $xmlWriter->writeElementIf(!is_null($basedOn), 'w:basedOn', 'w:val', $basedOn);
-
+        $xmlWriter->writeElementIf(! is_null($basedOn), 'w:basedOn', 'w:val', $basedOn);
+        
         // Next paragraph style
         $next = $style->getNext();
-        $xmlWriter->writeElementIf(!is_null($next), 'w:next', 'w:val', $next);
-
+        $xmlWriter->writeElementIf(! is_null($next), 'w:next', 'w:val', $next);
+        
         // w:pPr
         $styleWriter = new ParagraphStyleWriter($xmlWriter, $style);
         $styleWriter->write();
-
+        
         $xmlWriter->endElement();
     }
 
     /**
      * Write table style
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param string $styleName
-     * @param \PhpOffice\PhpWord\Style\Table $style
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter            
+     * @param string $styleName            
+     * @param \PhpOffice\PhpWord\Style\Table $style            
      */
     private function writeTableStyle(XMLWriter $xmlWriter, $styleName, TableStyle $style)
     {
@@ -242,10 +242,10 @@ class Styles extends AbstractPart
         $xmlWriter->startElement('w:uiPriority');
         $xmlWriter->writeAttribute('w:val', '99');
         $xmlWriter->endElement();
-
+        
         $styleWriter = new TableStyleWriter($xmlWriter, $style);
         $styleWriter->write();
-
+        
         $xmlWriter->endElement(); // w:style
     }
 }

@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Exception\Exception;
@@ -24,11 +23,12 @@ use PhpOffice\PhpWord\Exception\Exception;
  */
 abstract class IOFactory
 {
+
     /**
      * Create new writer
      *
-     * @param PhpWord $phpWord
-     * @param string $name
+     * @param PhpWord $phpWord            
+     * @param string $name            
      * @return \PhpOffice\PhpWord\Writer\WriterInterface
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
@@ -45,7 +45,7 @@ abstract class IOFactory
     /**
      * Create new reader
      *
-     * @param string $name
+     * @param string $name            
      * @return \PhpOffice\PhpWord\Reader\ReaderInterface
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
@@ -62,27 +62,28 @@ abstract class IOFactory
     /**
      * Loads PhpWord from file
      *
-     * @param string $filename The name of the file
-     * @param string $readerName
+     * @param string $filename
+     *            The name of the file
+     * @param string $readerName            
      * @return PhpWord
      */
     public static function load($filename, $readerName = 'Word2007')
     {
         $reader = self::createReader($readerName);
-
+        
         return $reader->load($filename);
     }
 
     /**
      * Check if it's a concrete class (not abstract nor interface)
      *
-     * @param string $class
+     * @param string $class            
      * @return bool
      */
     private static function isConcreteClass($class)
     {
         $reflection = new \ReflectionClass($class);
-
-        return !$reflection->isAbstract() && !$reflection->isInterface();
+        
+        return ! $reflection->isAbstract() && ! $reflection->isInterface();
     }
 }

@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 /**
@@ -25,6 +24,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
  */
 class Theme extends AbstractPart
 {
+
     /**
      * Write part
      *
@@ -33,7 +33,7 @@ class Theme extends AbstractPart
     public function write()
     {
         $str = '';
-
+        
         $str .= '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
         $str .= '<a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="Office Theme">';
         $str .= '<a:themeElements>';
@@ -44,10 +44,9 @@ class Theme extends AbstractPart
         $str .= '<a:objectDefaults />';
         $str .= '<a:extraClrSchemeLst />';
         $str .= '</a:theme>';
-
+        
         return $str;
     }
-
 
     /**
      * Write color scheme
@@ -57,7 +56,7 @@ class Theme extends AbstractPart
     private function writeColorScheme()
     {
         $str = '';
-
+        
         $str .= '<a:clrScheme name="Office">';
         $str .= '<a:dk1>';
         $str .= '<a:sysClr val="windowText" lastClr="000000" />';
@@ -96,7 +95,7 @@ class Theme extends AbstractPart
         $str .= '<a:srgbClr val="800080" />';
         $str .= '</a:folHlink>';
         $str .= '</a:clrScheme>';
-
+        
         return $str;
     }
 
@@ -108,9 +107,9 @@ class Theme extends AbstractPart
     private function writeFontScheme()
     {
         $str = '';
-
+        
         $str .= '<a:fontScheme name="Office">';
-
+        
         $str .= '<a:majorFont>';
         $str .= '<a:latin typeface="Cambria" />';
         $str .= '<a:ea typeface="" />';
@@ -145,7 +144,7 @@ class Theme extends AbstractPart
         $str .= '<a:font script="Viet" typeface="Times New Roman" />';
         $str .= '<a:font script="Uigh" typeface="Microsoft Uighur" />';
         $str .= '</a:majorFont>';
-
+        
         $str .= '<a:minorFont>';
         $str .= '<a:latin typeface="Calibri" />';
         $str .= '<a:ea typeface="" />';
@@ -180,9 +179,9 @@ class Theme extends AbstractPart
         $str .= '<a:font script="Viet" typeface="Arial" />';
         $str .= '<a:font script="Uigh" typeface="Microsoft Uighur" />';
         $str .= '</a:minorFont>';
-
+        
         $str .= '</a:fontScheme>';
-
+        
         return $str;
     }
 
@@ -194,14 +193,14 @@ class Theme extends AbstractPart
     private function writeFormatScheme()
     {
         $str = '';
-
+        
         $str .= '<a:fmtScheme name="Office">';
         $str .= $this->writeFormatFill();
         $str .= $this->writeFormatLine();
         $str .= $this->writeFormatEffect();
         $str .= $this->writeFormatBackground();
         $str .= '</a:fmtScheme>';
-
+        
         return $str;
     }
 
@@ -213,7 +212,7 @@ class Theme extends AbstractPart
     private function writeFormatFill()
     {
         $str = '';
-
+        
         $str .= '<a:fillStyleLst>';
         $str .= '<a:solidFill>';
         $str .= '<a:schemeClr val="phClr" />';
@@ -265,7 +264,7 @@ class Theme extends AbstractPart
         $str .= '<a:lin ang="16200000" scaled="0" />';
         $str .= '</a:gradFill>';
         $str .= '</a:fillStyleLst>';
-
+        
         return $str;
     }
 
@@ -277,7 +276,7 @@ class Theme extends AbstractPart
     private function writeFormatLine()
     {
         $str = '';
-
+        
         $str .= '<a:lnStyleLst>';
         $str .= '<a:ln w="9525" cap="flat" cmpd="sng" algn="ctr">';
         $str .= '<a:solidFill>';
@@ -301,7 +300,7 @@ class Theme extends AbstractPart
         $str .= '<a:prstDash val="solid" />';
         $str .= '</a:ln>';
         $str .= '</a:lnStyleLst>';
-
+        
         return $str;
     }
 
@@ -313,7 +312,7 @@ class Theme extends AbstractPart
     private function writeFormatEffect()
     {
         $str = '';
-
+        
         $str .= '<a:effectStyleLst>';
         $str .= '<a:effectStyle>';
         $str .= '<a:effectLst>';
@@ -354,7 +353,7 @@ class Theme extends AbstractPart
         $str .= '</a:sp3d>';
         $str .= '</a:effectStyle>';
         $str .= '</a:effectStyleLst>';
-
+        
         return $str;
     }
 
@@ -366,7 +365,7 @@ class Theme extends AbstractPart
     private function writeFormatBackground()
     {
         $str = '';
-
+        
         $str .= '<a:bgFillStyleLst>';
         $str .= '<a:solidFill>';
         $str .= '<a:schemeClr val="phClr" />';
@@ -417,7 +416,7 @@ class Theme extends AbstractPart
         $str .= '</a:path>';
         $str .= '</a:gradFill>';
         $str .= '</a:bgFillStyleLst>';
-
+        
         return $str;
     }
 }

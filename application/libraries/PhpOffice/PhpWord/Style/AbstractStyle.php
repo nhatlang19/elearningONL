@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\Shared\String;
@@ -26,6 +25,7 @@ use PhpOffice\PhpWord\Shared\String;
  */
 abstract class AbstractStyle
 {
+
     /**
      * Style name
      *
@@ -70,13 +70,13 @@ abstract class AbstractStyle
     /**
      * Set style name
      *
-     * @param string $value
+     * @param string $value            
      * @return self
      */
     public function setStyleName($value)
     {
         $this->styleName = $value;
-
+        
         return $this;
     }
 
@@ -93,13 +93,13 @@ abstract class AbstractStyle
     /**
      * Set index number
      *
-     * @param int|null $value
+     * @param int|null $value            
      * @return self
      */
     public function setIndex($value = null)
     {
         $this->index = $this->setIntVal($value, $this->index);
-
+        
         return $this;
     }
 
@@ -116,13 +116,13 @@ abstract class AbstractStyle
     /**
      * Set is automatic style flag
      *
-     * @param bool $value
+     * @param bool $value            
      * @return self
      */
     public function setAuto($value = true)
     {
         $this->isAuto = $this->setBoolVal($value, $this->isAuto);
-
+        
         return $this;
     }
 
@@ -134,8 +134,8 @@ abstract class AbstractStyle
      * prefix for their private properties.
      * Check if the set method is exists. Throws an exception?
      *
-     * @param string $key
-     * @param string $value
+     * @param string $key            
+     * @param string $value            
      * @return self
      */
     public function setStyleValue($key, $value)
@@ -147,14 +147,14 @@ abstract class AbstractStyle
         if (method_exists($this, $method)) {
             $this->$method($value);
         }
-
+        
         return $this;
     }
 
     /**
      * Set style by using associative array
      *
-     * @param array $values
+     * @param array $values            
      * @return self
      */
     public function setStyleByArray($values = array())
@@ -162,15 +162,17 @@ abstract class AbstractStyle
         foreach ($values as $key => $value) {
             $this->setStyleValue($key, $value);
         }
-
+        
         return $this;
     }
 
     /**
      * Set default for null and empty value
      *
-     * @param string $value (was: mixed)
-     * @param string $default (was: mixed)
+     * @param string $value
+     *            (was: mixed)
+     * @param string $default
+     *            (was: mixed)
      * @return string (was: mixed)
      */
     protected function setNonEmptyVal($value, $default)
@@ -178,47 +180,47 @@ abstract class AbstractStyle
         if ($value === null || $value == '') {
             $value = $default;
         }
-
+        
         return $value;
     }
 
     /**
      * Set bool value
      *
-     * @param bool $value
-     * @param bool $default
+     * @param bool $value            
+     * @param bool $default            
      * @return bool
      */
     protected function setBoolVal($value, $default)
     {
-        if (!is_bool($value)) {
+        if (! is_bool($value)) {
             $value = $default;
         }
-
+        
         return $value;
     }
 
     /**
      * Set numeric value
      *
-     * @param mixed $value
-     * @param int|float|null $default
+     * @param mixed $value            
+     * @param int|float|null $default            
      * @return int|float|null
      */
     protected function setNumericVal($value, $default = null)
     {
-        if (!is_numeric($value)) {
+        if (! is_numeric($value)) {
             $value = $default;
         }
-
+        
         return $value;
     }
 
     /**
      * Set integer value: Convert string that contains only numeric into integer
      *
-     * @param int|null $value
-     * @param int|null $default
+     * @param int|null $value            
+     * @param int|null $default            
      * @return int|null
      */
     protected function setIntVal($value, $default = null)
@@ -226,18 +228,18 @@ abstract class AbstractStyle
         if (is_string($value) && (preg_match('/[^\d]/', $value) == 0)) {
             $value = intval($value);
         }
-        if (!is_int($value)) {
+        if (! is_int($value)) {
             $value = $default;
         }
-
+        
         return $value;
     }
 
     /**
      * Set float value: Convert string that contains only numeric into float
      *
-     * @param mixed $value
-     * @param float|null $default
+     * @param mixed $value            
+     * @param float|null $default            
      * @return float|null
      */
     protected function setFloatVal($value, $default = null)
@@ -245,64 +247,66 @@ abstract class AbstractStyle
         if (is_string($value) && (preg_match('/[^\d\.\,]/', $value) == 0)) {
             $value = floatval($value);
         }
-        if (!is_numeric($value)) {
+        if (! is_numeric($value)) {
             $value = $default;
         }
-
+        
         return $value;
     }
 
     /**
      * Set enum value
      *
-     * @param mixed $value
-     * @param array $enum
-     * @param mixed $default
+     * @param mixed $value            
+     * @param array $enum            
+     * @param mixed $default            
      * @return mixed
      * @throws \InvalidArgumentException
      */
     protected function setEnumVal($value = null, $enum = array(), $default = null)
     {
-        if ($value != null && trim($value) != '' && !empty($enum) && !in_array($value, $enum)) {
+        if ($value != null && trim($value) != '' && ! empty($enum) && ! in_array($value, $enum)) {
             throw new \InvalidArgumentException('Invalid style value.');
         } elseif ($value === null || trim($value) == '') {
             $value = $default;
         }
-
+        
         return $value;
     }
 
     /**
      * Set object value
      *
-     * @param mixed $value
-     * @param string $styleName
-     * @param mixed $style
+     * @param mixed $value            
+     * @param string $styleName            
+     * @param mixed $style            
      * @return mixed
      */
     protected function setObjectVal($value, $styleName, &$style)
     {
         $styleClass = substr(get_class($this), 0, strrpos(get_class($this), '\\')) . '\\' . $styleName;
         if (is_array($value)) {
-            /** @var \PhpOffice\PhpWord\Style\AbstractStyle $style Type hint */
-            if (!$style instanceof $styleClass) {
+            /**
+             * @var \PhpOffice\PhpWord\Style\AbstractStyle $style Type hint
+             */
+            if (! $style instanceof $styleClass) {
                 $style = new $styleClass();
             }
             $style->setStyleByArray($value);
         } else {
             $style = $value;
         }
-
+        
         return $style;
     }
 
     /**
      * Set style using associative array
      *
-     * @param array $style
+     * @param array $style            
      * @return self
      * @deprecated 0.11.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public function setArrayStyle(array $style = array())
     {

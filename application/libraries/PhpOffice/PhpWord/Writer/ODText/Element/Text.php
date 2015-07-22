@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
 use PhpOffice\PhpWord\Exception\Exception;
@@ -26,6 +25,7 @@ use PhpOffice\PhpWord\Exception\Exception;
  */
 class Text extends AbstractElement
 {
+
     /**
      * Write element
      */
@@ -33,21 +33,21 @@ class Text extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
-        if (!$element instanceof \PhpOffice\PhpWord\Element\Text) {
+        if (! $element instanceof \PhpOffice\PhpWord\Element\Text) {
             return;
         }
         $fontStyle = $element->getFontStyle();
         $paragraphStyle = $element->getParagraphStyle();
-
+        
         // @todo Commented for TextRun. Should really checkout this value
         // $fStyleIsObject = ($fontStyle instanceof Font) ? true : false;
         $fStyleIsObject = false;
-
+        
         if ($fStyleIsObject) {
             // Don't never be the case, because I browse all sections for cleaning all styles not declared
             throw new Exception('PhpWord : $fStyleIsObject wouldn\'t be an object');
         } else {
-            if (!$this->withoutP) {
+            if (! $this->withoutP) {
                 $xmlWriter->startElement('text:p'); // text:p
             }
             if (empty($fontStyle)) {
@@ -71,7 +71,7 @@ class Text extends AbstractElement
                 $xmlWriter->writeRaw($element->getText());
                 $xmlWriter->endElement();
             }
-            if (!$this->withoutP) {
+            if (! $this->withoutP) {
                 $xmlWriter->endElement(); // text:p
             }
         }

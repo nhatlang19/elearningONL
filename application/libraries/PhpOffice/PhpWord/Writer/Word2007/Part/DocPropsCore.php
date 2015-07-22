@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 /**
@@ -24,6 +23,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
  */
 class DocPropsCore extends AbstractPart
 {
+
     /**
      * Write part
      *
@@ -34,7 +34,7 @@ class DocPropsCore extends AbstractPart
         $phpWord = $this->getParentWriter()->getPhpWord();
         $xmlWriter = $this->getXmlWriter();
         $schema = 'http://schemas.openxmlformats.org/package/2006/metadata/core-properties';
-
+        
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('cp:coreProperties');
         $xmlWriter->writeAttribute('xmlns:cp', $schema);
@@ -42,29 +42,38 @@ class DocPropsCore extends AbstractPart
         $xmlWriter->writeAttribute('xmlns:dcterms', 'http://purl.org/dc/terms/');
         $xmlWriter->writeAttribute('xmlns:dcmitype', 'http://purl.org/dc/dcmitype/');
         $xmlWriter->writeAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
-
-        $xmlWriter->writeElement('dc:creator', $phpWord->getDocumentProperties()->getCreator());
-        $xmlWriter->writeElement('dc:title', $phpWord->getDocumentProperties()->getTitle());
-        $xmlWriter->writeElement('dc:description', $phpWord->getDocumentProperties()->getDescription());
-        $xmlWriter->writeElement('dc:subject', $phpWord->getDocumentProperties()->getSubject());
-        $xmlWriter->writeElement('cp:keywords', $phpWord->getDocumentProperties()->getKeywords());
-        $xmlWriter->writeElement('cp:category', $phpWord->getDocumentProperties()->getCategory());
-        $xmlWriter->writeElement('cp:lastModifiedBy', $phpWord->getDocumentProperties()->getLastModifiedBy());
-
+        
+        $xmlWriter->writeElement('dc:creator', $phpWord->getDocumentProperties()
+            ->getCreator());
+        $xmlWriter->writeElement('dc:title', $phpWord->getDocumentProperties()
+            ->getTitle());
+        $xmlWriter->writeElement('dc:description', $phpWord->getDocumentProperties()
+            ->getDescription());
+        $xmlWriter->writeElement('dc:subject', $phpWord->getDocumentProperties()
+            ->getSubject());
+        $xmlWriter->writeElement('cp:keywords', $phpWord->getDocumentProperties()
+            ->getKeywords());
+        $xmlWriter->writeElement('cp:category', $phpWord->getDocumentProperties()
+            ->getCategory());
+        $xmlWriter->writeElement('cp:lastModifiedBy', $phpWord->getDocumentProperties()
+            ->getLastModifiedBy());
+        
         // dcterms:created
         $xmlWriter->startElement('dcterms:created');
         $xmlWriter->writeAttribute('xsi:type', 'dcterms:W3CDTF');
-        $xmlWriter->writeRaw(date($this->dateFormat, $phpWord->getDocumentProperties()->getCreated()));
+        $xmlWriter->writeRaw(date($this->dateFormat, $phpWord->getDocumentProperties()
+            ->getCreated()));
         $xmlWriter->endElement();
-
+        
         // dcterms:modified
         $xmlWriter->startElement('dcterms:modified');
         $xmlWriter->writeAttribute('xsi:type', 'dcterms:W3CDTF');
-        $xmlWriter->writeRaw(date($this->dateFormat, $phpWord->getDocumentProperties()->getModified()));
+        $xmlWriter->writeRaw(date($this->dateFormat, $phpWord->getDocumentProperties()
+            ->getModified()));
         $xmlWriter->endElement();
-
+        
         $xmlWriter->endElement(); // cp:coreProperties
-
+        
         return $xmlWriter->getData();
     }
 }

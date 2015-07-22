@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\HTML\Style;
 
 /**
@@ -24,6 +23,7 @@ namespace PhpOffice\PhpWord\Writer\HTML\Style;
  */
 class Image extends AbstractStyle
 {
+
     /**
      * Write style
      *
@@ -32,16 +32,16 @@ class Image extends AbstractStyle
     public function write()
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Image) {
+        if (! $style instanceof \PhpOffice\PhpWord\Style\Image) {
             return '';
         }
         $css = array();
-
+        
         $width = $style->getWidth();
         $height = $style->getHeight();
         $css['width'] = $this->getValueIf(is_numeric($width), $width . 'px');
         $css['height'] = $this->getValueIf(is_numeric($height), $height . 'px');
-
+        
         return $this->assembleCss($css);
     }
 }

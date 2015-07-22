@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Style\Table as TableStyle;
@@ -24,6 +23,7 @@ use PhpOffice\PhpWord\Style\Table as TableStyle;
  */
 class Table extends AbstractElement
 {
+
     /**
      * Table style
      *
@@ -48,7 +48,7 @@ class Table extends AbstractElement
     /**
      * Create a new table
      *
-     * @param mixed $style
+     * @param mixed $style            
      */
     public function __construct($style = null)
     {
@@ -58,8 +58,8 @@ class Table extends AbstractElement
     /**
      * Add a row
      *
-     * @param int $height
-     * @param mixed $style
+     * @param int $height            
+     * @param mixed $style            
      * @return \PhpOffice\PhpWord\Element\Row
      */
     public function addRow($height = null, $style = null)
@@ -69,15 +69,15 @@ class Table extends AbstractElement
         $row->setPhpWord($this->phpWord);
         $row->setNestedLevel($this->getNestedLevel());
         $this->rows[] = $row;
-
+        
         return $row;
     }
 
     /**
      * Add a cell
      *
-     * @param int $width
-     * @param mixed $style
+     * @param int $width            
+     * @param mixed $style            
      * @return \PhpOffice\PhpWord\Element\Cell
      */
     public function addCell($width = null, $style = null)
@@ -85,7 +85,7 @@ class Table extends AbstractElement
         $index = count($this->rows) - 1;
         $row = $this->rows[$index];
         $cell = $row->addCell($width, $style);
-
+        
         return $cell;
     }
 
@@ -122,7 +122,7 @@ class Table extends AbstractElement
     /**
      * Set table width
      *
-     * @param int $width
+     * @param int $width            
      */
     public function setWidth($width)
     {
@@ -139,8 +139,10 @@ class Table extends AbstractElement
         $columnCount = 0;
         if (is_array($this->rows)) {
             $rowCount = count($this->rows);
-            for ($i = 0; $i < $rowCount; $i++) {
-                /** @var \PhpOffice\PhpWord\Element\Row $row Type hint */
+            for ($i = 0; $i < $rowCount; $i ++) {
+                /**
+                 * @var \PhpOffice\PhpWord\Element\Row $row Type hint
+                 */
                 $row = $this->rows[$i];
                 $cellCount = count($row->getCells());
                 if ($columnCount < $cellCount) {
@@ -148,7 +150,7 @@ class Table extends AbstractElement
                 }
             }
         }
-
+        
         return $columnCount;
     }
 }

@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
 use PhpOffice\PhpWord\Shared\XMLWriter;
@@ -28,7 +27,9 @@ use PhpOffice\PhpWord\Style\Table as TableStyle;
  */
 class Table extends AbstractStyle
 {
+
     /**
+     *
      * @var int Table width
      */
     private $width;
@@ -40,7 +41,7 @@ class Table extends AbstractStyle
     {
         $style = $this->getStyle();
         $xmlWriter = $this->getXmlWriter();
-
+        
         if ($style instanceof TableStyle) {
             $this->writeStyle($xmlWriter, $style);
         } elseif (is_string($style)) {
@@ -62,19 +63,21 @@ class Table extends AbstractStyle
     {
         // w:tblPr
         $xmlWriter->startElement('w:tblPr');
-
+        
         // Alignment
-        $styleWriter = new Alignment($xmlWriter, new AlignmentStyle(array('value' => $style->getAlign())));
+        $styleWriter = new Alignment($xmlWriter, new AlignmentStyle(array(
+            'value' => $style->getAlign()
+        )));
         $styleWriter->write();
-
+        
         $this->writeWidth($xmlWriter, $style->getWidth(), $style->getUnit());
         $this->writeMargin($xmlWriter, $style);
         $this->writeBorder($xmlWriter, $style);
-
+        
         $xmlWriter->endElement(); // w:tblPr
-
+        
         $this->writeShading($xmlWriter, $style);
-
+        
         // First row style
         $firstRow = $style->getFirstRow();
         if ($firstRow instanceof TableStyle) {
@@ -85,9 +88,9 @@ class Table extends AbstractStyle
     /**
      * Write width
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param int $width
-     * @param string $unit
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter            
+     * @param int $width            
+     * @param string $unit            
      */
     private function writeWidth(XMLWriter $xmlWriter, $width, $unit)
     {
@@ -104,11 +107,11 @@ class Table extends AbstractStyle
     {
         if ($style->hasMargin()) {
             $xmlWriter->startElement('w:tblCellMar');
-
+            
             $styleWriter = new MarginBorder($xmlWriter);
             $styleWriter->setSizes($style->getCellMargin());
             $styleWriter->write();
-
+            
             $xmlWriter->endElement(); // w:tblCellMar
         }
     }
@@ -120,12 +123,12 @@ class Table extends AbstractStyle
     {
         if ($style->hasBorder()) {
             $xmlWriter->startElement('w:tblBorders');
-
+            
             $styleWriter = new MarginBorder($xmlWriter);
             $styleWriter->setSizes($style->getBorderSize());
             $styleWriter->setColors($style->getBorderColor());
             $styleWriter->write();
-
+            
             $xmlWriter->endElement(); // w:tblBorders
         }
     }
@@ -138,10 +141,10 @@ class Table extends AbstractStyle
         $xmlWriter->startElement('w:tblStylePr');
         $xmlWriter->writeAttribute('w:type', 'firstRow');
         $xmlWriter->startElement('w:tcPr');
-
+        
         $this->writeBorder($xmlWriter, $style);
         $this->writeShading($xmlWriter, $style);
-
+        
         $xmlWriter->endElement(); // w:tcPr
         $xmlWriter->endElement(); // w:tblStylePr
     }
@@ -153,10 +156,10 @@ class Table extends AbstractStyle
     {
         if ($style->getShading() !== null) {
             $xmlWriter->startElement('w:tcPr');
-
+            
             $styleWriter = new Shading($xmlWriter, $style->getShading());
             $styleWriter->write();
-
+            
             $xmlWriter->endElement();
         }
     }
@@ -164,7 +167,7 @@ class Table extends AbstractStyle
     /**
      * Set width
      *
-     * @param int $value
+     * @param int $value            
      */
     public function setWidth($value = null)
     {

@@ -42,9 +42,8 @@
 					<!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
 
 					<p>
-						<label>Tiêu đề</label> <input
-							class="text-input medium-input" type="text"
-							name="title" id="title" value="" />
+						<label>Tiêu đề</label> <input class="text-input medium-input"
+							type="text" name="title" id="title" value="" />
 
 					</p>
 

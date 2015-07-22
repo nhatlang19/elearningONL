@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Collection\Endnotes;
@@ -28,15 +27,20 @@ use PhpOffice\PhpWord\Exception\Exception;
  */
 class PhpWord
 {
+
     /**
      * Default font settings
      *
      * @const string|int
+     * 
      * @deprecated 0.11.0 Use Settings constants
      */
     const DEFAULT_FONT_NAME = Settings::DEFAULT_FONT_NAME;
+
     const DEFAULT_FONT_SIZE = Settings::DEFAULT_FONT_SIZE;
+
     const DEFAULT_FONT_COLOR = Settings::DEFAULT_FONT_COLOR;
+
     const DEFAULT_FONT_CONTENT_TYPE = Settings::DEFAULT_FONT_CONTENT_TYPE;
 
     /**
@@ -98,13 +102,13 @@ class PhpWord
     /**
      * Set document properties object
      *
-     * @param DocumentProperties $documentProperties
+     * @param DocumentProperties $documentProperties            
      * @return self
      */
     public function setDocumentProperties(DocumentProperties $documentProperties)
     {
         $this->documentProperties = $documentProperties;
-
+        
         return $this;
     }
 
@@ -121,7 +125,7 @@ class PhpWord
     /**
      * Create new section
      *
-     * @param array $settings
+     * @param array $settings            
      * @return \PhpOffice\PhpWord\Element\Section
      */
     public function addSection($settings = null)
@@ -129,7 +133,7 @@ class PhpWord
         $section = new Section(count($this->sections) + 1, $settings);
         $section->setPhpWord($this);
         $this->sections[] = $section;
-
+        
         return $section;
     }
 
@@ -146,7 +150,7 @@ class PhpWord
     /**
      * Add new title
      *
-     * @param \PhpOffice\PhpWord\Element\Title $title
+     * @param \PhpOffice\PhpWord\Element\Title $title            
      * @return int
      */
     public function addTitle($title)
@@ -167,7 +171,7 @@ class PhpWord
     /**
      * Add new footnote
      *
-     * @param \PhpOffice\PhpWord\Element\Footnote $footnote
+     * @param \PhpOffice\PhpWord\Element\Footnote $footnote            
      * @return int
      */
     public function addFootnote($footnote)
@@ -188,7 +192,7 @@ class PhpWord
     /**
      * Add new endnote
      *
-     * @param \PhpOffice\PhpWord\Element\Endnote $endnote
+     * @param \PhpOffice\PhpWord\Element\Endnote $endnote            
      * @return int
      */
     public function addEndnote($endnote)
@@ -209,7 +213,7 @@ class PhpWord
     /**
      * Set default font name
      *
-     * @param string $fontName
+     * @param string $fontName            
      */
     public function setDefaultFontName($fontName)
     {
@@ -229,7 +233,7 @@ class PhpWord
     /**
      * Set default font size
      *
-     * @param int $fontSize
+     * @param int $fontSize            
      */
     public function setDefaultFontSize($fontSize)
     {
@@ -239,7 +243,8 @@ class PhpWord
     /**
      * Set default paragraph style definition to styles.xml
      *
-     * @param array $styles Paragraph style definition
+     * @param array $styles
+     *            Paragraph style definition
      * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public function setDefaultParagraphStyle($styles)
@@ -250,8 +255,8 @@ class PhpWord
     /**
      * Adds a paragraph style definition to styles.xml
      *
-     * @param string $styleName
-     * @param array $styles
+     * @param string $styleName            
+     * @param array $styles            
      * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public function addParagraphStyle($styleName, $styles)
@@ -262,9 +267,9 @@ class PhpWord
     /**
      * Adds a font style definition to styles.xml
      *
-     * @param string $styleName
-     * @param mixed $fontStyle
-     * @param mixed $paragraphStyle
+     * @param string $styleName            
+     * @param mixed $fontStyle            
+     * @param mixed $paragraphStyle            
      * @return \PhpOffice\PhpWord\Style\Font
      */
     public function addFontStyle($styleName, $fontStyle, $paragraphStyle = null)
@@ -275,9 +280,9 @@ class PhpWord
     /**
      * Adds a table style definition to styles.xml
      *
-     * @param string $styleName
-     * @param mixed $styleTable
-     * @param mixed $styleFirstRow
+     * @param string $styleName            
+     * @param mixed $styleTable            
+     * @param mixed $styleFirstRow            
      * @return \PhpOffice\PhpWord\Style\Table
      */
     public function addTableStyle($styleName, $styleTable, $styleFirstRow = null)
@@ -288,8 +293,8 @@ class PhpWord
     /**
      * Adds a numbering style
      *
-     * @param string $styleName
-     * @param mixed $styles
+     * @param string $styleName            
+     * @param mixed $styles            
      * @return \PhpOffice\PhpWord\Style\Numbering
      */
     public function addNumberingStyle($styleName, $styles)
@@ -300,8 +305,8 @@ class PhpWord
     /**
      * Adds a hyperlink style to styles.xml
      *
-     * @param string $styleName
-     * @param mixed $styles
+     * @param string $styleName            
+     * @param mixed $styles            
      * @return \PhpOffice\PhpWord\Style\Font
      */
     public function addLinkStyle($styleName, $styles)
@@ -312,9 +317,9 @@ class PhpWord
     /**
      * Adds a heading style definition to styles.xml
      *
-     * @param int $depth
-     * @param mixed $fontStyle
-     * @param mixed $paragraphStyle
+     * @param int $depth            
+     * @param mixed $fontStyle            
+     * @param mixed $paragraphStyle            
      * @return \PhpOffice\PhpWord\Style\Font
      */
     public function addTitleStyle($depth, $fontStyle, $paragraphStyle = null)
@@ -325,7 +330,8 @@ class PhpWord
     /**
      * Load template by filename
      *
-     * @param  string $filename Fully qualified filename.
+     * @param string $filename
+     *            Fully qualified filename.
      * @return Template
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
@@ -341,10 +347,10 @@ class PhpWord
     /**
      * Create new section
      *
-     * @param array $settings
+     * @param array $settings            
      * @return \PhpOffice\PhpWord\Element\Section
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public function createSection($settings = null)
     {

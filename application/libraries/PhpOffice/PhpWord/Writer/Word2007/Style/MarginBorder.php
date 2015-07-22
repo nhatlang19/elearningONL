@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
 use PhpOffice\PhpWord\Shared\XMLWriter;
@@ -26,6 +25,7 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
  */
 class MarginBorder extends AbstractStyle
 {
+
     /**
      * Sizes
      *
@@ -53,11 +53,18 @@ class MarginBorder extends AbstractStyle
     public function write()
     {
         $xmlWriter = $this->getXmlWriter();
-
-        $sides = array('top', 'left', 'right', 'bottom', 'insideH', 'insideV');
+        
+        $sides = array(
+            'top',
+            'left',
+            'right',
+            'bottom',
+            'insideH',
+            'insideV'
+        );
         $sizeCount = count($this->sizes) - 1;
-
-        for ($i = 0; $i < $sizeCount; $i++) {
+        
+        for ($i = 0; $i < $sizeCount; $i ++) {
             if ($this->sizes[$i] !== null) {
                 $color = null;
                 if (isset($this->colors[$i])) {
@@ -71,16 +78,16 @@ class MarginBorder extends AbstractStyle
     /**
      * Write side
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param string $side
-     * @param int $width
-     * @param string $color
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter            
+     * @param string $side            
+     * @param int $width            
+     * @param string $color            
      */
     private function writeSide(XMLWriter $xmlWriter, $side, $width, $color = null)
     {
         $xmlWriter->startElement('w:' . $side);
-        if (!empty($this->colors)) {
-            if ($color === null && !empty($this->attributes)) {
+        if (! empty($this->colors)) {
+            if ($color === null && ! empty($this->attributes)) {
                 if (array_key_exists('defaultColor', $this->attributes)) {
                     $color = $this->attributes['defaultColor'];
                 }
@@ -88,7 +95,7 @@ class MarginBorder extends AbstractStyle
             $xmlWriter->writeAttribute('w:val', 'single');
             $xmlWriter->writeAttribute('w:sz', $width);
             $xmlWriter->writeAttribute('w:color', $color);
-            if (!empty($this->attributes)) {
+            if (! empty($this->attributes)) {
                 if (array_key_exists('space', $this->attributes)) {
                     $xmlWriter->writeAttribute('w:space', $this->attributes['space']);
                 }
@@ -103,7 +110,7 @@ class MarginBorder extends AbstractStyle
     /**
      * Set sizes
      *
-     * @param integer[] $value
+     * @param integer[] $value            
      */
     public function setSizes($value)
     {
@@ -113,7 +120,7 @@ class MarginBorder extends AbstractStyle
     /**
      * Set colors
      *
-     * @param string[] $value
+     * @param string[] $value            
      */
     public function setColors($value)
     {
@@ -123,7 +130,7 @@ class MarginBorder extends AbstractStyle
     /**
      * Set attributes
      *
-     * @param array $value
+     * @param array $value            
      */
     public function setAttributes($value)
     {

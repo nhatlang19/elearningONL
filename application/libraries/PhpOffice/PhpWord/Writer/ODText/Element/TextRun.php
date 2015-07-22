@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
 /**
@@ -24,6 +23,7 @@ namespace PhpOffice\PhpWord\Writer\ODText\Element;
  */
 class TextRun extends AbstractElement
 {
+
     /**
      * Write element
      */
@@ -31,12 +31,12 @@ class TextRun extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
-
+        
         $xmlWriter->startElement('text:p');
-
+        
         $containerWriter = new Container($xmlWriter, $element);
         $containerWriter->write();
-
+        
         $xmlWriter->endElement();
     }
 }

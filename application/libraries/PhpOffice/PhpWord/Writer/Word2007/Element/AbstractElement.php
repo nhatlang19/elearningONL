@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\PhpWord\Element\AbstractElement as Element;
@@ -28,6 +27,7 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
  */
 abstract class AbstractElement
 {
+
     /**
      * XML writer
      *
@@ -64,9 +64,9 @@ abstract class AbstractElement
     /**
      * Create new instance
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\AbstractElement $element
-     * @param bool $withoutP
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter            
+     * @param \PhpOffice\PhpWord\Element\AbstractElement $element            
+     * @param bool $withoutP            
      */
     public function __construct(XMLWriter $xmlWriter, Element $element, $withoutP = false)
     {
@@ -108,17 +108,17 @@ abstract class AbstractElement
     /**
      * Set page break before
      *
-     * @param bool $value
+     * @param bool $value            
      */
     public function setPageBreakBefore($value = true)
     {
-        $this->pageBreakBefore = (bool)$value;
+        $this->pageBreakBefore = (bool) $value;
     }
 
     /**
      * Convert text to valid format
      *
-     * @param string $text
+     * @param string $text            
      * @return string
      */
     protected function getText($text)

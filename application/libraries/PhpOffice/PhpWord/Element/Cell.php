@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Style\Cell as CellStyle;
@@ -24,7 +23,9 @@ use PhpOffice\PhpWord\Style\Cell as CellStyle;
  */
 class Cell extends AbstractContainer
 {
+
     /**
+     *
      * @var string Container type
      */
     protected $container = 'Cell';
@@ -46,8 +47,8 @@ class Cell extends AbstractContainer
     /**
      * Create new instance
      *
-     * @param int $width
-     * @param array|\PhpOffice\PhpWord\Style\Cell $style
+     * @param int $width            
+     * @param array|\PhpOffice\PhpWord\Style\Cell $style            
      */
     public function __construct($width = null, $style = null)
     {

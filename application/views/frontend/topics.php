@@ -12,8 +12,8 @@
 	};
 	</script>
 <div class="col-lg-12">
-            <h2 id="type-blockquotes">Đề <?php echo $code; ?></h2>
-          </div>
+	<h2 id="type-blockquotes">Đề <?php echo $code; ?></h2>
+</div>
 <form name="myform" id="myform" action="save" method="post">
 	<input type="hidden" name="topic_id" value="<?php echo $code; ?>" />
 	<div class="container-fluid">
@@ -42,14 +42,12 @@
 
 								<div class="quizResults">
 									<h3 class="quizScore">
-										You Scored: <span>
-											<!-- where the quiz score goes -->
+										You Scored: <span> <!-- where the quiz score goes -->
 										</span>
 									</h3>
 
 									<h3 class="quizLevel">
-										<strong>Ranking:</strong> <span>
-											<!-- where the quiz ranking level goes -->
+										<strong>Ranking:</strong> <span> <!-- where the quiz ranking level goes -->
 										</span>
 									</h3>
 

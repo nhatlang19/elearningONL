@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 /**
@@ -24,6 +23,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
  */
 class TextBreak extends Text
 {
+
     /**
      * Write text break element
      */
@@ -31,11 +31,11 @@ class TextBreak extends Text
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
-        if (!$element instanceof \PhpOffice\PhpWord\Element\TextBreak) {
+        if (! $element instanceof \PhpOffice\PhpWord\Element\TextBreak) {
             return;
         }
-
-        if (!$this->withoutP) {
+        
+        if (! $this->withoutP) {
             $hasStyle = $element->hasStyle();
             $this->writeOpeningWP();
             if ($hasStyle) {

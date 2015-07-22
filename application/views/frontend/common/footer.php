@@ -1,14 +1,15 @@
 <div class="container">
-<footer>
-	<div class="row">
-		<div class="col-lg-12">
-			<p>
-				@ <?php echo date('Y'); ?> Copyright. Made by <a href="#" rel="nofollow">Trang Ngọc Mỹ Phước</a>.<br />
-				Liên hệ tại <a href="mailto:trangngocmyphuoc@gmail.com">trangngocmyphuoc@gmail.com</a>.
-			</p>
+	<footer>
+		<div class="row">
+			<div class="col-lg-12">
+				<p>
+				@ <?php echo date('Y'); ?> Copyright. Made by <a href="#"
+						rel="nofollow">Trang Ngọc Mỹ Phước</a>.<br /> Liên hệ tại <a
+						href="mailto:trangngocmyphuoc@gmail.com">trangngocmyphuoc@gmail.com</a>.
+				</p>
+			</div>
 		</div>
-	</div>
-</footer>
+	</footer>
 </div>
 <script type="text/javascript"
 	src="<?php echo JS_PATH; ?>jquery.cookie.js"></script>

@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
 /**
@@ -24,6 +23,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Style;
  */
 class LineNumbering extends AbstractStyle
 {
+
     /**
      * Write style
      *
@@ -32,11 +32,11 @@ class LineNumbering extends AbstractStyle
     public function write()
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\LineNumbering) {
+        if (! $style instanceof \PhpOffice\PhpWord\Style\LineNumbering) {
             return;
         }
         $xmlWriter = $this->getXmlWriter();
-
+        
         $xmlWriter->startElement('w:lnNumType');
         $xmlWriter->writeAttribute('w:start', $style->getStart() - 1);
         $xmlWriter->writeAttribute('w:countBy', $style->getIncrement());

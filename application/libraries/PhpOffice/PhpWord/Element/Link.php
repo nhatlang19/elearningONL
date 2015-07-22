@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Shared\String;
@@ -26,6 +25,7 @@ use PhpOffice\PhpWord\Style\Paragraph;
  */
 class Link extends AbstractElement
 {
+
     /**
      * Link target
      *
@@ -54,14 +54,13 @@ class Link extends AbstractElement
      */
     private $paragraphStyle;
 
-
     /**
      * Create a new Link Element
      *
-     * @param string $target
-     * @param string $text
-     * @param mixed $fontStyle
-     * @param mixed $paragraphStyle
+     * @param string $target            
+     * @param string $text            
+     * @param mixed $fontStyle            
+     * @param mixed $paragraphStyle            
      */
     public function __construct($target, $text = null, $fontStyle = null, $paragraphStyle = null)
     {
@@ -69,7 +68,7 @@ class Link extends AbstractElement
         $this->text = is_null($text) ? $this->target : String::toUTF8($text);
         $this->fontStyle = $this->setStyle(new Font('text'), $fontStyle);
         $this->paragraphStyle = $this->setStyle(new Paragraph(), $paragraphStyle);
-
+        
         return $this;
     }
 
@@ -118,7 +117,7 @@ class Link extends AbstractElement
      *
      * @return string
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public function getLinkSrc()
     {
@@ -130,7 +129,7 @@ class Link extends AbstractElement
      *
      * @return string
      * @deprecated 0.10.0
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public function getLinkName()
     {

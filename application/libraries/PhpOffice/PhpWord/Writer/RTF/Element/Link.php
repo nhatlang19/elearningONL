@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
 /**
@@ -24,6 +23,7 @@ namespace PhpOffice\PhpWord\Writer\RTF\Element;
  */
 class Link extends AbstractElement
 {
+
     /**
      * Write element
      *
@@ -31,12 +31,12 @@ class Link extends AbstractElement
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Link) {
+        if (! $this->element instanceof \PhpOffice\PhpWord\Element\Link) {
             return '';
         }
-
+        
         $this->getStyles();
-
+        
         $content = '';
         $content .= $this->writeOpening();
         $content .= '{\field {\*\fldinst {HYPERLINK "' . $this->element->getTarget() . '"}}{\\fldrslt {';
@@ -44,7 +44,7 @@ class Link extends AbstractElement
         $content .= $this->writeText($this->element->getText());
         $content .= '}}}';
         $content .= $this->writeClosing();
-
+        
         return $content;
     }
 }

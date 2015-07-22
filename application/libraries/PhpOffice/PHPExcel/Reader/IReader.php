@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPExcel
  *
@@ -25,30 +26,30 @@
  * @version    ##VERSION##, ##DATE##
  */
 
-
 /**
  * PHPExcel_Reader_IReader
  *
- * @category   PHPExcel
- * @package    PHPExcel_Reader
- * @copyright  Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @category PHPExcel
+ * @package PHPExcel_Reader
+ * @copyright Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 interface PHPExcel_Reader_IReader
 {
-	/**
-	 * Can the current PHPExcel_Reader_IReader read the file?
-	 *
-	 * @param 	string 		$pFilename
-	 * @return 	boolean
-	 */
-	public function canRead($pFilename);
 
-	/**
-	 * Loads PHPExcel from file
-	 *
-	 * @param 	string 		$pFilename
-     * @return  PHPExcel
-	 * @throws 	PHPExcel_Reader_Exception
-	 */
-	public function load($pFilename);
+    /**
+     * Can the current PHPExcel_Reader_IReader read the file?
+     *
+     * @param string $pFilename            
+     * @return boolean
+     */
+    public function canRead($pFilename);
+
+    /**
+     * Loads PHPExcel from file
+     *
+     * @param string $pFilename            
+     * @return PHPExcel
+     * @throws PHPExcel_Reader_Exception
+     */
+    public function load($pFilename);
 }

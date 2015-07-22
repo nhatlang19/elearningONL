@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use PhpOffice\PhpWord\PhpWord;
@@ -27,6 +26,7 @@ use PhpOffice\PhpWord\Shared\XMLReader;
  */
 class Footnotes extends AbstractPart
 {
+
     /**
      * Collection name footnotes|endnotes
      *
@@ -44,13 +44,13 @@ class Footnotes extends AbstractPart
     /**
      * Read (footnotes|endnotes).xml
      *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord            
      */
     public function read(PhpWord &$phpWord)
     {
         $getMethod = "get{$this->collection}";
         $collection = $phpWord->$getMethod()->getItems();
-
+        
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
         $nodes = $xmlReader->getElements('*');
@@ -58,7 +58,7 @@ class Footnotes extends AbstractPart
             foreach ($nodes as $node) {
                 $id = $xmlReader->getAttribute('w:id', $node);
                 $type = $xmlReader->getAttribute('w:type', $node);
-
+                
                 // Avoid w:type "separator" and "continuationSeparator"
                 // Only look for <footnote> or <endnote> without w:type attribute
                 if (is_null($type) && array_key_exists($id, $collection)) {

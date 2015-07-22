@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord;
 
 /**
@@ -22,12 +21,20 @@ namespace PhpOffice\PhpWord;
  */
 class DocumentProperties
 {
-    /** @const string Property type constants */
+
+    /**
+     * @const string Property type constants
+     */
     const PROPERTY_TYPE_BOOLEAN = 'b';
+
     const PROPERTY_TYPE_INTEGER = 'i';
+
     const PROPERTY_TYPE_FLOAT = 'f';
+
     const PROPERTY_TYPE_DATE = 'd';
+
     const PROPERTY_TYPE_STRING = 's';
+
     const PROPERTY_TYPE_UNKNOWN = 'u';
 
     /**
@@ -119,17 +126,17 @@ class DocumentProperties
      */
     public function __construct()
     {
-        $this->creator        = '';
+        $this->creator = '';
         $this->lastModifiedBy = $this->creator;
-        $this->created        = time();
-        $this->modified       = time();
-        $this->title          = '';
-        $this->subject        = '';
-        $this->description    = '';
-        $this->keywords       = '';
-        $this->category       = '';
-        $this->company        = '';
-        $this->manager        = '';
+        $this->created = time();
+        $this->modified = time();
+        $this->title = '';
+        $this->subject = '';
+        $this->description = '';
+        $this->keywords = '';
+        $this->category = '';
+        $this->company = '';
+        $this->manager = '';
     }
 
     /**
@@ -145,13 +152,13 @@ class DocumentProperties
     /**
      * Set Creator
      *
-     * @param  string $value
+     * @param string $value            
      * @return self
      */
     public function setCreator($value = '')
     {
         $this->creator = $this->setValue($value, '');
-
+        
         return $this;
     }
 
@@ -168,13 +175,13 @@ class DocumentProperties
     /**
      * Set Last Modified By
      *
-     * @param  string $value
+     * @param string $value            
      * @return self
      */
     public function setLastModifiedBy($value = '')
     {
         $this->lastModifiedBy = $this->setValue($value, $this->creator);
-
+        
         return $this;
     }
 
@@ -191,13 +198,13 @@ class DocumentProperties
     /**
      * Set Created
      *
-     * @param  int $value
+     * @param int $value            
      * @return self
      */
     public function setCreated($value = null)
     {
         $this->created = $this->setValue($value, time());
-
+        
         return $this;
     }
 
@@ -214,13 +221,13 @@ class DocumentProperties
     /**
      * Set Modified
      *
-     * @param  int $value
+     * @param int $value            
      * @return self
      */
     public function setModified($value = null)
     {
         $this->modified = $this->setValue($value, time());
-
+        
         return $this;
     }
 
@@ -237,13 +244,13 @@ class DocumentProperties
     /**
      * Set Title
      *
-     * @param  string $value
+     * @param string $value            
      * @return self
      */
     public function setTitle($value = '')
     {
         $this->title = $this->setValue($value, '');
-
+        
         return $this;
     }
 
@@ -260,13 +267,13 @@ class DocumentProperties
     /**
      * Set Description
      *
-     * @param  string $value
+     * @param string $value            
      * @return self
      */
     public function setDescription($value = '')
     {
         $this->description = $this->setValue($value, '');
-
+        
         return $this;
     }
 
@@ -283,13 +290,13 @@ class DocumentProperties
     /**
      * Set Subject
      *
-     * @param  string $value
+     * @param string $value            
      * @return self
      */
     public function setSubject($value = '')
     {
         $this->subject = $this->setValue($value, '');
-
+        
         return $this;
     }
 
@@ -306,13 +313,13 @@ class DocumentProperties
     /**
      * Set Keywords
      *
-     * @param string $value
+     * @param string $value            
      * @return self
      */
     public function setKeywords($value = '')
     {
         $this->keywords = $this->setValue($value, '');
-
+        
         return $this;
     }
 
@@ -329,13 +336,13 @@ class DocumentProperties
     /**
      * Set Category
      *
-     * @param string $value
+     * @param string $value            
      * @return self
      */
     public function setCategory($value = '')
     {
         $this->category = $this->setValue($value, '');
-
+        
         return $this;
     }
 
@@ -352,13 +359,13 @@ class DocumentProperties
     /**
      * Set Company
      *
-     * @param string $value
+     * @param string $value            
      * @return self
      */
     public function setCompany($value = '')
     {
         $this->company = $this->setValue($value, '');
-
+        
         return $this;
     }
 
@@ -375,13 +382,13 @@ class DocumentProperties
     /**
      * Set Manager
      *
-     * @param string $value
+     * @param string $value            
      * @return self
      */
     public function setManager($value = '')
     {
         $this->manager = $this->setValue($value, '');
-
+        
         return $this;
     }
 
@@ -398,7 +405,7 @@ class DocumentProperties
     /**
      * Check if a Custom Property is defined
      *
-     * @param string $propertyName
+     * @param string $propertyName            
      * @return boolean
      */
     public function isCustomPropertySet($propertyName)
@@ -409,7 +416,7 @@ class DocumentProperties
     /**
      * Get a Custom Property Value
      *
-     * @param string $propertyName
+     * @param string $propertyName            
      * @return string
      */
     public function getCustomPropertyValue($propertyName)
@@ -424,7 +431,7 @@ class DocumentProperties
     /**
      * Get a Custom Property Type
      *
-     * @param string $propertyName
+     * @param string $propertyName            
      * @return string
      */
     public function getCustomPropertyType($propertyName)
@@ -439,14 +446,14 @@ class DocumentProperties
     /**
      * Set a Custom Property
      *
-     * @param string $propertyName
-     * @param mixed $propertyValue
+     * @param string $propertyName            
+     * @param mixed $propertyValue            
      * @param string $propertyType
-     *   'i': Integer
-     *   'f': Floating Point
-     *   's': String
-     *   'd': Date/Time
-     *   'b': Boolean
+     *            'i': Integer
+     *            'f': Floating Point
+     *            's': String
+     *            'd': Date/Time
+     *            'b': Boolean
      * @return self
      */
     public function setCustomProperty($propertyName, $propertyValue = '', $propertyType = null)
@@ -458,7 +465,7 @@ class DocumentProperties
             self::PROPERTY_TYPE_DATE,
             self::PROPERTY_TYPE_BOOLEAN
         );
-        if (($propertyType === null) || (!in_array($propertyType, $propertyTypes))) {
+        if (($propertyType === null) || (! in_array($propertyType, $propertyTypes))) {
             if ($propertyValue === null) {
                 $propertyType = self::PROPERTY_TYPE_STRING;
             } elseif (is_float($propertyValue)) {
@@ -471,7 +478,7 @@ class DocumentProperties
                 $propertyType = self::PROPERTY_TYPE_STRING;
             }
         }
-
+        
         $this->customProperties[$propertyName] = array(
             'value' => $propertyValue,
             'type' => $propertyType
@@ -482,14 +489,14 @@ class DocumentProperties
     /**
      * Convert document property based on type
      *
-     * @param string $propertyValue
-     * @param string $propertyType
+     * @param string $propertyValue            
+     * @param string $propertyType            
      * @return mixed
      */
     public static function convertProperty($propertyValue, $propertyType)
     {
         $conversion = self::getConversion($propertyType);
-
+        
         switch ($conversion) {
             case 'empty': // Empty
                 return '';
@@ -506,39 +513,65 @@ class DocumentProperties
             case 'bool': // Boolean
                 return ($propertyValue == 'true') ? true : false;
         }
-
+        
         return $propertyValue;
     }
 
     /**
      * Convert document property type
      *
-     * @param string $propertyType
+     * @param string $propertyType            
      * @return string
      */
     public static function convertPropertyType($propertyType)
     {
         $typeGroups = array(
-            self::PROPERTY_TYPE_INTEGER => array('i1', 'i2', 'i4', 'i8', 'int', 'ui1', 'ui2', 'ui4', 'ui8', 'uint'),
-            self::PROPERTY_TYPE_FLOAT   => array('r4', 'r8', 'decimal'),
-            self::PROPERTY_TYPE_STRING  => array('empty', 'null', 'lpstr', 'lpwstr', 'bstr'),
-            self::PROPERTY_TYPE_DATE    => array('date', 'filetime'),
-            self::PROPERTY_TYPE_BOOLEAN => array('bool'),
+            self::PROPERTY_TYPE_INTEGER => array(
+                'i1',
+                'i2',
+                'i4',
+                'i8',
+                'int',
+                'ui1',
+                'ui2',
+                'ui4',
+                'ui8',
+                'uint'
+            ),
+            self::PROPERTY_TYPE_FLOAT => array(
+                'r4',
+                'r8',
+                'decimal'
+            ),
+            self::PROPERTY_TYPE_STRING => array(
+                'empty',
+                'null',
+                'lpstr',
+                'lpwstr',
+                'bstr'
+            ),
+            self::PROPERTY_TYPE_DATE => array(
+                'date',
+                'filetime'
+            ),
+            self::PROPERTY_TYPE_BOOLEAN => array(
+                'bool'
+            )
         );
         foreach ($typeGroups as $groupId => $groupMembers) {
             if (in_array($propertyType, $groupMembers)) {
                 return $groupId;
             }
         }
-
+        
         return self::PROPERTY_TYPE_UNKNOWN;
     }
 
     /**
      * Set default for null and empty value
      *
-     * @param mixed $value
-     * @param mixed $default
+     * @param mixed $value            
+     * @param mixed $default            
      * @return mixed
      */
     private function setValue($value, $default)
@@ -546,33 +579,58 @@ class DocumentProperties
         if ($value === null || $value == '') {
             $value = $default;
         }
-
+        
         return $value;
     }
 
     /**
      * Get conversion model depending on property type
      *
-     * @param string $propertyType
+     * @param string $propertyType            
      * @return string
      */
     private static function getConversion($propertyType)
     {
         $conversions = array(
-            'empty' => array('empty'),
-            'null'  => array('null'),
-            'int'   => array('i1', 'i2', 'i4', 'i8', 'int'),
-            'uint'  => array('ui1', 'ui2', 'ui4', 'ui8', 'uint'),
-            'float' => array('r4', 'r8', 'decimal'),
-            'bool'  => array('bool'),
-            'date'  => array('date', 'filetime'),
+            'empty' => array(
+                'empty'
+            ),
+            'null' => array(
+                'null'
+            ),
+            'int' => array(
+                'i1',
+                'i2',
+                'i4',
+                'i8',
+                'int'
+            ),
+            'uint' => array(
+                'ui1',
+                'ui2',
+                'ui4',
+                'ui8',
+                'uint'
+            ),
+            'float' => array(
+                'r4',
+                'r8',
+                'decimal'
+            ),
+            'bool' => array(
+                'bool'
+            ),
+            'date' => array(
+                'date',
+                'filetime'
+            )
         );
         foreach ($conversions as $conversion => $types) {
             if (in_array($propertyType, $types)) {
                 return $conversion;
             }
         }
-
+        
         return 'string';
     }
 }

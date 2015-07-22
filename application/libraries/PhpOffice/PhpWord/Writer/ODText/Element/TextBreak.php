@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
 /**
@@ -24,13 +23,14 @@ namespace PhpOffice\PhpWord\Writer\ODText\Element;
  */
 class TextBreak extends AbstractElement
 {
+
     /**
      * Write element
      */
     public function write()
     {
         $xmlWriter = $this->getXmlWriter();
-
+        
         $xmlWriter->startElement('text:p');
         $xmlWriter->writeAttribute('text:style-name', 'Standard');
         $xmlWriter->endElement();

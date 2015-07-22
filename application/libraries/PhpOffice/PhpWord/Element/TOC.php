@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL
  */
-
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\PhpWord;
@@ -26,6 +25,7 @@ use PhpOffice\PhpWord\Style\TOC as TOCStyle;
  */
 class TOC extends AbstractElement
 {
+
     /**
      * TOC style
      *
@@ -54,30 +54,29 @@ class TOC extends AbstractElement
      */
     private $maxDepth = 9;
 
-
     /**
      * Create a new Table-of-Contents Element
      *
-     * @param mixed $fontStyle
-     * @param array $tocStyle
-     * @param integer $minDepth
-     * @param integer $maxDepth
+     * @param mixed $fontStyle            
+     * @param array $tocStyle            
+     * @param integer $minDepth            
+     * @param integer $maxDepth            
      */
     public function __construct($fontStyle = null, $tocStyle = null, $minDepth = 1, $maxDepth = 9)
     {
         $this->TOCStyle = new TOCStyle();
-
-        if (!is_null($tocStyle) && is_array($tocStyle)) {
+        
+        if (! is_null($tocStyle) && is_array($tocStyle)) {
             $this->TOCStyle->setStyleByArray($tocStyle);
         }
-
-        if (!is_null($fontStyle) && is_array($fontStyle)) {
+        
+        if (! is_null($fontStyle) && is_array($fontStyle)) {
             $this->fontStyle = new Font();
             $this->fontStyle->setStyleByArray($fontStyle);
         } else {
             $this->fontStyle = $fontStyle;
         }
-
+        
         $this->minDepth = $minDepth;
         $this->maxDepth = $maxDepth;
     }
@@ -89,13 +88,15 @@ class TOC extends AbstractElement
      */
     public function getTitles()
     {
-        if (!$this->phpWord instanceof PhpWord) {
+        if (! $this->phpWord instanceof PhpWord) {
             return array();
         }
-
+        
         $titles = $this->phpWord->getTitles()->getItems();
         foreach ($titles as $i => $title) {
-            /** @var \PhpOffice\PhpWord\Element\Title $title Type hint */
+            /**
+             * @var \PhpOffice\PhpWord\Element\Title $title Type hint
+             */
             $depth = $title->getDepth();
             if ($this->minDepth > $depth) {
                 unset($titles[$i]);
@@ -104,7 +105,7 @@ class TOC extends AbstractElement
                 unset($titles[$i]);
             }
         }
-
+        
         return $titles;
     }
 
@@ -131,7 +132,7 @@ class TOC extends AbstractElement
     /**
      * Set max depth
      *
-     * @param int $value
+     * @param int $value            
      */
     public function setMaxDepth($value)
     {
@@ -151,7 +152,7 @@ class TOC extends AbstractElement
     /**
      * Set min depth
      *
-     * @param int $value
+     * @param int $value            
      */
     public function setMinDepth($value)
     {

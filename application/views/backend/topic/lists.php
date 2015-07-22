@@ -1,6 +1,5 @@
 
-<div
-	id="main-content">
+<div id="main-content">
 	<!-- Main Content Section with everything -->
 	<?php echo form_open(BACK_END_TMPL_PATH . 'topic/save', array('name' => "adminForm", 'id' => 'adminForm')); ?>
 	<!-- Page Head -->
@@ -61,14 +60,14 @@
 					</tfoot>
 					<tbody id="">
 						<?php
-						$i = 1;
-						foreach($topics as $key => $value) :
-							$id = md5(date('Ymd')) . 'tid' . $value['topic_manage_id'];
-							
-							$review = $value['review'] == 'SHOW'?'Hiện':'Ẩn';
-							$tdStyle = $value['review'] == 'SHOW'?'show':'hide';
-							$change_to = $value['review'] == 'SHOW'?'hide':'show';
-						?>
+    $i = 1;
+    foreach ($topics as $key => $value) :
+        $id = md5(date('Ymd')) . 'tid' . $value['topic_manage_id'];
+        
+        $review = $value['review'] == 'SHOW' ? 'Hiện' : 'Ẩn';
+        $tdStyle = $value['review'] == 'SHOW' ? 'show' : 'hide';
+        $change_to = $value['review'] == 'SHOW' ? 'hide' : 'show';
+        ?>
 						<tr>
 							<td><?php echo $i++; ?></td>
 							<td><?php echo ucfirst($value['title']); ?></td>
@@ -76,8 +75,8 @@
 							<td><?php echo $value['etitle']; ?></td>
 							<td><?php echo $value['academic_name']; ?></td>
 							<td style="text-align: center"><?php
-							if($value['published']):
-							?> <a href="javascript:void(0);" title="Đang mở"> <img
+        if ($value['published']) :
+            ?> <a href="javascript:void(0);" title="Đang mở"> <img
 									src="<?php echo BACK_END_IMAGE_PATH ?>tick_circle.png" />
 							</a> <?php else: ?> <a
 								href="published/<?php echo $value['topic_manage_id']; ?>"
@@ -85,19 +84,20 @@
 									src="<?php echo BACK_END_IMAGE_PATH ?>cross_circle.png" />
 							</a> <?php endif; ?>
 							</td>
-							<td class="<?php echo $tdStyle; ?>">
-								<span id="<?php echo $value['topic_manage_id']; ?>" data-review="<?php echo $change_to; ?>" class="tdReview"><?php echo $review; ?></span>
+							<td class="<?php echo $tdStyle; ?>"><span
+								id="<?php echo $value['topic_manage_id']; ?>"
+								data-review="<?php echo $change_to; ?>" class="tdReview"><?php echo $review; ?></span>
 							</td>
 							<td style="text-align: center">
 								<?php echo anchor(BACK_END_TMPL_PATH . 'topic/export/' . $id, "<img src=\"" . BACK_END_IMAGE_PATH . "rar.png\" />"); ?>
 							</td>
-							<td style="text-align: center">
-								<img class="showListStudentAnswer" id="<?php echo $value['topic_manage_id']; ?>" src="<?php echo BACK_END_IMAGE_PATH; ?>rar.png" />
-							</td>
+							<td style="text-align: center"><img class="showListStudentAnswer"
+								id="<?php echo $value['topic_manage_id']; ?>"
+								src="<?php echo BACK_END_IMAGE_PATH; ?>rar.png" /></td>
 							<td><?php echo setDate($value['created_time'], 'notime'); ?></td>
-							<td>
-							<img src="<?php echo BACK_END_IMAGE_PATH ?>trash.png" alt="Trash" title="Trash" class="imgDelete" id="<?php echo $value['topic_manage_id']; ?>" />
-							</td>
+							<td><img src="<?php echo BACK_END_IMAGE_PATH ?>trash.png"
+								alt="Trash" title="Trash" class="imgDelete"
+								id="<?php echo $value['topic_manage_id']; ?>" /></td>
 						</tr>
 						<?php endforeach; ?>
 					</tbody>
@@ -106,14 +106,16 @@
 
 			</div>
 			<!-- End #tab1 -->
-<a href="#messages" rel="modal" id="virtualLink"></a>	
-<div id="messages" style="display: none"> <!-- Messages are shown when a link with these attributes are clicked: href="#messages" rel="modal"  -->
-	<div></div>
-</div>
-<a href="#files" rel="modal" id="virtualfiles"></a>	
-<div id="files" style="display: none"> <!-- Messages are shown when a link with these attributes are clicked: href="#messages" rel="modal"  -->
-	<div></div>
-</div>
+			<a href="#messages" rel="modal" id="virtualLink"></a>
+			<div id="messages" style="display: none">
+				<!-- Messages are shown when a link with these attributes are clicked: href="#messages" rel="modal"  -->
+				<div></div>
+			</div>
+			<a href="#files" rel="modal" id="virtualfiles"></a>
+			<div id="files" style="display: none">
+				<!-- Messages are shown when a link with these attributes are clicked: href="#messages" rel="modal"  -->
+				<div></div>
+			</div>
 		</div>
 		<!-- End .content-box-content -->
 

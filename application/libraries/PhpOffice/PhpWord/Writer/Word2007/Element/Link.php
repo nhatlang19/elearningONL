@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 /**
@@ -24,6 +23,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
  */
 class Link extends Text
 {
+
     /**
      * Write link element
      */
@@ -31,28 +31,28 @@ class Link extends Text
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
-        if (!$element instanceof \PhpOffice\PhpWord\Element\Link) {
+        if (! $element instanceof \PhpOffice\PhpWord\Element\Link) {
             return;
         }
-
+        
         $rId = $element->getRelationId() + ($element->isInSection() ? 6 : 0);
-
+        
         $this->writeOpeningWP();
-
+        
         $xmlWriter->startElement('w:hyperlink');
         $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
         $xmlWriter->writeAttribute('w:history', '1');
         $xmlWriter->startElement('w:r');
-
+        
         $this->writeFontStyle();
-
+        
         $xmlWriter->startElement('w:t');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
         $xmlWriter->writeRaw($element->getText());
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
         $xmlWriter->endElement(); // w:hyperlink
-
+        
         $this->writeClosingWP();
     }
 }

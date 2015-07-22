@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
 /**
@@ -24,12 +23,16 @@ namespace PhpOffice\PhpWord\Reader\Word2007;
  */
 class DocPropsApp extends DocPropsCore
 {
+
     /**
      * Property mapping
      *
      * @var array
      */
-    protected $mapping = array('Company' => 'setCompany', 'Manager' => 'setManager');
+    protected $mapping = array(
+        'Company' => 'setCompany',
+        'Manager' => 'setManager'
+    );
 
     /**
      * Callback functions

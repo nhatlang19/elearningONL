@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Style\Line as LineStyle;
@@ -24,6 +23,7 @@ use PhpOffice\PhpWord\Style\Line as LineStyle;
  */
 class Line extends AbstractElement
 {
+
     /**
      * Line style
      *
@@ -34,7 +34,7 @@ class Line extends AbstractElement
     /**
      * Create new line element
      *
-     * @param mixed $style
+     * @param mixed $style            
      */
     public function __construct($style = null)
     {

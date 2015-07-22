@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Style;
 
 /**
@@ -25,6 +24,7 @@ namespace PhpOffice\PhpWord\Style;
  */
 class Indentation extends AbstractStyle
 {
+
     /**
      * Left indentation (twip)
      *
@@ -56,7 +56,7 @@ class Indentation extends AbstractStyle
     /**
      * Create a new instance
      *
-     * @param array $style
+     * @param array $style            
      */
     public function __construct($style = array())
     {
@@ -76,13 +76,13 @@ class Indentation extends AbstractStyle
     /**
      * Set left
      *
-     * @param int|float $value
+     * @param int|float $value            
      * @return self
      */
     public function setLeft($value = null)
     {
         $this->left = $this->setNumericVal($value, $this->left);
-
+        
         return $this;
     }
 
@@ -99,13 +99,13 @@ class Indentation extends AbstractStyle
     /**
      * Set right
      *
-     * @param int|float $value
+     * @param int|float $value            
      * @return self
      */
     public function setRight($value = null)
     {
         $this->right = $this->setNumericVal($value, $this->right);
-
+        
         return $this;
     }
 
@@ -122,13 +122,13 @@ class Indentation extends AbstractStyle
     /**
      * Set first line
      *
-     * @param int|float $value
+     * @param int|float $value            
      * @return self
      */
     public function setFirstLine($value = null)
     {
         $this->firstLine = $this->setNumericVal($value, $this->firstLine);
-
+        
         return $this;
     }
 
@@ -145,13 +145,13 @@ class Indentation extends AbstractStyle
     /**
      * Set hanging
      *
-     * @param int|float $value
+     * @param int|float $value            
      * @return self
      */
     public function setHanging($value = null)
     {
         $this->hanging = $this->setNumericVal($value, $this->hanging);
-
+        
         return $this;
     }
 }

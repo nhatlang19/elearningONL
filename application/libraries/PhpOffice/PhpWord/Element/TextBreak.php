@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Style\Font;
@@ -25,6 +24,7 @@ use PhpOffice\PhpWord\Style\Paragraph;
  */
 class TextBreak extends AbstractElement
 {
+
     /**
      * Paragraph style
      *
@@ -42,15 +42,15 @@ class TextBreak extends AbstractElement
     /**
      * Create a new TextBreak Element
      *
-     * @param mixed $fontStyle
-     * @param mixed $paragraphStyle
+     * @param mixed $fontStyle            
+     * @param mixed $paragraphStyle            
      */
     public function __construct($fontStyle = null, $paragraphStyle = null)
     {
-        if (!is_null($paragraphStyle)) {
+        if (! is_null($paragraphStyle)) {
             $paragraphStyle = $this->setParagraphStyle($paragraphStyle);
         }
-        if (!is_null($fontStyle)) {
+        if (! is_null($fontStyle)) {
             $this->setFontStyle($fontStyle, $paragraphStyle);
         }
     }
@@ -58,8 +58,8 @@ class TextBreak extends AbstractElement
     /**
      * Set Text style
      *
-     * @param mixed $style
-     * @param mixed $paragraphStyle
+     * @param mixed $style            
+     * @param mixed $paragraphStyle            
      * @return string|\PhpOffice\PhpWord\Style\Font
      */
     public function setFontStyle($style = null, $paragraphStyle = null)
@@ -90,13 +90,13 @@ class TextBreak extends AbstractElement
     /**
      * Set Paragraph style
      *
-     * @param   string|array|\PhpOffice\PhpWord\Style\Paragraph $style
-     * @return  string|\PhpOffice\PhpWord\Style\Paragraph
+     * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $style            
+     * @return string|\PhpOffice\PhpWord\Style\Paragraph
      */
     public function setParagraphStyle($style = null)
     {
         if (is_array($style)) {
-            $this->paragraphStyle = new Paragraph;
+            $this->paragraphStyle = new Paragraph();
             $this->paragraphStyle->setStyleByArray($style);
         } elseif ($style instanceof Paragraph) {
             $this->paragraphStyle = $style;
@@ -123,6 +123,6 @@ class TextBreak extends AbstractElement
      */
     public function hasStyle()
     {
-        return !is_null($this->fontStyle) || !is_null($this->paragraphStyle);
+        return ! is_null($this->fontStyle) || ! is_null($this->paragraphStyle);
     }
 }

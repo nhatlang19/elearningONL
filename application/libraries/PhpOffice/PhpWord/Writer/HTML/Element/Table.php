@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 /**
@@ -24,6 +23,7 @@ namespace PhpOffice\PhpWord\Writer\HTML\Element;
  */
 class Table extends AbstractElement
 {
+
     /**
      * Write table
      *
@@ -31,17 +31,19 @@ class Table extends AbstractElement
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Table) {
+        if (! $this->element instanceof \PhpOffice\PhpWord\Element\Table) {
             return '';
         }
-
+        
         $content = '';
         $rows = $this->element->getRows();
         $rowCount = count($rows);
         if ($rowCount > 0) {
             $content .= '<table>' . PHP_EOL;
             foreach ($rows as $row) {
-                /** @var $row \PhpOffice\PhpWord\Element\Row Type hint */
+                /**
+                 * @var $row \PhpOffice\PhpWord\Element\Row Type hint
+                 */
                 $rowStyle = $row->getStyle();
                 // $height = $row->getHeight();
                 $tblHeader = $rowStyle->isTblHeader();
@@ -57,7 +59,7 @@ class Table extends AbstractElement
             }
             $content .= '</table>' . PHP_EOL;
         }
-
+        
         return $content;
     }
 }

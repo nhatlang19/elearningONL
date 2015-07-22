@@ -1,6 +1,5 @@
 
-<div
-	id="main-content">
+<div id="main-content">
 	<!-- Main Content Section with everything -->
 	<?php echo form_open(BACK_END_TMPL_PATH . 'topic/list_trash', array('name' => "adminForm", 'id' => 'adminForm')); ?>
 	<!-- Page Head -->
@@ -57,9 +56,9 @@
 					</tfoot>
 					<tbody id="">
 						<?php
-						$i = 1;
-						foreach($topics as $key => $value) :
-						?>
+    $i = 1;
+    foreach ($topics as $key => $value) :
+        ?>
 						<tr>
 							<td><?php echo $i++; ?></td>
 							<td><?php echo ucfirst($value['title']); ?></td>
@@ -67,10 +66,12 @@
 							<td><?php echo $value['etitle']; ?></td>
 							<td><?php echo $value['academic_name']; ?></td>
 							<td><?php echo setDate($value['created_time'], 'notime'); ?></td>
-							<td>
-							<img src="<?php echo BACK_END_IMAGE_PATH ?>cross.png" alt="Remove" title="Remove" class="imgRemove" id="<?php echo $value['topic_manage_id']; ?>" />
-							<img src="<?php echo BACK_END_IMAGE_PATH ?>restore.png" alt="Restore" title="Restore" class="imgRestore" id="<?php echo $value['topic_manage_id']; ?>" />
-							</td>
+							<td><img src="<?php echo BACK_END_IMAGE_PATH ?>cross.png"
+								alt="Remove" title="Remove" class="imgRemove"
+								id="<?php echo $value['topic_manage_id']; ?>" /> <img
+								src="<?php echo BACK_END_IMAGE_PATH ?>restore.png" alt="Restore"
+								title="Restore" class="imgRestore"
+								id="<?php echo $value['topic_manage_id']; ?>" /></td>
 						</tr>
 						<?php endforeach; ?>
 					</tbody>

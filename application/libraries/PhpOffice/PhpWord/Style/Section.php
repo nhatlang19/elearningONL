@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Style;
 
 /**
@@ -22,12 +21,14 @@ namespace PhpOffice\PhpWord\Style;
  */
 class Section extends Border
 {
+
     /**
      * Page orientation
      *
      * @const string
      */
     const ORIENTATION_PORTRAIT = 'portrait';
+
     const ORIENTATION_LANDSCAPE = 'landscape';
 
     /**
@@ -35,15 +36,23 @@ class Section extends Border
      *
      * @const int|float
      */
-    const DEFAULT_WIDTH = 11906; // In twip
-    const DEFAULT_HEIGHT = 16838; // In twip
-    const DEFAULT_MARGIN = 1440; // In twip
-    const DEFAULT_GUTTER = 0; // In twip
-    const DEFAULT_HEADER_HEIGHT = 720; // In twip
-    const DEFAULT_FOOTER_HEIGHT = 720; // In twip
+    const DEFAULT_WIDTH = 11906;
+ // In twip
+    const DEFAULT_HEIGHT = 16838;
+ // In twip
+    const DEFAULT_MARGIN = 1440;
+ // In twip
+    const DEFAULT_GUTTER = 0;
+ // In twip
+    const DEFAULT_HEADER_HEIGHT = 720;
+ // In twip
+    const DEFAULT_FOOTER_HEIGHT = 720;
+ // In twip
     const DEFAULT_COLUMN_COUNT = 1;
-    const DEFAULT_COLUMN_SPACING = 720; // In twip
 
+    const DEFAULT_COLUMN_SPACING = 720;
+ // In twip
+    
     /**
      * Page Orientation
      *
@@ -162,8 +171,8 @@ class Section extends Border
     /**
      * Set Setting Value
      *
-     * @param string $key
-     * @param string $value
+     * @param string $key            
+     * @param string $value            
      * @return self
      */
     public function setSettingValue($key, $value)
@@ -174,20 +183,27 @@ class Section extends Border
     /**
      * Set orientation
      *
-     * @param string $value
+     * @param string $value            
      * @return self
      */
     public function setOrientation($value = null)
     {
-        $enum = array(self::ORIENTATION_PORTRAIT, self::ORIENTATION_LANDSCAPE);
+        $enum = array(
+            self::ORIENTATION_PORTRAIT,
+            self::ORIENTATION_LANDSCAPE
+        );
         $this->orientation = $this->setEnumVal($value, $enum, $this->orientation);
-
-        /** @var int|float $longSide Type hint */
+        
+        /**
+         * @var int|float $longSide Type hint
+         */
         $longSide = $this->pageSizeW >= $this->pageSizeH ? $this->pageSizeW : $this->pageSizeH;
-
-        /** @var int|float $shortSide Type hint */
+        
+        /**
+         * @var int|float $shortSide Type hint
+         */
         $shortSide = $this->pageSizeW < $this->pageSizeH ? $this->pageSizeW : $this->pageSizeH;
-
+        
         if ($this->orientation == self::ORIENTATION_PORTRAIT) {
             $this->pageSizeW = $shortSide;
             $this->pageSizeH = $longSide;
@@ -195,7 +211,7 @@ class Section extends Border
             $this->pageSizeW = $longSide;
             $this->pageSizeH = $shortSide;
         }
-
+        
         return $this;
     }
 
@@ -262,13 +278,13 @@ class Section extends Border
     /**
      * Set Margin Top
      *
-     * @param int|float $value
+     * @param int|float $value            
      * @return self
      */
     public function setMarginTop($value = null)
     {
         $this->marginTop = $this->setNumericVal($value, self::DEFAULT_MARGIN);
-
+        
         return $this;
     }
 
@@ -285,13 +301,13 @@ class Section extends Border
     /**
      * Set Margin Left
      *
-     * @param int|float $value
+     * @param int|float $value            
      * @return self
      */
     public function setMarginLeft($value = null)
     {
         $this->marginLeft = $this->setNumericVal($value, self::DEFAULT_MARGIN);
-
+        
         return $this;
     }
 
@@ -308,13 +324,13 @@ class Section extends Border
     /**
      * Set Margin Right
      *
-     * @param int|float $value
+     * @param int|float $value            
      * @return self
      */
     public function setMarginRight($value = null)
     {
         $this->marginRight = $this->setNumericVal($value, self::DEFAULT_MARGIN);
-
+        
         return $this;
     }
 
@@ -331,13 +347,13 @@ class Section extends Border
     /**
      * Set Margin Bottom
      *
-     * @param int|float $value
+     * @param int|float $value            
      * @return self
      */
     public function setMarginBottom($value = null)
     {
         $this->marginBottom = $this->setNumericVal($value, self::DEFAULT_MARGIN);
-
+        
         return $this;
     }
 
@@ -354,13 +370,13 @@ class Section extends Border
     /**
      * Set gutter
      *
-     * @param int|float $value
+     * @param int|float $value            
      * @return self
      */
     public function setGutter($value = null)
     {
         $this->gutter = $this->setNumericVal($value, self::DEFAULT_GUTTER);
-
+        
         return $this;
     }
 
@@ -377,13 +393,13 @@ class Section extends Border
     /**
      * Set Header Height
      *
-     * @param int|float $value
+     * @param int|float $value            
      * @return self
      */
     public function setHeaderHeight($value = null)
     {
         $this->headerHeight = $this->setNumericVal($value, self::DEFAULT_HEADER_HEIGHT);
-
+        
         return $this;
     }
 
@@ -400,13 +416,13 @@ class Section extends Border
     /**
      * Set Footer Height
      *
-     * @param int|float $value
+     * @param int|float $value            
      * @return self
      */
     public function setFooterHeight($value = null)
     {
         $this->footerHeight = $this->setNumericVal($value, self::DEFAULT_FOOTER_HEIGHT);
-
+        
         return $this;
     }
 
@@ -423,7 +439,7 @@ class Section extends Border
     /**
      * Set page numbering start
      *
-     * @param null|int $pageNumberingStart
+     * @param null|int $pageNumberingStart            
      * @return self
      */
     public function setPageNumberingStart($pageNumberingStart = null)
@@ -445,13 +461,13 @@ class Section extends Border
     /**
      * Set Section Columns Count
      *
-     * @param int $value
+     * @param int $value            
      * @return self
      */
     public function setColsNum($value = null)
     {
         $this->colsNum = $this->setIntVal($value, self::DEFAULT_COLUMN_COUNT);
-
+        
         return $this;
     }
 
@@ -468,13 +484,13 @@ class Section extends Border
     /**
      * Set Section Space Between Columns
      *
-     * @param int|float $value
+     * @param int|float $value            
      * @return self
      */
     public function setColsSpace($value = null)
     {
         $this->colsSpace = $this->setNumericVal($value, self::DEFAULT_COLUMN_SPACING);
-
+        
         return $this;
     }
 
@@ -491,7 +507,7 @@ class Section extends Border
     /**
      * Set Break Type
      *
-     * @param string $value
+     * @param string $value            
      * @return self
      */
     public function setBreakType($value = null)
@@ -513,13 +529,13 @@ class Section extends Border
     /**
      * Set line numbering
      *
-     * @param mixed $value
+     * @param mixed $value            
      * @return self
      */
     public function setLineNumbering($value = null)
     {
         $this->setObjectVal($value, 'LineNumbering', $this->lineNumbering);
-
+        
         return $this;
     }
 }

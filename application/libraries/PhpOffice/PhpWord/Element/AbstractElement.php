@@ -14,7 +14,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\PhpWord;
@@ -27,6 +26,7 @@ use PhpOffice\PhpWord\Style;
  */
 abstract class AbstractElement
 {
+
     /**
      * PhpWord object
      *
@@ -106,7 +106,8 @@ abstract class AbstractElement
     /**
      * Set PhpWord as reference
      *
-     * @param \PhpOffice\PhpWord\PhpWord
+     * @param
+     *            \PhpOffice\PhpWord\PhpWord
      */
     public function setPhpWord(PhpWord &$phpWord = null)
     {
@@ -126,8 +127,8 @@ abstract class AbstractElement
     /**
      * Set doc part
      *
-     * @param string $docPart
-     * @param int $docPartId
+     * @param string $docPart            
+     * @param int $docPartId            
      */
     public function setDocPart($docPart, $docPartId = 1)
     {
@@ -168,7 +169,7 @@ abstract class AbstractElement
     /**
      * Set element index
      *
-     * @param int $value
+     * @param int $value            
      */
     public function setElementIndex($value)
     {
@@ -206,7 +207,7 @@ abstract class AbstractElement
     /**
      * Set relation Id
      *
-     * @param int $value
+     * @param int $value            
      */
     public function setRelationId($value)
     {
@@ -226,7 +227,7 @@ abstract class AbstractElement
     /**
      * Set nested level
      *
-     * @param int $value
+     * @param int $value            
      */
     public function setNestedLevel($value)
     {
@@ -246,20 +247,23 @@ abstract class AbstractElement
     /**
      * Set style value
      *
-     * @param mixed $styleObject Style object
-     * @param mixed $styleValue Style value
-     * @param bool $returnObject Always return object
+     * @param mixed $styleObject
+     *            Style object
+     * @param mixed $styleValue
+     *            Style value
+     * @param bool $returnObject
+     *            Always return object
      * @return mixed
      */
     protected function setStyle($styleObject, $styleValue = null, $returnObject = false)
     {
-        if (!is_null($styleValue) && is_array($styleValue)) {
+        if (! is_null($styleValue) && is_array($styleValue)) {
             $styleObject->setStyleByArray($styleValue);
             $style = $styleObject;
         } else {
             $style = $returnObject ? $styleObject : $styleValue;
         }
-
+        
         return $style;
     }
 }
