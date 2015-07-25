@@ -9,9 +9,12 @@ trait TemplateTrait
      */
     protected function loadTemnplateBackend($header = [], $content = "")
     {
+        // get user info
+        $sidebar['user'] = $this->session->userdata('user');
+        
         $template['head'] = $this->load->view(BACKEND_V2_INC_TMPL_PATH . 'inc_head', $header, true);
         $template['header'] = $this->load->view(BACKEND_V2_INC_TMPL_PATH . 'inc_header', null, true);
-        $template['sidebar'] = $this->load->view(BACKEND_V2_INC_TMPL_PATH . 'inc_sidebar', null, true);
+        $template['sidebar'] = $this->load->view(BACKEND_V2_INC_TMPL_PATH . 'inc_sidebar', $sidebar, true);
         $template['breadcrumbs'] = $this->load->view(BACKEND_V2_INC_TMPL_PATH . 'inc_breadcrumbs', null, true);
         $template['content'] = $content;
         $template['footer'] = $this->load->view(BACKEND_V2_INC_TMPL_PATH . 'inc_footer', null, true);

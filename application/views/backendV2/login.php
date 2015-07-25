@@ -56,7 +56,7 @@
             			<button id="position-1-error" class="mt-sm mb-sm btn btn-danger" style="<?php echo $style; ?>">
             				<?php echo $error; ?>.
             			</button>
-						<?php echo form_open(BACKEND_V2_TMPL_PATH . 'users/login', ['id' => 'formLogin']); ?>
+						<?php echo form_open(BACKEND_V2_TMPL_PATH . 'users/login', ['id' => 'form']); ?>
 							<div class="form-group mb-lg">
 								<label>Tên đăng nhập <span class="required">*</span></label>
 								<div class="input-group input-group-icon">
@@ -124,7 +124,7 @@
 		<script src="<?php echo BACKEND_V2_JS_PATH; ?>theme.init.js"></script>
 		
 		<!-- Validate form -->
-		<script src="<?php echo BACKEND_V2_JS_PATH; ?>forms/formLogin.validation.js"></script>
+		<script src="<?php echo BACKEND_V2_JS_PATH; ?>forms/form.validation.js"></script>
 
 	</body>
 </html>

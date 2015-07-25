@@ -1,7 +1,4 @@
 <?php
-// get user info
-$user = $this->session->userdata('user');
-
 // load sidebar config
 $this->config->load('el-sidebar');
 $menu = $this->config->item('menu');
@@ -28,7 +25,7 @@ $menu = $this->config->item('menu');
 					   if (in_array($user->role, $roles)) :
 					       $hasChild = !empty($item['child']);
 					?>
-					<li <?php echo $hasChild ? 'class="nav-parent"': ''; ?>>
+					<li class="<?php echo $key;?> <?php echo $hasChild ? 'nav-parent': ''; ?>">
 					<?php if($hasChild): ?>
 						<a>
 							<i class="<?php echo $item['icon']; ?>" aria-hidden="true"></i> 
@@ -64,3 +61,17 @@ $menu = $this->config->item('menu');
 
 </aside>
 <!-- end: sidebar -->
+<script type="text/javascript">
+<?php
+$controller = $this->uri->segment(2);
+$action = $this->uri->segment(3);
+?>
+$(document).ready(function() {			
+	$('.<?php echo $controller; ?>-<?php echo $action?>').addClass('nav-active');
+	$('.<?php echo $controller; ?>').addClass('nav-active');
+
+	if($('.<?php echo $controller; ?>').hasClass('nav-parent')) {
+		$('.<?php echo $controller; ?>').addClass('nav-expanded');
+	}
+});
+</script>

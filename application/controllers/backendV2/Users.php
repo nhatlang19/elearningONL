@@ -6,6 +6,7 @@ include_once APPPATH . 'helpers/Traits/TemplateTrait.php';
 class Users extends CI_Controller
 {
     use TemplateTrait;
+    use PaginateTrait;
     
     public function __construct()
     {
@@ -134,45 +135,30 @@ class Users extends CI_Controller
         // get data
         $per_page = PER_PAGE;
         $username = $this->input->post('username');
-        $data = array();
-        
         $uri_segment = $this->uri->segment(4);
         
         $base_url = base_url() . BACKEND_V2_TMPL_PATH . 'users/lists';
         
         $data['lists'] = $this->user->getAllUser($username, $uri_segment, $per_page);
         
-        $config['base_url'] = $base_url;
-        $config['total_rows'] = $this->user->table_record_count;
-        $config['per_page'] = $per_page;
-        $config['num_links'] = NUM_LINKS;
-        $config['uri_segment'] = 4;
-        $config['first_link'] = '&laquo; First';
-        $config['last_link'] = 'Last &raquo;';
-        $config['prev_link'] = '&laquo; Previous';
-        $config['next_link'] = 'Next &raquo;';
-        $config['anchor_class'] = 'class="number"';
-        
+
+        $base_url = base_url() . BACKEND_V2_TMPL_PATH . 'storage/lists';
+        $config = $this->configPagination($base_url, $this->user->table_record_count, $per_page, 4);
         $this->pagination->initialize($config);
         $data['pagination'] = $this->pagination;
         
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'users/lists', $data, TRUE);
-        $temp['header'] = $this->load->view(BACK_END_INC_TMPL_PATH . 'inc_header', $header, TRUE);
-        $temp['sidebar'] = $this->load->view(BACK_END_INC_TMPL_PATH . 'inc_sidebar', null, TRUE);
-        $temp['content'] = $content;
-        $temp['footer'] = $this->load->view(BACK_END_INC_TMPL_PATH . 'inc_footer', null, TRUE);
-        $this->load->view(BACKEND_V2_TMPL_PATH . 'template', $temp);
+        $this->loadTemnplateBackend($header, $content);
     }
 
     function edit($id = null)
     {
         $header['title'] = 'Thêm User';
         $task = 'add';
-        
         $data = array();
         if ($id) {
             $header['title'] = 'Chỉnh sửa user';
-            $data['user'] = $this->user->find_by_pkey($id);
+            $data['userInfo'] = $this->user->find_by_pkey($id);
             $data['id'] = $id;
             $task = 'edit';
         }
@@ -204,12 +190,7 @@ class Users extends CI_Controller
         $data['title'] = $header['title'];
         $data['task'] = $task;
         $data['subjects'] = $this->subject_model->getAllSubjects();
-        
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'users/edit', $data, TRUE);
-        $temp['header'] = $this->load->view(BACK_END_INC_TMPL_PATH . 'inc_header', $header, TRUE);
-        $temp['sidebar'] = $this->load->view(BACK_END_INC_TMPL_PATH . 'inc_sidebar', null, TRUE);
-        $temp['content'] = $content;
-        $temp['footer'] = $this->load->view(BACK_END_INC_TMPL_PATH . 'inc_footer', null, TRUE);
-        $this->load->view(BACKEND_V2_TMPL_PATH . 'template', $temp);
+        $this->loadTemnplateBackend($header, $content);
     }
 }

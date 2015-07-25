@@ -205,7 +205,7 @@ class Ext_Model extends CI_Model
         
         $results = array();
         if (! empty($query) && $query->num_rows() > 0) {
-            $results = $query->result_array();
+            $results = $query->result();
         }
         
         // flush cache
@@ -262,7 +262,7 @@ class Ext_Model extends CI_Model
         $query = $this->db->get($this->table_name);
         $results = array();
         if (! empty($query) && $query->num_rows() > 0) {
-            $results = $query->result_array();
+            $results = $query->result();
         }
         
         // flush cache

@@ -90,7 +90,7 @@ class Storage extends Ext_Controller
     public function delete($id = null) {
         if($this->input->is_ajax_request() && $id) {
             $id = intval($id);
-//             $this->storage_model->delete_by_pkey($id);
+            $this->storage_model->delete_by_pkey($id);
             $this->sendAjax();
         } else {
             show_404();

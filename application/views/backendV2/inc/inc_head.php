@@ -24,6 +24,8 @@
 
 		<!-- Specific Page Vendor CSS -->
 		<link rel="stylesheet" href="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" />
+		<link rel="stylesheet" href="<?php echo BACKEND_V2_VENDOR_PATH; ?>select2/select2.css" />
+		<link rel="stylesheet" href="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" />
 		<link rel="stylesheet" href="<?php echo BACKEND_V2_VENDOR_PATH; ?>bootstrap-multiselect/bootstrap-multiselect.css" />
 		<link rel="stylesheet" href="<?php echo BACKEND_V2_VENDOR_PATH; ?>morris/morris.css" />
 

@@ -40,7 +40,7 @@ class User_model extends Ext_Model
         $query = $this->db->get();
         $results = array();
         if (! empty($query) && $query->num_rows() > 0) {
-            $results = $query->result_array();
+            $results = $query->result();
         }
         
         // flush cache

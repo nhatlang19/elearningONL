@@ -4,10 +4,12 @@ if (! defined('BASEPATH'))
     exit('No direct script access allowed');
     
 include_once APPPATH . 'helpers/Traits/TemplateTrait.php';
+include_once APPPATH . 'helpers/Traits/PaginateTrait.php';
 
 class Ext_Controller extends CI_Controller
 {
     use TemplateTrait;
+    use PaginateTrait;
     
     const _URI_SEGMENT = 4;
 
@@ -37,21 +39,6 @@ class Ext_Controller extends CI_Controller
         $config['max_size'] = '100000';
         $config['max_width'] = '1024';
         $config['max_height'] = '768';
-        return $config;
-    }
-
-    protected function configPagination($base_url, $total_rows, $per_page = 20, $uri_segment = 4)
-    {
-        $config['base_url'] = $base_url;
-        $config['total_rows'] = $total_rows;
-        $config['per_page'] = $per_page;
-        $config['num_links'] = 10;
-        $config['uri_segment'] = "$uri_segment";
-        $config['first_link'] = '&laquo; First';
-        $config['last_link'] = 'Last &raquo;';
-        $config['prev_link'] = '&laquo; Previous';
-        $config['next_link'] = 'Next &raquo;';
-        $config['anchor_class'] = 'class="number"';
         return $config;
     }
 
