@@ -1,10 +1,14 @@
 <?php
+
 if (! defined('BASEPATH'))
     exit('No direct script access allowed');
+    
+include_once APPPATH . 'helpers/Traits/TemplateTrait.php';
 
 class Ext_Controller extends CI_Controller
 {
-
+    use TemplateTrait;
+    
     const _URI_SEGMENT = 4;
 
     var $url_return = '';
@@ -36,15 +40,6 @@ class Ext_Controller extends CI_Controller
         return $config;
     }
 
-    protected function loadTemnplateAdmin($header = "", $content = "")
-    {
-        $temp['header'] = $this->load->view(BACK_END_INC_TMPL_PATH . 'inc_header', $header, TRUE);
-        $temp['sidebar'] = $this->load->view(BACK_END_INC_TMPL_PATH . 'inc_sidebar', null, TRUE);
-        $temp['content'] = $content;
-        $temp['footer'] = $this->load->view(BACK_END_INC_TMPL_PATH . 'inc_footer', null, TRUE);
-        $this->load->view(BACK_END_TMPL_PATH . 'template', $temp);
-    }
-
     protected function configPagination($base_url, $total_rows, $per_page = 20, $uri_segment = 4)
     {
         $config['base_url'] = $base_url;
@@ -58,25 +53,6 @@ class Ext_Controller extends CI_Controller
         $config['next_link'] = 'Next &raquo;';
         $config['anchor_class'] = 'class="number"';
         return $config;
-    }
-
-    /**
-     * load template file
-     * $header : array header data
-     * $content : content data
-     */
-    protected function loadTemplate($header = "", $content = "")
-    {
-        
-        // load header template
-        $template['header'] = $this->load->view(COMMON_TMPL_PATH . 'header', $header, true);
-        
-        $template['content'] = $content;
-        
-        // load footer template
-        $template['footer'] = $this->load->view(COMMON_TMPL_PATH . 'footer', '', true);
-        
-        $this->load->view(COMMON_TMPL_PATH . 'template', $template);
     }
 
     protected function sendAjax($status = 0, $message = '')

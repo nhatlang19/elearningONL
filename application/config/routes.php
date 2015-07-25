@@ -50,9 +50,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 
-$route['admin'] = "backend";
-$route['admin/signin'] = "backend/users/login";
-$route['backend/storage-question/(.+)'] = "backend/storagequestion/$1";
+$route['admin'] = "backendV2";
+$route['admin/signin'] = "backendV2/users/login";
+$route['backend/storage-question/(.+)'] = "backendV2/storagequestion/$1";
 
 $route['default_controller'] = 'exam';
 $route['404_override'] = '';

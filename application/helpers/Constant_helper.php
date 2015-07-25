@@ -58,6 +58,20 @@ define('PATH_UPLOADS_NO_ROOT', 'public/uploads/');
 define('PATH_FILES', DOCUMENT_ROOT . '/public/backend/files/');
 define('PATH_FILES_NO_ROOT', 'public/backend/files/');
 
+//////// V2 ///////
+define('BACKEND_V2_TMPL_PATH', 'backendV2/');
+define('BACKEND_V2_IMAGE_PATH', ROOT . '/public/backendV2/assets/images/');
+define('BACKEND_V2_JS_PATH', ROOT . '/public/backendV2/assets/javascripts/');
+define('BACKEND_V2_CSS_PATH', ROOT . '/public/backendV2/assets/stylesheets/');
+define('BACKEND_V2_VENDOR_PATH', ROOT . '/public/backendV2/assets/vendor/');
+define('BACKEND_V2_INC_TMPL_PATH', 'backendV2/inc/');
+define('BACKEND_V2_TMP_PATH', ROOT . '/public/backendV2/tmp/');
+define('BACKEND_V2_DOC_PATH_DIR', 'public/backendV2/docs/');
+define('BACKEND_V2_EXCEL_PATH_DIR', 'public/backendV2/xlss/');
+define('BACKEND_V2_TMP_PATH_ROOT', DOCUMENT_ROOT . '/public/backendV2/tmp/');
+define('BACKEND_V2_TEMPLATES_PATH', ROOT . '/public/backendV2/templates/');
+define('BACKEND_V2_TRASH_PATH', 'public/backendV2/trash');
+
 global $config_ckeditor;
 $config_ckeditor = array(
     'skin' => 'office2003',
