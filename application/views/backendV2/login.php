@@ -18,8 +18,6 @@
 		<!-- Vendor CSS -->
 		<link rel="stylesheet" href="<?php echo BACKEND_V2_VENDOR_PATH; ?>bootstrap/css/bootstrap.css" />
 		<link rel="stylesheet" href="<?php echo BACKEND_V2_VENDOR_PATH; ?>font-awesome/css/font-awesome.css" />
-		<link rel="stylesheet" href="<?php echo BACKEND_V2_VENDOR_PATH; ?>magnific-popup/magnific-popup.css" />
-		<link rel="stylesheet" href="<?php echo BACKEND_V2_VENDOR_PATH; ?>bootstrap-datepicker/css/datepicker3.css" />
 
 		<!-- Theme CSS -->
 		<link rel="stylesheet" href="<?php echo BACKEND_V2_CSS_PATH; ?>theme.css" />
@@ -42,10 +40,11 @@
 					<img src="<?php echo BACKEND_V2_IMAGE_PATH; ?>logo.png" height="54" alt="Porto Admin" />
 				</a>
 <?php
-    $style = "display: none;";
+    $style = "hide";
     $error = '';
     if (($error = $this->session->flashdata('error'))) {
         $style = '';
+        $this->session->set_flashdata('error', null);
     }
 ?>
 				<div class="panel panel-sign">
@@ -53,9 +52,10 @@
 						<h2 class="title text-uppercase text-bold m-none"><i class="fa fa-user mr-xs"></i> Đăng nhập</h2>
 					</div>
 					<div class="panel-body">
-            			<button id="position-1-error" class="mt-sm mb-sm btn btn-danger" style="<?php echo $style; ?>">
-            				<?php echo $error; ?>.
-            			</button>
+						<div class="alert alert-danger <?php echo $style; ?>">
+                            <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+                            <?php echo $error; ?>.
+						</div>
 						<?php echo form_open(BACKEND_V2_TMPL_PATH . 'users/login', ['id' => 'form']); ?>
 							<div class="form-group mb-lg">
 								<label>Tên đăng nhập <span class="required">*</span></label>
@@ -106,10 +106,6 @@
 		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery/jquery.js"></script>
 		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-browser-mobile/jquery.browser.mobile.js"></script>
 		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>bootstrap/js/bootstrap.js"></script>
-		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>nanoscroller/nanoscroller.js"></script>
-		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>magnific-popup/magnific-popup.js"></script>
-		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-placeholder/jquery.placeholder.js"></script>
 		
 		<!-- Specific Page Vendor -->
 		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-validation/jquery.validate.js"></script>
