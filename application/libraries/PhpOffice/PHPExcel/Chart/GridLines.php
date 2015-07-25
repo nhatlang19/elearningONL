@@ -1,5 +1,5 @@
 <?php
-require_once 'Properties.php';
+require_once '../libraries/PhpOffice/PHPExcel/Chart/Properties.php';
 
 /**
  * Created by PhpStorm.

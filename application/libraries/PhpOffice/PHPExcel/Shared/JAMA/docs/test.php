@@ -1,6 +1,6 @@
 <?php
-include_once "includes/header.php";
-include_once "includes/navbar.php";
+include_once "../libraries/PhpOffice/PHPExcel/Shared/JAMA/docs/includes/header.php";
+include_once "../libraries/PhpOffice/PHPExcel/Shared/JAMA/docs/includes/navbar.php";
 ?>
 <p>The first script your should run when you install Jama is the
 	TestMatrix.php script.</p>
@@ -30,5 +30,5 @@ include_once "includes/navbar.php";
 </p>
 <?php
 highlight_file("../test/TestMatrix.php");
-include_once "includes/footer.php";	
+include_once "../libraries/PhpOffice/PHPExcel/Shared/JAMA/docs/includes/footer.php";	
 ?>

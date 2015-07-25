@@ -2,7 +2,7 @@
 /**
  * @package JAMA
  */
-require_once "../Matrix.php";
+require_once "../libraries/PhpOffice/PHPExcel/Shared/JAMA/Matrix.php";
 
 /**
  * Example of use of Matrix Class, featuring magic squares.

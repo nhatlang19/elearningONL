@@ -32,6 +32,10 @@
 
 <script type="text/javascript"
 	src="<?php echo BACK_END_JS_PATH; ?>global.js"></script>
+
+<script type="text/javascript"
+	src="<?php echo BACK_END_JS_PATH; ?>jquery.cookie.js"></script>	
+	
 <script type="text/javascript"
 	src="<?php echo BACK_END_JS_PATH; ?>main.js"></script>
 

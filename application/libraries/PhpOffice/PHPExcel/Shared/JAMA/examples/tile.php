@@ -1,5 +1,5 @@
 <?php
-include "../Matrix.php";
+include "../libraries/PhpOffice/PHPExcel/Shared/JAMA/Matrix.php";
 
 /**
  * Tiling of matrix X in [rowWise by colWise] dimension.

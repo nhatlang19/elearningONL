@@ -1,6 +1,6 @@
 <?php
-include_once "includes/header.php";
-include_once "includes/navbar.php";
+include_once "../libraries/PhpOffice/PHPExcel/Shared/JAMA/docs/includes/header.php";
+include_once "../libraries/PhpOffice/PHPExcel/Shared/JAMA/docs/includes/navbar.php";
 ?>
 
 <p>JAMA is a proposed standard matrix class for Java. The JAMA
@@ -23,6 +23,6 @@ include_once "includes/navbar.php";
 	it's current development status.</p>
 
 <?php
-include_once "includes/credits.php";
-include_once "includes/footer.php";
+include_once "../libraries/PhpOffice/PHPExcel/Shared/JAMA/docs/includes/credits.php";
+include_once "../libraries/PhpOffice/PHPExcel/Shared/JAMA/docs/includes/footer.php";
 ?>

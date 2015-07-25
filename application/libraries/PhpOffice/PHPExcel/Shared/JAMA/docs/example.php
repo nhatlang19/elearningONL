@@ -1,6 +1,6 @@
 <?php
-include_once "includes/header.php";
-include_once "includes/navbar.php";
+include_once "../libraries/PhpOffice/PHPExcel/Shared/JAMA/docs/includes/header.php";
+include_once "../libraries/PhpOffice/PHPExcel/Shared/JAMA/docs/includes/navbar.php";
 ?>
 <h2>Magic Square Example</h2>
 <p>The Jama distribution comes with a magic square example that is used
@@ -349,5 +349,5 @@ include_once "includes/navbar.php";
 
 <?php
 highlight_file("../examples/MagicSquareExample.php");
-include_once "includes/footer.php";	
+include_once "../libraries/PhpOffice/PHPExcel/Shared/JAMA/docs/includes/footer.php";	
 ?>

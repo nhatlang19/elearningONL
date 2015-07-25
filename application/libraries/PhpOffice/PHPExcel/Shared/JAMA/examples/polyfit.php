@@ -1,5 +1,5 @@
 <?php
-require_once "../Matrix.php";
+require_once "../libraries/PhpOffice/PHPExcel/Shared/JAMA/Matrix.php";
 
 /*
  * @package JAMA

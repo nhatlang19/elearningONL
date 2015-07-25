@@ -2,12 +2,11 @@ View = Backbone.View.extend({
 	initialize : function() {
 		$('.btimport').click(function(e) {
 			var qid = $(this).attr('id');
-
-			var data = 'qid=' + qid;
-			Backbone.ajax({
+			
+			$.ajax({
 				type: "POST",
 				url : "view",
-				data : data,
+				data : {qid : qid},
 				success : function(response) {
 					$('#messages div').html(response);
 				},

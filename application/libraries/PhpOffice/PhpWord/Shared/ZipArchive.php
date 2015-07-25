@@ -89,7 +89,7 @@ class ZipArchive
             if (! defined('PCLZIP_TEMPORARY_DIR')) {
                 define('PCLZIP_TEMPORARY_DIR', sys_get_temp_dir() . '/');
             }
-            require_once 'PCLZip/pclzip.lib.php';
+            require_once '../libraries/PhpOffice/PhpWord/Shared/PCLZip/pclzip.lib.php';
         }
     }
 

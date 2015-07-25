@@ -1,4 +1,11 @@
-$(document).ready(function() {
+$(function() {
+	// this bit needs to be loaded on every page where an ajax POST may happen
+    $.ajaxSetup({
+        data: {
+            csrf_test_name: $.cookie('csrf_cookie_name')
+        }
+    });
+	
 	// delete click
 	$('.btdelete').click(function(e) {
 		if(!confirm('Bạn có chắc chắn xóa không?')) {

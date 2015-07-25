@@ -6,8 +6,8 @@ error_reporting(E_ALL);
  * @package JAMA
  */
 
-require_once '../Matrix.php';
-require_once 'Stats.php';
+require_once '../libraries/PhpOffice/PHPExcel/Shared/JAMA/Matrix.php';
+require_once '../libraries/PhpOffice/PHPExcel/Shared/JAMA/examples/Stats.php';
 
 /**
  * Example of use of Matrix Class, featuring magic squares.

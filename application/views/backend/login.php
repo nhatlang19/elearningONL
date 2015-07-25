@@ -45,6 +45,7 @@
 					<?php
     
     $style = "display: none;";
+    $error = '';
     if ($this->session->userdata('error')) {
         $error = $this->session->userdata('error');
         $style = '';

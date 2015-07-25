@@ -92,7 +92,7 @@ $i = 1;
 								<div class="ellipsis">
 									<a id="<?php echo $value['storage_question_id']; ?>"
 										class="btimport" href="#messages" rel="modal">
-											<?php echo nl2br(stripslashes($value['question_name'])); ?></a>
+											<?php echo word_limiter(satinateTitle($value['question_name']), 4) . ' ...'; ?></a>
 								</div>
 							</td>
 							<td><?php echo $value['title']; ?></td>
