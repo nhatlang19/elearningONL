@@ -28,7 +28,7 @@
 
 			<div class="tab-content" id="tab1">
 
-				<?php echo form_open_multipart(BACK_END_TMPL_PATH . 'storage-question/save'); ?>
+				<?php echo form_open_multipart(BACKEND_V2_TMPL_PATH . 'storage-question/save'); ?>
 
 					<fieldset>
 						
@@ -228,4 +228,4 @@ foreach ($storage as $item) :
 		<!-- End .content-box-content -->
 
 		<!-- </div>  End .content-box -->
-		<script src="<?php echo BACK_END_JS_PATH; ?>storage_questions/edit.js"></script>
+		<script src="<?php echo BACKEND_V2_JS_PATH; ?>storage_questions/edit.js"></script>

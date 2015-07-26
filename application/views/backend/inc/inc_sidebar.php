@@ -15,10 +15,10 @@
 			<?php
 $user = $this->session->userdata('user');
 
-echo anchor(site_url(BACK_END_TMPL_PATH . 'users/change_password'), $user->username, array(
+echo anchor(site_url(BACKEND_V2_TMPL_PATH . 'users/change_password'), $user->username, array(
     'title' => 'Change Password'
 ));
-?>. <?php echo anchor(site_url(BACK_END_TMPL_PATH . 'users/logout'), 'Thoát', array('title' => 'Thoát'))?>
+?>. <?php echo anchor(site_url(BACKEND_V2_TMPL_PATH . 'users/logout'), 'Thoát', array('title' => 'Thoát'))?>
 		</div>
 
 		<ul id="main-nav">
@@ -40,7 +40,7 @@ if (count($item['menu']) < 2) :
                 $array = array(
                     'class' => $classMenu['class']
                 );
-                echo anchor(BACK_END_TMPL_PATH . $classMenu['link'], $classMenu['title'], $array);
+                echo anchor(BACKEND_V2_TMPL_PATH . $classMenu['link'], $classMenu['title'], $array);
                 ?>
 						<?php else: ?>
 							<a href="#" class="nav-top-item <?php echo $key; ?>"> <!-- Add the class "current" to current menu item -->
@@ -53,7 +53,7 @@ if (count($item['menu']) < 2) :
                     $array = array(
                         'class' => $e['class']
                     );
-                    echo anchor(BACK_END_TMPL_PATH . $e['link'], $e['title'], $array);
+                    echo anchor(BACKEND_V2_TMPL_PATH . $e['link'], $e['title'], $array);
                     ?>
 								</li>
 								<?php endforeach; ?>

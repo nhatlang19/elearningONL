@@ -24,11 +24,11 @@
 
 			<div class="tab-content" id="tab1">
 
-				<?php echo form_open_multipart(BACK_END_TMPL_PATH . 'students/import'); ?>
+				<?php echo form_open_multipart(BACKEND_V2_TMPL_PATH . 'students/import'); ?>
 
 					<div class="notification error png_bg" style="display: none">
 					<a href="#" class="close"> <img
-						src="<?php echo BACK_END_IMAGE_PATH; ?>cross_grey_small.png"
+						src="<?php echo BACKEND_V2_IMAGE_PATH; ?>cross_grey_small.png"
 						title="Close this notification" alt="close" /></a>
 					<div></div>
 				</div>
@@ -38,7 +38,7 @@
 					<!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
 					<p>
 						<label>Chọn file: (Download template from <a
-							href="<?php echo BACK_END_TEMPLATES_PATH; ?>template_student_lists.xls">here</a>)
+							href="<?php echo BACKEND_V2_TEMPLATES_PATH; ?>template_student_lists.xls">here</a>)
 						</label> <input type="file" name="uploadfile" id="uploadfile" />
 					</p>
 
@@ -76,4 +76,4 @@ var ERROR = '';
 			ERROR = '<?php echo $error; ?>';
 			<?php endif; ?>
 		</script>
-		<script src="<?php echo BACK_END_JS_PATH; ?>students/import.js"></script>
+		<script src="<?php echo BACKEND_V2_JS_PATH; ?>students/import.js"></script>

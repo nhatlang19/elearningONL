@@ -135,7 +135,7 @@ $config['menu'] = array(
             )
         )
     ),
-    'lop' => array(
+    'clazz' => array(
         'role' => [
             ADMINISTRATOR
         ],
@@ -143,13 +143,13 @@ $config['menu'] = array(
         'title' => 'Quản lý lớp',
         'child' => array(
             array(
-                'class' => 'lop-add lop-edit',
-                'link' => BACKEND_V2_TMPL_PATH . 'lop/edit',
+                'class' => 'clazz-add clazz-edit',
+                'link' => BACKEND_V2_TMPL_PATH . 'clazz/edit',
                 'title' => 'Thêm lớp'
             ),
             array(
-                'class' => 'lop-lists',
-                'link' => BACKEND_V2_TMPL_PATH . 'lop/lists',
+                'class' => 'clazz-lists',
+                'link' => BACKEND_V2_TMPL_PATH . 'clazz/lists',
                 'title' => 'Danh sách lớp'
             )
         )

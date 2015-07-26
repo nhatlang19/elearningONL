@@ -14,7 +14,7 @@
 					<div class="form-group">
 						<label class="col-md-3 control-label" for="inputDefault">Tên kho <span class="required">*</span></label>
 						<div class="col-md-6">
-							<input type="text" class="form-control" id="inputDefault" required value="<?php echo isset($storage->title) ? $storage->title : ''; ?>">
+							<input type="text" class="form-control" name="title" id="inputDefault" required value="<?php echo isset($storage->title) ? $storage->title : ''; ?>">
 						</div>
 					</div>
 					<div class="form-group">

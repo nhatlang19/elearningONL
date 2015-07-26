@@ -2,14 +2,20 @@
 
 class Ext_Model extends CI_Model
 {
+    const DELETED_YES = 1;
+    const DELETED_NO = 0;
+    
+    const PUBLISHED = 1;
+    const UNPUBLISHED = 0;
+    
 
-    var $table_name = NULL;
+    public $table_name = NULL;
 
-    var $pkey = NULL;
+    public $pkey = NULL;
 
-    var $table_record_count = 0;
+    public $table_record_count = 0;
 
-    var $CI;
+    public $CI;
 
     /**
      * Constructor
@@ -17,7 +23,9 @@ class Ext_Model extends CI_Model
     function __construct($table_name = NULL, $pkey = NULL)
     {
         parent::__construct();
+        
         $this->CI = & get_instance();
+        
         $this->init_table_info($table_name, $pkey);
     }
 
@@ -103,19 +111,42 @@ class Ext_Model extends CI_Model
     /**
      * Retrieves and returns all data listing from the database
      * 
-     * @param
-     *            int start
-     * @param
-     *            int count
-     * @param
-     *            string order
-     * @param
-     *            string direction
+     * @param int start
+     * @param int count
+     * @param string order
+     * @param string direction
      * @return : returns data listing from the database
      */
-    function findAll($start = NULL, $count = NULL, $order = NULL, $direction = '')
+    function findAll($filters = null, $start = null, $count = null, $order = null, $direction = '')
     {
-        return $this->find(NULL, $start, $count, $order, $direction);
+        $this->db->start_cache();
+        $this->db->select($this->table_name . '.*');
+        $this->db->stop_cache();
+        
+        if ($filters) {
+            $this->db->where($filters);
+        }
+        
+        if (! is_null($start)) {
+            if (! is_null($count)) {
+                $this->db->limit($count, $start);
+            } else {
+                $this->db->limit($start);
+            }
+        }
+        
+        // set orderby : default of direction is Asc
+        if ($order) {
+            $this->db->order_by($order, $direction);
+        }
+        
+        $query = $this->db->get($this->table_name);
+        
+        $results = array();
+        if (! empty($query) && $query->num_rows() > 0) {
+            $results = $query->result();
+        }
+        return $results;
     }
 
     /**
@@ -171,7 +202,7 @@ class Ext_Model extends CI_Model
      *            string direction
      * @return : returns data listing from the database
      */
-    function find($filters = NULL, $start = NULL, $count = NULL, $order = NULL, $direction = '')
+    function find($filters = NULL, $start = NULL, $count = NULL, $order = NULL, $direction = 'asc')
     {
         
         // start cache
@@ -407,6 +438,32 @@ class Ext_Model extends CI_Model
         }
         
         return $max_product_id;
+    }
+    
+    public function deleteById($id) {
+        return $this->update_by_pkey($id, ['deleted' => self::DELETED_YES]);
+    }
+    
+    public function getAll($start = null, $count = null, $cached = true)
+    {
+        if($cached) {
+            $cacheName = $this->CI->lphcache->getCacheName($this->table_name, 'getAll');
+            if (!$cacheName || ! $data = $this->CI->lphcache->get($cacheName))
+            {
+                $filters = [$this->table_name . '.deleted' => self::DELETED_NO];
+                $data = $this->findAll($filters, $start, $count);
+        
+                if($cacheName) {
+                    // Save into the cache for 5 minutes
+                    $this->CI->lphcache->save($cacheName, $data, CACHE_TIME);
+                }
+            }
+        } else {
+            $filters = ['deleted' => self::DELETED_NO];
+            $data = $this->findAll($filters, $start, $count);
+        }
+    
+        return $data;
     }
 }
 ?>

@@ -13,7 +13,7 @@ if (! $storage_questions['type']) :
 			<?php
         if ($answer['correct_answer'] == 1) :
             ?>
-			<img src="<?php echo BACK_END_IMAGE_PATH; ?>tick_circle.png" />
+			<img src="<?php echo BACKEND_V2_IMAGE_PATH; ?>tick_circle.png" />
 			<?php endif; ?>
 			</li>
 	</ul>
@@ -29,7 +29,7 @@ if (! $storage_questions['type']) :
 			<?php
         if ($answer['correct_answer'] == 1) :
             ?>
-			<img src="<?php echo BACK_END_IMAGE_PATH; ?>tick_circle.png" />
+			<img src="<?php echo BACKEND_V2_IMAGE_PATH; ?>tick_circle.png" />
 			<?php endif; ?>
 			</li>
 	</ul>

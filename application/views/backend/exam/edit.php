@@ -25,11 +25,11 @@
 
 			<div class="tab-content" id="tab1">
 
-				<?php echo form_open(BACK_END_TMPL_PATH . 'exam/edit'); ?>
+				<?php echo form_open(BACKEND_V2_TMPL_PATH . 'exam/edit'); ?>
 
 					<div class="notification error png_bg" style="display: none">
 					<a href="#" class="close"> <img
-						src="<?php echo BACK_END_IMAGE_PATH; ?>cross_grey_small.png"
+						src="<?php echo BACKEND_V2_IMAGE_PATH; ?>cross_grey_small.png"
 						title="Close this notification" alt="close" /></a>
 					<div></div>
 				</div>
@@ -75,4 +75,4 @@
 		<!-- End .content-box-content -->
 
 		<!-- </div>  End .content-box -->
-		<script src="<?php echo BACK_END_JS_PATH; ?>exam/edit.js"></script>
+		<script src="<?php echo BACKEND_V2_JS_PATH; ?>exam/edit.js"></script>

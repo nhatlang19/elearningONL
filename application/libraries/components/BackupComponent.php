@@ -21,7 +21,7 @@ class BackupComponent extends AppComponent
     
         // Load the file helper and write the file to your server
         $CI->load->helper('file');
-        write_file(BACK_END_BACKUP_PATH_ROOT . NAME_BACKUP, $backup);
+        write_file(BACKEND_V2_BACKUP_PATH_ROOT . NAME_BACKUP, $backup);
     
         if ($download) {
             // Load the download helper and send the file to your desktop

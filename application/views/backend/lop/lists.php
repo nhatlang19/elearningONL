@@ -1,7 +1,7 @@
 
 <div id="main-content">
 	<!-- Main Content Section with everything -->
-			<?php echo form_open(BACK_END_TMPL_PATH . 'class/save', array('name' => "adminForm", 'id' => 'adminForm')); ?>	
+			<?php echo form_open(BACKEND_V2_TMPL_PATH . 'class/save', array('name' => "adminForm", 'id' => 'adminForm')); ?>	
 			<!-- Page Head -->
 	<h2>Quản lý lớp học</h2>
 	<ul class="shortcut-buttons-set">
@@ -9,10 +9,10 @@
 		<li>
 				<?php
     $new_page = '<span>
-						<img src="' . BACK_END_IMAGE_PATH . 'paper_content_pencil_48.png" alt="icon" /><br />
+						<img src="' . BACKEND_V2_IMAGE_PATH . 'paper_content_pencil_48.png" alt="icon" /><br />
 						Tạo mới
 					</span>';
-    echo anchor(BACK_END_TMPL_PATH . 'lop/edit', $new_page, array(
+    echo anchor(BACKEND_V2_TMPL_PATH . 'lop/edit', $new_page, array(
         'class' => 'shortcut-button'
     ));
     ?>
@@ -73,17 +73,17 @@
 							<td><?php echo $i++; ?></td>
 							<td><input type="checkbox" name="check[]" id="check"
 								value="<?php echo $value['class_id']; ?>" /></td>
-							<td><?php echo anchor(BACK_END_TMPL_PATH . 'lop/edit/' . $value['class_id'], $value['class_name']); ?></td>
+							<td><?php echo anchor(BACKEND_V2_TMPL_PATH . 'lop/edit/' . $value['class_id'], $value['class_name']); ?></td>
 							<td><?php echo $value['block_name']; ?></td>
 							<td style="text-align: center">
 									<?php
             if ($value['published']) :
                 ?>
 										<a href="#" title="Đang mở"> <img
-									src="<?php echo BACK_END_IMAGE_PATH ?>tick_circle.png" /></a>
+									src="<?php echo BACKEND_V2_IMAGE_PATH ?>tick_circle.png" /></a>
 									<?php else: ?>
 										<a href="#" title="Đang đóng"> <img
-									src="<?php echo BACK_END_IMAGE_PATH ?>cross_circle.png" /></a>
+									src="<?php echo BACKEND_V2_IMAGE_PATH ?>cross_circle.png" /></a>
 									<?php endif; ?>
 									</td>
 						</tr>

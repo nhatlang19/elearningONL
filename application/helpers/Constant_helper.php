@@ -10,6 +10,8 @@ if (! defined('BASEPATH'))
  * Version : 1.0
  */
 
+define('CACHE_TIME', 300);
+
 define('SCORE_MAX', 10);
 define('SCORE_MIN', 0);
 
@@ -32,20 +34,9 @@ define('SEPARATE_CORRECT_ANSWER', ',');
  */
 define('ROOT', '');
 define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT'] . ROOT);
-define('BACK_END_TMPL_PATH', 'backend/');
-define('BACK_END_INC_TMPL_PATH', 'backend/inc/');
-define('BACK_END_IMAGE_PATH', ROOT . '/public/backend/images/');
-define('BACK_END_JS_PATH', ROOT . '/public/backend/js/');
-define('BACK_END_CSS_PATH', ROOT . '/public/backend/css/');
-define('BACK_END_TMP_PATH', ROOT . '/public/backend/tmp/');
-define('BACK_END_DOC_PATH_DIR', 'public/backend/docs/');
-define('BACK_END_EXCEL_PATH_DIR', 'public/backend/xlss/');
-define('BACK_END_TMP_PATH_ROOT', DOCUMENT_ROOT . '/public/backend/tmp/');
-define('BACK_END_TEMPLATES_PATH', ROOT . '/public/backend/templates/');
-define('BACK_END_TRASH_PATH', 'public/backend/trash');
 // BACKUP
 define('NAME_BACKUP', 'mybackup_' . date('dmYHis') . '.gz');
-define('BACK_END_BACKUP_PATH_ROOT', DOCUMENT_ROOT . '/public/backend/backup/');
+define('BACKEND_V2_BACKUP_PATH_ROOT', DOCUMENT_ROOT . '/public/backendV2/backup/');
 // FRONTEND
 define('FRONT_END_TMPL_PATH', 'frontend/');
 define('COMMON_TMPL_PATH', FRONT_END_TMPL_PATH . 'common/');

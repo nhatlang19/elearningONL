@@ -106,6 +106,7 @@
 		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery/jquery.js"></script>
 		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-browser-mobile/jquery.browser.mobile.js"></script>
 		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>bootstrap/js/bootstrap.js"></script>
+		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>nanoscroller/nanoscroller.js"></script>
 		
 		<!-- Specific Page Vendor -->
 		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-validation/jquery.validate.js"></script>

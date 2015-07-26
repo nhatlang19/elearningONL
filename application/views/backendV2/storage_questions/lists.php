@@ -10,10 +10,10 @@
 		<li>
 				<?php
     $new_page = '<span>
-						<img src="' . BACK_END_IMAGE_PATH . 'paper_content_pencil_48.png" alt="icon" /><br />
+						<img src="' . BACKEND_V2_IMAGE_PATH . 'paper_content_pencil_48.png" alt="icon" /><br />
 						Tạo câu hỏi mới
 					</span>';
-    echo anchor(BACK_END_TMPL_PATH . 'storage-question/edit', $new_page, array(
+    echo anchor(BACKEND_V2_TMPL_PATH . 'storage-question/edit', $new_page, array(
         'class' => 'shortcut-button'
     ));
     ?>
@@ -38,7 +38,7 @@
 		<!-- End .content-box-header -->
 
 		<div class="content-box-content">
-				<?php echo form_open(BACK_END_TMPL_PATH . 'storage_question/lists', array('name' => "adminForm", 'id' => 'adminForm')); ?>	
+				<?php echo form_open(BACKEND_V2_TMPL_PATH . 'storage_question/lists', array('name' => "adminForm", 'id' => 'adminForm')); ?>	
 					<div class="tab-content default-tab" id="tab1">
 				<!-- This is the target div. id must match the href of this div's tab -->
 
@@ -103,22 +103,22 @@ $i = 1;
             $published = 0;
             $alt = '';
             if (! $value['published']) {
-                $src = BACK_END_IMAGE_PATH . 'cross_circle.png';
+                $src = BACKEND_V2_IMAGE_PATH . 'cross_circle.png';
                 $alt = 'published';
             } else {
-                $src = BACK_END_IMAGE_PATH . 'tick_circle.png';
+                $src = BACKEND_V2_IMAGE_PATH . 'tick_circle.png';
                 $alt = 'unpublished';
             }
             $img = "<img src='$src' alt='$alt' />";
-            echo anchor(BACK_END_TMPL_PATH . 'storage-question/' . $alt . '/' . $value['storage_question_id'], $img, array(
+            echo anchor(BACKEND_V2_TMPL_PATH . 'storage-question/' . $alt . '/' . $value['storage_question_id'], $img, array(
                 'title' => $alt
             ));
             ?>
 									</td>
 							<td>
 								<!-- Icons -->
-										<?php echo anchor(BACK_END_TMPL_PATH . 'storage-question/edit/' . $value['storage_question_id'],  '<img src="' . BACK_END_IMAGE_PATH . 'pencil.png" alt="Edit" />', array('title'=>'Edit')); ?>
-										<?php echo anchor(BACK_END_TMPL_PATH . 'storage-question/delete/' . $value['storage_question_id'],  '<img src="' . BACK_END_IMAGE_PATH . 'cross.png" alt="Delete" />', array('title'=>'Delete', 'class' => 'btdelete')); ?>									 
+										<?php echo anchor(BACKEND_V2_TMPL_PATH . 'storage-question/edit/' . $value['storage_question_id'],  '<img src="' . BACKEND_V2_IMAGE_PATH . 'pencil.png" alt="Edit" />', array('title'=>'Edit')); ?>
+										<?php echo anchor(BACKEND_V2_TMPL_PATH . 'storage-question/delete/' . $value['storage_question_id'],  '<img src="' . BACKEND_V2_IMAGE_PATH . 'cross.png" alt="Delete" />', array('title'=>'Delete', 'class' => 'btdelete')); ?>									 
 									</td>
 						</tr>								
 								<?php } ?>
@@ -139,4 +139,4 @@ $i = 1;
 			<div></div>
 		</div>
 		<script
-			src="<?php echo BACK_END_JS_PATH; ?>storage_questions/lists.js"></script>
+			src="<?php echo BACKEND_V2_JS_PATH; ?>storage_questions/lists.js"></script>

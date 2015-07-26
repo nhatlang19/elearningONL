@@ -50,7 +50,7 @@ class Score extends Ext_Controller
                 $this->score_model->update_data($arrays);
             }
         }
-        redirect(BACK_END_TMPL_PATH . 'topic/lists');
+        redirect(BACKEND_V2_TMPL_PATH . 'topic/lists');
     }
 
     /**

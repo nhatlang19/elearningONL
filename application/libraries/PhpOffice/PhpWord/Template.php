@@ -83,10 +83,10 @@ class Template
         $this->zipClass = new ZipArchive();
         $this->zipClass->open($this->tempFileName);
         // Edited by Luan Nguyen
-        if (! file_exists(BACK_END_TRASH_PATH)) {
-            mkdir(BACK_END_TRASH_PATH, 0777);
+        if (! file_exists(BACKEND_V2_TRASH_PATH)) {
+            mkdir(BACKEND_V2_TRASH_PATH, 0777);
         }
-        $this->zipClass->extractTo(BACK_END_TRASH_PATH);
+        $this->zipClass->extractTo(BACKEND_V2_TRASH_PATH);
         
         // Find and load headers and footers
         $index = 1;
@@ -463,7 +463,7 @@ class Template
         
         $CI = & get_instance();
         $CI->load->library('commonobj');
-        $CI->commonobj->deleteDir(BACK_END_TRASH_PATH);
+        $CI->commonobj->deleteDir(BACKEND_V2_TRASH_PATH);
         
         return $rowData;
     }
@@ -537,7 +537,7 @@ class Template
             $desc = PATH_UPLOADS_NO_ROOT . 'images/' . $newPath;
             $newPath = base_url() . 'public/uploads/images/' . $newPath;
             
-            @copy(BACK_END_TRASH_PATH . '/word/media/image' . $index ++ . '.' . $ext, $desc);
+            @copy(BACKEND_V2_TRASH_PATH . '/word/media/image' . $index ++ . '.' . $ext, $desc);
             return "<img src='$newPath' /> ";
         }
         return '';

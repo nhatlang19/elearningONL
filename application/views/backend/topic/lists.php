@@ -1,7 +1,7 @@
 
 <div id="main-content">
 	<!-- Main Content Section with everything -->
-	<?php echo form_open(BACK_END_TMPL_PATH . 'topic/save', array('name' => "adminForm", 'id' => 'adminForm')); ?>
+	<?php echo form_open(BACKEND_V2_TMPL_PATH . 'topic/save', array('name' => "adminForm", 'id' => 'adminForm')); ?>
 	<!-- Page Head -->
 	<h2>Quản lý đề thi</h2>
 
@@ -77,11 +77,11 @@
 							<td style="text-align: center"><?php
         if ($value['published']) :
             ?> <a href="javascript:void(0);" title="Đang mở"> <img
-									src="<?php echo BACK_END_IMAGE_PATH ?>tick_circle.png" />
+									src="<?php echo BACKEND_V2_IMAGE_PATH ?>tick_circle.png" />
 							</a> <?php else: ?> <a
 								href="published/<?php echo $value['topic_manage_id']; ?>"
 								title="Đang đóng"> <img
-									src="<?php echo BACK_END_IMAGE_PATH ?>cross_circle.png" />
+									src="<?php echo BACKEND_V2_IMAGE_PATH ?>cross_circle.png" />
 							</a> <?php endif; ?>
 							</td>
 							<td class="<?php echo $tdStyle; ?>"><span
@@ -89,13 +89,13 @@
 								data-review="<?php echo $change_to; ?>" class="tdReview"><?php echo $review; ?></span>
 							</td>
 							<td style="text-align: center">
-								<?php echo anchor(BACK_END_TMPL_PATH . 'topic/export/' . $id, "<img src=\"" . BACK_END_IMAGE_PATH . "rar.png\" />"); ?>
+								<?php echo anchor(BACKEND_V2_TMPL_PATH . 'topic/export/' . $id, "<img src=\"" . BACKEND_V2_IMAGE_PATH . "rar.png\" />"); ?>
 							</td>
 							<td style="text-align: center"><img class="showListStudentAnswer"
 								id="<?php echo $value['topic_manage_id']; ?>"
-								src="<?php echo BACK_END_IMAGE_PATH; ?>rar.png" /></td>
+								src="<?php echo BACKEND_V2_IMAGE_PATH; ?>rar.png" /></td>
 							<td><?php echo setDate($value['created_time'], 'notime'); ?></td>
-							<td><img src="<?php echo BACK_END_IMAGE_PATH ?>trash.png"
+							<td><img src="<?php echo BACKEND_V2_IMAGE_PATH ?>trash.png"
 								alt="Trash" title="Trash" class="imgDelete"
 								id="<?php echo $value['topic_manage_id']; ?>" /></td>
 						</tr>
@@ -121,4 +121,4 @@
 
 		<!-- </div>  End .content-box -->
 		<?php echo form_close(); ?>
-<script src="<?php echo BACK_END_JS_PATH; ?>topic/lists.js"></script>
+<script src="<?php echo BACKEND_V2_JS_PATH; ?>topic/lists.js"></script>

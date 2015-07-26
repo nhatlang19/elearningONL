@@ -1,7 +1,7 @@
 
 <div id="main-content">
 	<!-- Main Content Section with everything -->
-	<?php echo form_open(BACK_END_TMPL_PATH . 'topic/list_trash', array('name' => "adminForm", 'id' => 'adminForm')); ?>
+	<?php echo form_open(BACKEND_V2_TMPL_PATH . 'topic/list_trash', array('name' => "adminForm", 'id' => 'adminForm')); ?>
 	<!-- Page Head -->
 	<h2>Quản lý đề thi(trash)</h2>
 
@@ -66,10 +66,10 @@
 							<td><?php echo $value['etitle']; ?></td>
 							<td><?php echo $value['academic_name']; ?></td>
 							<td><?php echo setDate($value['created_time'], 'notime'); ?></td>
-							<td><img src="<?php echo BACK_END_IMAGE_PATH ?>cross.png"
+							<td><img src="<?php echo BACKEND_V2_IMAGE_PATH ?>cross.png"
 								alt="Remove" title="Remove" class="imgRemove"
 								id="<?php echo $value['topic_manage_id']; ?>" /> <img
-								src="<?php echo BACK_END_IMAGE_PATH ?>restore.png" alt="Restore"
+								src="<?php echo BACKEND_V2_IMAGE_PATH ?>restore.png" alt="Restore"
 								title="Restore" class="imgRestore"
 								id="<?php echo $value['topic_manage_id']; ?>" /></td>
 						</tr>
@@ -86,4 +86,4 @@
 
 		<!-- </div>  End .content-box -->
 		<?php echo form_close(); ?>
-<script src="<?php echo BACK_END_JS_PATH; ?>topic/list_trash.js"></script>
+<script src="<?php echo BACKEND_V2_JS_PATH; ?>topic/list_trash.js"></script>

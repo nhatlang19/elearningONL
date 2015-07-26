@@ -83,10 +83,10 @@
 foreach ($answers as $k => $v) :
             $correct = '';
             if (isset($answer_of_student['answer']) && $answer_of_student['answer'] == $k + 1) {
-                $correct = "<img src='" . BACK_END_IMAGE_PATH . "cross_circle.png' />";
+                $correct = "<img src='" . BACKEND_V2_IMAGE_PATH . "cross_circle.png' />";
             }
             if ($positions[$k]) {
-                $correct = "<img src='" . BACK_END_IMAGE_PATH . "tick_circle.png' />";
+                $correct = "<img src='" . BACKEND_V2_IMAGE_PATH . "tick_circle.png' />";
             }
             ?>
 								<li><?php echo $list_answer[$k] . '. ' . $v; ?> <?php echo $correct; ?></li>

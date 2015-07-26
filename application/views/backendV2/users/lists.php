@@ -36,7 +36,7 @@
                 ?>
 				<tr class="gradeX" data-id="<?php echo $value->username; ?>">
 					<td><?php echo $i++; ?></td>
-					<td><?php echo anchor(BACK_END_TMPL_PATH . 'users/edit/' . $value->username, $value->username); ?></td>
+					<td><?php echo anchor(BACKEND_V2_TMPL_PATH . 'users/edit/' . $value->username, $value->username); ?></td>
 					<td><?php echo $value->email; ?></td>
 					<td><?php echo $value->subjects_name; ?></td>
 					<td class="actions">

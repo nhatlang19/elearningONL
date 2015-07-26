@@ -28,17 +28,17 @@ class Academic extends Ext_Controller
         $title = $this->input->post('title');
         $data = array();
         
-        $segment = $this->uri->segment(self::_URI_SEGMENT);
+        $segment = $this->uri->segment(self::URI_SEGMENT);
         
-        $base_url = base_url() . BACK_END_TMPL_PATH . 'academic/lists';
+        $base_url = base_url() . BACKEND_V2_TMPL_PATH . 'academic/lists';
         
         $data['lists'] = $this->academic_model->getAllAcademic($title, $segment, $per_page);
         
-        $config = $this->configPagination($base_url, $this->academic_model->table_record_count, $per_page, self::_URI_SEGMENT);
+        $config = $this->configPagination($base_url, $this->academic_model->table_record_count, $per_page, self::URI_SEGMENT);
         $this->pagination->initialize($config);
         $data['pagination'] = $this->pagination;
         
-        $content = $this->load->view(BACK_END_TMPL_PATH . 'academic/lists', $data, TRUE);
+        $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'academic/lists', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
 
@@ -66,12 +66,12 @@ class Academic extends Ext_Controller
             }
             unset($data);
             
-            redirect(BACK_END_TMPL_PATH . 'academic/lists');
+            redirect(BACKEND_V2_TMPL_PATH . 'academic/lists');
         }
         
         $data['title'] = $header['title'];
         $data['task'] = $task;
-        $content = $this->load->view(BACK_END_TMPL_PATH . 'academic/edit', $data, TRUE);
+        $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'academic/edit', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
 }

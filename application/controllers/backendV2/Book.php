@@ -50,7 +50,7 @@ class Book extends Ext_Controller
                 $this->storage_model->update_by_pkey($id, $value);
             }
             unset($value);
-            redirect(BACK_END_TMPL_PATH . 'storage/lists');
+            redirect(BACKEND_V2_TMPL_PATH . 'storage/lists');
         }
         
         $header['title'] = $title;
@@ -58,7 +58,7 @@ class Book extends Ext_Controller
         $data['task'] = $task;
         $data['user'] = $this->getUserInfo();
         $data['topic_manage'] = $this->topic_manage_model->getAllTopicManage();
-        $content = $this->load->view(BACK_END_TMPL_PATH . 'book/edit', $data, TRUE);
+        $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'book/edit', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
 }

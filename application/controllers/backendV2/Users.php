@@ -189,7 +189,7 @@ class Users extends CI_Controller
         
         $data['title'] = $header['title'];
         $data['task'] = $task;
-        $data['subjects'] = $this->subject_model->getAllSubjects();
+        $data['subjects'] = $this->subject_model->getAll();
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'users/edit', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }

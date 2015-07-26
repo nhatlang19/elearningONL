@@ -1,7 +1,7 @@
 <!-- start: page -->
 <div class="row">
 	<div class="col-lg-12">
-		<?php echo form_open(BACKEND_V2_TMPL_PATH . 'subject/edit', ['id' => 'form', 'class' => 'form-horizontal form-bordered']); ?>
+		<?php echo form_open(BACKEND_V2_TMPL_PATH . 'clazz/edit', ['id' => 'form', 'class' => 'form-horizontal form-bordered']); ?>
 		<section class="panel">
 			<header class="panel-heading">
 				<div class="panel-actions">
@@ -12,12 +12,31 @@
 			</header>
 			<div class="panel-body">
 				<div class="form-group">
-					<label class="col-md-3 control-label" for="inputDefault">Tên môn
+					<label class="col-md-3 control-label" for="inputDefault">Tên lớp
 						học <span class="required">*</span>
 					</label>
 					<div class="col-md-6">
-						<input name="subjects_name" type="text" class="form-control" id="inputDefault" required
-							value="<?php echo isset($subject->subjects_name) ? $subject->subjects_name : ''; ?>">
+						<input name="class_name" type="text" class="form-control" id="inputDefault" required
+							value="<?php echo isset($clazz->class_name) ? $clazz->class_name : ''; ?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label">Chọn khối</label>
+					<div class="col-md-6">
+						<select data-plugin-selectTwo class="form-control populate" name="block_id">
+							<?php 
+							foreach ($blocks as $block) :
+							$selected = '';
+							if (isset($clazz->block_id) && $block->block_id == $clazz->block_id) {
+							    $selected = 'selected="selected"';
+							}
+							?>
+								<option <?php echo $selected; ?>
+								value="<?php echo $block->block_id; ?>"><?php echo $block->title; ?></option>
+							<?php 
+							endforeach; 
+							?>
+						</select>
 					</div>
 				</div>
 			</div>

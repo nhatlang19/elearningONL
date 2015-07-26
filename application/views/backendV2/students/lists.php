@@ -1,7 +1,7 @@
 
 <div id="main-content">
 	<!-- Main Content Section with everything -->
-			<?php echo form_open(BACK_END_TMPL_PATH . 'students/lists', array('name' => "adminForm", 'id' => 'adminForm')); ?>	
+			<?php echo form_open(BACKEND_V2_TMPL_PATH . 'students/lists', array('name' => "adminForm", 'id' => 'adminForm')); ?>	
 			<!-- Page Head -->
 	<h2><?php echo MANAGE_STUDENT; ?></h2>
 	<ul class="shortcut-buttons-set">
@@ -9,10 +9,10 @@
 		<li>
 				<?php
     $new_page = '<span>
-						<img src="' . BACK_END_IMAGE_PATH . 'paper_content_pencil_48.png" alt="icon" /><br />
+						<img src="' . BACKEND_V2_IMAGE_PATH . 'paper_content_pencil_48.png" alt="icon" /><br />
 						Tạo mới
 					</span>';
-    echo anchor(BACK_END_TMPL_PATH . 'students/edit', $new_page, array(
+    echo anchor(BACKEND_V2_TMPL_PATH . 'students/edit', $new_page, array(
         'class' => 'shortcut-button'
     ));
     ?>
@@ -20,10 +20,10 @@
 		<li>
 				<?php
     $new_page = '<span>
-						<img src="' . BACK_END_IMAGE_PATH . 'paper_content_pencil_48.png" alt="icon" /><br />
+						<img src="' . BACKEND_V2_IMAGE_PATH . 'paper_content_pencil_48.png" alt="icon" /><br />
 						Import
 					</span>';
-    echo anchor(BACK_END_TMPL_PATH . 'students/import', $new_page, array(
+    echo anchor(BACKEND_V2_TMPL_PATH . 'students/import', $new_page, array(
         'class' => 'shortcut-button'
     ));
     ?>
@@ -108,7 +108,7 @@ foreach ($classes as $class) :
             ?>
 								<tr>
 							<td><?php echo $value['indentity_number']; ?></td>
-							<td><?php echo anchor(BACK_END_TMPL_PATH . 'students/edit/' . $value['student_id'], $value['fullname']); ?></td>
+							<td><?php echo anchor(BACKEND_V2_TMPL_PATH . 'students/edit/' . $value['student_id'], $value['fullname']); ?></td>
 							<td><?php echo $value['username']; ?></td>
 							<td><?php echo $value['class_name']; ?>
 								

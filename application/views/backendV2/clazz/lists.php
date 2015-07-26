@@ -7,7 +7,7 @@
 				class="fa fa-times"></a>
 		</div>
 
-		<h2 class="panel-title">Danh sách môn học</h2>
+		<h2 class="panel-title">Danh sách lớp</h2>
 	</header>
 	<div class="panel-body">
 		<div class="row">
@@ -24,6 +24,7 @@
 				<tr>
 					<th align="center">STT</th>
 					<th>Tên môn học</th>
+					<th>Khối</th>
 					<th>Trạng thái</th>
 					<th>Id</th>
 					<th>Actions</th>
@@ -34,9 +35,10 @@
                     $i = 1;
                     foreach ($lists as $key => $value) :
                 ?>
-				<tr class="gradeX" data-id="<?php echo $value->subjects_id; ?>">
+				<tr class="gradeX" data-id="<?php echo $value->class_id; ?>">
 					<td><?php echo $i++; ?></td>
-					<td><?php echo anchor(BACKEND_V2_TMPL_PATH . 'subject/edit/' . $value->subjects_id, $value->subjects_name); ?></td>
+					<td><?php echo anchor(BACKEND_V2_TMPL_PATH . 'clazz/edit/' . $value->class_id, $value->class_name); ?></td>
+					<td><?php echo $value->title; ?></td>
 					<td style="text-align: center">
 					<?php
                         $checked = $value->published ? 'checked="checked"' : '';
@@ -45,7 +47,7 @@
     						<input type="checkbox" name="switch" data-plugin-ios-switch <?php echo $checked; ?>  />
     					</div>
 					</td>
-					<td><?php echo $value->subjects_id; ?></td>
+					<td><?php echo $value->class_id; ?></td>
 					<td class="actions">
 						<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
 						<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
@@ -62,4 +64,4 @@
 <script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-datatables-bs3/assets/js/datatables.js"></script>
 <script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>ios7-switch/ios7-switch.js"></script>
 <script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>magnific-popup/magnific-popup.js"></script>
-<script src="<?php echo BACKEND_V2_JS_PATH; ?>subjects/datatables.editable.js"></script>
+<script src="<?php echo BACKEND_V2_JS_PATH; ?>clazz/datatables.editable.js"></script>

@@ -20,7 +20,7 @@ class Storage extends Ext_Controller
         $title = $this->input->post('title', null);
         $data = array();
         
-        $segment = $this->uri->segment(self::_URI_SEGMENT);
+        $segment = $this->uri->segment(self::URI_SEGMENT);
         
         // get user Information
         $user = $this->getUserInfo();
@@ -28,7 +28,7 @@ class Storage extends Ext_Controller
         $data['lists'] = $this->storage_model->getStorageList($title, $user->subjects_id, $per_page, $segment);
         
         $base_url = base_url() . BACKEND_V2_TMPL_PATH . 'storage/lists';
-        $config = $this->configPagination($base_url, $this->storage_model->table_record_count, $per_page, self::_URI_SEGMENT);
+        $config = $this->configPagination($base_url, $this->storage_model->table_record_count, $per_page, self::URI_SEGMENT);
         $this->pagination->initialize($config);
         $data['pagination'] = $this->pagination;
         
@@ -82,7 +82,7 @@ class Storage extends Ext_Controller
         $data['title'] = $title;
         $data['task'] = $task;
         $data['user'] = $this->getUserInfo();
-        $data['subjects'] = $this->subject_model->getAllSubjects();
+        $data['subjects'] = $this->subject_model->getAll();
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'storage/edit', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
@@ -156,7 +156,7 @@ class Storage extends Ext_Controller
 
     public function uploadfile($storage_id = 0)
     {
-        $file = BACK_END_TMP_PATH_ROOT . basename($_FILES['uploadfile']['name']);
+        $file = BACKEND_V2_TMP_PATH_ROOT . basename($_FILES['uploadfile']['name']);
         if (move_uploaded_file($_FILES['uploadfile']['tmp_name'], $file)) {
             if ($storage_id) {
                 $this->_saveFileData($storage_id, $_FILES['uploadfile']['name']);

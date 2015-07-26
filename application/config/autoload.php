@@ -64,7 +64,8 @@ $autoload['libraries'] = array(
     'database',
     'session',
     'pagination',
-    'ckeditor'
+    'ckeditor', 
+    'lphcache'
 );
 
 
@@ -81,7 +82,9 @@ $autoload['libraries'] = array(
 |	$autoload['drivers'] = array('cache');
 */
 
-$autoload['drivers'] = array();
+$autoload['drivers'] = array(
+    'cache'
+);
 
 
 /*
@@ -120,7 +123,9 @@ $autoload['helper'] = array(
 |
 */
 
-$autoload['config'] = array();
+$autoload['config'] = array(
+    'cache_config'
+);
 
 
 /*

@@ -11,10 +11,11 @@ class Ext_Controller extends CI_Controller
     use TemplateTrait;
     use PaginateTrait;
     
-    const _URI_SEGMENT = 4;
+    const URI_SEGMENT = 4;
 
     var $url_return = '';
-
+    protected $mainModel = '';
+    
     public function __construct()
     {
         parent::__construct();
@@ -50,6 +51,18 @@ class Ext_Controller extends CI_Controller
         ];
         
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
+    
+    public function delete($id = null) {
+        // @TODO: need to validate $this->mainModel before call 
+        // ....
+        if($this->input->is_ajax_request() && $id) {
+            $id = intval($id);
+            $this->{$this->mainModel}->deleteById($id);
+            $this->sendAjax();
+        } else {
+            show_404();
+        }
     }
 }
 

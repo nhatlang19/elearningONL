@@ -23,19 +23,19 @@ class StorageQuestion extends Ext_Controller
         $per_page = 20;
         $txt_search = $this->input->post('txt_search');
         $storage_id = $this->input->post('storage_id');
-        $segment = $this->uri->segment(self::_URI_SEGMENT);
+        $segment = $this->uri->segment(self::URI_SEGMENT);
         
         $user = $this->getUserInfo();
         
-        $base_url = base_url() . BACK_END_TMPL_PATH . 'storage-question/lists';
+        $base_url = base_url() . BACKEND_V2_TMPL_PATH . 'storage-question/lists';
         $data['storage_questions'] = $this->storage_question_model->getStorageQuestionAll($txt_search, $user->subjects_id, $storage_id, $segment, $per_page);
         
-        $config = $this->configPagination($base_url, $this->storage_question_model->table_record_count, $per_page, self::_URI_SEGMENT);
+        $config = $this->configPagination($base_url, $this->storage_question_model->table_record_count, $per_page, self::URI_SEGMENT);
         $this->pagination->initialize($config);
         
         $data['pagination'] = $this->pagination;
         
-        $content = $this->load->view(BACK_END_TMPL_PATH . 'storage_questions/lists', $data, TRUE);
+        $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'storage_questions/lists', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
 
@@ -43,7 +43,7 @@ class StorageQuestion extends Ext_Controller
     {
         $id = intval($id);
         $this->storage_question_model->delete_by_pkey($id);
-        redirect(BACK_END_TMPL_PATH . 'storage-question/lists');
+        redirect(BACKEND_V2_TMPL_PATH . 'storage-question/lists');
     }
 
     public function save()
@@ -95,7 +95,7 @@ class StorageQuestion extends Ext_Controller
             }
             
             if ($storage_question_id) {
-                redirect(BACK_END_TMPL_PATH . 'storage-question/lists');
+                redirect(BACKEND_V2_TMPL_PATH . 'storage-question/lists');
             } else {
                 $newdata = array(
                     'error' => 'Câu hỏi đã tồn tại'
@@ -104,9 +104,9 @@ class StorageQuestion extends Ext_Controller
                 $this->session->set_userdata($newdata);
                 $task = $this->input->post('task');
                 if ($task == 'add') {
-                    redirect(BACK_END_TMPL_PATH . 'storage-question/edit');
+                    redirect(BACKEND_V2_TMPL_PATH . 'storage-question/edit');
                 } else {
-                    redirect(BACK_END_TMPL_PATH . 'storage-question/edit/' . $id);
+                    redirect(BACKEND_V2_TMPL_PATH . 'storage-question/edit/' . $id);
                 }
             }
         }
@@ -119,7 +119,7 @@ class StorageQuestion extends Ext_Controller
             
             $data['storage_questions'] = $this->storage_question_model->find_by_pkey($qid);
             $data['storage_answer'] = $this->storage_answer_model->getAnswerByStorageQuestionId($qid);
-            $this->load->view(BACK_END_TMPL_PATH . 'storage_questions/load_info_question', $data);
+            $this->load->view(BACKEND_V2_TMPL_PATH . 'storage_questions/load_info_question', $data);
         } else {
             show_404();
         }
@@ -142,7 +142,7 @@ class StorageQuestion extends Ext_Controller
         
         $data['storage'] = $this->storage_model->getStorageAllByUser($this->getUserInfo()->subjects_id);
         
-        $content = $this->load->view(BACK_END_TMPL_PATH . 'storage_questions/edit', $data, TRUE);
+        $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'storage_questions/edit', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
 }

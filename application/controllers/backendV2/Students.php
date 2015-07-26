@@ -33,18 +33,18 @@ class Students extends Ext_Controller
         $name = $this->input->post('name');
         $data = array();
         
-        $segment = $this->uri->segment(self::_URI_SEGMENT);
-        $base_url = base_url() . BACK_END_TMPL_PATH . 'students/lists';
+        $segment = $this->uri->segment(self::URI_SEGMENT);
+        $base_url = base_url() . BACKEND_V2_TMPL_PATH . 'students/lists';
         
         $data['lists'] = $this->student_info_model->getAllStudents($name, $class_id, $segment, $per_page);
-        $config = $this->configPagination($base_url, $this->student_info_model->table_record_count, $per_page, self::_URI_SEGMENT);
+        $config = $this->configPagination($base_url, $this->student_info_model->table_record_count, $per_page, self::URI_SEGMENT);
         $this->pagination->initialize($config);
         $data['pagination'] = $this->pagination;
         
         $data['classes'] = $this->class_model->getAllClass();
         $data['class_id'] = $class_id;
         $data['name'] = $name;
-        $content = $this->load->view(BACK_END_TMPL_PATH . 'students/lists', $data, TRUE);
+        $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'students/lists', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
 
@@ -74,13 +74,13 @@ class Students extends Ext_Controller
             }
             unset($data);
             
-            redirect(BACK_END_TMPL_PATH . 'students/lists');
+            redirect(BACKEND_V2_TMPL_PATH . 'students/lists');
         }
         
         $data['classes'] = $this->class_model->getAllClass();
         $data['title'] = $header['title'];
         $data['task'] = $task;
-        $content = $this->load->view(BACK_END_TMPL_PATH . 'students/edit', $data, TRUE);
+        $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'students/edit', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
 
@@ -89,12 +89,12 @@ class Students extends Ext_Controller
         $header['title'] = IMPORT_STUDENT;
         $data['error'] = '';
         if ($this->input->post()) {
-            $file = BACK_END_TMP_PATH_ROOT . basename($_FILES['uploadfile']['name']);
+            $file = BACKEND_V2_TMP_PATH_ROOT . basename($_FILES['uploadfile']['name']);
             if (move_uploaded_file($_FILES['uploadfile']['tmp_name'], $file)) {
                 $class_id = intval($this->input->post('class_id'));
                 if ($class_id) {
                     $this->_saveFileData($class_id, $_FILES['uploadfile']['name']);
-                    redirect(BACK_END_TMPL_PATH . 'students/lists');
+                    redirect(BACKEND_V2_TMPL_PATH . 'students/lists');
                 }
             } else {
                 $data['error'] = "Không thể upload file";
@@ -102,7 +102,7 @@ class Students extends Ext_Controller
         }
         $data['title'] = $header['title'];
         $data['classes'] = $this->class_model->getAllClass();
-        $content = $this->load->view(BACK_END_TMPL_PATH . 'students/import', $data, TRUE);
+        $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'students/import', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
 

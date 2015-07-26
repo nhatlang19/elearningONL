@@ -14,7 +14,7 @@
 
 		<center>
 			<h2 style="margin-bottom: 20px;">ADMIN PANEL</h2>
-			<img src="<?php echo BACK_END_IMAGE_PATH; ?>admin_icon.png" />
+			<img src="<?php echo BACKEND_V2_IMAGE_PATH; ?>admin_icon.png" />
 		</center>
 
 

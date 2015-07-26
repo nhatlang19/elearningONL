@@ -35,12 +35,12 @@ if ($this->session->userdata('error_change')) {
     
     ?>
 			<meta http-equiv="refresh"
-			content="5; URL=<?php echo site_url(BACK_END_TMPL_PATH . 'dashboard'); ?>">
+			content="5; URL=<?php echo site_url(BACKEND_V2_TMPL_PATH . 'dashboard'); ?>">
 		<div class="notification information success png_bg" style="<?php echo $style; ?> margin-bottom: 100px;">
 			<div>
 					<?php echo $success; ?>
 				</div>
-			<div style="text-align: center">Vui lòng chờ trong 5 giây. Click vào <?php echo anchor(site_url(BACK_END_TMPL_PATH . 'dashboard'), 'đây')?> để không phải chờ lâu</div>
+			<div style="text-align: center">Vui lòng chờ trong 5 giây. Click vào <?php echo anchor(site_url(BACKEND_V2_TMPL_PATH . 'dashboard'), 'đây')?> để không phải chờ lâu</div>
 			<br clear='all' />
 		</div>
 										
@@ -63,7 +63,7 @@ if ($this->session->userdata('error_change')) {
 				<div class="tab-content" id="tab1">
 				
 
-				<?php echo form_open_multipart(BACK_END_TMPL_PATH . 'users/save'); ?>
+				<?php echo form_open_multipart(BACKEND_V2_TMPL_PATH . 'users/save'); ?>
 
 					<fieldset>
 						<!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->

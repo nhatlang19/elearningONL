@@ -26,7 +26,7 @@ class Topic extends Ext_Controller
     {
         // initialize
         $per_page = PER_PAGE;
-        $segment = $this->uri->segment(self::_URI_SEGMENT);
+        $segment = $this->uri->segment(self::URI_SEGMENT);
         
         $header['title'] = 'Quản lý đề thi';
         $data = array();
@@ -38,12 +38,12 @@ class Topic extends Ext_Controller
         
         $data['topics'] = $this->topic_manage_model->getTopicList($academic_id, $exam_id, $this->getUserInfo()->subjects_id, $per_page, $segment);
         
-        $base_url = base_url() . BACK_END_TMPL_PATH . 'topic/lists';
-        $config = $this->configPagination($base_url, $this->storage_model->table_record_count, $per_page, self::_URI_SEGMENT);
+        $base_url = base_url() . BACKEND_V2_TMPL_PATH . 'topic/lists';
+        $config = $this->configPagination($base_url, $this->storage_model->table_record_count, $per_page, self::URI_SEGMENT);
         $this->pagination->initialize($config);
         $data['pagination'] = $this->pagination;
         
-        $content = $this->load->view(BACK_END_TMPL_PATH . 'topic/lists', $data, TRUE);
+        $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'topic/lists', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
 
@@ -54,7 +54,7 @@ class Topic extends Ext_Controller
     {
         // initialize
         $per_page = PER_PAGE;
-        $segment = $this->uri->segment(self::_URI_SEGMENT);
+        $segment = $this->uri->segment(self::URI_SEGMENT);
         
         $header['title'] = 'Quản lý đề thi';
         $data = array();
@@ -66,12 +66,12 @@ class Topic extends Ext_Controller
         
         $data['topics'] = $this->topic_manage_model->getTopicListTrash($academic_id, $exam_id, $this->getUserInfo()->subjects_id, $per_page, $segment);
         
-        $base_url = base_url() . BACK_END_TMPL_PATH . 'topic/lists';
-        $config = $this->configPagination($base_url, $this->storage_model->table_record_count, $per_page, self::_URI_SEGMENT);
+        $base_url = base_url() . BACKEND_V2_TMPL_PATH . 'topic/lists';
+        $config = $this->configPagination($base_url, $this->storage_model->table_record_count, $per_page, self::URI_SEGMENT);
         $this->pagination->initialize($config);
         $data['pagination'] = $this->pagination;
         
-        $content = $this->load->view(BACK_END_TMPL_PATH . 'topic/list_trash', $data, TRUE);
+        $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'topic/list_trash', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
 
@@ -80,7 +80,7 @@ class Topic extends Ext_Controller
         $topic_manage_id = intval($topic_manage_id);
         $this->topic_manage_model->published($topic_manage_id);
         
-        redirect(BACK_END_TMPL_PATH . 'topic/lists');
+        redirect(BACKEND_V2_TMPL_PATH . 'topic/lists');
     }
 
     function delete($topic_manage_id)
@@ -118,8 +118,8 @@ class Topic extends Ext_Controller
         ob_start();
         $this->load->library('stringobj');
         $title = $this->stringobj->createAlias(implode('_', $topic_manage), '_');
-        if (! file_exists(BACK_END_DOC_PATH_DIR . $title)) {
-            mkdir(BACK_END_DOC_PATH_DIR . $title);
+        if (! file_exists(BACKEND_V2_DOC_PATH_DIR . $title)) {
+            mkdir(BACKEND_V2_DOC_PATH_DIR . $title);
         }
         
         // danh sach đề thi
@@ -148,8 +148,8 @@ class Topic extends Ext_Controller
                 }
             }
             $this->msdocgenerator->setDocumentCharset('UTF-8');
-            $this->msdocgenerator->output($title_topic, BACK_END_DOC_PATH_DIR . $title);
-            $array_topic[] = BACK_END_DOC_PATH_DIR . $title . '/' . $title_topic;
+            $this->msdocgenerator->output($title_topic, BACKEND_V2_DOC_PATH_DIR . $title);
+            $array_topic[] = BACKEND_V2_DOC_PATH_DIR . $title . '/' . $title_topic;
             
             // ghi file dap an
             $title_topic = 'De ' . $topic['code'] . " - dap an.doc";
@@ -177,15 +177,15 @@ class Topic extends Ext_Controller
             }
             $this->msdocgenerator->endTable();
             $this->msdocgenerator->setDocumentCharset('UTF-8');
-            $this->msdocgenerator->output($title_topic, BACK_END_DOC_PATH_DIR . $title);
-            $array_topic[] = BACK_END_DOC_PATH_DIR . $title . '/' . $title_topic;
+            $this->msdocgenerator->output($title_topic, BACKEND_V2_DOC_PATH_DIR . $title);
+            $array_topic[] = BACKEND_V2_DOC_PATH_DIR . $title . '/' . $title_topic;
         }
         
         // zip folder
         $this->load->library('recursezip');
-        $src = BACK_END_DOC_PATH_DIR . $title;
+        $src = BACKEND_V2_DOC_PATH_DIR . $title;
         // Destination folder where we create Zip file.
-        $dst = BACK_END_DOC_PATH_DIR;
+        $dst = BACKEND_V2_DOC_PATH_DIR;
         $zip = $this->recursezip->compress($src, $dst);
         
         // delete doc file
@@ -293,7 +293,7 @@ class Topic extends Ext_Controller
             unset($question);
             unset($answers);
             
-            redirect(BACK_END_TMPL_PATH . 'topic/lists');
+            redirect(BACKEND_V2_TMPL_PATH . 'topic/lists');
         }
         
         $header['title'] = 'Tạo đề thi';
@@ -307,7 +307,7 @@ class Topic extends Ext_Controller
         // load loai hinh thi
         $data['list_exam'] = $this->exam_model->getAllExam();
         
-        $content = $this->load->view(BACK_END_TMPL_PATH . 'topic/edit', $data, TRUE);
+        $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'topic/edit', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
 
@@ -342,7 +342,7 @@ class Topic extends Ext_Controller
             
             $data = array();
             $data['lists'] = $this->topic_file_model->getFilesTopicManageId($topic_manage_id);
-            $content = $this->load->view(BACK_END_TMPL_PATH . 'topic/list_download', $data, TRUE);
+            $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'topic/list_download', $data, TRUE);
             
             $this->sendAjax(0, $content);
         } else {

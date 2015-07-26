@@ -26,10 +26,10 @@
 
 			<div class="tab-content" id="tab1">
 
-				<?php echo form_open_multipart(BACK_END_TMPL_PATH . 'topic/create'); ?>
+				<?php echo form_open_multipart(BACKEND_V2_TMPL_PATH . 'topic/create'); ?>
 				<div class="notification error png_bg" style="display: none">
 					<a href="#" class="close"> <img
-						src="<?php echo BACK_END_IMAGE_PATH; ?>cross_grey_small.png"
+						src="<?php echo BACKEND_V2_IMAGE_PATH; ?>cross_grey_small.png"
 						title="Close this notification" alt="close" />
 					</a>
 					<div></div>
