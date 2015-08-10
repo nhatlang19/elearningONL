@@ -1,142 +1,70 @@
-
-<div id="main-content">
-	<!-- Main Content Section with everything -->
-
-	<!-- Page Head -->
-	<h2>Quản lý kho câu hỏi</h2>
-
-	<ul class="shortcut-buttons-set">
-
-		<li>
-				<?php
-    $new_page = '<span>
-						<img src="' . BACKEND_V2_IMAGE_PATH . 'paper_content_pencil_48.png" alt="icon" /><br />
-						Tạo câu hỏi mới
-					</span>';
-    echo anchor(BACKEND_V2_TMPL_PATH . 'storage-question/edit', $new_page, array(
-        'class' => 'shortcut-button'
-    ));
-    ?>
-				</li>
-
-	</ul>
-	<!-- End .shortcut-buttons-set -->
-
-	<div class="clear"></div>
-	<!-- End .clear -->
-
-	<div class="content-box">
-		<!-- Start Content Box -->
-
-		<div class="content-box-header">
-
-			<h3>Danh sách câu hỏi</h3>
-
-			<div class="clear"></div>
-
+<link rel="stylesheet" href="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-datatables-bs3/assets/css/datatables.css" />
+<!-- start: page -->
+<section class="panel">
+	<header class="panel-heading">
+		<div class="panel-actions">
+			<a href="#" class="fa fa-caret-down"></a> <a href="#"
+				class="fa fa-times"></a>
 		</div>
-		<!-- End .content-box-header -->
 
-		<div class="content-box-content">
-				<?php echo form_open(BACKEND_V2_TMPL_PATH . 'storage_question/lists', array('name' => "adminForm", 'id' => 'adminForm')); ?>	
-					<div class="tab-content default-tab" id="tab1">
-				<!-- This is the target div. id must match the href of this div's tab -->
-
-				<table>
-
-					<thead>
-						<tr>
-							<th>STT</th>
-							<th><input class="check-all" type="checkbox" /></th>
-
-							<th>Câu hỏi</th>
-							<th>Tên kho</th>
-							<th>Thời gian tạo</th>
-							<th style="text-align: center;">Trạng thái</th>
-							<th></th>
-						</tr>
-
-					</thead>
-
-					<tfoot>
-						<tr>
-							<td colspan="5">
-								<div class="bulk-actions align-left">
-									<select name="dropdown">
-										<option value="-1">Choose an action...</option>
-										<option value="0">Publish</option>
-										<option value="1">Unpublish</option>
-									</select> <a class="button" href="javascript:void(0);"
-										onclick="adminForm.submit();">Apply to selected</a>
-								</div>
-
-								<div class="pagination">
-											<?php echo $pagination->create_links(); ?>
-										</div> <!-- End .pagination -->
-								<div class="clear"></div>
-							</td>
-						</tr>
-					</tfoot>
-
-					<tbody>
-								<?php
-        
-$i = 1;
-        foreach ($storage_questions as $key => $value) {
-            ?>
-								<tr>
-							<td><?php echo $i++; ?></td>
-							<td><input type="checkbox" name="check[]" id="check"
-								value="<?php echo $value['storage_question_id']; ?>" /></td>
-							<td>
-								<div class="ellipsis">
-									<a id="<?php echo $value['storage_question_id']; ?>"
-										class="btimport" href="#messages" rel="modal">
-											<?php echo word_limiter(satinateTitle($value['question_name']), 4) . ' ...'; ?></a>
-								</div>
-							</td>
-							<td><?php echo $value['title']; ?></td>
-							<td><?php echo setDate($value['updated_time'], 'notime'); ?></td>
-							<td style="text-align: center;">
-									<?php
-            $src = '';
-            $published = 0;
-            $alt = '';
-            if (! $value['published']) {
-                $src = BACKEND_V2_IMAGE_PATH . 'cross_circle.png';
-                $alt = 'published';
-            } else {
-                $src = BACKEND_V2_IMAGE_PATH . 'tick_circle.png';
-                $alt = 'unpublished';
-            }
-            $img = "<img src='$src' alt='$alt' />";
-            echo anchor(BACKEND_V2_TMPL_PATH . 'storage-question/' . $alt . '/' . $value['storage_question_id'], $img, array(
-                'title' => $alt
-            ));
-            ?>
-									</td>
-							<td>
-								<!-- Icons -->
-										<?php echo anchor(BACKEND_V2_TMPL_PATH . 'storage-question/edit/' . $value['storage_question_id'],  '<img src="' . BACKEND_V2_IMAGE_PATH . 'pencil.png" alt="Edit" />', array('title'=>'Edit')); ?>
-										<?php echo anchor(BACKEND_V2_TMPL_PATH . 'storage-question/delete/' . $value['storage_question_id'],  '<img src="' . BACKEND_V2_IMAGE_PATH . 'cross.png" alt="Delete" />', array('title'=>'Delete', 'class' => 'btdelete')); ?>									 
-									</td>
-						</tr>								
-								<?php } ?>
-							</tbody>
-
-				</table>
-
-			</div>
-			<!-- End #tab1 -->
-				<?php echo form_close(); ?>	
+		<h2 class="panel-title">Danh sách câu hỏi</h2>
+	</header>
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="mb-md">
+					<button id="addToTable" class="btn btn-primary">
+						Add <i class="fa fa-plus"></i>
+					</button>
 				</div>
-		<!-- End .content-box-content -->
-
-		<!-- </div>  End .content-box -->
-
-		<div id="messages" style="display: none">
-			<!-- Messages are shown when a link with these attributes are clicked: href="#messages" rel="modal"  -->
-			<div></div>
+			</div>
 		</div>
-		<script
-			src="<?php echo BACKEND_V2_JS_PATH; ?>storage_questions/lists.js"></script>
+		<table class="table table-bordered table-striped mb-none" id="datatable-editable">
+			<thead>
+				<tr>
+					<th align="center">STT</th>
+					<th>Câu hỏi</th>
+					<th>Tên kho</th>
+					<th>Thời gian tạo</th>
+					<th style="text-align: center;">Trạng thái</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php
+                    $i = 1;
+                    foreach ($lists as $key => $value) :
+                ?>
+				<tr class="gradeX" data-id="<?php echo $value->storage_question_id; ?>">
+					<td><?php echo $i++; ?></td>
+					<td>
+    					<a class="sq-ajax-modal" href="<?php echo site_url(BACKEND_V2_TMPL_PATH . 'storage-question/view/' . $value->storage_question_id); ?>">
+    					<?php echo word_limiter(satinateTitle($value->question_name), 4) . ' ...'; ?>
+    					</a>
+					<td><?php echo $value->title; ?></td>
+					<td><?php echo setDate($value->updated_time, 'time'); ?></td>
+					<td style="text-align: center">
+					<?php
+                        $checked = $value->published ? 'checked="checked"' : '';
+                    ?>
+    					<div class="switch switch-sm switch-primary">
+    						<input type="checkbox" name="switch" data-plugin-ios-switch <?php echo $checked; ?>  />
+    					</div>
+					</td>
+					<td class="actions">
+						<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+						<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+					</td>
+				</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+	</div>
+</section>
+<!-- Specific Page Vendor -->
+<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-datatables/media/js/jquery.dataTables.js"></script>
+<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-datatables-bs3/assets/js/datatables.js"></script>
+<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>ios7-switch/ios7-switch.js"></script>
+<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>magnific-popup/magnific-popup.js"></script>
+<script src="<?php echo BACKEND_V2_JS_PATH; ?>storage_questions/datatables.editable.js"></script>
+<script src="<?php echo BACKEND_V2_JS_PATH; ?>storage_questions/modals.js"></script>

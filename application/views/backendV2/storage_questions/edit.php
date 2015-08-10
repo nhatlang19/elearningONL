@@ -1,231 +1,75 @@
-<script src="<?php echo base_url();?>public/ckeditor/ckeditor.js"
-	type="text/javascript"></script>
-<script type="text/javascript"
-	src="<?php echo base_url();?>public/ckfinder/ckfinder.js"></script>
-<div id="main-content">
-	<!-- Main Content Section with everything -->
+<link rel="stylesheet" href="<?php echo BACKEND_V2_VENDOR_PATH; ?>summernote/summernote.css" />
+<link rel="stylesheet" href="<?php echo BACKEND_V2_VENDOR_PATH; ?>summernote/summernote-bs3.css" />
+<!-- start: page -->
+<div class="row">
+	<div class="col-lg-12">
+		<?php echo form_open(BACKEND_V2_TMPL_PATH . 'storage/edit', ['id' => 'form', 'class' => 'form-horizontal form-bordered']); ?>
+		<section class="panel">
+			<header class="panel-heading">
+				<div class="panel-actions">
+					<a href="#" class="fa fa-caret-down"></a> 
+				</div>
 
-
-	<!-- Page Head -->
-	<h2>Quản lý kho câu hỏi</h2>
-
-	<div class="clear"></div>
-	<!-- End .clear -->
-
-	<div class="content-box">
-		<!-- Start Content Box -->
-
-		<div class="content-box-header">
-
-			<h3>Edit</h3>
-
-			<div class="clear"></div>
-
-		</div>
-		<!-- End .content-box-header -->
-
-		<div class="content-box-content">
-
-			<div class="tab-content" id="tab1">
-
-				<?php echo form_open_multipart(BACKEND_V2_TMPL_PATH . 'storage-question/save'); ?>
-
-					<fieldset>
-						
-							<?php
-    if ($this->session->userdata('error')) :
-        ?>
-							<span class="input-notification error png_bg red bold">
-								<?php
-        $error = $this->session->userdata('error');
-        $this->session->unset_userdata('error');
-        echo $error;
-        ?>							
-							</span>			
-							<?php endif; ?>
-						
-						<!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
-					<p>
-						<label>Chọn kho</label> <select name="storage" id="storage"
-							class="small-input">
-								<?php
-        
-foreach ($storage as $item) :
-            $selected = '';
-            if ($storage_questions && $item['storage_id'] == $storage_questions['storage_id']) {
-                $selected = 'selected="selected"';
-            }
-            ?>
-								<option <?php echo $selected; ?>
-								value="<?php echo $item['storage_id']; ?>"><?php echo $item['title']; ?></option>
+				<h2 class="panel-title"><?php echo $title; ?></h2>
+			</header>
+			<div class="panel-body">
+					<div class="form-group">
+						<label class="col-md-3 control-label">Chọn kho</label>
+						<div class="col-md-6">
+							<select data-plugin-selectTwo class="form-control populate" name="storage" id="storage">
+								<?php 
+								foreach ($storage as $item) :
+                                    $selected = '';
+                                    if ($storage_question && $item->storage_id == $storage_questions->storage_id) {
+                                        $selected = 'selected="selected"';
+                                    }
+                                ?>
+    								<option <?php echo $selected; ?>
+    								value="<?php echo $item->storage_id; ?>"><?php echo $item->title; ?></option>
 								<?php endforeach; ?>
 							</select>
-					</p>
-					<p>
-						<label id="questionId">Câu hỏi <span id="errorMsgQues"
-							class="input-notification error png_bg red bold"
-							style="display: none;"> </span>
-						</label>
-							<?php
-    global $config_ckeditor;
-    $text = isset($storage_questions['question_name']) ? stripslashes($storage_questions['question_name']) : '';
-    echo $this->ckeditor->editor("question_name", $text, $config_ckeditor);
-    ?> 							 
-								<span class="input-notification png_bg" style="display: none;">Successful
-							message</span>
-						<!-- Classes for input-notification: success, error, information, attention -->
-
-					</p>
-					<p>
-						<label>Loại câu hỏi</label> <select name="type" id="type"
-							class="small-input">
-
-							<option value="0"
-								<?php echo (!@$storage_questions['type'])?'selected="selected"':''?>>Text</option>
-							<option value="1"
-								<?php echo (@$storage_questions['type'])?'selected="selected"':''?>>Image</option>
-
-						</select>
-					</p>
-					<label id="answer_sentence">Câu trả lời <span id="errorMsgAns"
-						class="input-notification error png_bg red bold"
-						style="display: none;"> </span>
-					</label> <span class="text"
-						<?php echo (@$storage_questions['type'])?'style="display: none;"':''?>>
-
-						<p>
-							a. <input class="text-input medium-input answer_name" type="text"
-								name="answer_name[]"
-								value="<?php if(isset($storage_answer[0]['answer'])) echo stripslashes($storage_answer[0]['answer']); ?>" />
-							<input type="checkbox" name="correct_answer"
-								<?php if(isset($storage_answer[0]['correct_answer']) && $storage_answer[0]['correct_answer'] == 1) echo 'checked="checked"'; ?>
-								class="checkbox-answer" value="0" />
-						</p>
-						<p>
-							b. <input class="text-input medium-input answer_name" type="text"
-								name="answer_name[]"
-								value="<?php if(isset($storage_answer[1]['answer'])) echo stripslashes($storage_answer[1]['answer']); ?>" />
-							<input type="checkbox" name="correct_answer"
-								class="checkbox-answer"
-								<?php if(isset($storage_answer[1]['correct_answer']) && $storage_answer[1]['correct_answer'] == 1) echo 'checked="checked"'; ?>
-								value="1" />
-						</p>
-						<p>
-							c. <input class="text-input medium-input answer_name" type="text"
-								name="answer_name[]"
-								value="<?php if(isset($storage_answer[2]['answer'])) echo stripslashes($storage_answer[2]['answer']); ?>" />
-							<input type="checkbox" name="correct_answer"
-								class="checkbox-answer"
-								<?php if(isset($storage_answer[2]['correct_answer']) && $storage_answer[2]['correct_answer'] == 1) echo 'checked="checked"'; ?>
-								value="2" />
-						</p>
-						<p>
-							d. <input class="text-input medium-input answer_name" type="text"
-								name="answer_name[]"
-								value="<?php if(isset($storage_answer[3]['answer'])) echo stripslashes($storage_answer[3]['answer']); ?>" />
-							<input type="checkbox" name="correct_answer"
-								class="checkbox-answer"
-								<?php if(isset($storage_answer[3]['correct_answer']) && $storage_answer[3]['correct_answer'] == 1) echo 'checked="checked"'; ?>
-								value="3" />
-						</p>
-					</span> <span class="image"
-						<?php echo (!isset($storage_questions['type']) || !$storage_questions['type'])?'style="display: none;"':''?>>
-
-						<p>
-							a. <input id="xImagePath0" class="text-input medium-input"
-								name="ImagePath[]" type="text" size="60"
-								value="<?php if(isset($storage_answer[0]['answer'])) echo $storage_answer[0]['answer']; ?>" />
-							<input class="button" type="button" value="Browse Server"
-								onclick="BrowseServer( 'Images:/', 'xImagePath0' );" /> <input
-								type="checkbox" name="checkbox1" class="checkbox-answer-img"
-								<?php if(isset($storage_answer[0]['correct_answer']) && $storage_answer[0]['correct_answer'] == 1) echo 'checked="checked"'; ?>
-								value="0" /> 
-								<?php if(isset($storage_answer[0]['answer'])) :?>
-								
-						
-						<div>
-							<img class="thumb"
-								src="<?php echo $storage_answer[0]['answer']; ?>" width="100" />
 						</div>
-								<?php endif; ?>
-								
-							</p>
-						<p>
-							b. <input id="xImagePath1" class="text-input medium-input"
-								name="ImagePath[]" type="text" size="60"
-								value="<?php if(isset($storage_answer[1]['answer'])) echo $storage_answer[1]['answer']; ?>" />
-							<input class="button" type="button" value="Browse Server"
-								onclick="BrowseServer( 'Images:/', 'xImagePath1' );" /> <input
-								type="checkbox" name="checkbox1" class="checkbox-answer-img"
-								<?php if(isset($storage_answer[1]['correct_answer']) && $storage_answer[1]['correct_answer'] == 1) echo 'checked="checked"'; ?>
-								value="1" /> 
-								<?php if(isset($storage_answer[1]['answer'])) :?>
-								
-						
-						<div>
-							<img class="thumb"
-								src="<?php echo $storage_answer[1]['answer']; ?>" width="100" />
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label" for="inputDefault">Câu hỏi <span class="required">*</span></label>
+						<div class="col-md-9">
+							<div class="summernote" data-plugin-summernote data-plugin-options='{ "height": 180, "codemirror": { "theme": "ambiance" } }'>
+							<?php echo isset($storage_question->question_name) ? stripslashes($storage_question->question_name) : ''; ?>
+							</div>
 						</div>
-								<?php endif; ?>
-							</p>
-						<p>
-							c. <input id="xImagePath2" class="text-input medium-input"
-								name="ImagePath[]" type="text" size="60"
-								value="<?php if(isset($storage_answer[2]['answer'])) echo $storage_answer[2]['answer']; ?>" />
-							<input class="button" type="button" value="Browse Server"
-								onclick="BrowseServer( 'Images:/', 'xImagePath2' );" /> <input
-								type="checkbox" name="checkbox1" class="checkbox-answer-img"
-								<?php if(isset($storage_answer[2]['correct_answer']) && $storage_answer[2]['correct_answer'] == 1) echo 'checked="checked"'; ?>
-								value="2" /> 
-								<?php if(isset($storage_answer[2]['answer'])) :?>
-								
-						
-						<div>
-							<img class="thumb"
-								src="<?php echo $storage_answer[2]['answer']; ?>" width="100" />
-						</div>
-								<?php endif; ?>
-							</p>
-						<p>
-							d. <input id="xImagePath3" class="text-input medium-input"
-								name="ImagePath[]" type="text" size="60"
-								value="<?php if(isset($storage_answer[3]['answer'])) echo $storage_answer[3]['answer']; ?>" />
-							<input class="button" type="button" value="Browse Server"
-								onclick="BrowseServer( 'Images:/', 'xImagePath3' );" /> <input
-								type="checkbox" name="checkbox1" class="checkbox-answer-img"
-								<?php if(isset($storage_answer[3]['correct_answer']) && $storage_answer[3]['correct_answer'] == 1) echo 'checked="checked"'; ?>
-								value="3" /> 
-								<?php if(isset($storage_answer[3]['answer'])) :?>
-								
-						
-						<div>
-							<img class="thumb"
-								src="<?php echo $storage_answer[3]['answer']; ?>" width="100" />
-						</div>
-								<?php endif; ?>
-							</p>
-					</span>
-
-					<p>
-						<input class="button" id="submit" type="submit" value="Submit" />
-
-						<input class="button" type="button" value="Cancel"
-							onclick="goback();" />
-					</p>
-
-				</fieldset>
-
-				<div class="clear"></div>
-				<!-- End .clear -->
-				<input type='hidden' name='id' id='id'
-					value='<?php if(isset($id)) echo $id; ?>' /> <input type='hidden'
-					name='task' id='task' value='<?php if(isset($task)) echo $task; ?>' />
-				<?php echo form_close(); ?>	
-
+					</div>
+					<?php 
+						$step = 0;
+						for($i=97;$i< 101;$i++) : ?>
+					<div class="form-group">
+						<label class="col-md-3 control-label"><?php if(!$step) : ?>Câu trả lời:<?php endif; ?></label>
+    						<div class="col-md-1">
+    							<?php echo chr($i); ?>. <input type="checkbox" name="correct_answer"
+    								<?php if(isset($storage_answer[$step]->correct_answer) && $storage_answer[$step]->correct_answer == 1) echo 'checked="checked"'; ?>
+    								class="checkbox-answer" value="<?php echo $step; ?>" />
+    						</div>
+    						<div class="col-md-8">
+    							<div class="summernote" data-plugin-summernote data-plugin-options='{ "name" : "answer_name[]", "height": 100, "codemirror": { "theme": "ambiance" } }'>
+    							<?php if(isset($storage_answer[$step]->answer)) echo stripslashes($storage_answer[$step]->answer); ?>
+    							</div>
+    						</div>
+					</div>
+					<?php $step++; endfor; ?>
 			</div>
-			<!-- End #tab2 -->
-		</div>
-		<!-- End .content-box-content -->
-
-		<!-- </div>  End .content-box -->
-		<script src="<?php echo BACKEND_V2_JS_PATH; ?>storage_questions/edit.js"></script>
+			<footer class="panel-footer">
+				<div class="row">
+					<div class="col-sm-9 col-sm-offset-3">
+						<button class="btn btn-primary">Submit</button>
+						<button type="reset" class="btn btn-default">Reset</button>
+					</div>
+				</div>
+			</footer>
+		</section>
+		<?php echo form_close(); ?>
+	</div>
+</div>
+<!-- Specific Page Vendor -->
+<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-validation/jquery.validate.js"></script>
+<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>summernote/summernote.js"></script>
+<!-- Validate form -->
+<script src="<?php echo BACKEND_V2_JS_PATH; ?>forms/form.validation.js"></script>

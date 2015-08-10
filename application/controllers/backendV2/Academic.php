@@ -3,56 +3,40 @@
 if (! defined('BASEPATH'))
     exit('No direct script access allowed');
 
-/**
- * class niên học
- * 
- * @author nhox
- *        
- */
 class Academic extends Ext_Controller
 {
-
-    function __construct()
+    protected $mainModel = 'academic_model';
+    public function __construct()
     {
         parent::__construct();
         
         $this->load->model('academic_model');
     }
 
-    function lists()
+    public function lists()
     {
         $header['title'] = 'Quản lý niên khóa';
         
-        // get data
+         // get data
         $per_page = 10;
-        $title = $this->input->post('title');
-        $data = array();
-        
         $segment = $this->uri->segment(self::URI_SEGMENT);
         
-        $base_url = base_url() . BACKEND_V2_TMPL_PATH . 'academic/lists';
+        $data = [];
+        $data['lists'] = $this->academic_model->getAll($segment, $per_page);
         
-        $data['lists'] = $this->academic_model->getAllAcademic($title, $segment, $per_page);
-        
-        $config = $this->configPagination($base_url, $this->academic_model->table_record_count, $per_page, self::URI_SEGMENT);
-        $this->pagination->initialize($config);
-        $data['pagination'] = $this->pagination;
-        
-        $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'academic/lists', $data, TRUE);
+        $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'academic/lists', $data, true);
         $this->loadTemnplateBackend($header, $content);
     }
 
     public function edit($id = null)
     {
         $header['title'] = 'Thêm niên khóa mới';
-        $task = 'add';
         
         $data = array();
         if ($id) {
             $header['title'] = 'Chỉnh sửa niên khóa';
             $data['academic'] = $this->academic_model->find_by_pkey($id);
             $data['id'] = $id;
-            $task = 'edit';
         }
         if ($this->input->post()) {
             $id = $this->input->post('id');
@@ -66,11 +50,13 @@ class Academic extends Ext_Controller
             }
             unset($data);
             
+            // remove cache after create/update
+            $this->lphcache->cleanCacheByFunction($this->academic_model->table_name, 'getAll');
+            
             redirect(BACKEND_V2_TMPL_PATH . 'academic/lists');
         }
         
         $data['title'] = $header['title'];
-        $data['task'] = $task;
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'academic/edit', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }

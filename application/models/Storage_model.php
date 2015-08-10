@@ -80,7 +80,14 @@ class Storage_model extends Ext_Model
 
     function getStorageAllByUser($subjects_id = 0)
     {
-        return $this->findAll(null, $subjects_id, 'title', 'asc');
+        $subjects_id = (int) $subjects_id;
+        $filter = [];
+        if ($subjects_id) {
+            $filter = [
+                'subject_id' => (int) $subjects_id
+            ];
+        }
+        return $this->findAll($filter, null, null, 'title', 'asc');
     }
 
     function count()

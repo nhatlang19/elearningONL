@@ -7,6 +7,17 @@ class Storage_question_model extends Ext_Model
     {
         parent::__construct('storage_question', 'storage_question_id');
     }
+    
+    public function getAll($start = null, $count = null, $cached = true)
+    {
+        $this->db->join('storage as s', 's.storage_id = sq.storage_id');
+        $this->db->join('subjects as sub', 'sub.subjects_id = s.subjects_id', 'left');
+        $this->db->select('sq.*, s.title');
+        $this->db->from($this->table_name . ' as sq');
+        
+        $filters = [];
+        return $this->findAll($filters, $start, $count);
+    }
 
     function getStorageQuestionAll($title = null, $subjects_id = 0, $storage_id = -1, $start = null, $count = null)
     {

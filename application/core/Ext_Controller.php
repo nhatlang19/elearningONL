@@ -59,6 +59,8 @@ class Ext_Controller extends CI_Controller
         if($this->input->is_ajax_request() && $id) {
             $id = intval($id);
             $this->{$this->mainModel}->deleteById($id);
+            
+            $this->lphcache->cleanCacheByFunction($this->{$this->mainModel}->table_name, 'getAll');
             $this->sendAjax();
         } else {
             show_404();

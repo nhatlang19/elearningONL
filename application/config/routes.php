@@ -52,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $route['admin'] = "backendV2";
 $route['admin/signin'] = "backendV2/users/login";
-$route['backend/storage-question/(.+)'] = "backendV2/storagequestion/$1";
+$route['backendV2/storage-question/(.+)'] = "backendV2/storagequestion/$1";
 
 $route['default_controller'] = 'exam';
 $route['404_override'] = '';

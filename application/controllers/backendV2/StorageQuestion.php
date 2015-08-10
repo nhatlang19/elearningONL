@@ -5,7 +5,7 @@ if (! defined('BASEPATH'))
 
 class StorageQuestion extends Ext_Controller
 {
-
+    protected $mainModel = 'storage_question_model';
     public function __construct()
     {
         parent::__construct();
@@ -19,31 +19,45 @@ class StorageQuestion extends Ext_Controller
     {
         $header['title'] = 'Quản lý kho câu hỏi';
         
+//         // get data
+//         $per_page = 20;
+//         $txt_search = $this->input->post('txt_search');
+//         $storage_id = $this->input->post('storage_id');
+//         $segment = $this->uri->segment(self::URI_SEGMENT);
+        
+//         $user = $this->getUserInfo();
+        
+//         $base_url = base_url() . BACKEND_V2_TMPL_PATH . 'storage-question/lists';
+//         $data['storage_questions'] = $this->storage_question_model->getStorageQuestionAll($txt_search, $user->subjects_id, $storage_id, $segment, $per_page);
+        
+//         $config = $this->configPagination($base_url, $this->storage_question_model->table_record_count, $per_page, self::URI_SEGMENT);
+//         $this->pagination->initialize($config);
+        
+//         $data['pagination'] = $this->pagination;
+        
+//         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'storage_questions/lists', $data, TRUE);
+//         $this->loadTemnplateBackend($header, $content);
+
         // get data
-        $per_page = 20;
-        $txt_search = $this->input->post('txt_search');
-        $storage_id = $this->input->post('storage_id');
+        $per_page = 10;
         $segment = $this->uri->segment(self::URI_SEGMENT);
         
-        $user = $this->getUserInfo();
+        $data = [];
+        $data['lists'] = $this->storage_question_model->getAll($segment, $per_page);
         
-        $base_url = base_url() . BACKEND_V2_TMPL_PATH . 'storage-question/lists';
-        $data['storage_questions'] = $this->storage_question_model->getStorageQuestionAll($txt_search, $user->subjects_id, $storage_id, $segment, $per_page);
-        
-        $config = $this->configPagination($base_url, $this->storage_question_model->table_record_count, $per_page, self::URI_SEGMENT);
-        $this->pagination->initialize($config);
-        
-        $data['pagination'] = $this->pagination;
-        
-        $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'storage_questions/lists', $data, TRUE);
+        $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'storage_questions/lists', $data, true);
         $this->loadTemnplateBackend($header, $content);
     }
 
-    public function delete($id)
-    {
-        $id = intval($id);
-        $this->storage_question_model->delete_by_pkey($id);
-        redirect(BACKEND_V2_TMPL_PATH . 'storage-question/lists');
+    public function delete($id = null) {
+        if($this->input->is_ajax_request() && $id) {
+            $id = intval($id);
+            $this->storage_question_model->delete_by_pkey($id);
+//             $this->lphcache->cleanCacheByFunction($this->storage_question_model->table_name, 'getAll');
+            $this->sendAjax();
+        } else {
+            show_404();
+        }
     }
 
     public function save()
@@ -112,17 +126,13 @@ class StorageQuestion extends Ext_Controller
         }
     }
 
-    public function view()
+    public function view($id = null)
     {
-        if($this->input->is_ajax_request()) {
-            $qid = intval($this->input->post('qid'));
-            
-            $data['storage_questions'] = $this->storage_question_model->find_by_pkey($qid);
-            $data['storage_answer'] = $this->storage_answer_model->getAnswerByStorageQuestionId($qid);
-            $this->load->view(BACKEND_V2_TMPL_PATH . 'storage_questions/load_info_question', $data);
-        } else {
-            show_404();
-        }
+        $qid = intval($id);
+        
+        $data['storage_questions'] = $this->storage_question_model->find_by_pkey($qid);
+        $data['storage_answer'] = $this->storage_answer_model->getAnswerByStorageQuestionId($qid);
+        $this->load->view(BACKEND_V2_TMPL_PATH . 'storage_questions/load_info_question', $data);
     }
 
     public function edit($id = null)
@@ -130,18 +140,15 @@ class StorageQuestion extends Ext_Controller
         $header['title'] = 'Thêm câu hỏi';
         
         $data = array();
-        $data['task'] = 'add';
-        
         if ($id) {
             $header['title'] = 'Chỉnh sửa câu hỏi';
-            $data['task'] = 'edit';
             $data['id'] = $id;
-            $data['storage_questions'] = $this->storage_question_model->find_by_pkey($id);
+            $data['storage_question'] = $this->storage_question_model->find_by_pkey($id);
             $data['storage_answer'] = $this->storage_answer_model->getAnswerByStorageQuestionId($id);
         }
         
+        $data['title'] = $header['title'];
         $data['storage'] = $this->storage_model->getStorageAllByUser($this->getUserInfo()->subjects_id);
-        
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'storage_questions/edit', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
