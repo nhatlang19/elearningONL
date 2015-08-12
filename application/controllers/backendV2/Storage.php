@@ -13,8 +13,11 @@ class Storage extends Ext_Controller
         $this->load->model('storage_answer_model');
     }
 
-    public function _loadContent()
+    public function lists()
     {
+        $header['title'] = 'Quản lý kho câu hỏi';
+        
+        
         // get data
         $per_page = 20;
         $title = $this->input->post('title', null);
@@ -32,14 +35,7 @@ class Storage extends Ext_Controller
         $this->pagination->initialize($config);
         $data['pagination'] = $this->pagination;
         
-        return $this->load->view(BACKEND_V2_TMPL_PATH . 'storage/lists', $data, TRUE);
-    }
-
-    public function lists()
-    {
-        $header['title'] = 'Quản lý kho câu hỏi';
-        
-        $content = $this->_loadContent();
+        $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'storage/lists', $data, TRUE);
         
         $this->loadTemnplateBackend($header, $content);
     }
@@ -48,17 +44,14 @@ class Storage extends Ext_Controller
     {
         $title = 'Thêm kho chứa mới';
         $data = array();
-        $task = 'add';
         if ($id) {
             $title = 'Chỉnh sửa kho chứa';
-            $task = 'edit';
             $data['storage'] = $this->storage_model->find_by_pkey($id);
             $data['id'] = $id;
         }
         if ($this->input->post()) {
-            $task = $this->input->post('task', 'add');
             
-            $id = (int) $this->input->post('id', 0);
+            $id = (int) $this->input->post('storage_id', 0);
             $value['title'] = addslashes($this->input->post('title'));
             
             $subjects_id = $this->getUserInfo()->subjects_id;
@@ -68,8 +61,7 @@ class Storage extends Ext_Controller
                 $value['subjects_id'] = (int) $this->input->post('subjects_id');
             }
             
-            if ($task == 'add') {
-                
+            if (! $id) {
                 $this->storage_model->create($value);
             } else {
                 $this->storage_model->update_by_pkey($id, $value);
@@ -80,7 +72,6 @@ class Storage extends Ext_Controller
         
         $header['title'] = $title;
         $data['title'] = $title;
-        $data['task'] = $task;
         $data['user'] = $this->getUserInfo();
         $data['subjects'] = $this->subject_model->getAll();
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'storage/edit', $data, TRUE);
@@ -115,11 +106,10 @@ class Storage extends Ext_Controller
     public function _saveFileData($storage_id, $fileName)
     {
         $uploadpath = 'public/backendV2/tmp/' . $fileName;
+        $this->load->library(['components/word', 'encrypt']);
+        $this->encrypt->set_cipher(MCRYPT_BLOWFISH);
         
-        $this->load->library('encrypt');
-        $this->load->library('Components/WordComponent');
-        
-        $rows = $this->wordcomponent->importFromDocx($uploadpath);
+        $rows = $this->word->importFromDocx($uploadpath);
         if (! empty($rows)) {
             for ($i = 0, $n = count($rows); $i < $n; $i += 6) {
                 $cell = $rows[$i][1];
@@ -127,7 +117,7 @@ class Storage extends Ext_Controller
                 $data = array();
                 $data['question_name'] = trim($rows[$i][1]);
                 $data['storage_id'] = intval($storage_id);
-                $hash = $this->encrypt->sha1($data['storage_id'] . '_' . $data['question_name']);
+                $hash = $this->encrypt->encode($data['storage_id'] . '_' . $data['question_name']);
                 $data['hashkey'] = $hash;
                 $storage_question_id = $this->storage_question_model->create_ignore($data);
                 unset($data);
@@ -154,12 +144,13 @@ class Storage extends Ext_Controller
         }
     }
 
-    public function uploadfile($storage_id = 0)
+    public function uploadfile()
     {
-        $file = BACKEND_V2_TMP_PATH_ROOT . basename($_FILES['uploadfile']['name']);
-        if (move_uploaded_file($_FILES['uploadfile']['tmp_name'], $file)) {
+        $file = BACKEND_V2_TMP_PATH_ROOT . basename($_FILES['file']['name']);
+        if (move_uploaded_file($_FILES['file']['tmp_name'], $file)) {
+            $storage_id = $this->input->post('storage_id', 0);
             if ($storage_id) {
-                $this->_saveFileData($storage_id, $_FILES['uploadfile']['name']);
+                $this->_saveFileData($storage_id, $_FILES['file']['name']);
             }
         } else {
             $this->sendAjax(1, 'Định dạng file không hợp lệ');

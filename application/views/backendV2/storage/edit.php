@@ -45,6 +45,8 @@
 					</div>
 				</div>
 			</footer>
+			<input type='hidden' name='storage_id' id='id'
+				value='<?php if(isset($id)) echo $id; ?>' />
 		</section>
 		<?php echo form_close(); ?>
 	</div>

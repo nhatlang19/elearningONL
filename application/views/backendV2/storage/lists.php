@@ -46,8 +46,8 @@
 					<td style="text-align: center"><?php echo $value->num_question; ?></td>
 					<td><?php echo $value->subjects_name; ?></td>
 					<td><?php echo anchor(BACKEND_V2_TMPL_PATH . 'storage/export/' . $value->storage_id, 'Export'); ?></td>
-					<td><a id="<?php echo $value->storage_id; ?>" class="btimport"
-						href="#messages" rel="modal">Import</a></td>
+					<td><a id="<?php echo $value->storage_id; ?>" class="mb-xs mt-xs mr-xs modal-basic"
+						href="#modalHeaderColorPrimary" rel="modal">Import</a></td>
 					<td style="text-align: center">
 					<?php
                         $checked = $value->published ? 'checked="checked"' : '';
@@ -68,6 +68,7 @@
 	</div>
 </section>
 <?php echo $this->load->view(BACKEND_V2_TMPL_PATH . 'dialogs/dialog_delete', null, true); ?>
+<?php echo $this->load->view(BACKEND_V2_TMPL_PATH . 'storage/import', null, true); ?>
 <!-- Specific Page Vendor -->
 <script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-datatables/media/js/jquery.dataTables.js"></script>
 <script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-datatables-bs3/assets/js/datatables.js"></script>

@@ -6,6 +6,6 @@ class AppComponent {
     
     function __construct()
     {
-        $this->_CI = & get_instance();
+        $this->CI = & get_instance();
     }
 }

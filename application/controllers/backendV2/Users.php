@@ -154,13 +154,11 @@ class Users extends CI_Controller
     function edit($id = null)
     {
         $header['title'] = 'Thêm User';
-        $task = 'add';
         $data = array();
         if ($id) {
             $header['title'] = 'Chỉnh sửa user';
             $data['userInfo'] = $this->user->find_by_pkey($id);
             $data['id'] = $id;
-            $task = 'edit';
         }
         if ($this->input->post()) {
             $id = $this->input->post('id');
@@ -176,10 +174,11 @@ class Users extends CI_Controller
                 $data['password'] = md5($data['password']);
                 $this->user->create($data);
             } else {
-                if (! is_null($data['password']) && $data['password'])
+                if (! is_null($data['password']) && $data['password']) {
                     $data['password'] = md5($data['password']);
-                else
+                } else {
                     unset($data['password']);
+                }
                 $this->user->update_by_pkey($id, $data);
             }
             unset($data);
@@ -188,7 +187,6 @@ class Users extends CI_Controller
         }
         
         $data['title'] = $header['title'];
-        $data['task'] = $task;
         $data['subjects'] = $this->subject_model->getAll();
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'users/edit', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);

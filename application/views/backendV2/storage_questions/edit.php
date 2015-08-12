@@ -64,6 +64,8 @@
 					</div>
 				</div>
 			</footer>
+			<input type='hidden' name='id' id='id'
+				value='<?php if(isset($id)) echo $id; ?>' />
 		</section>
 		<?php echo form_close(); ?>
 	</div>

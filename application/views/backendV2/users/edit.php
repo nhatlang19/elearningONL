@@ -21,6 +21,7 @@
 							value="<?php echo isset($userInfo->username) ? $userInfo->username : ''; ?>">
 					</div>
 				</div>
+				<?php if(!isset($id)) : ?>
 				<div class="form-group">
 					<label class="col-md-3 control-label" for="inputPassword">Mật khẩu
 						<span class="required">*</span>
@@ -31,6 +32,7 @@
 							value="">
 					</div>
 				</div>
+				<?php endif; ?>
 				<div class="form-group">
 					<label class="col-md-3 control-label" for="inputEmail">Email <span
 						class="required">*</span></label>
@@ -72,6 +74,8 @@
 					</div>
 				</div>
 			</footer>
+			<input type='hidden' name='id' id='id'
+				value='<?php if(isset($id)) echo $id; ?>' />
 		</section>
 		<?php echo form_close(); ?>
 	</div>
