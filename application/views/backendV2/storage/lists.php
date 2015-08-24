@@ -39,11 +39,11 @@
                     $i = 1;
                     foreach ($lists as $key => $value) :
                 ?>
-				<tr class="gradeX" data-id="<?php echo $value->storage_id; ?>">
+				<tr class="gradeX" data-id="<?php echo $value->storage_id; ?>" id="tr<?php echo $value->storage_id; ?>">
 					<td><?php echo $i++; ?></td>
 					<td><?php echo anchor(BACKEND_V2_TMPL_PATH . 'storage/edit/' . $value->storage_id, $value->title); ?></td>
 					<td><?php echo setDate($value->updated_time, 'notime'); ?></td>
-					<td style="text-align: center"><?php echo $value->num_question; ?></td>
+					<td class="num-question" style="text-align: center"><?php echo $value->num_question; ?></td>
 					<td><?php echo $value->subjects_name; ?></td>
 					<td><?php echo anchor(BACKEND_V2_TMPL_PATH . 'storage/export/' . $value->storage_id, 'Export'); ?></td>
 					<td><a id="<?php echo $value->storage_id; ?>" class="mb-xs mt-xs mr-xs modal-basic"

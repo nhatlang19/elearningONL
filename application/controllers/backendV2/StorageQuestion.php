@@ -18,11 +18,10 @@ class StorageQuestion extends Ext_Controller
     public function lists()
     {
         $header['title'] = 'Quản lý kho câu hỏi';
-        
 //         // get data
 //         $per_page = 20;
 //         $txt_search = $this->input->post('txt_search');
-//         $storage_id = $this->input->post('storage_id');
+           $subject_id = (int)$this->getUserInfo()->subjects_id;
 //         $segment = $this->uri->segment(self::URI_SEGMENT);
         
 //         $user = $this->getUserInfo();
@@ -43,7 +42,7 @@ class StorageQuestion extends Ext_Controller
         $segment = $this->uri->segment(self::URI_SEGMENT);
         
         $data = [];
-        $data['lists'] = $this->storage_question_model->getAll($segment, $per_page);
+        $data['lists'] = $this->storage_question_model->getAll($segment, $per_page, $subject_id);
         
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'storage_questions/lists', $data, true);
         $this->loadTemnplateBackend($header, $content);
@@ -68,8 +67,9 @@ class StorageQuestion extends Ext_Controller
             
             $data['question_name'] = addslashes($this->input->post('question_name'));
             $data['storage_id'] = intval($this->input->post('storage'));
-            $type = intval($this->input->post('type'));
-            $data['type'] = $type;
+            
+            $hash = md5($data['storage_id'] . '_' . $data['question_name']);
+            $data['hashkey'] = $hash;
             
             // save into storage table
             if ($id) {
@@ -81,17 +81,12 @@ class StorageQuestion extends Ext_Controller
             unset($data);
             // save into storage_answer
             $data['storage_question_id'] = $storage_question_id;
-            $this->storage_answer_model->deleteByStorageId($storage_question_id);
+            $data['hashkey'] = $hash;
+            $this->storage_answer_model->deleteByHash([$hash]);
             
-            if (! $type) {
-                // answer for text
-                $answers = $this->input->post('answer_name');
-                $correct_answer = $this->input->post('correct_answer');
-            } else {
-                // answer for image
-                $answers = $this->input->post('ImagePath');
-                $correct_answer = $this->input->post('checkbox1');
-            }
+            // answer for text
+            $answers = $this->input->post('answer_name');
+            $correct_answer = $this->input->post('correct_answer');
             
             // duyet danh sach cau tra loi va luu db
             $idx = 0;
@@ -131,7 +126,7 @@ class StorageQuestion extends Ext_Controller
         $qid = intval($id);
         
         $data['storage_questions'] = $this->storage_question_model->find_by_pkey($qid);
-        $data['storage_answer'] = $this->storage_answer_model->getAnswerByStorageQuestionId($qid);
+        $data['storage_answer'] = $this->storage_answer_model->getAnswerByHashKey($data['storage_questions']->hashkey);
         $this->load->view(BACKEND_V2_TMPL_PATH . 'storage_questions/load_info_question', $data);
     }
 
@@ -144,7 +139,7 @@ class StorageQuestion extends Ext_Controller
             $header['title'] = 'Chỉnh sửa câu hỏi';
             $data['id'] = $id;
             $data['storage_question'] = $this->storage_question_model->find_by_pkey($id);
-            $data['storage_answer'] = $this->storage_answer_model->getAnswerByStorageQuestionId($id);
+            $data['storage_answer'] = $this->storage_answer_model->getAnswerByHashKey($data['storage_question']->hashkey);
         }
         
         $data['title'] = $header['title'];

@@ -20,6 +20,9 @@ Dropzone.autoDiscover = false;
 		callbacks: {
 		    open: function() {
 		    	var id = $('.modal-basic').attr('id');
+		    	if(id != $('.storage_id').val()) {
+		    		$('#dropzone-example').find('.dz-preview').remove();
+		    	}
 				$('.storage_id').val(id);
 		    },
 		  }
@@ -30,16 +33,25 @@ Dropzone.autoDiscover = false;
 	*/
 	$(document).on('click', '.modal-confirm', function (e) {
 		e.preventDefault();
+		$('#dropzone-example').find('.dz-preview').remove();
+		$('#dropzone-example').find('.dz-message').css('opacity', 1);
 		$.magnificPopup.close();
 	});
 	
 	var myDropzone = new Dropzone("#dropzone-example");
 	  myDropzone.on("success", function(file, response) {
 	    /* Maybe display some more file information on your page */
+		  $('#dropzone-example input[name="csrf_lph_token"]').val(response.data.csrf.hash);
+		  
 		  if(response.status) {
+			  $(file.previewElement).find('.dz-error-message').text(response.message);
 			  file.previewElement.classList.remove("dz-success");
 	          return file.previewElement.classList.add("dz-error");
 		  } else {
+			  $('#tr' + $('.storage_id').val()).find('td.num-question').html(response.data.numberOfQuestions);
+			  
+			  $('#dropzone-example').find('.dz-preview').remove();
+			  $('#dropzone-example').find('.dz-message').css('opacity', 1);
 			  $.magnificPopup.close(); 
 		  }
 	  });

@@ -12,5 +12,8 @@ $config['cache.name'] = [
     ],
     'academic_year' => [
         'getAll' => 'allAcademics'
-    ]
+    ],
+    'exam' => [
+        'getAll' => 'allExam'
+    ],
 ];

@@ -8,12 +8,16 @@ class Storage_question_model extends Ext_Model
         parent::__construct('storage_question', 'storage_question_id');
     }
     
-    public function getAll($start = null, $count = null, $cached = true)
+    public function getAll($start = null, $count = null, $subjects_id = 0)
     {
-        $this->db->join('storage as s', 's.storage_id = sq.storage_id');
-        $this->db->join('subjects as sub', 'sub.subjects_id = s.subjects_id', 'left');
+        $this->db->join('storage as s', 's.storage_id = sq.storage_id', "LEFT");
         $this->db->select('sq.*, s.title');
         $this->db->from($this->table_name . ' as sq');
+        $this->db->group_by('sq.storage_question_id');
+        
+        if ($subjects_id) {
+            $this->db->where('s.subjects_id', $subjects_id);
+        }
         
         $filters = [];
         return $this->findAll($filters, $start, $count);
@@ -103,4 +107,26 @@ class Storage_question_model extends Ext_Model
         ));
         return $this->db->count_all_results();
     }
+    
+    function getCountByStorageId($storage_id) {
+        $this->db->from($this->table_name);
+        $this->db->where(array(
+            'storage_id' => $storage_id,
+            'published' => 1
+        ));
+        return $this->db->count_all_results();
+    }
+    
+    public function loadDataInfile($filename) {
+        $query = "LOAD DATA INFILE '$filename'" . 
+                 " IGNORE" .
+                 " INTO TABLE {$this->table_name}" . 
+                 " FIELDS TERMINATED BY '|' ".
+                 " LINES TERMINATED BY '\n' ".
+                 " (question_name,storage_id,hashkey) ;";
+        $this->db->query($query);
+        
+        @unlink($filename);
+    }
+    
 }

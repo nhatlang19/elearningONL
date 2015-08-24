@@ -3,15 +3,10 @@
 if (! defined('BASEPATH'))
     exit('No direct script access allowed');
 
-/**
- * class kỳ thi
- * 
- * @author nhox
- *        
- */
 class Exam extends Ext_Controller
 {
-
+    protected $mainModel = 'exam_model';
+    
     function __construct()
     {
         parent::__construct();
@@ -23,20 +18,11 @@ class Exam extends Ext_Controller
     {
         $header['title'] = 'Quản lý hình thức thi';
         
-        // get data
         $per_page = 10;
-        $title = $this->input->post('title');
-        $data = array();
-        
         $segment = $this->uri->segment(self::URI_SEGMENT);
         
-        $base_url = base_url() . BACKEND_V2_TMPL_PATH . 'exam/lists';
-        
-        $data['lists'] = $this->exam_model->getAllExam($title, $segment, $per_page);
-        
-        $config = $this->configPagination($base_url, $this->exam_model->table_record_count, $per_page, self::URI_SEGMENT);
-        $this->pagination->initialize($config);
-        $data['pagination'] = $this->pagination;
+        $data = [];
+        $data['lists'] = $this->exam_model->getAll($segment, $per_page);
         
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'exam/lists', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
@@ -45,14 +31,12 @@ class Exam extends Ext_Controller
     public function edit($id = null)
     {
         $header['title'] = 'Thêm hình thức thi';
-        $task = 'add';
         
         $data = array();
         if ($id) {
             $header['title'] = 'Chỉnh sửa hình thức thi';
             $data['exam'] = $this->exam_model->find_by_pkey($id);
             $data['id'] = $id;
-            $task = 'edit';
         }
         
         if ($this->input->post()) {
@@ -70,11 +54,13 @@ class Exam extends Ext_Controller
             
             unset($data);
             
+            // remove cache after create/update
+            $this->lphcache->cleanCacheByFunction($this->exam_model->table_name, 'getAll');
+            
             redirect(BACKEND_V2_TMPL_PATH . 'exam/lists');
         }
         
         $data['title'] = $header['title'];
-        $data['task'] = $task;
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'exam/edit', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
@@ -85,6 +71,3 @@ class Exam extends Ext_Controller
     public function unpublished()
     {}
 }
-
-/* End of file storage.php */
-/* Location: ./application/controllers/storage.php */

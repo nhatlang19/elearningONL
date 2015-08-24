@@ -18,12 +18,17 @@ class Storage_answer_model extends Ext_Model
 
     function getAnswerByStorageQuestionId($storageId)
     {
-        $where = null;
         $where['storage_question_id'] = $storageId;
         
         return $this->findByFilter($where);
     }
-
+    
+    function getAnswerByHashKey($hashKey)
+    {
+        $where['hashkey'] = $hashKey;
+        return $this->findByFilter($where);
+    }
+    
     function getAnswerBySqid($storage_question_id = NULL)
     {
         $results = array();
@@ -45,5 +50,22 @@ class Storage_answer_model extends Ext_Model
             }
         }
         return $results;
+    }
+    
+    public function loadDataInfile($filename) {
+        $query = "LOAD DATA INFILE '$filename'" .
+        " IGNORE" .
+        " INTO TABLE {$this->table_name}" .
+        " FIELDS TERMINATED BY '|' ".
+        " LINES TERMINATED BY '\n' ".
+        " (correct_answer,answer,hashkey) ;";
+        $this->db->query($query);
+        
+        @unlink($filename);
+    }
+    
+    public function deleteByHash($hashKeys) {
+        $this->db->where_in('hashkey', $hashKeys);
+        $this->db->delete($this->table_name);
     }
 }

@@ -5,11 +5,13 @@ if (! defined('BASEPATH'))
     
 include_once APPPATH . 'helpers/Traits/TemplateTrait.php';
 include_once APPPATH . 'helpers/Traits/PaginateTrait.php';
+include_once APPPATH . 'helpers/Traits/ExportCsvTrait.php';
 
 class Ext_Controller extends CI_Controller
 {
     use TemplateTrait;
     use PaginateTrait;
+    use ExportCsvTrait;
     
     const URI_SEGMENT = 4;
 
@@ -43,14 +45,19 @@ class Ext_Controller extends CI_Controller
         return $config;
     }
 
-    protected function sendAjax($status = 0, $message = '')
+    protected function sendAjax($status = 0, $message = '', $data = [])
     {
-        $data = [
-            'status' => $status,
-            'message' => $message
+        $data['csrf'] = [
+            'hash' => $this->security->get_csrf_hash()
         ];
         
-        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+        $response = [
+            'status' => $status,
+            'message' => $message,
+            'data' => $data
+        ];
+        
+        $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
     
     public function delete($id = null) {

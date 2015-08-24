@@ -6,9 +6,8 @@
 		<h2 class="panel-title">Import Word (.docx/.doc)</h2>
 	</header>
 	<div class="panel-body">
-		<div class="modal-wrapper">
-			<div class="modal-icon"></div>
-			<div class="modal-text">
+		<div class="row">
+			<div class="col-md-12">
 			<?php echo form_open(BACKEND_V2_TMPL_PATH . 'storage/uploadfile', ['id' => 'dropzone-example', 'class' => 'dropzone dz-square']); ?>
 				<input class="storage_id" type="hidden" name="storage_id"
 				id="storage_id" value="" />

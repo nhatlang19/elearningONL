@@ -17,7 +17,6 @@ class Storage extends Ext_Controller
     {
         $header['title'] = 'Quản lý kho câu hỏi';
         
-        
         // get data
         $per_page = 20;
         $title = $this->input->post('title', null);
@@ -77,9 +76,10 @@ class Storage extends Ext_Controller
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'storage/edit', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
-    
-    public function delete($id = null) {
-        if($this->input->is_ajax_request() && $id) {
+
+    public function delete($id = null)
+    {
+        if ($this->input->is_ajax_request() && $id) {
             $id = intval($id);
             $this->storage_model->delete_by_pkey($id);
             $this->sendAjax();
@@ -93,7 +93,10 @@ class Storage extends Ext_Controller
     {
         $storage_id = (int) $id;
         
-        $this->load->library(['components/word', 'utils']);
+        $this->load->library([
+            'components/word',
+            'utils'
+        ]);
         
         // contents
         $storages = $this->storage_model->exportData($storage_id);
@@ -106,54 +109,82 @@ class Storage extends Ext_Controller
     public function _saveFileData($storage_id, $fileName)
     {
         $uploadpath = 'public/backendV2/tmp/' . $fileName;
-        $this->load->library(['components/word', 'encrypt']);
-        $this->encrypt->set_cipher(MCRYPT_BLOWFISH);
+        $this->load->library([
+            'components/word',
+        ]);
+        $storage_id = (int) $storage_id;
         
         $rows = $this->word->importFromDocx($uploadpath);
         if (! empty($rows)) {
+            $batchDataQuestions = [];
+            $batchDataAnswers = [];
+            $listHashQuestions = [];
             for ($i = 0, $n = count($rows); $i < $n; $i += 6) {
                 $cell = $rows[$i][1];
                 
-                $data = array();
+                $data = [];
                 $data['question_name'] = trim($rows[$i][1]);
-                $data['storage_id'] = intval($storage_id);
-                $hash = $this->encrypt->encode($data['storage_id'] . '_' . $data['question_name']);
+                $data['storage_id'] = $storage_id;
+                $hash = md5($data['storage_id'] . '_' . $data['question_name']);
                 $data['hashkey'] = $hash;
-                $storage_question_id = $this->storage_question_model->create_ignore($data);
-                unset($data);
-                if ($storage_question_id) {
-                    $data['storage_question_id'] = $storage_question_id;
-                    $cell_right_answer = explode(',', trim(strip_tags($rows[$i + 5][1])));
-                    for ($k = $i + 1; $k < $i + 5; $k ++) {
-                        $char = trim(strip_tags($rows[$k][0]));
-                        if (in_array($char, $cell_right_answer)) {
-                            $data['correct_answer'] = 1;
-                        } else {
-                            $data['correct_answer'] = 0;
-                        }
-                        
-                        $data['answer'] = trim($rows[$k][1]);
-                        $this->storage_answer_model->create($data);
+                $batchDataQuestions[] = $data;
+                
+                $listHashQuestions[] = $hash;
+                // answers
+                $cell_right_answer = explode(',', trim(strip_tags($rows[$i + 5][1])));
+                for ($k = $i + 1; $k < $i + 5; $k ++) {
+                    $data = [];
+                    $char = trim(strip_tags($rows[$k][0]));
+                    if (in_array($char, $cell_right_answer)) {
+                        $data['correct_answer'] = 1;
+                    } else {
+                        $data['correct_answer'] = 0;
                     }
+                    
+                    $data['answer'] = trim($rows[$k][1]);
+                    $data['hashkey'] = $hash;
+                    $batchDataAnswers[] = $data;
                 }
             }
-            @unlink($uploadpath);
-            $this->sendAjax();
+            
+            // import csv into storage questions
+            $questionsCsvName = BACKEND_V2_TMP_PATH_ROOT . uniqid() . '.csv';
+            $this->exportToCsvTemp($questionsCsvName, $batchDataQuestions);
+            $this->storage_question_model->loadDataInfile($questionsCsvName);
+            
+            // truncate answer by hash key
+            $this->storage_answer_model->deleteByHash($listHashQuestions);
+            
+            // import csv into storage answers
+            $answerCsvName = BACKEND_V2_TMP_PATH_ROOT . uniqid() . '.csv';
+            $this->exportToCsvTemp($answerCsvName, $batchDataAnswers);
+            $this->storage_answer_model->loadDataInfile($answerCsvName);
+            
+            $storageQuestions = $this->storage_question_model->getCountByStorageId($storage_id);
+            $this->sendAjax(0, '', ['numberOfQuestions' => $storageQuestions]);
         } else {
             $this->sendAjax(1, 'Cấu trúc file không hợp lệ');
         }
+        
+        @unlink($uploadpath);
     }
-
+    
     public function uploadfile()
     {
         $file = BACKEND_V2_TMP_PATH_ROOT . basename($_FILES['file']['name']);
-        if (move_uploaded_file($_FILES['file']['tmp_name'], $file)) {
+        $imageFileType = pathinfo($file, PATHINFO_EXTENSION);
+        // Check file size
+        if ($_FILES["file"]["size"] > 5000000) {
+            $this->sendAjax(1, "Kích thước file không thể quá 5MB.");
+        } elseif ($imageFileType != "doc" && $imageFileType != "docx") {
+            $this->sendAjax(1, "Định dạng file không hợp lệ");
+        } elseif (move_uploaded_file($_FILES['file']['tmp_name'], $file)) {
             $storage_id = $this->input->post('storage_id', 0);
             if ($storage_id) {
                 $this->_saveFileData($storage_id, $_FILES['file']['name']);
             }
         } else {
-            $this->sendAjax(1, 'Định dạng file không hợp lệ');
+            $this->sendAjax(1, 'Không thể upload file');
         }
     }
 }
