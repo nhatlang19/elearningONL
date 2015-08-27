@@ -146,6 +146,9 @@ class Ext_Model extends CI_Model
         if (! empty($query) && $query->num_rows() > 0) {
             $results = $query->result();
         }
+        
+        // flush cache
+        $this->db->flush_cache();
         return $results;
     }
 

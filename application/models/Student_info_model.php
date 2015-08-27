@@ -2,11 +2,6 @@
 
 class Student_info_model extends Ext_Model
 {
-
-    const USER_ACTIVE = 'Active';
-
-    const USER_DELETED = 'Deleted';
-
     public function __construct()
     {
         parent::__construct('student_info', 'student_id');
@@ -21,7 +16,7 @@ class Student_info_model extends Ext_Model
         $this->db->join('class as c', 'c.class_id = s.class_id', 'left');
         $this->db->where('username', $username);
         $this->db->where('password', $password);
-        $this->db->where('status', self::USER_ACTIVE);
+        $this->db->where('deleted', 0);
         $query = $this->db->get();
         
         $rows = $query->result();
@@ -30,47 +25,15 @@ class Student_info_model extends Ext_Model
         return $data;
     }
 
-    function getAllStudents($name = NULL, $class_id = -1, $start = NULL, $count = NULL, $direction = 'asc')
+    function getAllStudents($class_id = -1)
     {
-        // start cache
-        $this->db->start_cache();
-        
-        $this->db->select('s.*, c.class_name');
-        $this->db->from($this->table_name . ' as s');
-        $this->db->join('class as c', 'c.class_id = s.class_id', 'left');
-        if ($name) {
-            $this->db->like('s.fullname', $name);
+        $filter = [];
+        if(!empty($class_id) && $class_id != -1) {
+            $filter = [$this->table_name . '.class_id' => $class_id];
         }
-        if ($class_id > - 1) {
-            $this->db->like('s.class_id', $class_id);
-        }
-        
-        $query = $this->db->get();
-        // stop cache
-        $this->db->stop_cache();
-        
-        // get total records before filter by limit
-        $this->table_record_count = $query->num_rows();
-        
-        $this->db->order_by('s.indentity_number', 'asc');
-        
-        if (! is_null($start)) {
-            if (! is_null($count)) {
-                $this->db->limit($count, $start);
-            } else {
-                $this->db->limit($start);
-            }
-        }
-        
-        $query = $this->db->get();
-        $results = array();
-        if (! empty($query) && $query->num_rows() > 0) {
-            $results = $query->result_array();
-        }
-        
-        // flush cache
-        $this->db->flush_cache();
-        return $results;
+        $this->db->select('c.class_name');
+        $this->db->join('class as c', 'c.class_id = ' . $this->table_name . '.class_id', 'left');
+        return $this->findAll($filter);
     }
 
     function getMarkStudentsByClass($class_id)

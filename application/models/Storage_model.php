@@ -12,10 +12,10 @@ class Storage_model extends Ext_Model
     {
         $results = array();
         if ($storage_id) {
-            $this->db->select('sq.question_name, sq.type
+            $this->db->select('sq.question_name
 			, GROUP_CONCAT(sa.answer SEPARATOR "|||") AS answer, GROUP_CONCAT(sa.correct_answer) as correct_answer');
             $this->db->from('storage_question as sq');
-            $this->db->join('storage_answer as sa', 'sa.storage_question_id = sq.storage_question_id');
+            $this->db->join('storage_answer as sa', 'sa.hashkey = sq.hashkey');
             $this->db->where('sq.storage_id', $storage_id);
             
             $this->db->order_by('sq.question_name', 'asc');

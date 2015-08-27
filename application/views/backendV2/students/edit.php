@@ -1,93 +1,100 @@
-<div id="main-content">
-	<!-- Main Content Section with everything -->
-
-
-	<!-- Page Head -->
-
-
-	<div class="clear"></div>
-	<!-- End .clear -->
-
-	<div class="content-box">
-		<!-- Start Content Box -->
-
-		<div class="content-box-header">
-
-			<h3><?php echo $title; ?></h3>
-
-			<div class="clear"></div>
-
-		</div>
-		<!-- End .content-box-header -->
-
-		<div class="content-box-content">
-
-			<div class="tab-content" id="tab1">
-
-				<?php echo form_open_multipart(BACKEND_V2_TMPL_PATH . 'students/edit'); ?>
-
-					<div class="notification error png_bg" style="display: none">
-					<a href="#" class="close"> <img
-						src="<?php echo BACKEND_V2_IMAGE_PATH; ?>cross_grey_small.png"
-						title="Close this notification" alt="close" /></a>
-					<div></div>
+<!-- start: page -->
+<div class="row">
+	<div class="col-lg-12">
+		<?php echo form_open(BACKEND_V2_TMPL_PATH . 'students/edit', ['id' => 'form', 'class' => 'form-horizontal form-bordered']); ?>
+		<section class="panel">
+			<header class="panel-heading">
+				<div class="panel-actions">
+					<a href="#" class="fa fa-caret-down"></a>
 				</div>
-				<fieldset>
 
-
-					<!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
-					<p>
-						<label>Mã học sinh</label> <input class="text-input medium-input "
-							type="text" name="indentity_number" id="indentity_number"
-							value="<?php echo @$student['indentity_number']; ?>" />
-					</p>
-					<p>
-						<label>Tên học sinh</label> <input
-							class="text-input medium-input " type="text" name="fullname"
-							id="fullname" value="<?php echo @$student['fullname']; ?>" />
-					</p>
-					<p>
-						<label>Tên đăng nhập</label> <input
-							class="text-input medium-input username" type="text"
-							name="username" id="username"
-							value="<?php echo @$student['username']; ?>" />
-					</p>
-					<p>
-						<label>Mật khẩu</label> <input
-							class="text-input medium-input password" type="password"
-							name="password" id="password" value="" />
-					</p>
-
-					<p>
-						<label>Lớp</label> <select name="class_id" id="class_id"
-							class="small-input">
-							<option value="-1">Chọn lớp</option>
-								<?php foreach($classes as $class) : ?>
-									<option value="<?php echo $class['class_id']; ?>"><?php echo $class['class_name']; ?></option>
-								<?php endforeach; ?>
-							</select>
-					</p>
-
-					<p>
-						<input class="button" id="submit" type="submit" value="Submit" />
-
-						<input class="button" type="button" value="Cancel"
-							onclick="goback();" />
-					</p>
-
-				</fieldset>
-
-				<div class="clear"></div>
-				<!-- End .clear -->
-				<input type='hidden' name='id' id='id'
-					value='<?php if(isset($id)) echo $id; ?>' /> <input type='hidden'
-					name='task' id='task' value='<?php if(isset($task)) echo $task; ?>' />
-				<?php echo form_close(); ?>	
-
+				<h2 class="panel-title"><?php echo $title; ?></h2>
+			</header>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="inputDefault">Mã học sinh <span
+						class="required">*</span>
+					</label>
+					<div class="col-md-6">
+						<input name="indentity_number" type="text" class="form-control"
+							id="inputDefault" required
+							value="<?php echo isset($student->indentity_number) ? $student->indentity_number : ''; ?>">
+					</div>
+				</div>
 			</div>
-			<!-- End #tab2 -->
-		</div>
-		<!-- End .content-box-content -->
-
-		<!-- </div>  End .content-box -->
-		<script src="<?php echo BACKEND_V2_JS_PATH; ?>students/edit.js"></script>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="inputDefault">Tên học sinh <span
+						class="required">*</span>
+					</label>
+					<div class="col-md-6">
+						<input name="fullname" type="text" class="form-control"
+							id="inputDefault" required
+							value="<?php echo isset($student->fullname) ? $student->fullname : ''; ?>">
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="inputDefault">Tên đăng nhập <span
+						class="required">*</span>
+					</label>
+					<div class="col-md-6">
+						<input name="username" type="text" class="form-control"
+							id="inputDefault" required
+							value="<?php echo isset($student->username) ? $student->username : ''; ?>">
+					</div>
+				</div>
+			</div>
+			<?php if(!isset($id)) : ?>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="inputDefault">Mật khẩu <span
+						class="required">*</span>
+					</label>
+					<div class="col-md-6">
+						<input name="password" type="text" class="form-control"
+							id="inputDefault" required
+							value="<?php echo isset($student->password) ? $student->password : ''; ?>">
+					</div>
+				</div>
+			</div>
+			<?php endif; ?>
+			<div class="panel-body">
+    			<div class="form-group">
+    				<label class="col-md-3 control-label">Lớp</label>
+    				<div class="col-md-6">
+    					<select data-plugin-selectTwo class="form-control populate" name="class_id" id="class_id">
+    						<?php 
+    						foreach ($classes as $class) :
+                                $selected = '';
+                                if ($student && $class->class_id == $student->class_id) {
+                                    $selected = 'selected="selected"';
+                                }
+                            ?>
+    							<option <?php echo $selected; ?>
+    							value="<?php echo $class->class_id; ?>"><?php echo $class->class_name; ?></option>
+    						<?php endforeach; ?>
+    					</select>
+    				</div>
+    			</div>
+    		</div>
+			<footer class="panel-footer">
+				<div class="row">
+					<div class="col-sm-9 col-sm-offset-3">
+						<button class="btn btn-primary">Submit</button>
+						<button type="reset" class="btn btn-default">Reset</button>
+					</div>
+				</div>
+			</footer>
+			<input type='hidden' name='id' id='id'
+				value='<?php if(isset($id)) echo $id; ?>' />
+		</section>
+		<?php echo form_close(); ?>
+	</div>
+</div>
+<!-- Specific Page Vendor -->
+<script
+	src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-validation/jquery.validate.js"></script>
+<!-- Validate form -->
+<script src="<?php echo BACKEND_V2_JS_PATH; ?>forms/form.validation.js"></script>

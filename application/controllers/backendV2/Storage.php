@@ -101,8 +101,7 @@ class Storage extends Ext_Controller
         // contents
         $storages = $this->storage_model->exportData($storage_id);
         $storage = $this->storage_model->find_by_pkey($storage_id);
-        $filename = $this->utils->format_title_export_docx($storage['title']);
-        
+        $filename = $this->utils->format_title_export_docx($storage->title);
         $this->word->exportStorages($filename, $storages);
     }
 

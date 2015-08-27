@@ -162,7 +162,6 @@ class Word extends AppComponent
                     'col1' => chr($c ++),
                     'col2' => $answer
                 );
-                pr($template);
                 $this->_addDataToRow($table, $template, $styleCell);
             }
             

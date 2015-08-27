@@ -3,13 +3,6 @@
 if (! defined('BASEPATH'))
     exit('No direct script access allowed');
 
-/**
- * class student
- * 
- * @author nhox
- *        
- *        
- */
 class Students extends Ext_Controller
 {
 
@@ -28,22 +21,12 @@ class Students extends Ext_Controller
         $header['title'] = MANAGE_STUDENT;
         
         // get data
-        $per_page = PER_PAGE;
-        $class_id = $this->input->post('class_id');
-        $name = $this->input->post('name');
-        $data = array();
+        $class_id = $this->input->post('class_id', -1);
         
-        $segment = $this->uri->segment(self::URI_SEGMENT);
-        $base_url = base_url() . BACKEND_V2_TMPL_PATH . 'students/lists';
-        
-        $data['lists'] = $this->student_info_model->getAllStudents($name, $class_id, $segment, $per_page);
-        $config = $this->configPagination($base_url, $this->student_info_model->table_record_count, $per_page, self::URI_SEGMENT);
-        $this->pagination->initialize($config);
-        $data['pagination'] = $this->pagination;
-        
-        $data['classes'] = $this->class_model->getAllClass();
+        $data = [];
+        $data['lists'] = $this->student_info_model->getAllStudents($class_id);
+        $data['classes'] = $this->class_model->getAll();
         $data['class_id'] = $class_id;
-        $data['name'] = $name;
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'students/lists', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
@@ -51,22 +34,21 @@ class Students extends Ext_Controller
     public function edit($id = null)
     {
         $header['title'] = ADD_STUDENT;
-        $task = 'add';
         
         $data = array();
         if ($id) {
             $header['title'] = EDIT_STUDENT;
             $data['student'] = $this->student_info_model->find_by_pkey($id);
             $data['id'] = $id;
-            $task = 'edit';
         }
         if ($this->input->post()) {
             $id = $this->input->post('id');
             $data = $this->input->post();
-            $data['password'] = $this->commonobj->encrypt($data['password']);
+            
             if (! $id) {
                 unset($data['id']);
-                unset($data['task']);
+                
+                $data['password'] = $this->commonobj->encrypt($data['password']);
                 // save into subject table
                 $this->student_info_model->create($data);
             } else {
@@ -77,9 +59,8 @@ class Students extends Ext_Controller
             redirect(BACKEND_V2_TMPL_PATH . 'students/lists');
         }
         
-        $data['classes'] = $this->class_model->getAllClass();
+        $data['classes'] = $this->class_model->getAll();
         $data['title'] = $header['title'];
-        $data['task'] = $task;
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'students/edit', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
@@ -101,7 +82,7 @@ class Students extends Ext_Controller
             }
         }
         $data['title'] = $header['title'];
-        $data['classes'] = $this->class_model->getAllClass();
+        $data['classes'] = $this->class_model->getAll();
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'students/import', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
