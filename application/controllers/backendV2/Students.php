@@ -5,7 +5,8 @@ if (! defined('BASEPATH'))
 
 class Students extends Ext_Controller
 {
-
+    protected $mainModel = 'student_info_model';
+    
     function __construct()
     {
         parent::__construct();
@@ -68,17 +69,35 @@ class Students extends Ext_Controller
     function import()
     {
         $header['title'] = IMPORT_STUDENT;
+        
         $data['error'] = '';
         if ($this->input->post()) {
-            $file = BACKEND_V2_TMP_PATH_ROOT . basename($_FILES['uploadfile']['name']);
-            if (move_uploaded_file($_FILES['uploadfile']['tmp_name'], $file)) {
-                $class_id = intval($this->input->post('class_id'));
-                if ($class_id) {
-                    $this->_saveFileData($class_id, $_FILES['uploadfile']['name']);
-                    redirect(BACKEND_V2_TMPL_PATH . 'students/lists');
+            $file = $_FILES['uploadfile'];
+            $error = null;
+            if($file['error']) {
+                $error = 'File không hợp lệ';
+            }
+            
+            $mimes = get_mimes();
+            if(!$error && !in_array($file['type'], $mimes['xls'])) {
+                $error = 'File phải là xls';
+            }
+            
+            // need to check filesize more
+            
+            if(!$error) {
+                $filename = BACKEND_V2_TMP_PATH_ROOT . basename($file['name']);
+                if (move_uploaded_file($file['tmp_name'], $filename)) {
+                    $class_id = intval($this->input->post('class_id'));
+                    if ($class_id) {
+                        $this->_saveFileData($class_id, $file['name']);
+                        redirect(BACKEND_V2_TMPL_PATH . 'students/lists');
+                    }
+                } else {
+                    $data['error'] = "Không thể upload file";
                 }
             } else {
-                $data['error'] = "Không thể upload file";
+                $data['error'] = $error;
             }
         }
         $data['title'] = $header['title'];
@@ -89,7 +108,7 @@ class Students extends Ext_Controller
 
     private function _saveFileData($class_id, $fileName)
     {
-        $uploadpath = 'public/backend/tmp/' . $fileName;
+        $uploadpath = 'public/backendV2/tmp/' . $fileName;
         
         $columns = array(
             '',
@@ -110,7 +129,7 @@ class Students extends Ext_Controller
             foreach ($sheetData as $key => $col) {
                 $data = array();
                 $data['indentity_number'] = $this->commonobj->TrimAll(addslashes($col['A']));
-                $data['class_id'] = $class_id;
+                $data['class_id'] = (int) $class_id;
                 $data['fullname'] = $this->commonobj->TrimAll($col['B']);
                 $data['username'] = $className . '_' . $this->commonobj->TrimAll($col['A']);
                 $data['password'] = $this->commonobj->encrypt($className . '_' . $col['A']);

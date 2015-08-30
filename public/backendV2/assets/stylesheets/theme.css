@@ -12900,7 +12900,7 @@ html.dark .pricing-table .plan {
 
 .fileupload .uneditable-input .fileupload-preview {
 	display: inline-block;
-	float: left;
+	_float: left;
 	overflow: hidden;
 	padding: 0 0 0 17px;
 	text-overflow: ellipsis;

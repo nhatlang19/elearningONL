@@ -20,16 +20,17 @@
 				<div class="form-group">
 					<label class="col-md-3 control-label" for="inputDefault">Chọn file</label>
 					<div class="col-md-6">
-						<div class="fileupload fileupload-new" data-provides="fileupload">
+						<div class="fileupload fileupload-new" data-provides="fileupload" data-name="uploadfile">
 							<div class="input-append">
 								<div class="uneditable-input">
 									<i class="fa fa-file fileupload-exists"></i>
 									<span class="fileupload-preview"></span>
+									
 								</div>
 								<span class="btn btn-default btn-file">
 									<span class="fileupload-exists">Change</span>
 									<span class="fileupload-new">Select file</span>
-									<input type="file" name="uploadfile" id="uploadfile" />
+									<input type="file" />
 								</span>
 								<a href="#" class="btn btn-default fileupload-exists" data-dismiss="fileupload">Remove</a>
 							</div>
@@ -54,7 +55,7 @@
 			<footer class="panel-footer">
 				<div class="row">
 					<div class="col-sm-9 col-sm-offset-3">
-						<button class="btn btn-primary">Submit</button>
+						<button class="btn btn-primary" onclick="$('.fileupload').fileupload();">Submit</button>
 						<button type="reset" class="btn btn-default">Reset</button>
 					</div>
 				</div>

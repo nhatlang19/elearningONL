@@ -14,9 +14,9 @@ class Student_info_model extends Ext_Model
         $this->db->select('s.*, c.class_name');
         $this->db->from($this->table_name . ' as s');
         $this->db->join('class as c', 'c.class_id = s.class_id', 'left');
-        $this->db->where('username', $username);
-        $this->db->where('password', $password);
-        $this->db->where('deleted', 0);
+        $this->db->where('s.username', $username);
+        $this->db->where('s.password', $password);
+        $this->db->where('s.deleted', 0);
         $query = $this->db->get();
         
         $rows = $query->result();
@@ -33,6 +33,7 @@ class Student_info_model extends Ext_Model
         }
         $this->db->select('c.class_name');
         $this->db->join('class as c', 'c.class_id = ' . $this->table_name . '.class_id', 'left');
+        $this->db->where($this->table_name . '.deleted', 0);
         return $this->findAll($filter);
     }
 
@@ -48,7 +49,7 @@ class Student_info_model extends Ext_Model
         $this->db->order_by('si.indentity_number');
         $query = $this->db->get();
         
-        $rows = $query->result_array();
+        $rows = $query->result();
         if ($rows) {
             $data = $rows;
         }
