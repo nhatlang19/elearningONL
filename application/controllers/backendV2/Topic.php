@@ -38,11 +38,6 @@ class Topic extends Ext_Controller
         
         $data['topics'] = $this->topic_manage_model->getTopicList($academic_id, $exam_id, $this->getUserInfo()->subjects_id, $per_page, $segment);
         
-        $base_url = base_url() . BACKEND_V2_TMPL_PATH . 'topic/lists';
-        $config = $this->configPagination($base_url, $this->storage_model->table_record_count, $per_page, self::URI_SEGMENT);
-        $this->pagination->initialize($config);
-        $data['pagination'] = $this->pagination;
-        
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'topic/lists', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
@@ -65,12 +60,6 @@ class Topic extends Ext_Controller
         $exam_id = $this->input->post('exam_id'); // loai hinh thi
         
         $data['topics'] = $this->topic_manage_model->getTopicListTrash($academic_id, $exam_id, $this->getUserInfo()->subjects_id, $per_page, $segment);
-        
-        $base_url = base_url() . BACKEND_V2_TMPL_PATH . 'topic/lists';
-        $config = $this->configPagination($base_url, $this->storage_model->table_record_count, $per_page, self::URI_SEGMENT);
-        $this->pagination->initialize($config);
-        $data['pagination'] = $this->pagination;
-        
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'topic/list_trash', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
@@ -83,19 +72,20 @@ class Topic extends Ext_Controller
         redirect(BACKEND_V2_TMPL_PATH . 'topic/lists');
     }
 
-    function delete($topic_manage_id)
+    public function remove($topic_manage_id)
     {
         $topic_manage_id = intval($topic_manage_id);
         $result = $this->topic_manage_model->getByIdNoJoin($topic_manage_id);
+        $message = '';
+        $status = 0;
         if (! $result['published']) {
             $result = $this->topic_manage_model->delete($topic_manage_id);
         } else {
             $result = false;
-            $array['message'] = 'Chủ đề này đang được kích hoạt. Không thể xoá bây giờ';
+            $message = 'Chủ đề này đang được kích hoạt. Không thể xoá bây giờ';
+            $status = 1;
         }
-        
-        $array['result'] = $result;
-        echo json_encode($array);
+        $this->sendAjax($status, $message);
     }
 
     function restore($topic_manage_id)
@@ -103,8 +93,7 @@ class Topic extends Ext_Controller
         $topic_manage_id = intval($topic_manage_id);
         
         $result = $this->topic_manage_model->restore($topic_manage_id);
-        $array['result'] = $result;
-        echo json_encode($array);
+        $this->sendAjax();
     }
 
     function export($id)
@@ -219,23 +208,26 @@ class Topic extends Ext_Controller
                                                                     
             // list storage_question_id
             $list = $this->storage_question_model->getStorageQuestionByStorageIdRandom($storage_id, $number_question);
-            
             $sqid_list = explode('|||', $list['sqid']);
             
             // lay danh sach cau tra loi tuong ung voi cau hoi
             $answer_list = $this->storage_answer_model->getAnswerBySqid($sqid_list);
-            
             $array_data = array();
             // duyet danh sach cau hoi
             foreach ($sqid_list as $key => $sqid) {
                 $array_data[$key]['storage_question_id'] = $sqid;
                 // duyet danh sach cau tra loi
                 foreach ($answer_list as $k => $answer) {
-                    if ($answer['storage_question_id'] == $sqid) {
-                        $array_data[$key]['answers'][] = $answer['storage_answer_id'] . ':' . $answer['correct_answer'];
+                    if ($answer->storage_question_id == $sqid) {
+                        $array_data[$key]['answers'][] = $answer->storage_answer_id . ':' . $answer->correct_answer;
                         unset($answer_list[$k]);
                     }
                 }
+            }
+            
+            if(empty($subjects_id)) {
+                $storage = $this->storage_model->getById($storage_id);
+                $subjects_id = $storage->subjects_id;
             }
             
             // insert into topic_manage
@@ -302,10 +294,10 @@ class Topic extends Ext_Controller
         $data['list_storage'] = $this->storage_model->getStorageList(NULL, $subjects_id);
         
         // load nien khoa
-        $data['list_academic'] = $this->academic_model->getAllAcademic();
+        $data['list_academic'] = $this->academic_model->getAll();
         
         // load loai hinh thi
-        $data['list_exam'] = $this->exam_model->getAllExam();
+        $data['list_exam'] = $this->exam_model->getAll();
         
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'topic/edit', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
@@ -321,14 +313,12 @@ class Topic extends Ext_Controller
             $result = $this->topic_manage_model->change_review($topic_manage_id, $change_to);
             if ($result) {
                 $result = array();
-                $result['reviewText'] = $change_to == 'show' ? 'Hiện' : 'Ẩn';
                 $result['changeTo'] = ($change_to == 'show') ? 'hide' : 'show';
-                $result['status'] = 1;
+                
+                $this->sendAjax(1, '', $result);
             } else {
-                $array['status'] = 0;
+                $this->sendAjax(0, 'Can not change review');
             }
-            
-            echo json_encode($result);
         } else {
             exit('No direct script access allowed');
         }
@@ -367,7 +357,7 @@ class Topic extends Ext_Controller
             exit('No direct script access allowed');
         }
     }
-
+    
     function download_student_result($class_id = null)
     {
         $class_id = (int) $class_id;

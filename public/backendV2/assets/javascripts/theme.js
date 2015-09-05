@@ -1125,12 +1125,12 @@ window.theme = {};
 
 	var instanceName = '__IOS7Switch';
 
-	var PluginIOS7Switch = function($el) {
-		return this.initialize($el);
+	var PluginIOS7Switch = function($el, opts) {
+		return this.initialize($el, opts);
 	};
 
 	PluginIOS7Switch.prototype = {
-		initialize: function($el) {
+		initialize: function($el, opts) {
 			if ( $el.data( instanceName ) ) {
 				return this;
 			}
@@ -1139,7 +1139,7 @@ window.theme = {};
 
 			this
 				.setData()
-				.build();
+				.build(opts);
 
 			return this;
 		},
@@ -1150,11 +1150,16 @@ window.theme = {};
 			return this;
 		},
 
-		build: function() {
+		build: function(opts) {
 			var switcher = new Switch( this.$el.get(0) );
 
 			$( switcher.el ).on( 'click', function( e ) {
 				e.preventDefault();
+				
+				if ( typeof opts !== 'undefined' && $.isFunction( opts ) ) {
+					opts();
+				}
+				
 				switcher.toggle();
 			});
 
@@ -1175,7 +1180,7 @@ window.theme = {};
 			if ($this.data(instanceName)) {
 				return $this.data(instanceName);
 			} else {
-				return new PluginIOS7Switch($this);
+				return new PluginIOS7Switch($this, opts);
 			}
 
 		});

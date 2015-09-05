@@ -135,7 +135,6 @@
 		$(function() {
 			$('[data-plugin-ios-switch]').each(function() {
 				var $this = $( this );
-
 				$this.themePluginIOS7Switch();
 			});
 		});

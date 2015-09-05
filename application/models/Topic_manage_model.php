@@ -18,106 +18,51 @@ class Topic_manage_model extends Ext_Model
 
     function getTopicList($academic_id = NULL, $exam_id = NULL, $subjects_id = NULL, $count = NULL, $start = NULL)
     {
-        // start cache
-        $this->db->start_cache();
-        
-        $this->db->select('t.*, ay.academic_name, e.title as etitle');
+        $this->db->select('ay.academic_name, e.title as etitle');
         $this->db->from('topic_manage as t');
-        $this->db->join('academic_year as ay', 'ay.academic_id = t.academic_id', 'left');
-        $this->db->join('exam as e', 'e.exam_id = t.exam_id', 'left');
-        $this->db->where('t.status', self::STATUS_ACTIVE);
+        $this->db->join('academic_year as ay', 'ay.academic_id = ' . $this->table_name . '.academic_id', 'left');
+        $this->db->join('exam as e', 'e.exam_id = ' . $this->table_name . ' .exam_id', 'left');
+        $this->db->where($this->table_name . '.status', self::STATUS_ACTIVE);
         
         if ($academic_id) {
-            $this->db->where('t.academic_id', $academic_id);
+            $this->db->where($this->table_name . '.academic_id', $academic_id);
         }
         
         if ($exam_id) {
-            $this->db->where('t.exam_id', $exam_id);
+            $this->db->where($this->table_name . '.exam_id', $exam_id);
         }
         
         if ($subjects_id) {
-            $this->db->where('t.subjects_id', $subjects_id);
+            $this->db->where($this->table_name . '.subjects_id', $subjects_id);
         }
         
-        $query = $this->db->get();
+        $this->db->group_by($this->table_name . '.topic_manage_id');
         
-        // stop cache
-        $this->db->stop_cache();
-        
-        // get total records before filter by limit
-        $this->table_record_count = $query->num_rows();
-        
-        $this->db->order_by('t.created_time', 'desc');
-        
-        if (! is_null($start)) {
-            if (! is_null($count)) {
-                $this->db->limit($count, $start);
-            } else {
-                $this->db->limit($start);
-            }
-        }
-        
-        $query = $this->db->get();
-        $results = array();
-        if (! empty($query) && $query->num_rows() > 0) {
-            $results = $query->result_array();
-        }
-        
-        // flush cache
-        $this->db->flush_cache();
-        return $results;
+        return $this->findAll();
     }
 
     function getTopicListTrash($academic_id = NULL, $exam_id = NULL, $subjects_id = NULL, $count = NULL, $start = NULL)
     {
-        // start cache
-        $this->db->start_cache();
-        
-        $this->db->select('t.*, ay.academic_name, e.title as etitle');
+        $this->db->select('ay.academic_name, e.title as etitle');
         $this->db->from('topic_manage as t');
-        $this->db->join('academic_year as ay', 'ay.academic_id = t.academic_id', 'left');
-        $this->db->join('exam as e', 'e.exam_id = t.exam_id', 'left');
-        $this->db->where('t.status', self::STATUS_DELETED);
+        $this->db->join('academic_year as ay', 'ay.academic_id = ' . $this->table_name . '.academic_id', 'left');
+        $this->db->join('exam as e', 'e.exam_id = ' . $this->table_name . ' .exam_id', 'left');
+        $this->db->where($this->table_name . '.status', self::STATUS_DELETED);
         
         if ($academic_id) {
-            $this->db->where('t.academic_id', $academic_id);
+            $this->db->where($this->table_name . '.academic_id', $academic_id);
         }
         
         if ($exam_id) {
-            $this->db->where('t.exam_id', $exam_id);
+            $this->db->where($this->table_name . '.exam_id', $exam_id);
         }
         
         if ($subjects_id) {
-            $this->db->where('t.subjects_id', $subjects_id);
+            $this->db->where($this->table_name . '.subjects_id', $subjects_id);
         }
+        $this->db->group_by($this->table_name . '.topic_manage_id');
         
-        $query = $this->db->get();
-        
-        // stop cache
-        $this->db->stop_cache();
-        
-        // get total records before filter by limit
-        $this->table_record_count = $query->num_rows();
-        
-        $this->db->order_by('t.created_time', 'desc');
-        
-        if (! is_null($start)) {
-            if (! is_null($count)) {
-                $this->db->limit($count, $start);
-            } else {
-                $this->db->limit($start);
-            }
-        }
-        
-        $query = $this->db->get();
-        $results = array();
-        if (! empty($query) && $query->num_rows() > 0) {
-            $results = $query->result_array();
-        }
-        
-        // flush cache
-        $this->db->flush_cache();
-        return $results;
+        return $this->findAll();
     }
 
     function published($topic_manage_id)

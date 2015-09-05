@@ -46,6 +46,7 @@
 		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-browser-mobile/jquery.browser.mobile.js"></script>
 		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>bootstrap/js/bootstrap.js"></script>
 		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>nanoscroller/nanoscroller.js"></script>
+		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-cookie/jquery.cookie.js"></script>
 		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>select2/select2.js"></script>
 		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-placeholder/jquery.placeholder.js"></script>

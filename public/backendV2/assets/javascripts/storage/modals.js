@@ -41,7 +41,7 @@ Dropzone.autoDiscover = false;
 	var myDropzone = new Dropzone("#dropzone-example");
 	  myDropzone.on("success", function(file, response) {
 	    /* Maybe display some more file information on your page */
-		  $('#dropzone-example input[name="csrf_lph_token"]').val(response.data.csrf.hash);
+		  $('#dropzone-example input[name="csrf_lph_token"]').val($.cookie('csrf_cookie_name'));
 		  
 		  if(response.status) {
 			  $(file.previewElement).find('.dz-error-message').text(response.message);

@@ -1,5 +1,4 @@
 <?php
-
 class Storage_question_model extends Ext_Model
 {
 
@@ -117,13 +116,20 @@ class Storage_question_model extends Ext_Model
         return $this->db->count_all_results();
     }
     
+    function getAllByHashkey($hashKeys)
+    {
+        $this->db->where_in('hashkey', $hashKeys);
+        return $this->findAll();
+    }
+    
     public function loadDataInfile($filename) {
-        $query = "LOAD DATA INFILE '$filename'" . 
+        $query = "LOAD DATA LOCAL INFILE '$filename'" . 
                  " IGNORE" .
                  " INTO TABLE {$this->table_name}" . 
                  " FIELDS TERMINATED BY '|' ".
                  " LINES TERMINATED BY '\n' ".
                  " (question_name,storage_id,hashkey) ;";
+        
         $this->db->query($query);
         
         @unlink($filename);

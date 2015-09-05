@@ -63,7 +63,6 @@ $autoload['packages'] = array();
 $autoload['libraries'] = array(
     'database',
     'session',
-    'pagination',
     'ckeditor', 
     'lphcache'
 );
@@ -141,7 +140,7 @@ $autoload['config'] = array(
 |
 */
 
-$autoload['language'] = array();
+$autoload['language'] = array('storage');
 
 
 /*

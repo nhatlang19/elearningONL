@@ -46,14 +46,14 @@ class Storage_answer_model extends Ext_Model
             $query = $this->db->get();
             
             if (! empty($query) && $query->num_rows() > 0) {
-                $results = $query->result_array();
+                $results = $query->result();
             }
         }
         return $results;
     }
     
     public function loadDataInfile($filename) {
-        $query = "LOAD DATA INFILE '$filename'" .
+        $query = "LOAD DATA LOCAL INFILE '$filename'" .
         " IGNORE" .
         " INTO TABLE {$this->table_name}" .
         " FIELDS TERMINATED BY '|' ".
@@ -67,5 +67,12 @@ class Storage_answer_model extends Ext_Model
     public function deleteByHash($hashKeys) {
         $this->db->where_in('hashkey', $hashKeys);
         $this->db->delete($this->table_name);
+    }
+    
+    
+    public function updateStorageQuestionId($hashKey, $storage_question_id) {
+        $this->db->set('storage_question_id', $storage_question_id);
+        $this->db->where('hashkey', $hashKey);
+        $this->db->update($this->table_name);
     }
 }

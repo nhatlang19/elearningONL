@@ -24,6 +24,8 @@ define('XLSX', '.xlsx');
 define('SEPARATE_ANSWER', '|||');
 define('SEPARATE_CORRECT_ANSWER', ',');
 
+define('GROUP_CONCAT_MAX_LENGTH', 1000000);
+
 /**
  * --------------------------------------------------------------------------
  * Define Path for backend
@@ -46,8 +48,8 @@ define('CSS_PATH', ROOT . '/public/frontend/css/');
 
 define('PATH_UPLOADS', ROOT . '/public/uploads/');
 define('PATH_UPLOADS_NO_ROOT', 'public/uploads/');
-define('PATH_FILES', DOCUMENT_ROOT . '/public/backend/files/');
-define('PATH_FILES_NO_ROOT', 'public/backend/files/');
+define('PATH_FILES', DOCUMENT_ROOT . '/public/backendV2/files/');
+define('PATH_FILES_NO_ROOT', 'public/backendV2/files/');
 
 //////// V2 ///////
 define('BACKEND_V2_TMPL_PATH', 'backendV2/');

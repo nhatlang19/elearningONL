@@ -1,5 +1,4 @@
 <?php
-
 class Storage extends Ext_Controller
 {
 
@@ -11,6 +10,8 @@ class Storage extends Ext_Controller
         $this->load->model('subject_model');
         $this->load->model('storage_question_model');
         $this->load->model('storage_answer_model');
+        
+        $this->load->library('utils');
     }
 
     public function lists()
@@ -28,12 +29,6 @@ class Storage extends Ext_Controller
         $user = $this->getUserInfo();
         
         $data['lists'] = $this->storage_model->getStorageList($title, $user->subjects_id, $per_page, $segment);
-        
-        $base_url = base_url() . BACKEND_V2_TMPL_PATH . 'storage/lists';
-        $config = $this->configPagination($base_url, $this->storage_model->table_record_count, $per_page, self::URI_SEGMENT);
-        $this->pagination->initialize($config);
-        $data['pagination'] = $this->pagination;
-        
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'storage/lists', $data, TRUE);
         
         $this->loadTemnplateBackend($header, $content);
@@ -76,7 +71,7 @@ class Storage extends Ext_Controller
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'storage/edit', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
-
+    
     public function delete($id = null)
     {
         if ($this->input->is_ajax_request() && $id) {
@@ -122,7 +117,7 @@ class Storage extends Ext_Controller
                 $cell = $rows[$i][1];
                 
                 $data = [];
-                $data['question_name'] = trim($rows[$i][1]);
+                $data['question_name'] = $this->utils->smart_clean($rows[$i][1]);
                 $data['storage_id'] = $storage_id;
                 $hash = md5($data['storage_id'] . '_' . $data['question_name']);
                 $data['hashkey'] = $hash;
@@ -140,12 +135,11 @@ class Storage extends Ext_Controller
                         $data['correct_answer'] = 0;
                     }
                     
-                    $data['answer'] = trim($rows[$k][1]);
+                    $data['answer'] = $this->utils->smart_clean($rows[$k][1]);
                     $data['hashkey'] = $hash;
                     $batchDataAnswers[] = $data;
                 }
             }
-            
             // import csv into storage questions
             $questionsCsvName = BACKEND_V2_TMP_PATH_ROOT . uniqid() . '.csv';
             $this->exportToCsvTemp($questionsCsvName, $batchDataQuestions);
@@ -160,12 +154,26 @@ class Storage extends Ext_Controller
             $this->storage_answer_model->loadDataInfile($answerCsvName);
             
             $storageQuestions = $this->storage_question_model->getCountByStorageId($storage_id);
+            
+            // auto update storage_question_id
+            // TODO: should be moved to background
+            $this->autoUpdateStorageId($listHashQuestions);
+            
             $this->sendAjax(0, '', ['numberOfQuestions' => $storageQuestions]);
         } else {
             $this->sendAjax(1, 'Cấu trúc file không hợp lệ');
         }
         
         @unlink($uploadpath);
+    }
+    
+    private function autoUpdateStorageId($listHashQuestions) { 
+        $storageQuestions = $this->storage_question_model->getAllByHashkey($listHashQuestions);
+        foreach($storageQuestions as $question) {
+            $hashKey = $question->hashkey;
+            $storage_question_id = $question->storage_question_id;
+            $this->storage_answer_model->updateStorageQuestionId($hashKey, $storage_question_id);
+        }
     }
     
     public function uploadfile()

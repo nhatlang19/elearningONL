@@ -2,7 +2,6 @@
 
 class Stringobj
 {
-
     function _mktime($str)
     {
         $arr = explode('/', $str);

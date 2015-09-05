@@ -126,7 +126,8 @@ class CI_DB_mysqli_driver extends CI_DB {
 		$mysqli = mysqli_init();
 
 		$mysqli->options(MYSQLI_OPT_CONNECT_TIMEOUT, 10);
-
+		// luan added
+		$mysqli->options(MYSQLI_OPT_LOCAL_INFILE, true);
 		if ($this->stricton)
 		{
 			$mysqli->options(MYSQLI_INIT_COMMAND, 'SET SESSION sql_mode="STRICT_ALL_TABLES"');

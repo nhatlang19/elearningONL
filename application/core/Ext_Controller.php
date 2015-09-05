@@ -47,9 +47,9 @@ class Ext_Controller extends CI_Controller
 
     protected function sendAjax($status = 0, $message = '', $data = [])
     {
-        $data['csrf'] = [
-            'hash' => $this->security->get_csrf_hash()
-        ];
+//         $data['csrf'] = [
+//             'hash' => $this->security->get_csrf_hash()
+//         ];
         
         $response = [
             'status' => $status,
@@ -58,6 +58,11 @@ class Ext_Controller extends CI_Controller
         ];
         
         $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
+    
+    public function index() {
+        $controller = $this->uri->segment(2);
+        redirect(BACKEND_V2_TMPL_PATH . $controller . '/lists' ); 
     }
     
     public function delete($id = null) {

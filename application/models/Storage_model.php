@@ -94,4 +94,8 @@ class Storage_model extends Ext_Model
     {
         return $this->db->count_all_results();
     }
+    
+    public function getById($storageId) {
+        return $this->find_by_pkey($storageId);
+    }
 }
