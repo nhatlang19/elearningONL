@@ -1,14 +1,12 @@
 <?php
-namespace App\Libraries;
-
 error_reporting(E_ALL);
 ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);
 // date_default_timezone_set('Europe/London');
 
 use App\Libraries\AppComponent;
-
-class ExcelComponent extends AppComponent
+require_once APPPATH . 'libraries/components/AppComponent.php';
+class Excel extends AppComponent
 {
 
     function __construct()
@@ -34,7 +32,7 @@ class ExcelComponent extends AppComponent
         $this->CI->load->library('PhpOffice/PHPExcel');
         $sheet = $this->CI->phpexcel->getActiveSheet();
         
-        $title_class = underscore($class['class_name']) . '.xls';
+        $title_class = underscore($class->class_name) . '.xls';
         
         $row = 1;
         // header
@@ -45,6 +43,7 @@ class ExcelComponent extends AppComponent
         
         $listIndentities = array();
         foreach ($listStudent as $key => $student) {
+            $student = (array)$student; 
             ++ $row;
             $sheet->setCellValue("A$row", $student['indentity_number']);
             $sheet->setCellValue("B$row", $student['fullname']);
@@ -67,20 +66,5 @@ class ExcelComponent extends AppComponent
         $writer = new PHPExcel_Writer_Excel5($this->CI->phpexcel);
         $writer->save('php://output');
         
-        // // Redirect output to a client’s web browser (Excel2007)
-        // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        // header('Content-Disposition: attachment;filename="01simple.xls"');
-        // header('Cache-Control: max-age=0');
-        // // If you're serving to IE 9, then the following may be needed
-        // header('Cache-Control: max-age=1');
-        
-        // // If you're serving to IE over SSL, then the following may be needed
-        // header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-        // header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
-        // header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
-        // header ('Pragma: public'); // HTTP/1.0
-        
-        // $objWriter = PHPExcel_IOFactory::createWriter($this->CI->phpexcel, 'Excel2007');
-        // $objWriter->save('php://output');
     }
 }

@@ -127,12 +127,12 @@ class Topic extends Ext_Controller
             $results[$key]['code'] = $topic['code'];
             $results[$key]['data'] = $data;
             foreach ($data as $item) {
-                $this->msdocgenerator->addParagraph('<b>Câu ' . $item['number'] . ':</b> ' . strip_slashes(nl2br($item['question_name'])));
+                $this->msdocgenerator->addParagraph('<b>Câu ' . $item['number'] . ':</b> ' . stripslashes(nl2br($item['question_name'])));
                 
                 $answers = explode('|||', $item['answer']);
                 $num = 65;
                 foreach ($answers as $answer) {
-                    $this->msdocgenerator->addParagraph(chr($num) . '. ' . strip_slashes(nl2br($answer)));
+                    $this->msdocgenerator->addParagraph(chr($num) . '. ' . stripslashes(nl2br($answer)));
                     $num ++;
                 }
             }
@@ -334,7 +334,7 @@ class Topic extends Ext_Controller
             $data['lists'] = $this->topic_file_model->getFilesTopicManageId($topic_manage_id);
             $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'topic/list_download', $data, TRUE);
             
-            $this->sendAjax(0, $content);
+            $this->sendAjax(0, '', $content);
         } else {
             exit('No direct script access allowed');
         }
@@ -362,8 +362,8 @@ class Topic extends Ext_Controller
     {
         $class_id = (int) $class_id;
         if ($class_id) {
-            $this->load->library('Components/ExcelComponent');
-            $this->excelcomponent->downloadStudentResult($class_id, false);
+            $this->load->library('components/excel');
+            $this->excel->downloadStudentResult($class_id, false);
         } else {
             exit('No direct script access allowed');
         }

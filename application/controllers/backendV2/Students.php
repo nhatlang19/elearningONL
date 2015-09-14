@@ -46,10 +46,13 @@ class Students extends Ext_Controller
             $id = $this->input->post('id');
             $data = $this->input->post();
             
+            $data['indentity_number'] = $this->commonobj->TrimAll($data['indentity_number']);
+            $data['fullname'] = $this->commonobj->TrimAll($data['fullname']);
+            $data['username'] = $data['class_id'] . '_' . $data['indentity_number'];
+            $data['password'] = $this->commonobj->encrypt($data['username']);
+            
+            unset($data['id']);
             if (! $id) {
-                unset($data['id']);
-                
-                $data['password'] = $this->commonobj->encrypt($data['password']);
                 // save into subject table
                 $this->student_info_model->create($data);
             } else {
@@ -119,20 +122,16 @@ class Students extends Ext_Controller
         $this->load->library('utils');
         $sheetData = $this->utils->ole_excel_reader($uploadpath, false);
         if (count($sheetData)) {
-            // get Class Name
-            $col = $sheetData[1];
-            $className = $col['B'];
-            unset($sheetData[1]);
+            unset($sheetData[1]); // delete title
             
-            unset($sheetData[2]); // delete title
             $lists = array();
             foreach ($sheetData as $key => $col) {
                 $data = array();
                 $data['indentity_number'] = $this->commonobj->TrimAll(addslashes($col['A']));
                 $data['class_id'] = (int) $class_id;
                 $data['fullname'] = $this->commonobj->TrimAll($col['B']);
-                $data['username'] = $className . '_' . $this->commonobj->TrimAll($col['A']);
-                $data['password'] = $this->commonobj->encrypt($className . '_' . $col['A']);
+                $data['username'] = $class_id . '_' . $this->commonobj->TrimAll($col['A']);
+                $data['password'] = $this->commonobj->encrypt($data['username']);
                 $this->student_info_model->create_ignore($data);
             }
         }

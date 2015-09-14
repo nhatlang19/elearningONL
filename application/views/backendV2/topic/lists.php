@@ -71,9 +71,11 @@
 					<td style="text-align: center">
 						<?php echo anchor(BACKEND_V2_TMPL_PATH . 'topic/export/' . $id, "<img src=\"" . BACKEND_V2_IMAGE_PATH . "rar.png\" />"); ?>
 					</td>
-					<td style="text-align: center"><img class="showListStudentAnswer"
-						id="<?php echo $value->topic_manage_id; ?>"
-						src="<?php echo BACKEND_V2_IMAGE_PATH; ?>rar.png" /></td>
+					<td style="text-align: center">
+						<a href="javascript:void(0);" class="showListStudentAnswer" id="<?php echo $value->topic_manage_id; ?>">
+						<img src="<?php echo BACKEND_V2_IMAGE_PATH; ?>rar.png" />
+						</a>
+					</td>
 					<td><?php echo setDate($value->created_time, 'notime'); ?></td>
 					<td class="actions">
 						<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
@@ -86,6 +88,7 @@
 	</div>
 </section>
 <?php echo $this->load->view(BACKEND_V2_TMPL_PATH . 'dialogs/dialog_delete', null, true); ?>
+<?php echo $this->load->view(BACKEND_V2_TMPL_PATH . 'topic/modal', null, true); ?>
 <!-- Specific Page Vendor -->
 <script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-datatables/media/js/jquery.dataTables.js"></script>
 <script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-datatables-bs3/assets/js/datatables.js"></script>

@@ -17,9 +17,6 @@
 <script src="<?php echo JS_PATH; ?>plugins.js"></script>
 <script src="<?php echo JS_PATH; ?>main.js"></script>
 
-<script src="<?php echo JS_PATH; ?>slickQuiz.js"></script>
-<script src="<?php echo JS_PATH; ?>master.js"></script>
-
 <script src="<?php echo JS_PATH; ?>bootstrap.min.js"></script>
 <script src="<?php echo JS_PATH; ?>bootswatch.js"></script>
 
@@ -46,6 +43,5 @@
 <script type="text/javascript"
 	src="<?php echo JS_PATH; ?>jquery.countdown.js"></script>
 <!-- Cookie -->
-<?php //$this->output->enable_profiler(TRUE); ?>
 </body>
 </html>

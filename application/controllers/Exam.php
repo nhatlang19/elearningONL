@@ -1,17 +1,16 @@
 <?php
-@session_start();
 if (! defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class Exam extends CI_Controller
 {
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         
         if (! $this->session->userdata('studentInfo')) {
-            redirect('login');
+            redirect('dang-nhap');
         }
         
         $this->load->model('topic_model');
@@ -22,10 +21,11 @@ class Exam extends CI_Controller
         $this->load->model('student_answer_model');
         $this->load->model('student_mark_model');
         $this->load->model('score_model');
-        
-        $this->load->library('commonobj');
-        $this->load->library('Components/ScoreComponent');
-        $this->load->library('Components/WordComponent');
+        $this->load->library([
+            'commonobj',
+            'components/score',
+            'components/word'
+        ]);
     }
 
     /**
@@ -43,10 +43,8 @@ class Exam extends CI_Controller
             $topic_id = $topic['topic_id'];
             
             $review_show = $this->topic_manage_model->getReviewStatus($topic['topic_manage_id']);
-            
             // get score of student
             $data['score'] = $this->student_mark_model->getMarkStudentById($student_mark_id);
-            
             $data['answers_student'] = $this->student_answer_model->getAnswerOfStudentId($student_id, $topic_id, $student_mark_id);
             $data['list'] = $this->utils->makeList('question_id', $data['answers_student']);
             $data['student'] = $student;
@@ -55,7 +53,7 @@ class Exam extends CI_Controller
                 $data['topic_details'] = $this->topic_model->getData($topic_id);
             }
             
-            $student->result = TRUE;
+            $student->result = true;
             $session = array(
                 'studentInfo' => $student
             );
@@ -116,10 +114,10 @@ class Exam extends CI_Controller
                 }
                 
                 // calculate mark for student
-                $this->scorecomponent->calScore($topic_id, $student_id, $student_mark_id);
+                $this->score->calScore($topic_id, $student_id, $student_mark_id);
                 
                 // save file dap an cua hos sinh
-                $this->wordcomponent->exportResultStudent($student, $topic, $student_mark_id);
+                $this->word->exportResultStudent($student, $topic, $student_mark_id);
                 
                 $student->finished = TRUE;
                 $student->student_mark_id = $student_mark_id;
@@ -150,7 +148,6 @@ class Exam extends CI_Controller
                 if (! $topic) {
                     $topic = $this->topic_model->getTopicByTopicManageIdRandom($topic_manage['topic_manage_id']);
                 }
-                
                 // update session
                 $student->topic_id = $topic['topic_id'];
                 $session = array(
@@ -160,21 +157,19 @@ class Exam extends CI_Controller
                 $this->session->set_userdata($session);
                 
                 $data = $this->topic_model->getDataNoCorrectAnswer($topic['topic_id']);
-                
                 // gen JSON data
                 $questions = array();
                 foreach ($data as $key => $question) {
                     $tmp = array();
-                    $tmp['q'] = strip_slashes($question['question_name']);
+                    $tmp['q'] = stripslashes($question['question_name']);
                     $tmp['storageQuestionId'] = $question['storage_question_id'];
                     $arrayAnswer = explode('|||', $question['answer']);
-                    $tmp['type'] = $question['type'];
                     $tmp['number'] = $question['number'];
                     $tmp['correct'] = '';
                     $tmp['incorrect'] = '';
                     foreach ($arrayAnswer as $answer) {
                         $tmp['a'][] = array(
-                            'option' => strip_slashes($answer),
+                            'option' => stripslashes($answer),
                             'correct' => false
                         );
                     }

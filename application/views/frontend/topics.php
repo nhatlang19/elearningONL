@@ -73,6 +73,8 @@
 		</div>
 	</div>
 </form>
+<script src="<?php echo JS_PATH; ?>slickQuiz.js"></script>
+<script src="<?php echo JS_PATH; ?>master.js"></script>
 <script>
 $(function () {
 	$(window).bind('beforeunload', function(e) {    
@@ -85,5 +87,4 @@ $(function () {
 	
 	$("html, body").keydown(false);
 });
-	
-	</script>
+</script>

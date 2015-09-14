@@ -12,15 +12,7 @@
 <!-- CSS -->
 <link rel="stylesheet" href="<?php echo CSS_PATH; ?>bootstrap.css">
 <link rel="stylesheet" href="<?php echo CSS_PATH; ?>bootswatch.min.css">
-<style type="text/css">
-<!--
-.container {
-	top: 50%;
-	left: 50%;
-	margin-top: 100px;
-}
--->
-</style>
+<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <!-- Main HTML -->
@@ -37,32 +29,35 @@
 					<strong><?php echo $error; ?></strong>
 				</div>
 				<?php endif; ?>
-				<form class="form-horizontal" method="post" id="login">
+				<?php echo form_open('dang-nhap', ['id' => 'login', 'class' => 'form-horizontal']); ?>
 					<fieldset>
 						<legend>Đăng nhập</legend>
 						<div class="form-group">
-							<label for="inputUsername" class="col-lg-3 control-label">Tên
-								đăng nhập</label>
+							<label for="inputUsername" class="col-lg-3 control-label">Lớp</label>
 							<div class="col-lg-9">
-								<input type="text" class="form-control" id="inputUsername"
-									name="username" placeholder="Tên đăng nhập">
+								<select class="form-control clazz" name="class_id">
+                                <?php 
+        						foreach ($classes as $class) :
+                                ?>
+    								<option	value="<?php echo $class->class_id; ?>"><?php echo $class->class_name; ?></option>
+    							<?php endforeach; ?>
+                                </select>	
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="inputPassword" class="col-lg-3 control-label">Mật
-								khẩu</label>
+							<label for="inputPassword" class="col-lg-3 control-label">Mã số học sinh</label>
 							<div class="col-lg-9">
-								<input type="password" class="form-control" id="inputPassword"
-									name="password" placeholder="Mật khẩu">
+								<input type="text" class="form-control" id="inputPassword"
+									name="indentity_number" placeholder="Mã số học sinh">
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="col-lg-9 col-lg-offset-3">
-								<button type="submit" class="btn btn-primary">Submit</button>
+								<button type="submit" class="btn btn-primary">Đăng nhập</button>
 							</div>
 						</div>
 					</fieldset>
-				</form>
+				<?php echo form_close(); ?>
 			</div>
 			<div class="col-md-3"></div>
 		</div>
@@ -73,6 +68,13 @@
 	<script>document.write('<script src="<?php echo JS_PATH; ?>vendor/jquery-1.10.2.min.js"><\/script>')</script>
 	<script src="<?php echo JS_PATH; ?>bootstrap.min.js"></script>
 	<script src="<?php echo JS_PATH; ?>bootswatch.js"></script>
+	
+	<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+	<script>
+	$(document).ready(function() {
+		  $(".clazz").select2();
+	});
+	</script>
 </body>
 
 </html>

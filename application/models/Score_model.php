@@ -9,11 +9,11 @@ class Score_model extends Ext_Model
         if ($topic_id) {
             $this->db->select('stu_ans.student_id, count(*) as number_correct');
             $this->db->from('question AS q');
-            $this->db->join('answer AS a', 'a.storage_question_id = q.storage_question_id');
-            $this->db->join('student_answer AS stu_ans', 'stu_ans.question_id = q.storage_question_id');
-            $this->db->join('student_info AS si', 'si.student_id = stu_ans.student_id');
+            $this->db->join('answer AS a', 'a.storage_question_id = q.storage_question_id', 'left');
+            $this->db->join('student_answer AS stu_ans', 'stu_ans.question_id = q.storage_question_id', 'left');
+            $this->db->join('student_info AS si', 'si.student_id = stu_ans.student_id', 'left');
             $this->db->where_in('q.topic_id', $topic_id);
-            $this->db->where_in('a.topic_id', $topic_id);
+//             $this->db->where_in('a.topic_id', $topic_id);
             $this->db->where_in('stu_ans.topic_id', $topic_id);
             $this->db->where('a.correct_answer', 1);
             $this->db->where('a.`number` = `stu_ans`.`answer`');

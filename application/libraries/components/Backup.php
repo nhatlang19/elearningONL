@@ -2,8 +2,8 @@
 namespace App\Libraries;
 
 use App\Libraries\AppComponent;
-
-class BackupComponent extends AppComponent
+require_once APPPATH . 'libraries/components/AppComponent.php';
+class Backup extends AppComponent
 {
 
     function __construct()

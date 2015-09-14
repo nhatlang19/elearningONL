@@ -35,32 +35,6 @@
 				</div>
 			</div>
 			<div class="panel-body">
-				<div class="form-group">
-					<label class="col-md-3 control-label" for="inputDefault">Tên đăng nhập <span
-						class="required">*</span>
-					</label>
-					<div class="col-md-6">
-						<input name="username" type="text" class="form-control"
-							id="inputDefault" required
-							value="<?php echo isset($student->username) ? $student->username : ''; ?>">
-					</div>
-				</div>
-			</div>
-			<?php if(!isset($id)) : ?>
-			<div class="panel-body">
-				<div class="form-group">
-					<label class="col-md-3 control-label" for="inputDefault">Mật khẩu <span
-						class="required">*</span>
-					</label>
-					<div class="col-md-6">
-						<input name="password" type="text" class="form-control"
-							id="inputDefault" required
-							value="<?php echo isset($student->password) ? $student->password : ''; ?>">
-					</div>
-				</div>
-			</div>
-			<?php endif; ?>
-			<div class="panel-body">
     			<div class="form-group">
     				<label class="col-md-3 control-label">Lớp</label>
     				<div class="col-md-6">

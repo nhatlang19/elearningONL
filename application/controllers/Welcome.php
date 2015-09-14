@@ -24,5 +24,7 @@ class Welcome extends CI_Controller {
         if ($controller == 'admin' || $controller == 'backend') {
             redirect('admin/signin');
         }
+        
+        redirect('dang-nhap');
 	}
 }

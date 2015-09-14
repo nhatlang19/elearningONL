@@ -54,6 +54,10 @@ $route['admin'] = "backendV2";
 $route['admin/signin'] = "backendV2/users/login";
 $route['backendV2/storage-question/(.+)'] = "backendV2/storagequestion/$1";
 
-$route['default_controller'] = 'exam';
+$route['dang-nhap'] = "student/login";
+$route['thoat'] = "student/logout";
+$route['xac-nhan-thong-tin'] = "student/confirm_info";
+
+$route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

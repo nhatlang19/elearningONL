@@ -141,12 +141,6 @@ class Users extends CI_Controller
         
         $data['lists'] = $this->user->getAllUser($username, $uri_segment, $per_page);
         
-
-        $base_url = base_url() . BACKEND_V2_TMPL_PATH . 'storage/lists';
-        $config = $this->configPagination($base_url, $this->user->table_record_count, $per_page, 4);
-        $this->pagination->initialize($config);
-        $data['pagination'] = $this->pagination;
-        
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'users/lists', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
@@ -165,7 +159,7 @@ class Users extends CI_Controller
             $data['username'] = $this->input->post('username');
             $data['password'] = $this->input->post('password');
             $data['email'] = $this->input->post('email');
-            $data['subjects_id'] = $this->input->post('subjects_id');
+            $data['subjects_id'] = (int)$this->input->post('subjects_id');
             $data['published'] = 1;
             $data['role'] = 10;
             

@@ -3,3 +3,4 @@ user_guide/*
 .project
 .settings/org.eclipse.php.core.prefs
 .settings/org.eclipse.wst.common.project.facet.core.xml
+public/backendV2/files/*

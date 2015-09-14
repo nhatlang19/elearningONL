@@ -147,7 +147,7 @@
                 if (plugin.config.tryAgainText && plugin.config.tryAgainText !== '') {
                     $quizResultsCopy.before('<a class="button ' + tryAgainClass + '" href="#">' + plugin.config.tryAgainText + '</a>');
                 }
-
+                
                 // Setup questions
                 var quiz  = $('<ol class="' + questionGroupClass + '"></ol>'),
                     count = 1;
@@ -230,6 +230,10 @@
                             questionHTML.append('<a href="#" class="btn btn-primary ' + nextQuestionClass + '">' + plugin.config.nextQuestionText + '</a>');
                             questionHTML.append('<a href="#" class="btn btn-primary ' + checkAnswerClass + '">' + plugin.config.checkAnswerText + '</a>');
                         }
+                        
+                        // csrf token
+                        var csrf = '<input type="hidden" name="csrf_lph_token" value="' + $.cookie('csrf_cookie_name') + '" style="display:none;" />';
+                        questionHTML.append(csrf);
 
                         // Append question & answers to quiz
                         quiz.append(questionHTML);

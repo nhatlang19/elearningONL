@@ -73,13 +73,13 @@ class Topic_model extends Ext_Model
         if ($topic_id) {
             $this->db->query("SET SESSION group_concat_max_len = " . GROUP_CONCAT_MAX_LENGTH . ";");
             
-            $this->db->select('sq.storage_question_id, sq.question_name, sq.type, q.number, GROUP_CONCAT(sa.answer SEPARATOR "|||") AS answer');
+            $this->db->select('sq.storage_question_id, sq.question_name, q.number, GROUP_CONCAT(sa.answer SEPARATOR "|||") AS answer');
             $this->db->from('question AS q');
             $this->db->join('answer AS a', 'a.storage_question_id = q.storage_question_id');
             $this->db->join('storage_question AS sq', 'sq.storage_question_id = q.storage_question_id');
             $this->db->join('storage_answer AS sa', 'sa.storage_answer_id = a.storage_answer_id');
             $this->db->where('q.topic_id', $topic_id);
-            $this->db->where('a.topic_id', $topic_id);
+//             $this->db->where('a.topic_id', $topic_id);
             $this->db->order_by('q.number', 'ASC');
             $this->db->group_by('sq.storage_question_id');
             
@@ -111,7 +111,7 @@ class Topic_model extends Ext_Model
             $this->db->join('storage_question AS sq', 'sq.storage_question_id = q.storage_question_id');
             $this->db->join('storage_answer AS sa', 'sa.storage_answer_id = a.storage_answer_id');
             $this->db->where('q.topic_id', $topic_id);
-            $this->db->where('a.topic_id', $topic_id);
+//             $this->db->where('a.topic_id', $topic_id);
             $this->db->order_by('q.number', 'ASC');
             $this->db->group_by('sq.storage_question_id');
             

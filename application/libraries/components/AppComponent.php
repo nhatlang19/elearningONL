@@ -1,7 +1,7 @@
 <?php
 namespace App\Libraries;
 
-class AppComponent {
+abstract class AppComponent {
     protected $CI;
     
     function __construct()
