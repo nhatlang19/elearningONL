@@ -13,6 +13,10 @@ class Users extends CI_Controller
         parent::__construct();
         $this->load->model('User_model', 'user', TRUE);
         $this->load->model('subject_model');
+        
+        $this->load->library([
+            'components/userlib',
+        ]);
     }
 
     function index()
@@ -155,30 +159,32 @@ class Users extends CI_Controller
             $data['id'] = $id;
         }
         if ($this->input->post()) {
-            $id = $this->input->post('id');
-            $data['fullname'] = $this->input->post('fullname');
-            $data['username'] = $this->input->post('username');
+            $id = $this->input->post('id', 0);
+            $data['fullname'] = sanitizeText($this->input->post('fullname'));
+            $data['username'] = sanitizeText($this->input->post('username'));
             $data['password'] = $this->input->post('password');
             $data['email'] = $this->input->post('email');
             $data['subjects_id'] = (int)$this->input->post('subjects_id');
             $data['published'] = 1;
             $data['role'] = 10;
-            
-            if (! $id) {
-                // save into user table
-                $data['password'] = md5($data['password']);
-                $this->user->create($data);
-            } else {
-                if (! is_null($data['password']) && $data['password']) {
+            $isValid = $this->userlib->validate($data);
+            if($isValid) {
+                if (! $id) {
+                    // save into user table
                     $data['password'] = md5($data['password']);
+                    $this->user->create($data);
                 } else {
-                    unset($data['password']);
+                    if (! is_null($data['password']) && $data['password']) {
+                        $data['password'] = md5($data['password']);
+                    } else {
+                        unset($data['password']);
+                    }
+                    $this->user->update_by_pkey($id, $data);
                 }
-                $this->user->update_by_pkey($id, $data);
+                unset($data);
+                
+                redirect(BACKEND_V2_TMPL_PATH . 'users/lists');
             }
-            unset($data);
-            
-            redirect(BACKEND_V2_TMPL_PATH . 'users/lists');
         }
         
         $data['title'] = $header['title'];

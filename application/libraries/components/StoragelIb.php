@@ -17,31 +17,30 @@ class Storagelib extends AppComponent {
         
         $this->CI->load->library([
             'components/word',
-            'utils'
+            'utils',
+            'form_validation'
         ]);
     }
     
-    public function validateTitle($title) {
-        $titleFormatted = $title;
+    public function validate($title) {
+        $oldTitle = $title;
+        $title = sanitizeText($title);
         
-        $message = [];
-        if(empty($titleFormatted)) {
-           $message[] = 'Tên kho [' . htmlentities($title) . '] không hợp lệ';
-        }
+        $this->CI->form_validation->set_data(array('title' => $title));
+        $config = array(
+            array(
+                'field' => 'title',
+                'label' => 'Tên kho',
+                'rules' => 'required|min_length[6]|max_length[255]'
+            )
+        );
+        $this->CI->form_validation->set_message('required', 'Tên kho [' . htmlentities($oldTitle) . ']  không hợp lệ');
+        $this->CI->form_validation->set_message('min_length', 'Tên kho ít nhất phải có {param} ký tự');
+        $this->CI->form_validation->set_message('max_length', 'Tên kho phải nhỏ hơn {param} ký tự');
         
-        $numberChar = 6;
-        if(strlen($titleFormatted) <= $numberChar) {
-            $message[] = "Tên kho ít nhất phải có $numberChar ký tự";
-        }
+        $this->CI->form_validation->set_rules($config);
         
-        $numberChar = 255;
-        if(strlen($titleFormatted) >= $numberChar) {
-            $message[] = "Tên kho phải nhỏ hơn $numberChar ký tự";
-        }
-        
-        $this->validateMessages = $message;
-        
-        return !empty($message) ? false : true;
+        return $this->CI->form_validation->run();
     }
     
     public function export($storage_id) {

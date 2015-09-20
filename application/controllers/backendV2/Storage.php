@@ -13,7 +13,8 @@ class Storage extends Ext_Controller
         
         $this->load->library([
             'utils',
-            'components/storagelib'
+            'components/storagelib',
+            'form_validation'
         ]);
     }
 
@@ -45,10 +46,9 @@ class Storage extends Ext_Controller
         if ($this->input->post()) {
             $id = (int) $this->input->post('storage_id', 0);
             $title = $this->input->post('title');
-            $value['title'] = sanitizeText($title);
-            
-            $isValid = $this->storagelib->validateTitle($value['title']);
+            $isValid = $this->storagelib->validate($title);
             if($isValid) {
+                $value['title'] = sanitizeText($title);
                 $subjects_id = $this->getUserInfo()->subjects_id;
                 if ($subjects_id) {
                     $value['subjects_id'] = $subjects_id;
@@ -63,8 +63,6 @@ class Storage extends Ext_Controller
                 }
                 unset($value);
                 redirect(BACKEND_V2_TMPL_PATH . 'storage/lists');
-            } else {
-                $this->session->set_flashdata('error', reset($this->storagelib->validateMessages));
             }
         }
         

@@ -1,8 +1,3 @@
-<?php
-if (($error = $this->session->flashdata('error'))) {
-    $this->session->set_flashdata('error', null);
-}
-?>
 <!-- start: page -->
 <div class="row">
 	<div class="col-lg-12">
@@ -16,12 +11,8 @@ if (($error = $this->session->flashdata('error'))) {
 				<h2 class="panel-title"><?php echo $title; ?></h2>
 			</header>
 			<div class="panel-body">
-					<?php if(isset($error)) : ?>
-					<div class="alert alert-danger">
-                        <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
-                        <?php echo $error; ?>.
-					</div>
-					<?php endif; ?>
+					<?php echo validation_errors('<div class="alert alert-danger">
+                        <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>', '</div>'); ?>
 					<div class="form-group">
 						<label class="col-md-3 control-label" for="inputDefault">Tên kho <span class="required">*</span></label>
 						<div class="col-md-6">
