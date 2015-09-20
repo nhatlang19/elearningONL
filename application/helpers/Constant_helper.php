@@ -34,7 +34,7 @@ define('GROUP_CONCAT_MAX_LENGTH', 1000000);
  * Use define direction path
  * Usefuly for all controller using this path to load template
  */
-define('ROOT', '');
+define('ROOT', '/elearningONL');
 define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT'] . ROOT);
 // BACKUP
 define('NAME_BACKUP', 'mybackup_' . date('dmYHis') . '.gz');
