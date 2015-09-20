@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Shared\String;
@@ -25,7 +26,6 @@ use PhpOffice\PhpWord\Style\Paragraph;
  */
 class Text extends AbstractElement
 {
-
     /**
      * Text content
      *
@@ -50,9 +50,9 @@ class Text extends AbstractElement
     /**
      * Create a new Text Element
      *
-     * @param string $text            
-     * @param mixed $fontStyle            
-     * @param mixed $paragraphStyle            
+     * @param string $text
+     * @param mixed $fontStyle
+     * @param mixed $paragraphStyle
      */
     public function __construct($text = null, $fontStyle = null, $paragraphStyle = null)
     {
@@ -64,8 +64,8 @@ class Text extends AbstractElement
     /**
      * Set Text style
      *
-     * @param string|array|\PhpOffice\PhpWord\Style\Font $style            
-     * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle            
+     * @param string|array|\PhpOffice\PhpWord\Style\Font $style
+     * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
      * @return string|\PhpOffice\PhpWord\Style\Font
      */
     public function setFontStyle($style = null, $paragraphStyle = null)
@@ -82,7 +82,7 @@ class Text extends AbstractElement
             $this->fontStyle = $style;
             $this->setParagraphStyle($paragraphStyle);
         }
-        
+
         return $this->fontStyle;
     }
 
@@ -99,22 +99,22 @@ class Text extends AbstractElement
     /**
      * Set Paragraph style
      *
-     * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $style            
+     * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $style
      * @return string|\PhpOffice\PhpWord\Style\Paragraph
      */
     public function setParagraphStyle($style = null)
     {
         if (is_array($style)) {
-            $this->paragraphStyle = new Paragraph();
+            $this->paragraphStyle = new Paragraph;
             $this->paragraphStyle->setStyleByArray($style);
         } elseif ($style instanceof Paragraph) {
             $this->paragraphStyle = $style;
         } elseif (null === $style) {
-            $this->paragraphStyle = new Paragraph();
+            $this->paragraphStyle = new Paragraph;
         } else {
             $this->paragraphStyle = $style;
         }
-        
+
         return $this->paragraphStyle;
     }
 
@@ -131,13 +131,13 @@ class Text extends AbstractElement
     /**
      * Set text content
      *
-     * @param string $text            
+     * @param string $text
      * @return self
      */
     public function setText($text)
     {
         $this->text = String::toUTF8($text);
-        
+
         return $this;
     }
 

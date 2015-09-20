@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\PhpWord;
@@ -25,7 +26,6 @@ use PhpOffice\PhpWord\PhpWord;
  */
 class RTF extends AbstractWriter implements WriterInterface
 {
-
     /**
      * Last paragraph style
      *
@@ -36,22 +36,17 @@ class RTF extends AbstractWriter implements WriterInterface
     /**
      * Create new instance
      *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord            
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
     public function __construct(PhpWord $phpWord = null)
     {
         $this->setPhpWord($phpWord);
-        
-        $this->parts = array(
-            'Header',
-            'Document'
-        );
+
+        $this->parts = array('Header', 'Document');
         foreach ($this->parts as $partName) {
             $partClass = get_class($this) . '\\Part\\' . $partName;
             if (class_exists($partClass)) {
-                /**
-                 * @var \PhpOffice\PhpWord\Writer\RTF\Part\AbstractPart $part Type hint
-                 */
+                /** @var \PhpOffice\PhpWord\Writer\RTF\Part\AbstractPart $part Type hint */
                 $part = new $partClass();
                 $part->setParentWriter($this);
                 $this->writerParts[strtolower($partName)] = $part;
@@ -60,15 +55,15 @@ class RTF extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Save content to file
+     * Save content to file.
      *
-     * @param string $filename            
+     * @param string $filename
+     * @return void
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function save($filename = null)
     {
-        $fileHandle = $this->openFile($filename);
-        $this->writeFile($fileHandle, $this->getContent());
+        $this->writeFile($this->openFile($filename), $this->getContent());
     }
 
     /**
@@ -80,18 +75,20 @@ class RTF extends AbstractWriter implements WriterInterface
     private function getContent()
     {
         $content = '';
-        
+
         $content .= '{';
         $content .= '\rtf1' . PHP_EOL;
         $content .= $this->getWriterPart('Header')->write();
         $content .= $this->getWriterPart('Document')->write();
         $content .= '}';
-        
+
         return $content;
     }
 
     /**
-     * Get font table
+     * Get font table.
+     *
+     * @return array
      */
     public function getFontTable()
     {
@@ -99,7 +96,9 @@ class RTF extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Get color table
+     * Get color table.
+     *
+     * @return array
      */
     public function getColorTable()
     {
@@ -107,7 +106,9 @@ class RTF extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Get last paragraph style
+     * Get last paragraph style.
+     *
+     * @return mixed
      */
     public function getLastParagraphStyle()
     {
@@ -115,9 +116,10 @@ class RTF extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Set last paragraph style
+     * Set last paragraph style.
      *
-     * @param mixed $value            
+     * @param mixed $value
+     * @return void
      */
     public function setLastParagraphStyle($value = '')
     {

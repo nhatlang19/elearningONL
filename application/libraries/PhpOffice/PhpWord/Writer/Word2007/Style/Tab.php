@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
 /**
@@ -23,18 +24,19 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Style;
  */
 class Tab extends AbstractStyle
 {
-
     /**
-     * Write style
+     * Write style.
+     *
+     * @return void
      */
     public function write()
     {
         $style = $this->getStyle();
-        if (! $style instanceof \PhpOffice\PhpWord\Style\Tab) {
+        if (!$style instanceof \PhpOffice\PhpWord\Style\Tab) {
             return;
         }
         $xmlWriter = $this->getXmlWriter();
-        
+
         $xmlWriter->startElement("w:tab");
         $xmlWriter->writeAttribute("w:val", $style->getType());
         $xmlWriter->writeAttribute("w:leader", $style->getLeader());

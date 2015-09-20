@@ -12,6 +12,15 @@
 			</header>
 			<div class="panel-body">
 				<div class="form-group">
+					<label class="col-md-3 control-label" for="inputDefault">Họ tên <span class="required">*</span>
+					</label>
+					<div class="col-md-6">
+						<input type="text" name="fullname" class="form-control"
+							id="inputDefault" required
+							value="<?php echo isset($userInfo->fullname) ? $userInfo->fullname : ''; ?>">
+					</div>
+				</div>
+				<div class="form-group">
 					<label class="col-md-3 control-label" for="inputDefault">Tên đăng
 						nhập <span class="required">*</span>
 					</label>
@@ -69,8 +78,8 @@
 			<footer class="panel-footer">
 				<div class="row">
 					<div class="col-sm-9 col-sm-offset-3">
-						<button class="btn btn-primary">Submit</button>
-						<button type="reset" class="btn btn-default">Reset</button>
+						<button class="btn btn-primary"><?php echo isset($id) ? 'Cập nhật' : 'Tạo mới'; ?></button>
+						<button type="reset" class="btn btn-default">Phục hồi</button>
 					</div>
 				</div>
 			</footer>

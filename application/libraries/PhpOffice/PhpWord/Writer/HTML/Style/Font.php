@@ -14,9 +14,9 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\HTML\Style;
 
-use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
 
 /**
@@ -26,7 +26,6 @@ use PhpOffice\PhpWord\Style\Font as FontStyle;
  */
 class Font extends AbstractStyle
 {
-
     /**
      * Write style
      *
@@ -35,18 +34,18 @@ class Font extends AbstractStyle
     public function write()
     {
         $style = $this->getStyle();
-        if (! $style instanceof FontStyle) {
+        if (!$style instanceof FontStyle) {
             return '';
         }
         $css = array();
-        
+
         $font = $style->getName();
         $size = $style->getSize();
         $color = $style->getColor();
         $fgColor = $style->getFgColor();
         $underline = $style->getUnderline() != FontStyle::UNDERLINE_NONE;
         $lineThrough = $style->isStrikethrough() || $style->isDoubleStrikethrough();
-        
+
         $css['font-family'] = $this->getValueIf($font !== null, "'{$font}'");
         $css['font-size'] = $this->getValueIf($size !== null, "{$size}pt");
         $css['color'] = $this->getValueIf($color !== null, "#{$color}");
@@ -59,7 +58,7 @@ class Font extends AbstractStyle
         $css['text-decoration'] = '';
         $css['text-decoration'] .= $this->getValueIf($underline, 'underline ');
         $css['text-decoration'] .= $this->getValueIf($lineThrough, 'line-through ');
-        
+
         return $this->assembleCss($css);
     }
 }

@@ -14,9 +14,10 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
-use PhpOffice\PhpWord\Shared\Drawing;
+use PhpOffice\PhpWord\Shared\Converter;
 
 /**
  * Image element writer
@@ -25,7 +26,6 @@ use PhpOffice\PhpWord\Shared\Drawing;
  */
 class Image extends AbstractElement
 {
-
     /**
      * Write element
      */
@@ -33,19 +33,19 @@ class Image extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
-        if (! $element instanceof \PhpOffice\PhpWord\Element\Image) {
+        if (!$element instanceof \PhpOffice\PhpWord\Element\Image) {
             return;
         }
-        
+
         $mediaIndex = $element->getMediaIndex();
         $target = 'Pictures/' . $element->getTarget();
         $style = $element->getStyle();
-        $width = Drawing::pixelsToCentimeters($style->getWidth());
-        $height = Drawing::pixelsToCentimeters($style->getHeight());
-        
+        $width = Converter::pixelToCm($style->getWidth());
+        $height = Converter::pixelToCm($style->getHeight());
+
         $xmlWriter->startElement('text:p');
         $xmlWriter->writeAttribute('text:style-name', 'Standard');
-        
+
         $xmlWriter->startElement('draw:frame');
         $xmlWriter->writeAttribute('draw:style-name', 'fr' . $mediaIndex);
         $xmlWriter->writeAttribute('draw:name', $element->getElementId());
@@ -53,16 +53,16 @@ class Image extends AbstractElement
         $xmlWriter->writeAttribute('svg:width', $width . 'cm');
         $xmlWriter->writeAttribute('svg:height', $height . 'cm');
         $xmlWriter->writeAttribute('draw:z-index', $mediaIndex);
-        
+
         $xmlWriter->startElement('draw:image');
         $xmlWriter->writeAttribute('xlink:href', $target);
         $xmlWriter->writeAttribute('xlink:type', 'simple');
         $xmlWriter->writeAttribute('xlink:show', 'embed');
         $xmlWriter->writeAttribute('xlink:actuate', 'onLoad');
         $xmlWriter->endElement(); // draw:image
-        
+
         $xmlWriter->endElement(); // draw:frame
-        
+
         $xmlWriter->endElement(); // text:p
     }
 }

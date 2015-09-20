@@ -96,18 +96,17 @@ class Storage extends Ext_Controller
         // contents
         $storages = $this->storage_model->exportData($storage_id);
         $storage = $this->storage_model->find_by_pkey($storage_id);
-        $filename = $this->utils->format_title_export_docx($storage->title);
+        $filename = $this->utils->formatTitleExprortDocx($storage->title);
         $this->word->exportStorages($filename, $storages);
     }
 
     public function _saveFileData($storage_id, $fileName)
     {
-        $uploadpath = 'public/backendV2/tmp/' . $fileName;
+        $uploadpath = BACKEND_V2_TMP_PATH_ROOT . $fileName;
         $this->load->library([
             'components/word',
         ]);
         $storage_id = (int) $storage_id;
-        
         $rows = $this->word->importFromDocx($uploadpath);
         if (! empty($rows)) {
             $batchDataQuestions = [];
@@ -178,17 +177,18 @@ class Storage extends Ext_Controller
     
     public function uploadfile()
     {
-        $file = BACKEND_V2_TMP_PATH_ROOT . basename($_FILES['file']['name']);
-        $imageFileType = pathinfo($file, PATHINFO_EXTENSION);
+        $extension = pathinfo(basename($_FILES['file']['name']), PATHINFO_EXTENSION);
+        $newFilename = uniqid() . '.' . $extension;
+        $file = BACKEND_V2_TMP_PATH_ROOT . $newFilename;
         // Check file size
         if ($_FILES["file"]["size"] > 5000000) {
             $this->sendAjax(1, "Kích thước file không thể quá 5MB.");
-        } elseif ($imageFileType != "doc" && $imageFileType != "docx") {
+        } elseif ($extension != "doc" && $extension != "docx") {
             $this->sendAjax(1, "Định dạng file không hợp lệ");
         } elseif (move_uploaded_file($_FILES['file']['tmp_name'], $file)) {
             $storage_id = $this->input->post('storage_id', 0);
             if ($storage_id) {
-                $this->_saveFileData($storage_id, $_FILES['file']['name']);
+                $this->_saveFileData($storage_id, $newFilename);
             }
         } else {
             $this->sendAjax(1, 'Không thể upload file');

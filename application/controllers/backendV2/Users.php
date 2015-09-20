@@ -156,6 +156,7 @@ class Users extends CI_Controller
         }
         if ($this->input->post()) {
             $id = $this->input->post('id');
+            $data['fullname'] = $this->input->post('fullname');
             $data['username'] = $this->input->post('username');
             $data['password'] = $this->input->post('password');
             $data['email'] = $this->input->post('email');

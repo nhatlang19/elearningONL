@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Shared\String;
@@ -24,7 +25,6 @@ use PhpOffice\PhpWord\Style\ListItem as ListItemStyle;
  */
 class ListItem extends AbstractElement
 {
-
     /**
      * Element style
      *
@@ -49,22 +49,22 @@ class ListItem extends AbstractElement
     /**
      * Create a new ListItem
      *
-     * @param string $text            
-     * @param int $depth            
-     * @param mixed $fontStyle            
-     * @param array|string|null $listStyle            
-     * @param mixed $paragraphStyle            
+     * @param string $text
+     * @param int $depth
+     * @param mixed $fontStyle
+     * @param array|string|null $listStyle
+     * @param mixed $paragraphStyle
      */
     public function __construct($text, $depth = 0, $fontStyle = null, $listStyle = null, $paragraphStyle = null)
     {
         $this->textObject = new Text(String::toUTF8($text), $fontStyle, $paragraphStyle);
         $this->depth = $depth;
-        
+
         // Version >= 0.10.0 will pass numbering style name. Older version will use old method
-        if (! is_null($listStyle) && is_string($listStyle)) {
+        if (!is_null($listStyle) && is_string($listStyle)) {
             $this->style = new ListItemStyle($listStyle);
         } else {
-            $this->style = $this->setStyle(new ListItemStyle(), $listStyle, true);
+            $this->style = $this->setNewStyle(new ListItemStyle(), $listStyle, true);
         }
     }
 

@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
 use PhpOffice\PhpWord\Style\Alignment;
@@ -25,7 +26,6 @@ use PhpOffice\PhpWord\Style\Alignment;
  */
 class Paragraph extends AbstractStyle
 {
-
     /**
      * Depth of table container nested level; Primarily used for RTF writer/reader
      *
@@ -43,38 +43,39 @@ class Paragraph extends AbstractStyle
     public function write()
     {
         $style = $this->getStyle();
-        if (! $style instanceof \PhpOffice\PhpWord\Style\Paragraph) {
+        if (!$style instanceof \PhpOffice\PhpWord\Style\Paragraph) {
             return '';
         }
-        
+
         $alignments = array(
             Alignment::ALIGN_LEFT => '\ql',
             Alignment::ALIGN_RIGHT => '\qr',
             Alignment::ALIGN_CENTER => '\qc',
-            Alignment::ALIGN_BOTH => '\qj'
+            Alignment::ALIGN_BOTH => '\qj',
         );
-        
-        $align = $style->getAlign();
+
+        $alignment = $style->getAlignment();
         $spaceAfter = $style->getSpaceAfter();
         $spaceBefore = $style->getSpaceBefore();
-        
+
         $content = '';
         if ($this->nestedLevel == 0) {
             $content .= '\pard\nowidctlpar ';
         }
-        if (isset($alignments[$align])) {
-            $content .= $alignments[$align];
+        if (!is_null($alignment) && isset($alignments[$alignment->getValue()])) {
+            $content .= $alignments[$alignment->getValue()];
         }
         $content .= $this->getValueIf($spaceBefore !== null, '\sb' . $spaceBefore);
         $content .= $this->getValueIf($spaceAfter !== null, '\sa' . $spaceAfter);
-        
+
         return $content;
     }
 
     /**
-     * Set nested level
+     * Set nested level.
      *
-     * @param int $value            
+     * @param int $value
+     * @return void
      */
     public function setNestedLevel($value)
     {

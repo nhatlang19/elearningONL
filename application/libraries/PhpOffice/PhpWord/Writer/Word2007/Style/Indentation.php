@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
 /**
@@ -23,29 +24,30 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Style;
  */
 class Indentation extends AbstractStyle
 {
-
     /**
-     * Write style
+     * Write style.
+     *
+     * @return void
      */
     public function write()
     {
         $style = $this->getStyle();
-        if (! $style instanceof \PhpOffice\PhpWord\Style\Indentation) {
+        if (!$style instanceof \PhpOffice\PhpWord\Style\Indentation) {
             return;
         }
         $xmlWriter = $this->getXmlWriter();
-        
+
         $xmlWriter->startElement('w:ind');
-        
+
         $xmlWriter->writeAttribute('w:left', $this->convertTwip($style->getLeft()));
         $xmlWriter->writeAttribute('w:right', $this->convertTwip($style->getRight()));
-        
+
         $firstLine = $style->getFirstLine();
-        $xmlWriter->writeAttributeIf(! is_null($firstLine), 'w:firstLine', $this->convertTwip($firstLine));
-        
+        $xmlWriter->writeAttributeIf(!is_null($firstLine), 'w:firstLine', $this->convertTwip($firstLine));
+
         $hanging = $style->getHanging();
-        $xmlWriter->writeAttributeIf(! is_null($hanging), 'w:hanging', $this->convertTwip($hanging));
-        
+        $xmlWriter->writeAttributeIf(!is_null($hanging), 'w:hanging', $this->convertTwip($hanging));
+
         $xmlWriter->endElement();
     }
 }

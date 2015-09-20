@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 /**
@@ -23,7 +24,6 @@ namespace PhpOffice\PhpWord\Writer\HTML\Element;
  */
 class ListItem extends AbstractElement
 {
-
     /**
      * Write list item
      *
@@ -31,13 +31,13 @@ class ListItem extends AbstractElement
      */
     public function write()
     {
-        if (! $this->element instanceof \PhpOffice\PhpWord\Element\ListItem) {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\ListItem) {
             return '';
         }
-        
-        $text = htmlspecialchars($this->element->getTextObject()->getText());
+
+        $text = $this->element->getTextObject()->getText();
         $content = '<p>' . $text . '</p>' . PHP_EOL;
-        
+
         return $content;
     }
 }

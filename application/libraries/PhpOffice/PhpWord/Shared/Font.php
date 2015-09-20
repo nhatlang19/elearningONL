@@ -14,92 +14,91 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Shared;
 
 /**
- * Common font functions
+ * DEPRECATED: Common font functions; Use 'Converter'
+ *
+ * @deprecated 0.12.0
+ * @codeCoverageIgnore
  */
 class Font
 {
-
     /**
      * Calculate an (approximate) pixel size, based on a font points size
      *
-     * @param int $fontSizeInPoints
-     *            Font size (in points)
+     * @param int $fontSizeInPoints Font size (in points)
      * @return int Font size (in pixels)
      */
     public static function fontSizeToPixels($fontSizeInPoints = 12)
     {
-        return ((16 / 12) * $fontSizeInPoints);
+        return Converter::pointToPixel($fontSizeInPoints);
     }
 
     /**
      * Calculate an (approximate) pixel size, based on inch size
      *
-     * @param int $sizeInInch
-     *            Font size (in inch)
+     * @param int $sizeInInch Font size (in inch)
      * @return int Size (in pixels)
      */
     public static function inchSizeToPixels($sizeInInch = 1)
     {
-        return ($sizeInInch * 96);
+        return Converter::inchToPixel($sizeInInch);
     }
 
     /**
      * Calculate an (approximate) pixel size, based on centimeter size
      *
-     * @param int $sizeInCm
-     *            Font size (in centimeters)
+     * @param int $sizeInCm Font size (in centimeters)
      * @return double Size (in pixels)
      */
     public static function centimeterSizeToPixels($sizeInCm = 1)
     {
-        return ($sizeInCm * 37.795275591);
+        return Converter::cmToPixel($sizeInCm);
     }
 
     /**
      * Convert centimeter to twip
      *
-     * @param int $sizeInCm            
+     * @param int $sizeInCm
      * @return double
      */
     public static function centimeterSizeToTwips($sizeInCm = 1)
     {
-        return ($sizeInCm * 565.217);
+        return Converter::cmToTwip($sizeInCm);
     }
 
     /**
      * Convert inch to twip
      *
-     * @param int $sizeInInch            
+     * @param int $sizeInInch
      * @return double
      */
     public static function inchSizeToTwips($sizeInInch = 1)
     {
-        return self::centimeterSizeToTwips($sizeInInch * 2.54);
+        return Converter::inchToTwip($sizeInInch);
     }
 
     /**
      * Convert pixel to twip
      *
-     * @param int $sizeInPixel            
+     * @param int $sizeInPixel
      * @return double
      */
     public static function pixelSizeToTwips($sizeInPixel = 1)
     {
-        return self::centimeterSizeToTwips($sizeInPixel / 37.795275591);
+        return Converter::pixelToTwip($sizeInPixel);
     }
 
     /**
      * Calculate twip based on point size, used mainly for paragraph spacing
      *
-     * @param integer $sizeInPoint
-     *            Size in point
+     * @param integer $sizeInPoint Size in point
      * @return integer Size (in twips)
      */
     public static function pointSizeToTwips($sizeInPoint = 1)
     {
-        return ($sizeInPoint * 20);
+        return Converter::pointToTwip($sizeInPoint);
     }
 }

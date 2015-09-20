@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Style;
 
 /**
@@ -26,7 +27,6 @@ namespace PhpOffice\PhpWord\Style;
  */
 class Numbering extends AbstractStyle
 {
-
     /**
      * Numbering definition instance ID
      *
@@ -63,13 +63,13 @@ class Numbering extends AbstractStyle
     /**
      * Set Id
      *
-     * @param integer $value            
+     * @param integer $value
      * @return self
      */
     public function setNumId($value)
     {
         $this->numId = $this->setIntVal($value, $this->numId);
-        
+
         return $this;
     }
 
@@ -86,18 +86,14 @@ class Numbering extends AbstractStyle
     /**
      * Set multilevel type
      *
-     * @param string $value            
+     * @param string $value
      * @return self
      */
     public function setType($value)
     {
-        $enum = array(
-            'singleLevel',
-            'multilevel',
-            'hybridMultilevel'
-        );
+        $enum = array('singleLevel', 'multilevel', 'hybridMultilevel');
         $this->type = $this->setEnumVal($value, $enum, $this->type);
-        
+
         return $this;
     }
 
@@ -114,7 +110,7 @@ class Numbering extends AbstractStyle
     /**
      * Set multilevel type
      *
-     * @param array $values            
+     * @param array $values
      * @return self
      */
     public function setLevels($values)
@@ -129,7 +125,7 @@ class Numbering extends AbstractStyle
                 $this->levels[$key] = $numberingLevel;
             }
         }
-        
+
         return $this;
     }
 }

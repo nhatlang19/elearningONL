@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\PDF;
 
 use PhpOffice\PhpWord\Writer\WriterInterface;
@@ -26,7 +27,6 @@ use PhpOffice\PhpWord\Writer\WriterInterface;
  */
 class TCPDF extends AbstractRenderer implements WriterInterface
 {
-
     /**
      * Name of renderer include file
      *
@@ -35,19 +35,19 @@ class TCPDF extends AbstractRenderer implements WriterInterface
     protected $includeFile = 'tcpdf.php';
 
     /**
-     * Save PhpWord to file
+     * Save PhpWord to file.
      *
-     * @param string $filename
-     *            Name of the file to save as
+     * @param string $filename Name of the file to save as
+     * @return vois
      */
     public function save($filename = null)
     {
         $fileHandle = parent::prepareForSave($filename);
-        
-        // PDF settings
+
+        //  PDF settings
         $paperSize = 'A4';
         $orientation = 'P';
-        
+
         // Create PDF
         $pdf = new \TCPDF($orientation, 'pt', $paperSize);
         $pdf->setFontSubsetting(false);
@@ -56,19 +56,19 @@ class TCPDF extends AbstractRenderer implements WriterInterface
         $pdf->addPage();
         $pdf->setFont($this->getFont());
         $pdf->writeHTML($this->getContent());
-        
+
         // Write document properties
         $phpWord = $this->getPhpWord();
-        $docProps = $phpWord->getDocumentProperties();
+        $docProps = $phpWord->getDocInfo();
         $pdf->setTitle($docProps->getTitle());
         $pdf->setAuthor($docProps->getCreator());
         $pdf->setSubject($docProps->getSubject());
         $pdf->setKeywords($docProps->getKeywords());
         $pdf->setCreator($docProps->getCreator());
-        
-        // Write to file
+
+        //  Write to file
         fwrite($fileHandle, $pdf->output($filename, 'S'));
-        
+
         parent::restoreStateAfterSave($fileHandle);
     }
 }

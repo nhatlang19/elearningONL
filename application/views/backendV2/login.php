@@ -72,7 +72,6 @@
 							<div class="form-group mb-lg">
 								<div class="clearfix">
 									<label class="pull-left">Mật khẩu <span class="required">*</span></label>
-									<a href="pages-recover-password.html" class="pull-right">Quên mật khẩu?</a>
 								</div>
 								<div class="input-group input-group-icon">
 									<input name="password" type="password" class="form-control input-lg"  required />

@@ -10,6 +10,9 @@ if (! defined('BASEPATH'))
  * Version : 1.0
  */
 
+// number line of a question
+define('NUMBER_LINE_A_QUESTION', 6);
+
 define('CACHE_TIME', 300);
 
 define('SCORE_MAX', 10);
@@ -25,7 +28,8 @@ define('SEPARATE_ANSWER', '|||');
 define('SEPARATE_CORRECT_ANSWER', ',');
 
 define('GROUP_CONCAT_MAX_LENGTH', 1000000);
-
+define('RIGHT_IMAGE', 'public/backendV2/assets/images/tick_circle.png');
+define('WRONG_IMAGE', 'public/backendV2/assets/images/cross_circle.png');
 /**
  * --------------------------------------------------------------------------
  * Define Path for backend
@@ -34,7 +38,7 @@ define('GROUP_CONCAT_MAX_LENGTH', 1000000);
  * Use define direction path
  * Usefuly for all controller using this path to load template
  */
-define('ROOT', '/elearningONL');
+define('ROOT', '/elearningOnline');
 define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT'] . ROOT);
 // BACKUP
 define('NAME_BACKUP', 'mybackup_' . date('dmYHis') . '.gz');
@@ -64,6 +68,8 @@ define('BACKEND_V2_EXCEL_PATH_DIR', 'public/backendV2/xlss/');
 define('BACKEND_V2_TMP_PATH_ROOT', DOCUMENT_ROOT . '/public/backendV2/tmp/');
 define('BACKEND_V2_TEMPLATES_PATH', ROOT . '/public/backendV2/templates/');
 define('BACKEND_V2_TRASH_PATH', 'public/backendV2/trash');
+
+define('TMPDIR_WORD', '/public/backendV2/tmpdir');
 
 global $config_ckeditor;
 $config_ckeditor = array(

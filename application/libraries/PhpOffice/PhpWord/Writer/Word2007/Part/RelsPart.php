@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 /**
@@ -23,7 +24,6 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
  */
 class RelsPart extends Rels
 {
-
     /**
      * Media relationships
      *
@@ -40,20 +40,20 @@ class RelsPart extends Rels
     {
         $xmlWriter = $this->getXmlWriter();
         $this->writeRels($xmlWriter, array(), $this->media);
-        
+
         return $xmlWriter->getData();
     }
 
     /**
      * Set media
      *
-     * @param array $media            
+     * @param array $media
      * @return self
      */
     public function setMedia($media)
     {
         $this->media = $media;
-        
+
         return $this;
     }
 }

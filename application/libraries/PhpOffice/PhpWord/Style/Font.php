@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Style;
 
 /**
@@ -21,46 +22,28 @@ namespace PhpOffice\PhpWord\Style;
  */
 class Font extends AbstractStyle
 {
-
     /**
      * Underline types
      *
      * @const string
      */
     const UNDERLINE_NONE = 'none';
-
     const UNDERLINE_DASH = 'dash';
-
     const UNDERLINE_DASHHEAVY = 'dashHeavy';
-
     const UNDERLINE_DASHLONG = 'dashLong';
-
     const UNDERLINE_DASHLONGHEAVY = 'dashLongHeavy';
-
     const UNDERLINE_DOUBLE = 'dbl';
-
     const UNDERLINE_DOTHASH = 'dotDash';
-
     const UNDERLINE_DOTHASHHEAVY = 'dotDashHeavy';
-
     const UNDERLINE_DOTDOTDASH = 'dotDotDash';
-
     const UNDERLINE_DOTDOTDASHHEAVY = 'dotDotDashHeavy';
-
     const UNDERLINE_DOTTED = 'dotted';
-
     const UNDERLINE_DOTTEDHEAVY = 'dottedHeavy';
-
     const UNDERLINE_HEAVY = 'heavy';
-
     const UNDERLINE_SINGLE = 'single';
-
     const UNDERLINE_WAVY = 'wavy';
-
     const UNDERLINE_WAVYDOUBLE = 'wavyDbl';
-
     const UNDERLINE_WAVYHEAVY = 'wavyHeavy';
-
     const UNDERLINE_WORDS = 'words';
 
     /**
@@ -69,33 +52,19 @@ class Font extends AbstractStyle
      * @const string
      */
     const FGCOLOR_YELLOW = 'yellow';
-
     const FGCOLOR_LIGHTGREEN = 'green';
-
     const FGCOLOR_CYAN = 'cyan';
-
     const FGCOLOR_MAGENTA = 'magenta';
-
     const FGCOLOR_BLUE = 'blue';
-
     const FGCOLOR_RED = 'red';
-
     const FGCOLOR_DARKBLUE = 'darkBlue';
-
     const FGCOLOR_DARKCYAN = 'darkCyan';
-
     const FGCOLOR_DARKGREEN = 'darkGreen';
-
     const FGCOLOR_DARKMAGENTA = 'darkMagenta';
-
     const FGCOLOR_DARKRED = 'darkRed';
-
     const FGCOLOR_DARKYELLOW = 'darkYellow';
-
     const FGCOLOR_DARKGRAY = 'darkGray';
-
     const FGCOLOR_LIGHTGRAY = 'lightGray';
-
     const FGCOLOR_BLACK = 'black';
 
     /**
@@ -103,9 +72,7 @@ class Font extends AbstractStyle
      *
      * @var array
      */
-    protected $aliases = array(
-        'line-height' => 'lineHeight'
-    );
+    protected $aliases = array('line-height' => 'lineHeight');
 
     /**
      * Font style type
@@ -215,11 +182,32 @@ class Font extends AbstractStyle
     private $fgColor;
 
     /**
-     * Text line height
+     * Expanded/compressed text: 0-600 (percent)
      *
      * @var int
+     * @since 0.12.0
+     * @link http://www.schemacentral.com/sc/ooxml/e-w_w-1.html
      */
-    
+    private $scale;
+
+    /**
+     * Character spacing adjustment: twip
+     *
+     * @var int|float
+     * @since 0.12.0
+     * @link http://www.schemacentral.com/sc/ooxml/e-w_spacing-2.html
+     */
+    private $spacing;
+
+    /**
+     * Font kerning: halfpoint
+     *
+     * @var int|float
+     * @since 0.12.0
+     * @link http://www.schemacentral.com/sc/ooxml/e-w_kern-1.html
+     */
+    private $kerning;
+
     /**
      * Paragraph style
      *
@@ -235,17 +223,62 @@ class Font extends AbstractStyle
     private $shading;
 
     /**
+     * Right to left languages 
+     * @var boolean
+     */
+    private $rtl = false;
+
+    /**
      * Create new font style
      *
-     * @param string $type
-     *            Type of font
-     * @param array $paragraph
-     *            Paragraph styles definition
+     * @param string $type Type of font
+     * @param array $paragraph Paragraph styles definition
      */
     public function __construct($type = 'text', $paragraph = null)
     {
         $this->type = $type;
         $this->setParagraph($paragraph);
+    }
+
+    /**
+     * Get style values
+     *
+     * @return array
+     * @since 0.12.0
+     */
+    public function getStyleValues()
+    {
+        $styles = array(
+            'name'          => $this->getStyleName(),
+            'basic'         => array(
+                'name'      => $this->getName(),
+                'size'      => $this->getSize(),
+                'color'     => $this->getColor(),
+                'hint'      => $this->getHint(),
+            ),
+            'style'         => array(
+                'bold'      => $this->isBold(),
+                'italic'    => $this->isItalic(),
+                'underline' => $this->getUnderline(),
+                'strike'    => $this->isStrikethrough(),
+                'dStrike'   => $this->isDoubleStrikethrough(),
+                'super'     => $this->isSuperScript(),
+                'sub'       => $this->isSubScript(),
+                'smallCaps' => $this->isSmallCaps(),
+                'allCaps'   => $this->isAllCaps(),
+                'fgColor'   => $this->getFgColor(),
+            ),
+            'spacing'       => array(
+                'scale'     => $this->getScale(),
+                'spacing'   => $this->getSpacing(),
+                'kerning'   => $this->getKerning(),
+            ),
+            'paragraph'     => $this->getParagraph(),
+            'rtl'           => $this->isRTL(),
+            'shading'       => $this->getShading(),
+        );
+
+        return $styles;
     }
 
     /**
@@ -271,13 +304,13 @@ class Font extends AbstractStyle
     /**
      * Set font name
      *
-     * @param string $value            
+     * @param string $value
      * @return self
      */
     public function setName($value = null)
     {
         $this->name = $value;
-        
+
         return $this;
     }
 
@@ -294,13 +327,13 @@ class Font extends AbstractStyle
     /**
      * Set Font Content Type
      *
-     * @param string $value            
+     * @param string $value
      * @return self
      */
     public function setHint($value = null)
     {
         $this->hint = $value;
-        
+
         return $this;
     }
 
@@ -317,13 +350,13 @@ class Font extends AbstractStyle
     /**
      * Set font size
      *
-     * @param int|float $value            
+     * @param int|float $value
      * @return self
      */
     public function setSize($value = null)
     {
         $this->size = $this->setNumericVal($value, $this->size);
-        
+
         return $this;
     }
 
@@ -340,13 +373,13 @@ class Font extends AbstractStyle
     /**
      * Set font color
      *
-     * @param string $value            
+     * @param string $value
      * @return self
      */
     public function setColor($value = null)
     {
         $this->color = $value;
-        
+
         return $this;
     }
 
@@ -363,13 +396,13 @@ class Font extends AbstractStyle
     /**
      * Set bold
      *
-     * @param bool $value            
+     * @param bool $value
      * @return self
      */
     public function setBold($value = true)
     {
         $this->bold = $this->setBoolVal($value, $this->bold);
-        
+
         return $this;
     }
 
@@ -386,13 +419,13 @@ class Font extends AbstractStyle
     /**
      * Set italic
      *
-     * @param bool $value            
+     * @param bool $value
      * @return self
      */
     public function setItalic($value = true)
     {
         $this->italic = $this->setBoolVal($value, $this->italic);
-        
+
         return $this;
     }
 
@@ -409,13 +442,13 @@ class Font extends AbstractStyle
     /**
      * Set underline
      *
-     * @param string $value            
+     * @param string $value
      * @return self
      */
     public function setUnderline($value = self::UNDERLINE_NONE)
     {
         $this->underline = $this->setNonEmptyVal($value, self::UNDERLINE_NONE);
-        
+
         return $this;
     }
 
@@ -432,12 +465,12 @@ class Font extends AbstractStyle
     /**
      * Set superscript
      *
-     * @param bool $value            
+     * @param bool $value
      * @return self
      */
     public function setSuperScript($value = true)
     {
-        return $this->setPairedProperty($this->superScript, $this->subScript, $value);
+        return $this->setPairedVal($this->superScript, $this->subScript, $value);
     }
 
     /**
@@ -453,12 +486,12 @@ class Font extends AbstractStyle
     /**
      * Set subscript
      *
-     * @param bool $value            
+     * @param bool $value
      * @return self
      */
     public function setSubScript($value = true)
     {
-        return $this->setPairedProperty($this->subScript, $this->superScript, $value);
+        return $this->setPairedVal($this->subScript, $this->superScript, $value);
     }
 
     /**
@@ -474,12 +507,12 @@ class Font extends AbstractStyle
     /**
      * Set strikethrough
      *
-     * @param bool $value            
+     * @param bool $value
      * @return self
      */
     public function setStrikethrough($value = true)
     {
-        return $this->setPairedProperty($this->strikethrough, $this->doubleStrikethrough, $value);
+        return $this->setPairedVal($this->strikethrough, $this->doubleStrikethrough, $value);
     }
 
     /**
@@ -495,12 +528,12 @@ class Font extends AbstractStyle
     /**
      * Set double strikethrough
      *
-     * @param bool $value            
+     * @param bool $value
      * @return self
      */
     public function setDoubleStrikethrough($value = true)
     {
-        return $this->setPairedProperty($this->doubleStrikethrough, $this->strikethrough, $value);
+        return $this->setPairedVal($this->doubleStrikethrough, $this->strikethrough, $value);
     }
 
     /**
@@ -516,12 +549,12 @@ class Font extends AbstractStyle
     /**
      * Set small caps
      *
-     * @param bool $value            
+     * @param bool $value
      * @return self
      */
     public function setSmallCaps($value = true)
     {
-        return $this->setPairedProperty($this->smallCaps, $this->allCaps, $value);
+        return $this->setPairedVal($this->smallCaps, $this->allCaps, $value);
     }
 
     /**
@@ -537,12 +570,12 @@ class Font extends AbstractStyle
     /**
      * Set all caps
      *
-     * @param bool $value            
+     * @param bool $value
      * @return self
      */
     public function setAllCaps($value = true)
     {
-        return $this->setPairedProperty($this->allCaps, $this->smallCaps, $value);
+        return $this->setPairedVal($this->allCaps, $this->smallCaps, $value);
     }
 
     /**
@@ -558,13 +591,13 @@ class Font extends AbstractStyle
     /**
      * Set foreground/highlight color
      *
-     * @param string $value            
+     * @param string $value
      * @return self
      */
     public function setFgColor($value = null)
     {
         $this->fgColor = $value;
-        
+
         return $this;
     }
 
@@ -575,24 +608,87 @@ class Font extends AbstractStyle
      */
     public function getBgColor()
     {
-        if ($this->shading !== null) {
-            return $this->shading->getFill();
-        } else {
-            return null;
-        }
+        return $this->getChildStyleValue($this->shading, 'fill');
     }
 
     /**
      * Set background
      *
-     * @param string $value            
+     * @param string $value
      * @return \PhpOffice\PhpWord\Style\Table
      */
     public function setBgColor($value = null)
     {
-        $this->setShading(array(
-            'fill' => $value
-        ));
+        $this->setShading(array('fill' => $value));
+    }
+
+    /**
+     * Get scale
+     *
+     * @return int
+     */
+    public function getScale()
+    {
+        return $this->scale;
+    }
+
+    /**
+     * Set scale
+     *
+     * @param int $value
+     * @return self
+     */
+    public function setScale($value = null)
+    {
+        $this->scale = $this->setIntVal($value, null);
+
+        return $this;
+    }
+
+    /**
+     * Get font spacing
+     *
+     * @return int|float
+     */
+    public function getSpacing()
+    {
+        return $this->spacing;
+    }
+
+    /**
+     * Set font spacing
+     *
+     * @param int|float $value
+     * @return self
+     */
+    public function setSpacing($value = null)
+    {
+        $this->spacing = $this->setNumericVal($value, null);
+
+        return $this;
+    }
+
+    /**
+     * Get font kerning
+     *
+     * @return int|float
+     */
+    public function getKerning()
+    {
+        return $this->kerning;
+    }
+
+    /**
+     * Set font kerning
+     *
+     * @param int|float $value
+     * @return self
+     */
+    public function setKerning($value = null)
+    {
+        $this->kerning = $this->setNumericVal($value, null);
+
+        return $this;
     }
 
     /**
@@ -608,15 +704,13 @@ class Font extends AbstractStyle
     /**
      * Set lineheight
      *
-     * @param int|float|string $value            
+     * @param int|float|string $value
      * @return self
      */
     public function setLineHeight($value)
     {
-        $this->setParagraph(array(
-            'lineHeight' => $value
-        ));
-        
+        $this->setParagraph(array('lineHeight' => $value));
+
         return $this;
     }
 
@@ -633,13 +727,36 @@ class Font extends AbstractStyle
     /**
      * Set shading
      *
-     * @param mixed $value            
+     * @param mixed $value
      * @return self
      */
     public function setParagraph($value = null)
     {
         $this->setObjectVal($value, 'Paragraph', $this->paragraph);
-        
+
+        return $this;
+    }
+
+    /**
+     * Get rtl
+     *
+     * @return bool
+     */
+    public function isRTL()
+    {
+        return $this->rtl;
+    }
+
+    /**
+     * Set rtl
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setRTL($value = true)
+    {
+        $this->rtl = $this->setBoolVal($value, $this->rtl);
+
         return $this;
     }
 
@@ -656,31 +773,13 @@ class Font extends AbstractStyle
     /**
      * Set shading
      *
-     * @param mixed $value            
+     * @param mixed $value
      * @return self
      */
     public function setShading($value = null)
     {
         $this->setObjectVal($value, 'Shading', $this->shading);
-        
-        return $this;
-    }
 
-    /**
-     * Set $property value and set $pairProperty = false when $value = true
-     *
-     * @param bool $property            
-     * @param bool $pairProperty            
-     * @param bool $value            
-     * @return self
-     */
-    private function setPairedProperty(&$property, &$pairProperty, $value)
-    {
-        $property = $this->setBoolVal($value, $property);
-        if ($value == true) {
-            $pairProperty = false;
-        }
-        
         return $this;
     }
 
@@ -688,7 +787,7 @@ class Font extends AbstractStyle
      * Get bold
      *
      * @deprecated 0.10.0
-     *             @codeCoverageIgnore
+     * @codeCoverageIgnore
      */
     public function getBold()
     {
@@ -699,7 +798,7 @@ class Font extends AbstractStyle
      * Get italic
      *
      * @deprecated 0.10.0
-     *             @codeCoverageIgnore
+     * @codeCoverageIgnore
      */
     public function getItalic()
     {
@@ -710,7 +809,7 @@ class Font extends AbstractStyle
      * Get superscript
      *
      * @deprecated 0.10.0
-     *             @codeCoverageIgnore
+     * @codeCoverageIgnore
      */
     public function getSuperScript()
     {
@@ -721,7 +820,7 @@ class Font extends AbstractStyle
      * Get subscript
      *
      * @deprecated 0.10.0
-     *             @codeCoverageIgnore
+     * @codeCoverageIgnore
      */
     public function getSubScript()
     {
@@ -732,7 +831,7 @@ class Font extends AbstractStyle
      * Get strikethrough
      *
      * @deprecated 0.10.0
-     *             @codeCoverageIgnore
+     * @codeCoverageIgnore
      */
     public function getStrikethrough()
     {
@@ -743,7 +842,7 @@ class Font extends AbstractStyle
      * Get paragraph style
      *
      * @deprecated 0.11.0
-     *             @codeCoverageIgnore
+     * @codeCoverageIgnore
      */
     public function getParagraphStyle()
     {

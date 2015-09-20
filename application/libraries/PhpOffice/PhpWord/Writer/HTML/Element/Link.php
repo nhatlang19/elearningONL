@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 /**
@@ -23,7 +24,6 @@ namespace PhpOffice\PhpWord\Writer\HTML\Element;
  */
 class Link extends Text
 {
-
     /**
      * Write link
      *
@@ -31,15 +31,15 @@ class Link extends Text
      */
     public function write()
     {
-        if (! $this->element instanceof \PhpOffice\PhpWord\Element\Link) {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Link) {
             return '';
         }
-        
+
         $content = '';
         $content .= $this->writeOpening();
-        $content .= "<a href=\"{$this->element->getTarget()}\">{$this->element->getText()}</a>";
+        $content .= "<a href=\"{$this->element->getSource()}\">{$this->element->getText()}</a>";
         $content .= $this->writeClosing();
-        
+
         return $content;
     }
 }

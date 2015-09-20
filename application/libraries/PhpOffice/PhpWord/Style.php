@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Style\AbstractStyle;
@@ -27,7 +28,6 @@ use PhpOffice\PhpWord\Style\Table;
  */
 class Style
 {
-
     /**
      * Style register
      *
@@ -38,8 +38,8 @@ class Style
     /**
      * Add paragraph style
      *
-     * @param string $styleName            
-     * @param array $styles            
+     * @param string $styleName
+     * @param array $styles
      * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public static function addParagraphStyle($styleName, $styles)
@@ -50,9 +50,9 @@ class Style
     /**
      * Add font style
      *
-     * @param string $styleName            
-     * @param array $fontStyle            
-     * @param array $paragraphStyle            
+     * @param string $styleName
+     * @param array $fontStyle
+     * @param array $paragraphStyle
      * @return \PhpOffice\PhpWord\Style\Font
      */
     public static function addFontStyle($styleName, $fontStyle, $paragraphStyle = null)
@@ -63,8 +63,8 @@ class Style
     /**
      * Add link style
      *
-     * @param string $styleName            
-     * @param array $styles            
+     * @param string $styleName
+     * @param array $styles
      * @return \PhpOffice\PhpWord\Style\Font
      */
     public static function addLinkStyle($styleName, $styles)
@@ -75,8 +75,8 @@ class Style
     /**
      * Add numbering style
      *
-     * @param string $styleName            
-     * @param array $styleValues            
+     * @param string $styleName
+     * @param array $styleValues
      * @return \PhpOffice\PhpWord\Style\Numbering
      * @since 0.10.0
      */
@@ -88,9 +88,9 @@ class Style
     /**
      * Add title style
      *
-     * @param int $depth            
-     * @param array $fontStyle            
-     * @param array $paragraphStyle            
+     * @param int $depth
+     * @param array $fontStyle
+     * @param array $paragraphStyle
      * @return \PhpOffice\PhpWord\Style\Font
      */
     public static function addTitleStyle($depth, $fontStyle, $paragraphStyle = null)
@@ -101,9 +101,9 @@ class Style
     /**
      * Add table style
      *
-     * @param string $styleName            
-     * @param array $styleTable            
-     * @param array|null $styleFirstRow            
+     * @param string $styleName
+     * @param array $styleTable
+     * @param array|null $styleFirstRow
      * @return \PhpOffice\PhpWord\Style\Table
      */
     public static function addTableStyle($styleName, $styleTable, $styleFirstRow = null)
@@ -123,9 +123,11 @@ class Style
     }
 
     /**
-     * Reset styles
-     * 
+     * Reset styles.
+     *
      * @since 0.10.0
+     *
+     * @return void
      */
     public static function resetStyles()
     {
@@ -135,8 +137,7 @@ class Style
     /**
      * Set default paragraph style
      *
-     * @param array $styles
-     *            Paragraph style definition
+     * @param array $styles Paragraph style definition
      * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public static function setDefaultParagraphStyle($styles)
@@ -157,12 +158,12 @@ class Style
     /**
      * Get style by name
      *
-     * @param string $styleName            
+     * @param string $styleName
      * @return \PhpOffice\PhpWord\Style\AbstractStyle Paragraph|Font|Table|Numbering
      */
     public static function getStyle($styleName)
     {
-        if (array_key_exists($styleName, self::$styles)) {
+        if (isset(self::$styles[$styleName])) {
             return self::$styles[$styleName];
         } else {
             return null;
@@ -174,14 +175,14 @@ class Style
      *
      * The $styleValues could be an array or object
      *
-     * @param string $name            
-     * @param \PhpOffice\PhpWord\Style\AbstractStyle $style            
-     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $value            
+     * @param string $name
+     * @param \PhpOffice\PhpWord\Style\AbstractStyle $style
+     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $value
      * @return \PhpOffice\PhpWord\Style\AbstractStyle
      */
     private static function setStyleValues($name, $style, $value = null)
     {
-        if (! array_key_exists($name, self::$styles)) {
+        if (!isset(self::$styles[$name])) {
             if ($value !== null) {
                 if (is_array($value)) {
                     $style->setStyleByArray($value);
@@ -195,7 +196,7 @@ class Style
             $style->setIndex(self::countStyles() + 1); // One based index
             self::$styles[$name] = $style;
         }
-        
+
         return self::getStyle($name);
     }
 }

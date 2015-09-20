@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 /**
@@ -23,7 +24,6 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
  */
 class Footnote extends Text
 {
-
     /**
      * Reference type footnoteReference|endnoteReference
      *
@@ -32,18 +32,20 @@ class Footnote extends Text
     protected $referenceType = 'footnoteReference';
 
     /**
-     * Write element
+     * Write element.
+     *
+     * @return void
      */
     public function write()
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
-        if (! $element instanceof \PhpOffice\PhpWord\Element\Footnote) {
+        if (!$element instanceof \PhpOffice\PhpWord\Element\Footnote) {
             return;
         }
-        
-        $this->writeOpeningWP();
-        
+
+        $this->startElementP();
+
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:rPr');
         $xmlWriter->startElement('w:rStyle');
@@ -54,7 +56,7 @@ class Footnote extends Text
         $xmlWriter->writeAttribute('w:id', $element->getRelationId());
         $xmlWriter->endElement(); // w:$referenceType
         $xmlWriter->endElement(); // w:r
-        
-        $this->writeClosingWP();
+
+        $this->endElementP(); // w:p
     }
 }

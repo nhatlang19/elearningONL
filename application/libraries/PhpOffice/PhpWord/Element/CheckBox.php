@@ -14,16 +14,18 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Shared\String;
 
 /**
  * Check box element
+ *
+ * @since 0.10.0
  */
 class CheckBox extends Text
 {
-
     /**
      * Name content
      *
@@ -34,10 +36,10 @@ class CheckBox extends Text
     /**
      * Create new instance
      *
-     * @param string $name            
-     * @param string $text            
-     * @param mixed $fontStyle            
-     * @param mixed $paragraphStyle            
+     * @param string $name
+     * @param string $text
+     * @param mixed $fontStyle
+     * @param mixed $paragraphStyle
      * @return self
      */
     public function __construct($name = null, $text = null, $fontStyle = null, $paragraphStyle = null)
@@ -49,13 +51,13 @@ class CheckBox extends Text
     /**
      * Set name content
      *
-     * @param string $name            
+     * @param string $name
      * @return self
      */
     public function setName($name)
     {
         $this->name = String::toUTF8($name);
-        
+
         return $this;
     }
 

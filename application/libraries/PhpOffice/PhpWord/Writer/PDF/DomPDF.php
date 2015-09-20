@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\PDF;
 
 use PhpOffice\PhpWord\Writer\WriterInterface;
@@ -26,7 +27,6 @@ use PhpOffice\PhpWord\Writer\WriterInterface;
  */
 class DomPDF extends AbstractRenderer implements WriterInterface
 {
-
     /**
      * Name of renderer include file
      *
@@ -35,28 +35,28 @@ class DomPDF extends AbstractRenderer implements WriterInterface
     protected $includeFile = 'dompdf_config.inc.php';
 
     /**
-     * Save PhpWord to file
+     * Save PhpWord to file.
      *
-     * @param string $filename
-     *            Name of the file to save as
+     * @param string $filename Name of the file to save as
+     * @return void
      */
     public function save($filename = null)
     {
         $fileHandle = parent::prepareForSave($filename);
-        
-        // PDF settings
+
+        //  PDF settings
         $paperSize = 'A4';
         $orientation = 'portrait';
-        
-        // Create PDF
+
+        //  Create PDF
         $pdf = new \DOMPDF();
         $pdf->set_paper(strtolower($paperSize), $orientation);
         $pdf->load_html($this->getContent());
         $pdf->render();
-        
-        // Write to file
+
+        //  Write to file
         fwrite($fileHandle, $pdf->output());
-        
+
         parent::restoreStateAfterSave($fileHandle);
     }
 }

@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Style;
 
 /**
@@ -21,20 +22,15 @@ namespace PhpOffice\PhpWord\Style;
  */
 class TOC extends Tab
 {
-
     /**
      * Tab leader types for backward compatibility
      *
      * @const string
-     * 
      * @deprecated 0.11.0
      */
     const TABLEADER_DOT = self::TAB_LEADER_DOT;
-
     const TABLEADER_UNDERSCORE = self::TAB_LEADER_UNDERSCORE;
-
     const TABLEADER_LINE = self::TAB_LEADER_HYPHEN;
-
     const TABLEADER_NONE = self::TAB_LEADER_NONE;
 
     /**
@@ -65,7 +61,7 @@ class TOC extends Tab
     /**
      * Set Tab Position
      *
-     * @param int|float $value            
+     * @param int|float $value
      * @return self
      */
     public function setTabPos($value)
@@ -86,7 +82,7 @@ class TOC extends Tab
     /**
      * Set Tab Leader
      *
-     * @param string $value            
+     * @param string $value
      * @return self
      */
     public function setTabLeader($value = self::TAB_LEADER_DOT)
@@ -107,13 +103,13 @@ class TOC extends Tab
     /**
      * Set Indent
      *
-     * @param int|float $value            
+     * @param int|float $value
      * @return self
      */
     public function setIndent($value)
     {
         $this->indent = $this->setNumericVal($value, $this->indent);
-        
+
         return $this;
     }
 }

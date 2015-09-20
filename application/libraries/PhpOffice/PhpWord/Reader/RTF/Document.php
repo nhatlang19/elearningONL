@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Reader\RTF;
 
 use PhpOffice\PhpWord\PhpWord;
@@ -27,18 +28,13 @@ use PhpOffice\PhpWord\PhpWord;
  * - JavaScript RTF-parser by LazyGyu https://github.com/lazygyu/RTF-parser
  *
  * @since 0.11.0
- *        @SuppressWarnings(PHPMD.UnusedPrivateMethod)
+ * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
  */
 class Document
 {
-
-    /**
-     * @const int
-     */
+    /** @const int */
     const PARA = 'readParagraph';
-
     const STYL = 'readStyle';
-
     const SKIP = 'readSkip';
 
     /**
@@ -133,33 +129,33 @@ class Document
      * - Builds control words and control symbols
      * - Pushes every other character into the text queue
      *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord            
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @return void
      * @todo Use `fread` stream for scalability
      */
-    public function read(PhpWord &$phpWord)
+    public function read(PhpWord $phpWord)
     {
         $markers = array(
-            123 => 'markOpening', // {
-            125 => 'markClosing', // }
-            92 => 'markBackslash', // \
-            10 => 'markNewline', // LF
-            13 => 'markNewline'
-        ) // CR
-;
-        
+            123 => 'markOpening',   // {
+            125 => 'markClosing',   // }
+            92  => 'markBackslash', // \
+            10  => 'markNewline',   // LF
+            13  => 'markNewline'    // CR
+        );
+
         $this->phpWord = $phpWord;
         $this->section = $phpWord->addSection();
         $this->textrun = $this->section->addTextRun();
         $this->length = strlen($this->rtf);
-        
+
         $this->flags['paragraph'] = true; // Set paragraph flag from the beginning
-                                          
+
         // Walk each characters
         while ($this->offset < $this->length) {
-            $char = $this->rtf[$this->offset];
+            $char  = $this->rtf[$this->offset];
             $ascii = ord($char);
-            
-            if (array_key_exists($ascii, $markers)) { // Marker found: {, }, \, LF, or CR
+
+            if (isset($markers[$ascii])) { // Marker found: {, }, \, LF, or CR
                 $markerFunction = $markers[$ascii];
                 $this->$markerFunction();
             } else {
@@ -180,13 +176,15 @@ class Document
                     }
                 }
             }
-            $this->offset ++;
+            $this->offset++;
         }
         $this->flushText();
     }
 
     /**
-     * Mark opening braket `{` character
+     * Mark opening braket `{` character.
+     *
+     * @return void
      */
     private function markOpening()
     {
@@ -195,7 +193,9 @@ class Document
     }
 
     /**
-     * Mark closing braket `}` character
+     * Mark closing braket `}` character.
+     *
+     * @return void
      */
     private function markClosing()
     {
@@ -204,7 +204,9 @@ class Document
     }
 
     /**
-     * Mark backslash `\` character
+     * Mark backslash `\` character.
+     *
+     * @return void
      */
     private function markBackslash()
     {
@@ -219,7 +221,9 @@ class Document
     }
 
     /**
-     * Mark newline character: Flush control word because it's not possible to span multiline
+     * Mark newline character: Flush control word because it's not possible to span multiline.
+     *
+     * @return void
      */
     private function markNewline()
     {
@@ -229,9 +233,10 @@ class Document
     }
 
     /**
-     * Flush control word or text
+     * Flush control word or text.
      *
-     * @param bool $isControl            
+     * @param bool $isControl
+     * @return void
      */
     private function flush($isControl = false)
     {
@@ -243,24 +248,27 @@ class Document
     }
 
     /**
-     * Flush control word
+     * Flush control word.
      *
-     * @param bool $isControl            
+     * @param bool $isControl
+     * @return void
      */
     private function flushControl($isControl = false)
     {
         if (preg_match("/^([A-Za-z]+)(-?[0-9]*) ?$/", $this->control, $match) === 1) {
-            list (, $control, $parameter) = $match;
+            list(, $control, $parameter) = $match;
             $this->parseControl($control, $parameter);
         }
-        
+
         if ($isControl === true) {
             $this->setControl(false);
         }
     }
 
     /**
-     * Flush text in queue
+     * Flush text in queue.
+     *
+     * @return void
      */
     private function flushText()
     {
@@ -273,20 +281,21 @@ class Document
                     $this->flags['text'] = $this->text;
                 }
             }
-            
+
             // Add text if it's not flagged as skipped
-            if (! isset($this->flags['skipped'])) {
+            if (!isset($this->flags['skipped'])) {
                 $this->readText();
             }
-            
+
             $this->text = '';
         }
     }
 
     /**
-     * Reset control word and first char state
+     * Reset control word and first char state.
      *
-     * @param bool $value            
+     * @param bool $value
+     * @return void
      */
     private function setControl($value)
     {
@@ -295,9 +304,10 @@ class Document
     }
 
     /**
-     * Push text into queue
+     * Push text into queue.
      *
-     * @param string $char            
+     * @param string $char
+     * @return void
      */
     private function pushText($char)
     {
@@ -311,120 +321,38 @@ class Document
     }
 
     /**
-     * Parse control
+     * Parse control.
      *
-     * @param string $control            
-     * @param string $parameter            
+     * @param string $control
+     * @param string $parameter
+     * @return void
      */
     private function parseControl($control, $parameter)
     {
         $controls = array(
-            'par' => array(
-                self::PARA,
-                'paragraph',
-                true
-            ),
-            'b' => array(
-                self::STYL,
-                'font',
-                'bold',
-                true
-            ),
-            'i' => array(
-                self::STYL,
-                'font',
-                'italic',
-                true
-            ),
-            'u' => array(
-                self::STYL,
-                'font',
-                'underline',
-                true
-            ),
-            'strike' => array(
-                self::STYL,
-                'font',
-                'strikethrough',
-                true
-            ),
-            'fs' => array(
-                self::STYL,
-                'font',
-                'size',
-                $parameter
-            ),
-            'qc' => array(
-                self::STYL,
-                'paragraph',
-                'align',
-                'center'
-            ),
-            'sa' => array(
-                self::STYL,
-                'paragraph',
-                'spaceAfter',
-                $parameter
-            ),
-            'fonttbl' => array(
-                self::SKIP,
-                'fonttbl',
-                null
-            ),
-            'colortbl' => array(
-                self::SKIP,
-                'colortbl',
-                null
-            ),
-            'info' => array(
-                self::SKIP,
-                'info',
-                null
-            ),
-            'generator' => array(
-                self::SKIP,
-                'generator',
-                null
-            ),
-            'title' => array(
-                self::SKIP,
-                'title',
-                null
-            ),
-            'subject' => array(
-                self::SKIP,
-                'subject',
-                null
-            ),
-            'category' => array(
-                self::SKIP,
-                'category',
-                null
-            ),
-            'keywords' => array(
-                self::SKIP,
-                'keywords',
-                null
-            ),
-            'comment' => array(
-                self::SKIP,
-                'comment',
-                null
-            ),
-            'shppict' => array(
-                self::SKIP,
-                'pic',
-                null
-            ),
-            'fldinst' => array(
-                self::SKIP,
-                'link',
-                null
-            )
+            'par'       => array(self::PARA,    'paragraph',    true),
+            'b'         => array(self::STYL,    'font',         'bold',         true),
+            'i'         => array(self::STYL,    'font',         'italic',       true),
+            'u'         => array(self::STYL,    'font',         'underline',    true),
+            'strike'    => array(self::STYL,    'font',         'strikethrough',true),
+            'fs'        => array(self::STYL,    'font',         'size',         $parameter),
+            'qc'        => array(self::STYL,    'paragraph',    'align',        'center'),
+            'sa'        => array(self::STYL,    'paragraph',    'spaceAfter',   $parameter),
+            'fonttbl'   => array(self::SKIP,    'fonttbl',      null),
+            'colortbl'  => array(self::SKIP,    'colortbl',     null),
+            'info'      => array(self::SKIP,    'info',         null),
+            'generator' => array(self::SKIP,    'generator',    null),
+            'title'     => array(self::SKIP,    'title',        null),
+            'subject'   => array(self::SKIP,    'subject',      null),
+            'category'  => array(self::SKIP,    'category',     null),
+            'keywords'  => array(self::SKIP,    'keywords',     null),
+            'comment'   => array(self::SKIP,    'comment',      null),
+            'shppict'   => array(self::SKIP,    'pic',          null),
+            'fldinst'   => array(self::SKIP,    'link',         null),
         );
-        
-        if (array_key_exists($control, $controls)) {
-            list ($function) = $controls[$control];
+
+        if (isset($controls[$control])) {
+            list($function) = $controls[$control];
             if (method_exists($this, $function)) {
                 $directives = $controls[$control];
                 array_shift($directives); // remove the function variable; we won't need it
@@ -434,42 +362,47 @@ class Document
     }
 
     /**
-     * Read paragraph
+     * Read paragraph.
      *
-     * @param array $directives            
+     * @param array $directives
+     * @return void
      */
     private function readParagraph($directives)
     {
-        list ($property, $value) = $directives;
+        list($property, $value) = $directives;
         $this->textrun = $this->section->addTextRun();
         $this->flags[$property] = $value;
     }
 
     /**
-     * Read style
+     * Read style.
      *
-     * @param array $directives            
+     * @param array $directives
+     * @return void
      */
     private function readStyle($directives)
     {
-        list ($style, $property, $value) = $directives;
+        list($style, $property, $value) = $directives;
         $this->flags['styles'][$style][$property] = $value;
     }
 
     /**
-     * Read skip
+     * Read skip.
      *
-     * @param array $directives            
+     * @param array $directives
+     * @return void
      */
     private function readSkip($directives)
     {
-        list ($property) = $directives;
+        list($property) = $directives;
         $this->flags['property'] = $property;
         $this->flags['skipped'] = true;
     }
 
     /**
-     * Read text
+     * Read text.
+     *
+     * @return void
      */
     private function readText()
     {

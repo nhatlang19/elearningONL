@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Exception\InvalidObjectException;
@@ -24,7 +25,6 @@ use PhpOffice\PhpWord\Style\Image as ImageStyle;
  */
 class Object extends AbstractElement
 {
-
     /**
      * Ole-Object Src
      *
@@ -54,34 +54,34 @@ class Object extends AbstractElement
     private $imageRelationId;
 
     /**
+     * Has media relation flag; true for Link, Image, and Object
+     *
+     * @var bool
+     */
+    protected $mediaRelation = true;
+
+    /**
      * Create a new Ole-Object Element
      *
-     * @param string $source            
-     * @param mixed $style            
+     * @param string $source
+     * @param mixed $style
      * @throws \PhpOffice\PhpWord\Exception\InvalidObjectException
      */
     public function __construct($source, $style = null)
     {
-        $supportedTypes = array(
-            'xls',
-            'doc',
-            'ppt',
-            'xlsx',
-            'docx',
-            'pptx'
-        );
+        $supportedTypes = array('xls', 'doc', 'ppt', 'xlsx', 'docx', 'pptx');
         $pathInfo = pathinfo($source);
-        
+
         if (file_exists($source) && in_array($pathInfo['extension'], $supportedTypes)) {
             $ext = $pathInfo['extension'];
-            if (strlen($ext) == 4 && strtolower(substr($ext, - 1)) == 'x') {
-                $ext = substr($ext, 0, - 1);
+            if (strlen($ext) == 4 && strtolower(substr($ext, -1)) == 'x') {
+                $ext = substr($ext, 0, -1);
             }
-            
+
             $this->source = $source;
-            $this->style = $this->setStyle(new ImageStyle(), $style, true);
+            $this->style = $this->setNewStyle(new ImageStyle(), $style, true);
             $this->icon = realpath(__DIR__ . "/../resources/{$ext}.png");
-            
+
             return $this;
         } else {
             throw new InvalidObjectException();
@@ -129,9 +129,10 @@ class Object extends AbstractElement
     }
 
     /**
-     * Set Image Relation ID
+     * Set Image Relation ID.
      *
-     * @param int $rId            
+     * @param int $rId
+     * @return void
      */
     public function setImageRelationId($rId)
     {
@@ -143,7 +144,7 @@ class Object extends AbstractElement
      *
      * @return int
      * @deprecated 0.10.0
-     *             @codeCoverageIgnore
+     * @codeCoverageIgnore
      */
     public function getObjectId()
     {
@@ -153,9 +154,9 @@ class Object extends AbstractElement
     /**
      * Set Object ID
      *
-     * @param int $objId            
+     * @param int $objId
      * @deprecated 0.10.0
-     *             @codeCoverageIgnore
+     * @codeCoverageIgnore
      */
     public function setObjectId($objId)
     {

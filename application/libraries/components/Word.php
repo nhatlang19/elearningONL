@@ -20,6 +20,8 @@ class Word extends AppComponent
         Autoloader::register();
         Settings::loadConfig();
         
+        Settings::setTempDir(getcwd() . TMPDIR_WORD);
+        
         // Set writers
         $writers = array(
             'Word2007' => 'docx',
@@ -422,7 +424,7 @@ class Word extends AppComponent
         $document = $phpWord->loadTemplate($filename);
         // check valid
         $rows = $document->getContentTable();
-        if (count($rows) % 6 == 0) {
+        if (count($rows) % NUMBER_LINE_A_QUESTION == 0) {
             return $rows;
         }
         return null;

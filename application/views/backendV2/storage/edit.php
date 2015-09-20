@@ -17,6 +17,7 @@
 							<input type="text" class="form-control" name="title" id="inputDefault" required value="<?php echo isset($storage->title) ? $storage->title : ''; ?>">
 						</div>
 					</div>
+					<?php if (! $user->subjects_id) : ?>
 					<div class="form-group">
 						<label class="col-md-3 control-label">Chọn bộ môn</label>
 						<div class="col-md-6">
@@ -36,12 +37,13 @@
 							</select>
 						</div>
 					</div>
+					<?php endif; ?>
 			</div>
 			<footer class="panel-footer">
 				<div class="row">
 					<div class="col-sm-9 col-sm-offset-3">
-						<button class="btn btn-primary">Submit</button>
-						<button type="reset" class="btn btn-default">Reset</button>
+						<button class="btn btn-primary"><?php echo isset($id) ? 'Cập nhật' : 'Tạo mới'; ?></button>
+						<button type="reset" class="btn btn-default">Phục hồi</button>
 					</div>
 				</div>
 			</footer>

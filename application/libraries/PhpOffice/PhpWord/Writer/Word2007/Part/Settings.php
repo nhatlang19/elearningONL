@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 /**
@@ -23,6 +24,12 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
  */
 class Settings extends AbstractPart
 {
+    /**
+     * Settings value
+     *
+     * @var array
+     */
+    private $settings = array();
 
     /**
      * Write part
@@ -31,106 +38,87 @@ class Settings extends AbstractPart
      */
     public function write()
     {
-        $settings = array(
-            'w:zoom' => array(
-                '@attributes' => array(
-                    'w:percent' => '100'
-                )
-            ),
-            'w:embedSystemFonts' => '',
-            'w:defaultTabStop' => array(
-                '@attributes' => array(
-                    'w:val' => '708'
-                )
-            ),
-            'w:hyphenationZone' => array(
-                '@attributes' => array(
-                    'w:val' => '425'
-                )
-            ),
-            'w:doNotHyphenateCaps' => '',
-            'w:characterSpacingControl' => array(
-                '@attributes' => array(
-                    'w:val' => 'doNotCompress'
-                )
-            ),
-            'w:doNotValidateAgainstSchema' => '',
-            'w:doNotDemarcateInvalidXml' => '',
-            'w:compat' => array(
-                'w:useNormalStyleForList' => '',
-                'w:doNotUseIndentAsNumberingTabStop' => '',
-                'w:useAltKinsokuLineBreakRules' => '',
-                'w:allowSpaceOfSameStyleInTable' => '',
-                'w:doNotSuppressIndentation' => '',
-                'w:doNotAutofitConstrainedTables' => '',
-                'w:autofitToFirstFixedWidthCell' => '',
-                'w:underlineTabInNumList' => '',
-                'w:displayHangulFixedWidth' => '',
-                'w:splitPgBreakAndParaMark' => '',
-                'w:doNotVertAlignCellWithSp' => '',
-                'w:doNotBreakConstrainedForcedTable' => '',
-                'w:doNotVertAlignInTxbx' => '',
-                'w:useAnsiKerningPairs' => '',
-                'w:cachedColBalance' => ''
-            ),
+        $this->getSettings();
+
+        $xmlWriter = $this->getXmlWriter();
+
+        $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
+        $xmlWriter->startElement('w:settings');
+        $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
+        $xmlWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
+        $xmlWriter->writeAttribute('xmlns:m', 'http://schemas.openxmlformats.org/officeDocument/2006/math');
+        $xmlWriter->writeAttribute('xmlns:sl', 'http://schemas.openxmlformats.org/schemaLibrary/2006/main');
+        $xmlWriter->writeAttribute('xmlns:o', 'urn:schemas-microsoft-com:office:office');
+        $xmlWriter->writeAttribute('xmlns:v', 'urn:schemas-microsoft-com:vml');
+        $xmlWriter->writeAttribute('xmlns:w10', 'urn:schemas-microsoft-com:office:word');
+
+        foreach ($this->settings as $settingKey => $settingValue) {
+            $this->writeSetting($xmlWriter, $settingKey, $settingValue);
+        }
+
+        $xmlWriter->endElement(); // w:settings
+
+        return $xmlWriter->getData();
+    }
+
+    /**
+     * Write indivual setting, recursive to any child settings.
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param string $settingKey
+     * @param array|string $settingValue
+     * @return void
+     */
+    protected function writeSetting($xmlWriter, $settingKey, $settingValue)
+    {
+        if ($settingValue == '') {
+            $xmlWriter->writeElement($settingKey);
+        } else {
+            $xmlWriter->startElement($settingKey);
+
+            /** @var array $settingValue Type hint */
+            foreach ($settingValue as $childKey => $childValue) {
+                if ($childKey == '@attributes') {
+                    foreach ($childValue as $key => $val) {
+                        $xmlWriter->writeAttribute($key, $val);
+                    }
+                } else {
+                    $this->writeSetting($xmlWriter, $childKey, $childValue);
+                }
+            }
+            $xmlWriter->endElement();
+        }
+    }
+
+    /**
+     * Get settings.
+     *
+     * @return void
+     */
+    private function getSettings()
+    {
+        // Default settings
+        $this->settings = array(
+            'w:zoom' => array('@attributes' => array('w:percent' => '100')),
+            'w:defaultTabStop' => array('@attributes' => array('w:val' => '708')),
+            'w:hyphenationZone' => array('@attributes' => array('w:val' => '425')),
+            'w:characterSpacingControl' => array('@attributes' => array('w:val' => 'doNotCompress')),
+            'w:themeFontLang' => array('@attributes' => array('w:val' => 'en-US')),
+            'w:decimalSymbol' => array('@attributes' => array('w:val' => '.')),
+            'w:listSeparator' => array('@attributes' => array('w:val' => ';')),
+            'w:compat' => '',
             'm:mathPr' => array(
-                'm:mathFont' => array(
-                    '@attributes' => array(
-                        'm:val' => 'Cambria Math'
-                    )
-                ),
-                'm:brkBin' => array(
-                    '@attributes' => array(
-                        'm:val' => 'before'
-                    )
-                ),
-                'm:brkBinSub' => array(
-                    '@attributes' => array(
-                        'm:val' => '--'
-                    )
-                ),
-                'm:smallFrac' => array(
-                    '@attributes' => array(
-                        'm:val' => 'off'
-                    )
-                ),
+                'm:mathFont' => array('@attributes' => array('m:val' => 'Cambria Math')),
+                'm:brkBin' => array('@attributes' => array('m:val' => 'before')),
+                'm:brkBinSub' => array('@attributes' => array('m:val' => '--')),
+                'm:smallFrac' => array('@attributes' => array('m:val' => 'off')),
                 'm:dispDef' => '',
-                'm:lMargin' => array(
-                    '@attributes' => array(
-                        'm:val' => '0'
-                    )
-                ),
-                'm:rMargin' => array(
-                    '@attributes' => array(
-                        'm:val' => '0'
-                    )
-                ),
-                'm:defJc' => array(
-                    '@attributes' => array(
-                        'm:val' => 'centerGroup'
-                    )
-                ),
-                'm:wrapIndent' => array(
-                    '@attributes' => array(
-                        'm:val' => '1440'
-                    )
-                ),
-                'm:intLim' => array(
-                    '@attributes' => array(
-                        'm:val' => 'subSup'
-                    )
-                ),
-                'm:naryLim' => array(
-                    '@attributes' => array(
-                        'm:val' => 'undOvr'
-                    )
-                )
-            ),
-            'w:uiCompat97To2003' => '',
-            'w:themeFontLang' => array(
-                '@attributes' => array(
-                    'w:val' => 'de-DE'
-                )
+                'm:lMargin' => array('@attributes' => array('m:val' => '0')),
+                'm:rMargin' => array('@attributes' => array('m:val' => '0')),
+                'm:defJc' => array('@attributes' => array('m:val' => 'centerGroup')),
+                'm:wrapIndent' => array('@attributes' => array('m:val' => '1440')),
+                'm:intLim' => array('@attributes' => array('m:val' => 'subSup')),
+                'm:naryLim' => array('@attributes' => array('m:val' => 'undOvr')),
             ),
             'w:clrSchemeMapping' => array(
                 '@attributes' => array(
@@ -145,71 +133,48 @@ class Settings extends AbstractPart
                     'w:accent5' => 'accent5',
                     'w:accent6' => 'accent6',
                     'w:hyperlink' => 'hyperlink',
-                    'w:followedHyperlink' => 'followedHyperlink'
-                )
+                    'w:followedHyperlink' => 'followedHyperlink',
+                ),
             ),
-            'w:doNotIncludeSubdocsInStats' => '',
-            'w:doNotAutoCompressPictures' => '',
-            'w:decimalSymbol' => array(
-                '@attributes' => array(
-                    'w:val' => ','
-                )
-            ),
-            'w:listSeparator' => array(
-                '@attributes' => array(
-                    'w:val' => ';'
-                )
-            )
         );
-        
-        $xmlWriter = $this->getXmlWriter();
-        
-        $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
-        $xmlWriter->startElement('w:settings');
-        $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
-        $xmlWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
-        $xmlWriter->writeAttribute('xmlns:m', 'http://schemas.openxmlformats.org/officeDocument/2006/math');
-        $xmlWriter->writeAttribute('xmlns:sl', 'http://schemas.openxmlformats.org/schemaLibrary/2006/main');
-        $xmlWriter->writeAttribute('xmlns:o', 'urn:schemas-microsoft-com:office:office');
-        $xmlWriter->writeAttribute('xmlns:v', 'urn:schemas-microsoft-com:vml');
-        $xmlWriter->writeAttribute('xmlns:w10', 'urn:schemas-microsoft-com:office:word');
-        
-        foreach ($settings as $settingKey => $settingValue) {
-            $this->writeSetting($xmlWriter, $settingKey, $settingValue);
-        }
-        
-        $xmlWriter->endElement(); // w:settings
-        
-        return $xmlWriter->getData();
+
+        // Other settings
+        $this->getProtection();
+        $this->getCompatibility();
     }
 
     /**
-     * Write indivual setting, recursive to any child settings
+     * Get protection settings.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter            
-     * @param string $settingKey            
-     * @param array|string $settingValue            
+     * @return void
      */
-    protected function writeSetting($xmlWriter, $settingKey, $settingValue)
+    private function getProtection()
     {
-        if ($settingValue == '') {
-            $xmlWriter->writeElement($settingKey);
-        } else {
-            $xmlWriter->startElement($settingKey);
-            
-            /**
-             * @var array $settingValue Type hint
-             */
-            foreach ($settingValue as $childKey => $childValue) {
-                if ($childKey == '@attributes') {
-                    foreach ($childValue as $key => $val) {
-                        $xmlWriter->writeAttribute($key, $val);
-                    }
-                } else {
-                    $this->writeSetting($xmlWriter, $childKey, $childValue);
-                }
-            }
-            $xmlWriter->endElement();
+        $protection = $this->getParentWriter()->getPhpWord()->getProtection();
+        if ($protection->getEditing() !== null) {
+            $this->settings['w:documentProtection'] = array(
+                '@attributes' => array(
+                    'w:enforcement' => 1,
+                    'w:edit' => $protection->getEditing(),
+                )
+            );
+        }
+    }
+
+    /**
+     * Get compatibility setting.
+     *
+     * @return void
+     */
+    private function getCompatibility()
+    {
+        $compatibility = $this->getParentWriter()->getPhpWord()->getCompatibility();
+        if ($compatibility->getOoxmlVersion() !== null) {
+            $this->settings['w:compat']['w:compatSetting'] = array('@attributes' => array(
+                'w:name'    => 'compatibilityMode',
+                'w:uri'     => 'http://schemas.microsoft.com/office/word',
+                'w:val'     => $compatibility->getOoxmlVersion(),
+            ));
         }
     }
 }

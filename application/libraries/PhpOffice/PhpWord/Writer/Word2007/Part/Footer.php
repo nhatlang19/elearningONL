@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\Writer\Word2007\Element\Container;
@@ -23,7 +24,6 @@ use PhpOffice\PhpWord\Writer\Word2007\Element\Container;
  */
 class Footer extends AbstractPart
 {
-
     /**
      * Root element name
      *
@@ -47,7 +47,7 @@ class Footer extends AbstractPart
     {
         $xmlWriter = $this->getXmlWriter();
         $drawingSchema = 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing';
-        
+
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement($this->rootElement);
         $xmlWriter->writeAttribute('xmlns:ve', 'http://schemas.openxmlformats.org/markup-compatibility/2006');
@@ -59,25 +59,25 @@ class Footer extends AbstractPart
         $xmlWriter->writeAttribute('xmlns:w10', 'urn:schemas-microsoft-com:office:word');
         $xmlWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
         $xmlWriter->writeAttribute('xmlns:wne', 'http://schemas.microsoft.com/office/word/2006/wordml');
-        
+
         $containerWriter = new Container($xmlWriter, $this->element);
         $containerWriter->write();
-        
+
         $xmlWriter->endElement(); // $this->rootElement
-        
+
         return $xmlWriter->getData();
     }
 
     /**
      * Set element
      *
-     * @param \PhpOffice\PhpWord\Element\Footer|\PhpOffice\PhpWord\Element\Header $element            
+     * @param \PhpOffice\PhpWord\Element\Footer|\PhpOffice\PhpWord\Element\Header $element
      * @return self
      */
     public function setElement($element)
     {
         $this->element = $element;
-        
+
         return $this;
     }
 }

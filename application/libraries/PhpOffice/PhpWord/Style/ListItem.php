@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\Style;
@@ -27,17 +28,11 @@ use PhpOffice\PhpWord\Style;
  */
 class ListItem extends AbstractStyle
 {
-
     const TYPE_SQUARE_FILLED = 1;
-
-    const TYPE_BULLET_FILLED = 3;
- // default
+    const TYPE_BULLET_FILLED = 3; // default
     const TYPE_BULLET_EMPTY = 5;
-
     const TYPE_NUMBER = 7;
-
     const TYPE_NUMBER_NESTED = 8;
-
     const TYPE_ALPHANUM = 9;
 
     /**
@@ -66,7 +61,7 @@ class ListItem extends AbstractStyle
     /**
      * Create new instance
      *
-     * @param string $numStyle            
+     * @param string $numStyle
      */
     public function __construct($numStyle = null)
     {
@@ -90,22 +85,19 @@ class ListItem extends AbstractStyle
     /**
      * Set legacy list type for version < 0.10.0
      *
-     * @param integer $value            
+     * @param integer $value
      * @return self
      */
     public function setListType($value = self::TYPE_BULLET_FILLED)
     {
         $enum = array(
-            self::TYPE_SQUARE_FILLED,
-            self::TYPE_BULLET_FILLED,
-            self::TYPE_BULLET_EMPTY,
-            self::TYPE_NUMBER,
-            self::TYPE_NUMBER_NESTED,
-            self::TYPE_ALPHANUM
+            self::TYPE_SQUARE_FILLED, self::TYPE_BULLET_FILLED,
+            self::TYPE_BULLET_EMPTY, self::TYPE_NUMBER,
+            self::TYPE_NUMBER_NESTED, self::TYPE_ALPHANUM
         );
         $this->listType = $this->setEnumVal($value, $enum, $this->listType);
         $this->getListTypeStyle();
-        
+
         return $this;
     }
 
@@ -122,7 +114,7 @@ class ListItem extends AbstractStyle
     /**
      * Set numbering style name
      *
-     * @param string $value            
+     * @param string $value
      * @return self
      */
     public function setNumStyle($value)
@@ -133,7 +125,7 @@ class ListItem extends AbstractStyle
             $this->numId = $numStyleObject->getIndex();
             $numStyleObject->setNumId($this->numId);
         }
-        
+
         return $this;
     }
 
@@ -161,20 +153,10 @@ class ListItem extends AbstractStyle
             $this->setNumStyle($numStyle);
             return;
         }
-        
+
         // Property mapping for numbering level information
-        $properties = array(
-            'start',
-            'format',
-            'text',
-            'align',
-            'tabPos',
-            'left',
-            'hanging',
-            'font',
-            'hint'
-        );
-        
+        $properties = array('start', 'format', 'text', 'align', 'tabPos', 'left', 'hanging', 'font', 'hint');
+
         // Legacy level information
         $listTypeStyles = array(
             self::TYPE_SQUARE_FILLED => array(
@@ -188,8 +170,8 @@ class ListItem extends AbstractStyle
                     5 => '1, bullet, , left, 4320, 4320, 360, Wingdings, default',
                     6 => '1, bullet, , left, 5040, 5040, 360, Symbol, default',
                     7 => '1, bullet, o, left, 5760, 5760, 360, Courier New, default',
-                    8 => '1, bullet, , left, 6480, 6480, 360, Wingdings, default'
-                )
+                    8 => '1, bullet, , left, 6480, 6480, 360, Wingdings, default',
+                ),
             ),
             self::TYPE_BULLET_FILLED => array(
                 'type' => 'hybridMultilevel',
@@ -202,8 +184,8 @@ class ListItem extends AbstractStyle
                     5 => '1, bullet, , left, 4320, 4320, 360, Wingdings, default',
                     6 => '1, bullet, , left, 5040, 5040, 360, Symbol, default',
                     7 => '1, bullet, o, left, 5760, 5760, 360, Courier New, default',
-                    8 => '1, bullet, , left, 6480, 6480, 360, Wingdings, default'
-                )
+                    8 => '1, bullet, , left, 6480, 6480, 360, Wingdings, default',
+                ),
             ),
             self::TYPE_BULLET_EMPTY => array(
                 'type' => 'hybridMultilevel',
@@ -216,8 +198,8 @@ class ListItem extends AbstractStyle
                     5 => '1, bullet, , left, 4320, 4320, 360, Wingdings, default',
                     6 => '1, bullet, , left, 5040, 5040, 360, Symbol, default',
                     7 => '1, bullet, o, left, 5760, 5760, 360, Courier New, default',
-                    8 => '1, bullet, , left, 6480, 6480, 360, Wingdings, default'
-                )
+                    8 => '1, bullet, , left, 6480, 6480, 360, Wingdings, default',
+                ),
             ),
             self::TYPE_NUMBER => array(
                 'type' => 'hybridMultilevel',
@@ -230,8 +212,8 @@ class ListItem extends AbstractStyle
                     5 => '1, bullet, , left, 4320, 4320, 360, Wingdings, default',
                     6 => '1, bullet, , left, 5040, 5040, 360, Symbol, default',
                     7 => '1, bullet, o, left, 5760, 5760, 360, Courier New, default',
-                    8 => '1, bullet, , left, 6480, 6480, 360, Wingdings, default'
-                )
+                    8 => '1, bullet, , left, 6480, 6480, 360, Wingdings, default',
+                ),
             ),
             self::TYPE_NUMBER_NESTED => array(
                 'type' => 'multilevel',
@@ -244,8 +226,8 @@ class ListItem extends AbstractStyle
                     5 => '1, decimal, %1.%2.%3.%4.%5.%6., left, 2880, 2736, 936, , ',
                     6 => '1, decimal, %1.%2.%3.%4.%5.%6.%7., left, 3600, 3240, 1080, , ',
                     7 => '1, decimal, %1.%2.%3.%4.%5.%6.%7.%8., left, 3960, 3744, 1224, , ',
-                    8 => '1, decimal, %1.%2.%3.%4.%5.%6.%7.%8.%9., left, 4680, 4320, 1440, , '
-                )
+                    8 => '1, decimal, %1.%2.%3.%4.%5.%6.%7.%8.%9., left, 4680, 4320, 1440, , ',
+                ),
             ),
             self::TYPE_ALPHANUM => array(
                 'type' => 'multilevel',
@@ -258,18 +240,18 @@ class ListItem extends AbstractStyle
                     5 => '1, lowerRoman, %6., right, 4320, 4320, 180, , ',
                     6 => '1, decimal, %7., left, 5040, 5040, 360, , ',
                     7 => '1, lowerLetter, %8., left, 5760, 5760, 360, , ',
-                    8 => '1, lowerRoman, %9., right, 6480, 6480, 180, , '
-                )
-            )
+                    8 => '1, lowerRoman, %9., right, 6480, 6480, 180, , ',
+                ),
+            ),
         );
-        
+
         // Populate style and register to global Style register
         $style = $listTypeStyles[$this->listType];
         foreach ($style['levels'] as $key => $value) {
             $level = array();
             $levelProperties = explode(', ', $value);
             $level['level'] = $key;
-            for ($i = 0; $i < count($properties); $i ++) {
+            for ($i = 0; $i < count($properties); $i++) {
                 $property = $properties[$i];
                 $level[$property] = $levelProperties[$i];
             }

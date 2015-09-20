@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\HTML\Style;
 
 /**
@@ -23,7 +24,6 @@ namespace PhpOffice\PhpWord\Writer\HTML\Style;
  */
 class Paragraph extends AbstractStyle
 {
-
     /**
      * Write style
      *
@@ -32,24 +32,27 @@ class Paragraph extends AbstractStyle
     public function write()
     {
         $style = $this->getStyle();
-        if (! $style instanceof \PhpOffice\PhpWord\Style\Paragraph) {
+        if (!$style instanceof \PhpOffice\PhpWord\Style\Paragraph) {
             return '';
         }
         $css = array();
-        
+
         // Alignment
-        $align = $style->getAlign();
-        $css['text-align'] = $this->getValueIf(! is_null($align), $align);
-        
+        $alignment = $style->getAlignment();
+        if (!is_null($alignment)) {
+            $alignmentValue = $alignment->getValue();
+            $css['text-align'] = $this->getValueIf(!is_null($alignmentValue), $alignmentValue);
+        }
+
         // Spacing
         $spacing = $style->getSpace();
-        if (! is_null($spacing)) {
+        if (!is_null($spacing)) {
             $before = $spacing->getBefore();
             $after = $spacing->getAfter();
-            $css['margin-top'] = $this->getValueIf(! is_null($before), ($before / 20) . 'pt');
-            $css['margin-bottom'] = $this->getValueIf(! is_null($after), ($after / 20) . 'pt');
+            $css['margin-top'] = $this->getValueIf(!is_null($before), ($before / 20) . 'pt');
+            $css['margin-bottom'] = $this->getValueIf(!is_null($after), ($after / 20) . 'pt');
         }
-        
+
         return $this->assembleCss($css);
     }
 }

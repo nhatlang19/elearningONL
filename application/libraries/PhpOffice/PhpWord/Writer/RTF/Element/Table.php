@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
 use PhpOffice\PhpWord\Element\Cell as CellElement;
@@ -27,7 +28,6 @@ use PhpOffice\PhpWord\Element\Table as TableElement;
  */
 class Table extends AbstractElement
 {
-
     /**
      * Write element
      *
@@ -35,7 +35,7 @@ class Table extends AbstractElement
      */
     public function write()
     {
-        if (! $this->element instanceof TableElement) {
+        if (!$this->element instanceof TableElement) {
             return '';
         }
         $element = $this->element;
@@ -43,15 +43,15 @@ class Table extends AbstractElement
         if ($element->getNestedLevel() >= 1) {
             return '';
         }
-        
+
         $content = '';
         $rows = $element->getRows();
         $rowCount = count($rows);
-        
+
         if ($rowCount > 0) {
             $content .= '\pard' . PHP_EOL;
-            
-            for ($i = 0; $i < $rowCount; $i ++) {
+
+            for ($i = 0; $i < $rowCount; $i++) {
                 $content .= '\trowd ';
                 $content .= $this->writeRowDef($rows[$i]);
                 $content .= PHP_EOL;
@@ -59,73 +59,75 @@ class Table extends AbstractElement
                 $content .= '\row' . PHP_EOL;
             }
         }
-        
+
         return $content;
     }
 
     /**
      * Write column
      *
+     * @param \PhpOffice\PhpWord\Element\Row $row
      * @return string
      */
     private function writeRowDef(RowElement $row)
     {
         $content = '';
-        
+
         $rightMargin = 0;
         foreach ($row->getCells() as $cell) {
             $width = $cell->getWidth();
-            $vMerge = $this->getVMerge($cell->getStyle()
-                ->getVMerge());
+            $vMerge = $this->getVMerge($cell->getStyle()->getVMerge());
             if ($width === null) {
                 $width = 720; // Arbitrary default width
             }
             $rightMargin += $width;
             $content .= "{$vMerge}\cellx{$rightMargin} ";
         }
-        
+
         return $content;
     }
 
     /**
      * Write row
      *
+     * @param \PhpOffice\PhpWord\Element\Row $row
      * @return string
      */
     private function writeRow(RowElement $row)
     {
         $content = '';
-        
+
         // Write cells
         foreach ($row->getCells() as $cell) {
             $content .= $this->writeCell($cell);
         }
-        
+
         return $content;
     }
 
     /**
      * Write cell
      *
+     * @param \PhpOffice\PhpWord\Element\Cell $cell
      * @return string
      */
     private function writeCell(CellElement $cell)
     {
         $content = '\intbl' . PHP_EOL;
-        
+
         // Write content
         $writer = new Container($this->parentWriter, $cell);
         $content .= $writer->write();
-        
+
         $content .= '\cell' . PHP_EOL;
-        
+
         return $content;
     }
 
     /**
      * Get vertical merge style
      *
-     * @param string $value            
+     * @param string $value
      * @return string
      * @todo Move to style
      */
@@ -137,7 +139,7 @@ class Table extends AbstractElement
         } elseif ($value == 'continue') {
             $style = '\clvmrg';
         }
-        
+
         return $style;
     }
 }

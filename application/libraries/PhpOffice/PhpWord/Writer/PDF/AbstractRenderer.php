@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\PDF;
 
 use PhpOffice\PhpWord\Exception\Exception;
@@ -28,7 +29,6 @@ use PhpOffice\PhpWord\Writer\HTML;
  */
 abstract class AbstractRenderer extends HTML
 {
-
     /**
      * Name of renderer include file
      *
@@ -70,15 +70,13 @@ abstract class AbstractRenderer extends HTML
      * @var array
      */
     protected static $paperSizes = array(
-        9 => 'A4'
-    ) // (210 mm by 297 mm)
-;
+        9 => 'A4', // (210 mm by 297 mm)
+    );
 
     /**
      * Create new instance
      *
-     * @param PhpWord $phpWord
-     *            PhpWord object
+     * @param PhpWord $phpWord PhpWord object
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function __construct(PhpWord $phpWord)
@@ -86,9 +84,7 @@ abstract class AbstractRenderer extends HTML
         parent::__construct($phpWord);
         $includeFile = Settings::getPdfRendererPath() . '/' . $this->includeFile;
         if (file_exists($includeFile)) {
-            /**
-             * @noinspection PhpIncludeInspection Dynamic includes
-             */
+            /** @noinspection PhpIncludeInspection Dynamic includes */
             require_once $includeFile;
         } else {
             // @codeCoverageIgnoreStart
@@ -109,20 +105,19 @@ abstract class AbstractRenderer extends HTML
     }
 
     /**
-     * Set font.
-     * Examples:
-     * 'arialunicid0-chinese-simplified'
-     * 'arialunicid0-chinese-traditional'
-     * 'arialunicid0-korean'
-     * 'arialunicid0-japanese'
+     * Set font. Examples:
+     *      'arialunicid0-chinese-simplified'
+     *      'arialunicid0-chinese-traditional'
+     *      'arialunicid0-korean'
+     *      'arialunicid0-japanese'
      *
-     * @param string $fontName            
+     * @param string $fontName
      * @return self
      */
     public function setFont($fontName)
     {
         $this->font = $fontName;
-        
+
         return $this;
     }
 
@@ -139,8 +134,7 @@ abstract class AbstractRenderer extends HTML
     /**
      * Set Paper Size
      *
-     * @param int $value
-     *            Paper size = PAPERSIZE_A4
+     * @param int $value Paper size = PAPERSIZE_A4
      * @return self
      */
     public function setPaperSize($value = 9)
@@ -162,8 +156,7 @@ abstract class AbstractRenderer extends HTML
     /**
      * Set Orientation
      *
-     * @param string $value
-     *            Page orientation ORIENTATION_DEFAULT
+     * @param string $value Page orientation ORIENTATION_DEFAULT
      * @return self
      */
     public function setOrientation($value = 'default')
@@ -175,8 +168,7 @@ abstract class AbstractRenderer extends HTML
     /**
      * Save PhpWord to PDF file, pre-save
      *
-     * @param string $filename
-     *            Name of the file to save as
+     * @param string $filename Name of the file to save as
      * @return resource
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
@@ -190,14 +182,15 @@ abstract class AbstractRenderer extends HTML
         }
         // @codeCoverageIgnoreEnd
         $this->isPdf = true;
-        
+
         return $fileHandle;
     }
 
     /**
      * Save PhpWord to PDF file, post-save
      *
-     * @param resource $fileHandle            
+     * @param resource $fileHandle
+     * @return void
      * @throws Exception
      */
     protected function restoreStateAfterSave($fileHandle)

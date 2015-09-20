@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Reader;
 
 /**
@@ -23,11 +24,10 @@ namespace PhpOffice\PhpWord\Reader;
  */
 interface ReaderInterface
 {
-
     /**
      * Can the current ReaderInterface read the file?
      *
-     * @param string $filename            
+     * @param  string $filename
      * @return boolean
      */
     public function canRead($filename);
@@ -35,7 +35,7 @@ interface ReaderInterface
     /**
      * Loads PhpWord from file
      *
-     * @param string $filename            
+     * @param string $filename
      */
     public function load($filename);
 }

@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Element;
 
 /**
@@ -21,9 +22,7 @@ namespace PhpOffice\PhpWord\Element;
  */
 class Header extends Footer
 {
-
     /**
-     *
      * @var string Container type
      */
     protected $container = 'Header';
@@ -31,8 +30,8 @@ class Header extends Footer
     /**
      * Add a Watermark Element
      *
-     * @param string $src            
-     * @param mixed $style            
+     * @param string $src
+     * @param mixed $style
      * @return Image
      */
     public function addWatermark($src, $style = null)

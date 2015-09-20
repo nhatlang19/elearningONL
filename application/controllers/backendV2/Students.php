@@ -120,7 +120,7 @@ class Students extends Ext_Controller
         );
         
         $this->load->library('utils');
-        $sheetData = $this->utils->ole_excel_reader($uploadpath, false);
+        $sheetData = $this->utils->oleExcelReader($uploadpath, false);
         if (count($sheetData)) {
             unset($sheetData[1]); // delete title
             

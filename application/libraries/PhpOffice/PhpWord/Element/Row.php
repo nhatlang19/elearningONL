@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Style\Row as RowStyle;
@@ -25,7 +26,6 @@ use PhpOffice\PhpWord\Style\Row as RowStyle;
  */
 class Row extends AbstractElement
 {
-
     /**
      * Row height
      *
@@ -50,30 +50,28 @@ class Row extends AbstractElement
     /**
      * Create a new table row
      *
-     * @param int $height            
-     * @param mixed $style            
+     * @param int $height
+     * @param mixed $style
      */
     public function __construct($height = null, $style = null)
     {
         $this->height = $height;
-        $this->style = $this->setStyle(new RowStyle(), $style, true);
+        $this->style = $this->setNewStyle(new RowStyle(), $style, true);
     }
 
     /**
      * Add a cell
      *
-     * @param int $width            
-     * @param mixed $style            
+     * @param int $width
+     * @param mixed $style
      * @return \PhpOffice\PhpWord\Element\Cell
      */
     public function addCell($width = null, $style = null)
     {
         $cell = new Cell($width, $style);
-        $cell->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $cell->setPhpWord($this->phpWord);
-        $cell->setNestedLevel($this->getNestedLevel());
+        $cell->setParentContainer($this);
         $this->cells[] = $cell;
-        
+
         return $cell;
     }
 

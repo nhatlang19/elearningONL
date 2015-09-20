@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\Exception\Exception;
@@ -27,7 +28,6 @@ use PhpOffice\PhpWord\Settings;
  */
 class PDF
 {
-
     /**
      * The wrapper for the requested PDF rendering engine
      *
@@ -38,7 +38,7 @@ class PDF
     /**
      * Instantiate a new renderer of the configured type within this container class
      *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord            
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function __construct(PhpWord $phpWord)
@@ -48,13 +48,13 @@ class PDF
         if (is_null($pdfLibraryName) || is_null($pdfLibraryPath)) {
             throw new Exception("PDF rendering library or library path has not been defined.");
         }
-        
+
         $includePath = str_replace('\\', '/', get_include_path());
         $rendererPath = str_replace('\\', '/', $pdfLibraryPath);
         if (strpos($rendererPath, $includePath) === false) {
             set_include_path(get_include_path() . PATH_SEPARATOR . $pdfLibraryPath);
         }
-        
+
         $rendererName = get_class($this) . '\\' . $pdfLibraryName;
         $this->renderer = new $rendererName($phpWord);
     }
@@ -62,21 +62,17 @@ class PDF
     /**
      * Magic method to handle direct calls to the configured PDF renderer wrapper class.
      *
-     * @param string $name
-     *            Renderer library method name
-     * @param mixed[] $arguments
-     *            Array of arguments to pass to the renderer method
+     * @param string $name Renderer library method name
+     * @param mixed[] $arguments Array of arguments to pass to the renderer method
      * @return mixed Returned data from the PDF renderer wrapper method
      */
     public function __call($name, $arguments)
     {
         // Note: Commented because all exceptions should already be catched by `__construct`
         // if ($this->renderer === null) {
-        // throw new Exception("PDF Rendering library has not been defined.");
+        //     throw new Exception("PDF Rendering library has not been defined.");
         // }
-        return call_user_func_array(array(
-            $this->renderer,
-            $name
-        ), $arguments);
+
+        return call_user_func_array(array($this->renderer, $name), $arguments);
     }
 }

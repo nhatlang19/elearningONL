@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 /**
@@ -23,7 +24,6 @@ namespace PhpOffice\PhpWord\Writer\HTML\Element;
  */
 class Title extends AbstractElement
 {
-
     /**
      * Write heading
      *
@@ -31,14 +31,14 @@ class Title extends AbstractElement
      */
     public function write()
     {
-        if (! $this->element instanceof \PhpOffice\PhpWord\Element\Title) {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Title) {
             return '';
         }
-        
+
         $tag = 'h' . $this->element->getDepth();
-        $text = htmlspecialchars($this->element->getText());
+        $text = $this->element->getText();
         $content = "<{$tag}>{$text}</{$tag}>" . PHP_EOL;
-        
+
         return $content;
     }
 }

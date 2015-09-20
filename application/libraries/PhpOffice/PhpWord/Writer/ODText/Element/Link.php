@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
 /**
@@ -23,7 +24,6 @@ namespace PhpOffice\PhpWord\Writer\ODText\Element;
  */
 class Link extends AbstractElement
 {
-
     /**
      * Write element
      */
@@ -31,21 +31,21 @@ class Link extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
-        if (! $element instanceof \PhpOffice\PhpWord\Element\Link) {
+        if (!$element instanceof \PhpOffice\PhpWord\Element\Link) {
             return;
         }
-        
-        if (! $this->withoutP) {
+
+        if (!$this->withoutP) {
             $xmlWriter->startElement('text:p'); // text:p
         }
-        
+
         $xmlWriter->startElement('text:a');
         $xmlWriter->writeAttribute('xlink:type', 'simple');
-        $xmlWriter->writeAttribute('xlink:href', $element->getTarget());
+        $xmlWriter->writeAttribute('xlink:href', $element->getSource());
         $xmlWriter->writeRaw($element->getText());
         $xmlWriter->endElement(); // text:a
-        
-        if (! $this->withoutP) {
+
+        if (!$this->withoutP) {
             $xmlWriter->endElement(); // text:p
         }
     }

@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 use PhpOffice\PhpWord\Element\AbstractContainer as ContainerElement;
@@ -25,7 +26,6 @@ use PhpOffice\PhpWord\Element\AbstractContainer as ContainerElement;
  */
 class Container extends AbstractElement
 {
-
     /**
      * Namespace; Can't use __NAMESPACE__ in inherited class (RTF)
      *
@@ -41,30 +41,24 @@ class Container extends AbstractElement
     public function write()
     {
         $container = $this->element;
-        if (! $container instanceof ContainerElement) {
+        if (!$container instanceof ContainerElement) {
             return '';
         }
         $containerClass = substr(get_class($container), strrpos(get_class($container), '\\') + 1);
-        $withoutP = in_array($containerClass, array(
-            'TextRun',
-            'Footnote',
-            'Endnote'
-        )) ? true : false;
+        $withoutP = in_array($containerClass, array('TextRun', 'Footnote', 'Endnote')) ? true : false;
         $content = '';
-        
+
         $elements = $container->getElements();
         foreach ($elements as $element) {
             $elementClass = get_class($element);
             $writerClass = str_replace('PhpOffice\\PhpWord\\Element', $this->namespace, $elementClass);
             if (class_exists($writerClass)) {
-                /**
-                 * @var \PhpOffice\PhpWord\Writer\HTML\Element\AbstractElement $writer Type hint
-                 */
+                /** @var \PhpOffice\PhpWord\Writer\HTML\Element\AbstractElement $writer Type hint */
                 $writer = new $writerClass($this->parentWriter, $element, $withoutP);
                 $content .= $writer->write();
             }
         }
-        
+
         return $content;
     }
 }

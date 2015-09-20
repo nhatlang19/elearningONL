@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
 use PhpOffice\PhpWord\Shared\String;
@@ -31,7 +32,6 @@ use PhpOffice\PhpWord\Writer\RTF\Style\Paragraph as ParagraphStyleWriter;
  */
 abstract class AbstractElement extends HTMLAbstractElement
 {
-
     /**
      * Font style
      *
@@ -47,20 +47,18 @@ abstract class AbstractElement extends HTMLAbstractElement
     private $paragraphStyle;
 
     /**
-     * Get font and paragraph styles
+     * Get font and paragraph styles.
+     *
+     * @return void
      */
     protected function getStyles()
     {
-        /**
-         * @var \PhpOffice\PhpWord\Writer\RTF $parentWriter Type hint
-         */
+        /** @var \PhpOffice\PhpWord\Writer\RTF $parentWriter Type hint */
         $parentWriter = $this->parentWriter;
-        
-        /**
-         * @var \PhpOffice\PhpWord\Element\Text $element Type hint
-         */
+
+        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->element;
-        
+
         // Font style
         if (method_exists($element, 'getFontStyle')) {
             $this->fontStyle = $element->getFontStyle();
@@ -68,15 +66,15 @@ abstract class AbstractElement extends HTMLAbstractElement
                 $this->fontStyle = Style::getStyle($this->fontStyle);
             }
         }
-        
+
         // Paragraph style
         if (method_exists($element, 'getParagraphStyle')) {
             $this->paragraphStyle = $element->getParagraphStyle();
             if (is_string($this->paragraphStyle)) {
                 $this->paragraphStyle = Style::getStyle($this->paragraphStyle);
             }
-            
-            if ($this->paragraphStyle !== null && ! $this->withoutP) {
+
+            if ($this->paragraphStyle !== null && !$this->withoutP) {
                 if ($parentWriter->getLastParagraphStyle() != $element->getParagraphStyle()) {
                     $parentWriter->setLastParagraphStyle($element->getParagraphStyle());
                 } else {
@@ -97,10 +95,10 @@ abstract class AbstractElement extends HTMLAbstractElement
      */
     protected function writeOpening()
     {
-        if ($this->withoutP || ! $this->paragraphStyle instanceof ParagraphStyle) {
+        if ($this->withoutP || !$this->paragraphStyle instanceof ParagraphStyle) {
             return '';
         }
-        
+
         $styleWriter = new ParagraphStyleWriter($this->paragraphStyle);
         $styleWriter->setNestedLevel($this->element->getNestedLevel());
         return $styleWriter->write();
@@ -109,7 +107,7 @@ abstract class AbstractElement extends HTMLAbstractElement
     /**
      * Write text
      *
-     * @param string $text            
+     * @param string $text
      * @return string
      */
     protected function writeText($text)
@@ -127,7 +125,7 @@ abstract class AbstractElement extends HTMLAbstractElement
         if ($this->withoutP) {
             return '';
         }
-        
+
         return '\par' . PHP_EOL;
     }
 
@@ -138,15 +136,13 @@ abstract class AbstractElement extends HTMLAbstractElement
      */
     protected function writeFontStyle()
     {
-        if (! $this->fontStyle instanceof FontStyle) {
+        if (!$this->fontStyle instanceof FontStyle) {
             return '';
         }
-        
-        /**
-         * @var \PhpOffice\PhpWord\Writer\RTF $parentWriter Type hint
-         */
+
+        /** @var \PhpOffice\PhpWord\Writer\RTF $parentWriter Type hint */
         $parentWriter = $this->parentWriter;
-        
+
         // Create style writer and set color/name index
         $styleWriter = new FontStyleWriter($this->fontStyle);
         if ($this->fontStyle->getColor() != null) {
@@ -161,10 +157,10 @@ abstract class AbstractElement extends HTMLAbstractElement
                 $styleWriter->setNameIndex($fontIndex);
             }
         }
-        
+
         // Write style
         $content = $styleWriter->write();
-        
+
         return $content;
     }
 }

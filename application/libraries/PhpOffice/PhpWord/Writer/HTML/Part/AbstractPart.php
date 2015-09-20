@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\HTML\Part;
 
 use PhpOffice\PhpWord\Exception\Exception;
@@ -26,7 +27,6 @@ use PhpOffice\PhpWord\Writer\AbstractWriter;
  */
 abstract class AbstractPart
 {
-
     /**
      * Parent writer
      *
@@ -42,9 +42,10 @@ abstract class AbstractPart
     abstract public function write();
 
     /**
-     * Set parent writer
+     * Set parent writer.
      *
-     * @param \PhpOffice\PhpWord\Writer\AbstractWriter $writer            
+     * @param \PhpOffice\PhpWord\Writer\AbstractWriter $writer
+     * @return void
      */
     public function setParentWriter(AbstractWriter $writer = null)
     {

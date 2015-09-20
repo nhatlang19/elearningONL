@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Style;
 
 /**
@@ -24,23 +25,16 @@ namespace PhpOffice\PhpWord\Style;
  */
 class Alignment extends AbstractStyle
 {
-
     /**
      * @const string Alignment http://www.schemacentral.com/sc/ooxml/t-w_ST_Jc.html
      */
-    const ALIGN_LEFT = 'left';
- // Align left
-    const ALIGN_RIGHT = 'right';
- // Align right
-    const ALIGN_CENTER = 'center';
- // Align center
-    const ALIGN_BOTH = 'both';
- // Align both
-    const ALIGN_JUSTIFY = 'justify';
- // Alias for align both
-    
+    const ALIGN_LEFT = 'left'; // Align left
+    const ALIGN_RIGHT = 'right'; // Align right
+    const ALIGN_CENTER = 'center'; // Align center
+    const ALIGN_BOTH = 'both'; // Align both
+    const ALIGN_JUSTIFY = 'justify'; // Alias for align both
+
     /**
-     *
      * @var string Alignment
      */
     private $value = null;
@@ -48,7 +42,7 @@ class Alignment extends AbstractStyle
     /**
      * Create a new instance
      *
-     * @param array $style            
+     * @param array $style
      */
     public function __construct($style = array())
     {
@@ -68,7 +62,7 @@ class Alignment extends AbstractStyle
     /**
      * Set alignment
      *
-     * @param string $value            
+     * @param string $value
      * @return self
      */
     public function setValue($value = null)
@@ -76,15 +70,9 @@ class Alignment extends AbstractStyle
         if (strtolower($value) == self::ALIGN_JUSTIFY) {
             $value = self::ALIGN_BOTH;
         }
-        $enum = array(
-            self::ALIGN_LEFT,
-            self::ALIGN_RIGHT,
-            self::ALIGN_CENTER,
-            self::ALIGN_BOTH,
-            self::ALIGN_JUSTIFY
-        );
+        $enum = array(self::ALIGN_LEFT, self::ALIGN_RIGHT, self::ALIGN_CENTER, self::ALIGN_BOTH, self::ALIGN_JUSTIFY);
         $this->value = $this->setEnumVal($value, $enum, $this->value);
-        
+
         return $this;
     }
 }

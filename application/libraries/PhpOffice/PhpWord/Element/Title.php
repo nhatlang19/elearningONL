@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Shared\String;
@@ -24,7 +25,6 @@ use PhpOffice\PhpWord\Style;
  */
 class Title extends AbstractElement
 {
-
     /**
      * Title Text content
      *
@@ -40,27 +40,33 @@ class Title extends AbstractElement
     private $depth = 1;
 
     /**
-     * Name of the heading style, e.g.
-     * 'Heading1'
+     * Name of the heading style, e.g. 'Heading1'
      *
      * @var string
      */
     private $style;
 
     /**
+     * Is part of collection
+     *
+     * @var bool
+     */
+    protected $collectionRelation = true;
+
+    /**
      * Create a new Title Element
      *
-     * @param string $text            
-     * @param int $depth            
+     * @param string $text
+     * @param int $depth
      */
     public function __construct($text, $depth = 1)
     {
         $this->text = String::toUTF8($text);
         $this->depth = $depth;
-        if (array_key_exists('Heading_' . $this->depth, Style::getStyles())) {
-            $this->style = 'Heading' . $this->depth;
+        if (array_key_exists("Heading_{$this->depth}", Style::getStyles())) {
+            $this->style = "Heading{$this->depth}";
         }
-        
+
         return $this;
     }
 

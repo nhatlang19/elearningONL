@@ -39,7 +39,7 @@
 	Page rendered in <strong>{elapsed_time}</strong> seconds
 </p> 
 <br clear="all" />
-		<?php $this->output->enable_profiler(TRUE); ?>
+		<?php echo $template['footer'] = $this->load->view(BACKEND_V2_INC_TMPL_PATH . 'inc_debug', null, true); ?>
  </section>
 
 		<!-- Vendor -->

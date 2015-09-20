@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Style\TextBox as TextBoxStyle;
@@ -25,9 +26,7 @@ use PhpOffice\PhpWord\Style\TextBox as TextBoxStyle;
  */
 class TextBox extends AbstractContainer
 {
-
     /**
-     *
      * @var string Container type
      */
     protected $container = 'TextBox';
@@ -42,11 +41,11 @@ class TextBox extends AbstractContainer
     /**
      * Create a new textbox
      *
-     * @param mixed $style            
+     * @param mixed $style
      */
     public function __construct($style = null)
     {
-        $this->style = $this->setStyle(new TextBoxStyle(), $style);
+        $this->style = $this->setNewStyle(new TextBoxStyle(), $style);
     }
 
     /**

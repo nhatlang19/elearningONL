@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
 use PhpOffice\PhpWord\Settings;
@@ -26,7 +27,6 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
  */
 abstract class AbstractStyle
 {
-
     /**
      * XML writer
      *
@@ -47,10 +47,10 @@ abstract class AbstractStyle
     abstract public function write();
 
     /**
-     * Create new instance
+     * Create new instance.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter            
-     * @param string|\PhpOffice\PhpWord\Style\AbstractStyle $style            
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param string|\PhpOffice\PhpWord\Style\AbstractStyle $style
      */
     public function __construct(XMLWriter $xmlWriter, $style = null)
     {
@@ -81,9 +81,8 @@ abstract class AbstractStyle
     /**
      * Convert twip value
      *
-     * @param int|float $value            
-     * @param int $default
-     *            (int|float)
+     * @param int|float $value
+     * @param int $default (int|float)
      * @return int|float
      */
     protected function convertTwip($value, $default = 0)
@@ -93,14 +92,51 @@ abstract class AbstractStyle
             Settings::UNIT_MM => 56.7,
             Settings::UNIT_INCH => 1440,
             Settings::UNIT_POINT => 20,
-            Settings::UNIT_PICA => 240
+            Settings::UNIT_PICA => 240,
         );
         $unit = Settings::getMeasurementUnit();
         $factor = 1;
         if (in_array($unit, $factors) && $value != $default) {
             $factor = $factors[$unit];
         }
-        
+
         return $value * $factor;
+    }
+
+    /**
+     * Write child style.
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param string $name
+     * @param mixed $value
+     * @return void
+     */
+    protected function writeChildStyle(XMLWriter $xmlWriter, $name, $value)
+    {
+        if ($value !== null) {
+            $class = "PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\" . $name;
+
+            /** @var \PhpOffice\PhpWord\Writer\Word2007\Style\AbstractStyle $writer */
+            $writer = new $class($xmlWriter, $value);
+            $writer->write();
+        }
+    }
+
+    /**
+     * Assemble style array into style string
+     *
+     * @param array $styles
+     * @return string
+     */
+    protected function assembleStyle($styles = array())
+    {
+        $style = '';
+        foreach ($styles as $key => $value) {
+            if (!is_null($value) && $value != '') {
+                $style .= "{$key}:{$value}; ";
+            }
+        }
+
+        return trim($style);
     }
 }

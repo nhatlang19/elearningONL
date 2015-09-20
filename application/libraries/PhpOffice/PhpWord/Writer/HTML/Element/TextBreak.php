@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 /**
@@ -23,7 +24,6 @@ namespace PhpOffice\PhpWord\Writer\HTML\Element;
  */
 class TextBreak extends AbstractElement
 {
-
     /**
      * Write text break
      *
@@ -36,7 +36,7 @@ class TextBreak extends AbstractElement
         } else {
             $content = '<p>&nbsp;</p>' . PHP_EOL;
         }
-        
+
         return $content;
     }
 }

@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\HTML\Style;
 
 use PhpOffice\PhpWord\Style\AbstractStyle as Style;
@@ -25,6 +26,12 @@ use PhpOffice\PhpWord\Style\AbstractStyle as Style;
  */
 abstract class AbstractStyle
 {
+    /**
+     * Parent writer
+     *
+     * @var \PhpOffice\PhpWord\Writer\AbstractWriter
+     */
+    private $parentWriter;
 
     /**
      * Style
@@ -41,11 +48,32 @@ abstract class AbstractStyle
     /**
      * Create new instance
      *
-     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $style            
+     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $style
      */
     public function __construct($style = null)
     {
         $this->style = $style;
+    }
+
+    /**
+     * Set parent writer.
+     *
+     * @param \PhpOffice\PhpWord\Writer\AbstractWriter $writer
+     * @return void
+     */
+    public function setParentWriter($writer)
+    {
+        $this->parentWriter = $writer;
+    }
+
+    /**
+     * Get parent writer
+     *
+     * @return \PhpOffice\PhpWord\Writer\AbstractWriter
+     */
+    public function getParentWriter()
+    {
+        return $this->parentWriter;
     }
 
     /**
@@ -55,17 +83,17 @@ abstract class AbstractStyle
      */
     public function getStyle()
     {
-        if (! $this->style instanceof Style && ! is_array($this->style)) {
+        if (!$this->style instanceof Style && !is_array($this->style)) {
             return '';
         }
-        
+
         return $this->style;
     }
 
     /**
      * Takes array where of CSS properties / values and converts to CSS string
      *
-     * @param array $css            
+     * @param array $css
      * @return string
      */
     protected function assembleCss($css)
@@ -77,19 +105,18 @@ abstract class AbstractStyle
                 $pairs[] = $key . ': ' . $value;
             }
         }
-        if (! empty($pairs)) {
+        if (!empty($pairs)) {
             $string = implode('; ', $pairs) . ';';
         }
-        
+
         return $string;
     }
 
     /**
-     * Get value if .
-     * ..
+     * Get value if ...
      *
-     * @param bool|null $condition            
-     * @param string $value            
+     * @param bool|null $condition
+     * @param string $value
      * @return string
      */
     protected function getValueIf($condition, $value)

@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 /**
@@ -23,20 +24,21 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
  */
 class Field extends Text
 {
-
     /**
-     * Write field element
+     * Write field element.
+     *
+     * @return void
      */
     public function write()
     {
         $xmlWriter = $this->getXmlWriter();
-        $element = $this->getElement();
-        if (! $element instanceof \PhpOffice\PhpWord\Element\Field) {
+        $element   = $this->getElement();
+        if (!$element instanceof \PhpOffice\PhpWord\Element\Field) {
             return;
         }
-        
+
         $instruction = ' ' . $element->getType() . ' ';
-        $properties = $element->getProperties();
+        $properties  = $element->getProperties();
         foreach ($properties as $propkey => $propval) {
             switch ($propkey) {
                 case 'format':
@@ -48,7 +50,7 @@ class Field extends Text
                     break;
             }
         }
-        
+
         $options = $element->getOptions();
         foreach ($options as $option) {
             switch ($option) {
@@ -66,8 +68,9 @@ class Field extends Text
                     break;
             }
         }
-        
-        $this->writeOpeningWP();
+
+        $this->startElementP();
+
         $xmlWriter->startElement('w:fldSimple');
         $xmlWriter->writeAttribute('w:instr', $instruction);
         $xmlWriter->startElement('w:r');
@@ -75,13 +78,13 @@ class Field extends Text
         $xmlWriter->startElement('w:noProof');
         $xmlWriter->endElement(); // w:noProof
         $xmlWriter->endElement(); // w:rPr
-        
+
         $xmlWriter->startElement('w:t');
         $xmlWriter->writeRaw('1');
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
         $xmlWriter->endElement(); // w:fldSimple
-        
-        $this->writeClosingWP();
+
+        $this->endElementP(); // w:p
     }
 }

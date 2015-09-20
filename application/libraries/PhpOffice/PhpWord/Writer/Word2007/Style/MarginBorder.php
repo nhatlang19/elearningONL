@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
 use PhpOffice\PhpWord\Shared\XMLWriter;
@@ -25,7 +26,6 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
  */
 class MarginBorder extends AbstractStyle
 {
-
     /**
      * Sizes
      *
@@ -48,24 +48,18 @@ class MarginBorder extends AbstractStyle
     private $attributes = array();
 
     /**
-     * Write style
+     * Write style.
+     *
+     * @return void
      */
     public function write()
     {
         $xmlWriter = $this->getXmlWriter();
-        
-        $sides = array(
-            'top',
-            'left',
-            'right',
-            'bottom',
-            'insideH',
-            'insideV'
-        );
-        $sizeCount = count($this->sizes) - 1;
-        
-        for ($i = 0; $i < $sizeCount; $i ++) {
-            if ($this->sizes[$i] !== null) {
+
+        $sides = array('top', 'left', 'right', 'bottom', 'insideH', 'insideV');
+
+        foreach ($this->sizes as $i => $size) {
+            if ($size !== null) {
                 $color = null;
                 if (isset($this->colors[$i])) {
                     $color = $this->colors[$i];
@@ -76,27 +70,28 @@ class MarginBorder extends AbstractStyle
     }
 
     /**
-     * Write side
+     * Write side.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter            
-     * @param string $side            
-     * @param int $width            
-     * @param string $color            
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param string $side
+     * @param int $width
+     * @param string $color
+     * @return void
      */
     private function writeSide(XMLWriter $xmlWriter, $side, $width, $color = null)
     {
         $xmlWriter->startElement('w:' . $side);
-        if (! empty($this->colors)) {
-            if ($color === null && ! empty($this->attributes)) {
-                if (array_key_exists('defaultColor', $this->attributes)) {
+        if (!empty($this->colors)) {
+            if ($color === null && !empty($this->attributes)) {
+                if (isset($this->attributes['defaultColor'])) {
                     $color = $this->attributes['defaultColor'];
                 }
             }
             $xmlWriter->writeAttribute('w:val', 'single');
             $xmlWriter->writeAttribute('w:sz', $width);
             $xmlWriter->writeAttribute('w:color', $color);
-            if (! empty($this->attributes)) {
-                if (array_key_exists('space', $this->attributes)) {
+            if (!empty($this->attributes)) {
+                if (isset($this->attributes['space'])) {
                     $xmlWriter->writeAttribute('w:space', $this->attributes['space']);
                 }
             }
@@ -108,9 +103,10 @@ class MarginBorder extends AbstractStyle
     }
 
     /**
-     * Set sizes
+     * Set sizes.
      *
-     * @param integer[] $value            
+     * @param integer[] $value
+     * @return void
      */
     public function setSizes($value)
     {
@@ -118,9 +114,10 @@ class MarginBorder extends AbstractStyle
     }
 
     /**
-     * Set colors
+     * Set colors.
      *
-     * @param string[] $value            
+     * @param string[] $value
+     * @return void
      */
     public function setColors($value)
     {
@@ -128,9 +125,10 @@ class MarginBorder extends AbstractStyle
     }
 
     /**
-     * Set attributes
+     * Set attributes.
      *
-     * @param array $value            
+     * @param array $value
+     * @return void
      */
     public function setAttributes($value)
     {

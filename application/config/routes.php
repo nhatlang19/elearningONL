@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 
-$route['admin'] = "backendV2";
+$route['admin'] = "backendV2/users";
 $route['admin/signin'] = "backendV2/users/login";
 $route['backendV2/storage-question/(.+)'] = "backendV2/storagequestion/$1";
 

@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 use PhpOffice\PhpWord\Style\Font;
@@ -28,7 +29,6 @@ use PhpOffice\PhpWord\Writer\HTML\Style\Paragraph as ParagraphStyleWriter;
  */
 class Text extends AbstractElement
 {
-
     /**
      * Text written after opening
      *
@@ -64,28 +64,27 @@ class Text extends AbstractElement
      */
     public function write()
     {
-        /**
-         * @var \PhpOffice\PhpWord\Element\Text $element Type hint
-         */
+        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->element;
         $this->getFontStyle();
-        
+
         $content = '';
         $content .= $this->writeOpening();
         $content .= $this->openingText;
         $content .= $this->openingTags;
-        $content .= htmlspecialchars($element->getText());
+        $content .= $element->getText();
         $content .= $this->closingTags;
         $content .= $this->closingText;
         $content .= $this->writeClosing();
-        
+
         return $content;
     }
 
     /**
-     * Set opening text
+     * Set opening text.
      *
-     * @param string $value            
+     * @param string $value
+     * @return void
      */
     public function setOpeningText($value)
     {
@@ -93,9 +92,10 @@ class Text extends AbstractElement
     }
 
     /**
-     * Set closing text
+     * Set closing text.
      *
-     * @param string $value            
+     * @param string $value
+     * @return void
      */
     public function setClosingText($value)
     {
@@ -110,14 +110,14 @@ class Text extends AbstractElement
     protected function writeOpening()
     {
         $content = '';
-        if (! $this->withoutP) {
+        if (!$this->withoutP) {
             $style = '';
             if (method_exists($this->element, 'getParagraphStyle')) {
                 $style = $this->getParagraphStyle();
             }
             $content .= "<p{$style}>";
         }
-        
+
         return $content;
     }
 
@@ -129,11 +129,11 @@ class Text extends AbstractElement
     protected function writeClosing()
     {
         $content = '';
-        if (! $this->withoutP) {
+        if (!$this->withoutP) {
             $content .= $this->closingText;
             $content .= "</p>" . PHP_EOL;
         }
-        
+
         return $content;
     }
 
@@ -144,15 +144,13 @@ class Text extends AbstractElement
      */
     private function getParagraphStyle()
     {
-        /**
-         * @var \PhpOffice\PhpWord\Element\Text $element Type hint
-         */
+        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->element;
         $style = '';
-        if (! method_exists($element, 'getParagraphStyle')) {
+        if (!method_exists($element, 'getParagraphStyle')) {
             return $style;
         }
-        
+
         $paragraphStyle = $element->getParagraphStyle();
         $pStyleIsObject = ($paragraphStyle instanceof Paragraph);
         if ($pStyleIsObject) {
@@ -163,18 +161,18 @@ class Text extends AbstractElement
             $attribute = $pStyleIsObject ? 'style' : 'class';
             $style = " {$attribute}=\"{$style}\"";
         }
-        
+
         return $style;
     }
 
     /**
-     * Get font style
+     * Get font style.
+     *
+     * @return void
      */
     private function getFontStyle()
     {
-        /**
-         * @var \PhpOffice\PhpWord\Element\Text $element Type hint
-         */
+        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->element;
         $style = '';
         $fontStyle = $element->getFontStyle();

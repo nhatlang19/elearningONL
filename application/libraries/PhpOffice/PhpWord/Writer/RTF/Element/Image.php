@@ -14,10 +14,11 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
 use PhpOffice\PhpWord\Element\Image as ImageElement;
-use PhpOffice\PhpWord\Shared\Font;
+use PhpOffice\PhpWord\Shared\Converter;
 
 /**
  * Image element RTF writer
@@ -26,7 +27,6 @@ use PhpOffice\PhpWord\Shared\Font;
  */
 class Image extends AbstractElement
 {
-
     /**
      * Write element
      *
@@ -34,24 +34,24 @@ class Image extends AbstractElement
      */
     public function write()
     {
-        if (! $this->element instanceof ImageElement) {
+        if (!$this->element instanceof ImageElement) {
             return '';
         }
-        
+
         $this->getStyles();
         $style = $this->element->getStyle();
-        
+
         $content = '';
         $content .= $this->writeOpening();
         $content .= '{\*\shppict {\pict';
         $content .= '\pngblip\picscalex100\picscaley100';
-        $content .= '\picwgoal' . round(Font::pixelSizeToTwips($style->getWidth()));
-        $content .= '\pichgoal' . round(Font::pixelSizeToTwips($style->getHeight()));
+        $content .= '\picwgoal' . round(Converter::pixelToTwip($style->getWidth()));
+        $content .= '\pichgoal' . round(Converter::pixelToTwip($style->getHeight()));
         $content .= PHP_EOL;
         $content .= $this->element->getImageStringData();
         $content .= '}}';
         $content .= $this->writeClosing();
-        
+
         return $content;
     }
 }

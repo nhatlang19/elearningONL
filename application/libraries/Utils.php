@@ -18,7 +18,7 @@ class Utils
         return $ret = trim( $this->remove_doublewhitespace( $this->remove_whitespace_feed($s) ) );
     }
     
-    public function ole_excel_reader($uploadpath, $flag = true)
+    public function oleExcelReader($uploadpath, $flag = true)
     {
         @require_once APPPATH . 'libraries/PhpOffice/PHPExcel/IOFactory.php';
         $objPHPExcel = PHPExcel_IOFactory::load($uploadpath);
@@ -29,9 +29,9 @@ class Utils
         return $sheetData;
     }
 
-    public function format_title_export_docx($str)
+    public function formatTitleExprortDocx($str)
     {
-        return 'public/backend/tmp/' . preg_replace('/[_\/ "]/s', '-', $str) . DOCX;
+        return BACKEND_V2_TMP_PATH_ROOT . preg_replace('/[_\/ "]/s', '-', $str) . DOCX;
     }
 
     public function makeList($id, $resources)

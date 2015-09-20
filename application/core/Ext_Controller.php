@@ -47,10 +47,6 @@ class Ext_Controller extends CI_Controller
 
     protected function sendAjax($status = 0, $message = '', $data = [])
     {
-//         $data['csrf'] = [
-//             'hash' => $this->security->get_csrf_hash()
-//         ];
-        
         $response = [
             'status' => $status,
             'message' => $message,

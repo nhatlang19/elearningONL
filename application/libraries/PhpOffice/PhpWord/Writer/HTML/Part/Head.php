@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\HTML\Part;
 
 use PhpOffice\PhpWord\Settings;
@@ -31,7 +32,6 @@ use PhpOffice\PhpWord\Writer\HTML\Style\Paragraph as ParagraphStyleWriter;
  */
 class Head extends AbstractPart
 {
-
     /**
      * Write part
      *
@@ -39,9 +39,7 @@ class Head extends AbstractPart
      */
     public function write()
     {
-        $docProps = $this->getParentWriter()
-            ->getPhpWord()
-            ->getDocumentProperties();
+        $docProps = $this->getParentWriter()->getPhpWord()->getDocInfo();
         $propertiesMapping = array(
             'creator' => 'author',
             'title' => '',
@@ -54,22 +52,23 @@ class Head extends AbstractPart
         );
         $title = $docProps->getTitle();
         $title = ($title != '') ? $title : 'PHPWord';
-        
+
         $content = '';
-        
+
         $content .= '<head>' . PHP_EOL;
         $content .= '<meta charset="UTF-8" />' . PHP_EOL;
-        $content .= '<title>' . htmlspecialchars($title) . '</title>' . PHP_EOL;
+        $content .= '<title>' . $title . '</title>' . PHP_EOL;
         foreach ($propertiesMapping as $key => $value) {
             $value = ($value == '') ? $key : $value;
             $method = "get" . $key;
             if ($docProps->$method() != '') {
-                $content .= '<meta name="' . $value . '" content="' . htmlspecialchars($docProps->$method()) . '" />' . PHP_EOL;
+                $content .= '<meta name="' . $value . '" content="' .
+                    $docProps->$method() . '" />' . PHP_EOL;
             }
         }
         $content .= $this->writeStyles();
         $content .= '</head>' . PHP_EOL;
-        
+
         return $content;
     }
 
@@ -81,29 +80,37 @@ class Head extends AbstractPart
     private function writeStyles()
     {
         $css = '<style>' . PHP_EOL;
-        
+
         // Default styles
         $defaultStyles = array(
             '*' => array(
                 'font-family' => Settings::getDefaultFontName(),
-                'font-size' => Settings::getDefaultFontSize() . 'pt'
+                'font-size' => Settings::getDefaultFontSize() . 'pt',
             ),
             'a.NoteRef' => array(
-                'text-decoration' => 'none'
+                'text-decoration' => 'none',
             ),
             'hr' => array(
                 'height' => '1px',
                 'padding' => '0',
                 'margin' => '1em 0',
                 'border' => '0',
-                'border-top' => '1px solid #CCC'
-            )
+                'border-top' => '1px solid #CCC',
+            ),
+            'table' => array(
+                'border' => '1px solid black',
+                'border-spacing' => '0px',
+                'width' => '100%',
+            ),
+            'td' => array(
+                'border' => '1px solid black',
+            ),
         );
         foreach ($defaultStyles as $selector => $style) {
             $styleWriter = new GenericStyleWriter($style);
             $css .= $selector . ' {' . $styleWriter->write() . '}' . PHP_EOL;
         }
-        
+
         // Custom styles
         $customStyles = Style::getStyles();
         if (is_array($customStyles)) {
@@ -115,16 +122,16 @@ class Head extends AbstractPart
                     } else {
                         $name = '.' . $name;
                     }
-                    $css .= "{$name} {" . $styleWriter->write() . '}' . PHP_EOL;
+                    $css .= "{$name} {" . $styleWriter->write() . '}'  . PHP_EOL;
                 } elseif ($style instanceof Paragraph) {
                     $styleWriter = new ParagraphStyleWriter($style);
                     $name = '.' . $name;
-                    $css .= "{$name} {" . $styleWriter->write() . '}' . PHP_EOL;
+                    $css .= "{$name} {" . $styleWriter->write() . '}'  . PHP_EOL;
                 }
             }
         }
         $css .= '</style>' . PHP_EOL;
-        
+
         return $css;
     }
 }

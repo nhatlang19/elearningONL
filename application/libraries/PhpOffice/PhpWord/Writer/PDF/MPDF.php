@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\PDF;
 
 use PhpOffice\PhpWord\Writer\WriterInterface;
@@ -26,7 +27,6 @@ use PhpOffice\PhpWord\Writer\WriterInterface;
  */
 class MPDF extends AbstractRenderer implements WriterInterface
 {
-
     /**
      * Name of renderer include file
      *
@@ -35,38 +35,38 @@ class MPDF extends AbstractRenderer implements WriterInterface
     protected $includeFile = 'mpdf.php';
 
     /**
-     * Save PhpWord to file
+     * Save PhpWord to file.
      *
-     * @param string $filename
-     *            Name of the file to save as
+     * @param string $filename Name of the file to save as
+     * @return void
      */
     public function save($filename = null)
     {
         $fileHandle = parent::prepareForSave($filename);
-        
-        // PDF settings
+
+        //  PDF settings
         $paperSize = strtoupper('A4');
         $orientation = strtoupper('portrait');
-        
-        // Create PDF
+
+        //  Create PDF
         $pdf = new \mpdf();
         $pdf->_setPageSize($paperSize, $orientation);
         $pdf->addPage($orientation);
-        
+
         // Write document properties
         $phpWord = $this->getPhpWord();
-        $docProps = $phpWord->getDocumentProperties();
+        $docProps = $phpWord->getDocInfo();
         $pdf->setTitle($docProps->getTitle());
         $pdf->setAuthor($docProps->getCreator());
         $pdf->setSubject($docProps->getSubject());
         $pdf->setKeywords($docProps->getKeywords());
         $pdf->setCreator($docProps->getCreator());
-        
+
         $pdf->writeHTML($this->getContent());
-        
-        // Write to file
+
+        //  Write to file
         fwrite($fileHandle, $pdf->output($filename, 'S'));
-        
+
         parent::restoreStateAfterSave($fileHandle);
     }
 }

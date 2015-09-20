@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 /**
@@ -21,7 +22,6 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
  */
 class Header extends Footer
 {
-
     /**
      * Root element name
      *

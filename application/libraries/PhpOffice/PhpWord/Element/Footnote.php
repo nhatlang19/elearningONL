@@ -14,6 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Style\Paragraph;
@@ -23,9 +24,7 @@ use PhpOffice\PhpWord\Style\Paragraph;
  */
 class Footnote extends AbstractContainer
 {
-
     /**
-     *
      * @var string Container type
      */
     protected $container = 'Footnote';
@@ -38,13 +37,21 @@ class Footnote extends AbstractContainer
     protected $paragraphStyle;
 
     /**
+     * Is part of collection
+     *
+     * @var bool
+     */
+    protected $collectionRelation = true;
+
+    /**
      * Create new instance
      *
-     * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle            
+     * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
      */
     public function __construct($paragraphStyle = null)
     {
-        $this->paragraphStyle = $this->setStyle(new Paragraph(), $paragraphStyle);
+        $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $paragraphStyle);
+        $this->setDocPart($this->container);
     }
 
     /**
@@ -62,7 +69,7 @@ class Footnote extends AbstractContainer
      *
      * @return int
      * @deprecated 0.10.0
-     *             @codeCoverageIgnore
+     * @codeCoverageIgnore
      */
     public function getReferenceId()
     {
@@ -72,9 +79,9 @@ class Footnote extends AbstractContainer
     /**
      * Set Footnote Reference ID
      *
-     * @param int $rId            
+     * @param int $rId
      * @deprecated 0.10.0
-     *             @codeCoverageIgnore
+     * @codeCoverageIgnore
      */
     public function setReferenceId($rId)
     {
