@@ -4,7 +4,7 @@ use PhpOffice\PhpWord\Autoloader;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\IOFactory;
 use App\Libraries\AppComponent;
-error_reporting(E_ALL);
+//error_reporting(E_ALL);
 require_once __DIR__ . '/../PhpOffice/PhpWord/Autoloader.php';
 require_once APPPATH . 'libraries/components/AppComponent.php';
 /**
@@ -239,7 +239,7 @@ class Word extends AppComponent
         for ($i = 0; $i < $n; $i += $plus) {
             $array = array();
             for ($j = $i; $j < $i + $plus; $j ++) {
-                if ($i < $n) {
+                if ($j < $n) {
                     $array[] = $answers_student[$j]['number_question'] . '. ' . Commonobj::convertNumberToChar($answers_student[$j]['answer']);
                 }
             }
@@ -258,8 +258,12 @@ class Word extends AppComponent
         foreach ($lists as $values) {
             $statusCellTextRun = $statusCell->createTextRun();
             foreach ($values as $item) {
+			
                 if ($item['type'] == 'IMAGE') {
                     $src = trim(str_replace(base_url(), '', $item['src']));
+					// fix for localhost
+					$src = DOCUMENT_ROOT . '/' . $src;
+				
                     $statusCellTextRun->addImage($src);
                 } else {
                     $statusCellTextRun->addText($item['text'], $styleText);
@@ -282,7 +286,6 @@ class Word extends AppComponent
         
         foreach ($topicDetails as $key => $value) {
             $answers = explode('|||', $value['answer']);
-            ;
             $positions = explode(',', $value['correct_answer']);
             $answer_of_student = @$studentAnswerList[$value['storage_question_id']];
             // write Question
@@ -302,14 +305,13 @@ class Word extends AppComponent
                 $statusCell->addTextBreak();
             }
             
-            $number = 65;
             foreach ($answers as $k => $v) {
                 $correct = '';
                 if (isset($answer_of_student['answer']) && $answer_of_student['answer'] == $k + 1) {
-                    $correct = "<img src='public/backend/images/cross_circle.png' />";
+                    $correct = "<img src='public/backendV2/assets/images/cross_circle.png' />";
                 }
                 if ($positions[$k]) {
-                    $correct = "<img src='public/backend/images/tick_circle.png' />";
+                    $correct = "<img src='public/backendV2/assets/images/tick_circle.png' />";
                 }
                 // write Answer
                 $this->_writeQuestionOrAnswer($statusCell, chr($number ++) . '. ' . $v . ' ' . $correct, array(

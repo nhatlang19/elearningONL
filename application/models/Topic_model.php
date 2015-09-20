@@ -79,7 +79,7 @@ class Topic_model extends Ext_Model
             $this->db->join('storage_question AS sq', 'sq.storage_question_id = q.storage_question_id');
             $this->db->join('storage_answer AS sa', 'sa.storage_answer_id = a.storage_answer_id');
             $this->db->where('q.topic_id', $topic_id);
-//             $this->db->where('a.topic_id', $topic_id);
+            $this->db->where('a.topic_id', $topic_id);
             $this->db->order_by('q.number', 'ASC');
             $this->db->group_by('sq.storage_question_id');
             
@@ -111,7 +111,7 @@ class Topic_model extends Ext_Model
             $this->db->join('storage_question AS sq', 'sq.storage_question_id = q.storage_question_id');
             $this->db->join('storage_answer AS sa', 'sa.storage_answer_id = a.storage_answer_id');
             $this->db->where('q.topic_id', $topic_id);
-//             $this->db->where('a.topic_id', $topic_id);
+			$this->db->where('a.topic_id', $topic_id);
             $this->db->order_by('q.number', 'ASC');
             $this->db->group_by('sq.storage_question_id');
             
