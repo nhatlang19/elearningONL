@@ -1,3 +1,8 @@
+<?php
+if (($error = $this->session->flashdata('error'))) {
+    $this->session->set_flashdata('error', null);
+}
+?>
 <!-- start: page -->
 <div class="row">
 	<div class="col-lg-12">
@@ -11,10 +16,16 @@
 				<h2 class="panel-title"><?php echo $title; ?></h2>
 			</header>
 			<div class="panel-body">
+					<?php if(isset($error)) : ?>
+					<div class="alert alert-danger">
+                        <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+                        <?php echo $error; ?>.
+					</div>
+					<?php endif; ?>
 					<div class="form-group">
 						<label class="col-md-3 control-label" for="inputDefault">Tên kho <span class="required">*</span></label>
 						<div class="col-md-6">
-							<input type="text" class="form-control" name="title" id="inputDefault" required value="<?php echo isset($storage->title) ? $storage->title : ''; ?>">
+							<input type="text" maxlength="255" class="form-control" name="title" id="inputDefault" required value="<?php echo isset($storage->title) ? $storage->title : ''; ?>">
 						</div>
 					</div>
 					<?php if (! $user->subjects_id) : ?>
@@ -56,4 +67,4 @@
 <!-- Specific Page Vendor -->
 <script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-validation/jquery.validate.js"></script>
 <!-- Validate form -->
-<script src="<?php echo BACKEND_V2_JS_PATH; ?>forms/form.validation.js"></script>
+<script src="<?php echo BACKEND_V2_JS_PATH; ?>storage/validation.js"></script>

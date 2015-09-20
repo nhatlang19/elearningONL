@@ -6,3 +6,4 @@ user_guide/*
 public/backendV2/files/*
 application/config/database.php
 application/cache/*
+public/backendV2/tmpdir/*

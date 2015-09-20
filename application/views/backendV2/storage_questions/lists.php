@@ -39,7 +39,7 @@
 					<td><?php echo $i++; ?></td>
 					<td>
     					<a class="sq-ajax-modal" href="<?php echo site_url(BACKEND_V2_TMPL_PATH . 'storage-question/view/' . $value->storage_question_id); ?>">
-    					<?php echo word_limiter(satinateTitle($value->question_name), 6); ?>
+    					<?php echo word_limiter(sanitizeText($value->question_name), 6); ?>
     					</a>
 					<td><?php echo $value->title; ?></td>
 					<td><?php echo setDate($value->updated_time, 'time'); ?></td>

@@ -84,7 +84,7 @@ class Storage_model extends Ext_Model
         $filter = [];
         if ($subjects_id) {
             $filter = [
-                'subject_id' => (int) $subjects_id
+                'subjects_id' => (int) $subjects_id
             ];
         }
         return $this->findAll($filter, null, null, 'title', 'asc');

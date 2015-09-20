@@ -18,24 +18,7 @@ class StorageQuestion extends Ext_Controller
     public function lists()
     {
         $header['title'] = 'Quản lý kho câu hỏi';
-//         // get data
-//         $per_page = 20;
-//         $txt_search = $this->input->post('txt_search');
-           $subject_id = (int)$this->getUserInfo()->subjects_id;
-//         $segment = $this->uri->segment(self::URI_SEGMENT);
-        
-//         $user = $this->getUserInfo();
-        
-//         $base_url = base_url() . BACKEND_V2_TMPL_PATH . 'storage-question/lists';
-//         $data['storage_questions'] = $this->storage_question_model->getStorageQuestionAll($txt_search, $user->subjects_id, $storage_id, $segment, $per_page);
-        
-//         $config = $this->configPagination($base_url, $this->storage_question_model->table_record_count, $per_page, self::URI_SEGMENT);
-//         $this->pagination->initialize($config);
-        
-//         $data['pagination'] = $this->pagination;
-        
-//         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'storage_questions/lists', $data, TRUE);
-//         $this->loadTemnplateBackend($header, $content);
+        $subject_id = (int)$this->getUserInfo()->subjects_id;
 
         // get data
         $per_page = 10;

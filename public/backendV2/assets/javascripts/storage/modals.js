@@ -19,7 +19,10 @@ Dropzone.autoDiscover = false;
 		modal: true,
 		callbacks: {
 		    open: function() {
-		    	var id = $('.modal-basic').attr('id');
+		    	var magnificPopup = $.magnificPopup.instance;
+		    	var cur = $(magnificPopup.currItem.el[0]);
+		          
+		    	var id = cur.attr('id');
 		    	if(id != $('.storage_id').val()) {
 		    		$('#dropzone-example').find('.dz-preview').remove();
 		    	}

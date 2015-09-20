@@ -13,6 +13,12 @@
 				<h2 class="panel-title"><?php echo $title; ?></h2>
 			</header>
 			<div class="panel-body">
+					<?php if(isset($error)) : ?>
+					<div class="alert alert-danger">
+                        <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+                        <?php echo $error; ?>.
+					</div>
+					<?php endif; ?>
 					<div class="form-group">
 						<label class="col-md-3 control-label">Chọn kho</label>
 						<div class="col-md-6">
