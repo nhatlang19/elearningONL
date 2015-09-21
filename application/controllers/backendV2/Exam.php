@@ -12,6 +12,10 @@ class Exam extends Ext_Controller
         parent::__construct();
         
         $this->load->model('exam_model');
+        
+        $this->load->library([
+            'lib/examlib',
+        ]);
     }
 
     public function lists()
@@ -33,31 +37,34 @@ class Exam extends Ext_Controller
         $header['title'] = 'Thêm hình thức thi';
         
         $data = array();
-        if ($id) {
-            $header['title'] = 'Chỉnh sửa hình thức thi';
-            $data['exam'] = $this->exam_model->find_by_pkey($id);
-            $data['id'] = $id;
-        }
         
         if ($this->input->post()) {
             $id = intval($this->input->post('id'));
             
-            $data['title'] = addslashes($this->input->post('title'));
+            $data['title'] = sanitizeText($this->input->post('title'));
             $data['time'] = intval($this->input->post('time'));
-            
-            if (! $id) {
-                // save into exam table
-                $this->exam_model->create_ignore($data);
-            } else {
-                $this->exam_model->update_by_pkey($id, $data);
+            $isValid = $this->examlib->validate($data);
+            if($isValid) {
+                if (! $id) {
+                    // save into exam table
+                    $this->exam_model->create_ignore($data);
+                } else {
+                    $this->exam_model->update_by_pkey($id, $data);
+                }
+                
+                unset($data);
+                
+                // remove cache after create/update
+                $this->lphcache->cleanCacheByFunction($this->exam_model->table_name, 'getAll');
+                
+                redirect(BACKEND_V2_TMPL_PATH . 'exam/lists');
             }
-            
-            unset($data);
-            
-            // remove cache after create/update
-            $this->lphcache->cleanCacheByFunction($this->exam_model->table_name, 'getAll');
-            
-            redirect(BACKEND_V2_TMPL_PATH . 'exam/lists');
+        }
+        
+        if ($id) {
+            $header['title'] = 'Chỉnh sửa hình thức thi';
+            $data['exam'] = $this->exam_model->find_by_pkey($id);
+            $data['id'] = $id;
         }
         
         $data['title'] = $header['title'];

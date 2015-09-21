@@ -12,6 +12,10 @@ class Subject extends Ext_Controller
         parent::__construct();
         
         $this->load->model('subject_model');
+        
+        $this->load->library([
+            'lib/subjectlib',
+        ]);
     }
 
     public function lists()
@@ -34,27 +38,31 @@ class Subject extends Ext_Controller
         $header['title'] = 'Thêm môn học';
         
         $data = array();
+        
+        if ($this->input->post()) {
+            $id = $this->input->post('id', 0);
+            $data['subjects_name'] = sanitizeText($this->input->post('subjects_name'));
+            $isValid = $this->subjectlib->validate($data);
+            if($isValid) {
+                if (! $id) {
+                    // save into subject table
+                    $this->subject_model->create($data);
+                } else {
+                    $this->subject_model->update_by_pkey($id, $data);
+                }
+                unset($data);
+                
+                // remove cache after create/update
+                $this->lphcache->cleanCacheByFunction($this->subject_model->table_name, 'getAll');
+                
+                redirect(BACKEND_V2_TMPL_PATH . 'subject/lists');
+            }
+        }
+        
         if ($id) {
             $header['title'] = 'Chỉnh sửa môn học';
             $data['subject'] = $this->subject_model->find_by_pkey($id);
             $data['id'] = $id;
-        }
-        if ($this->input->post()) {
-            $id = $this->input->post('id');
-            $data['subjects_name'] = $this->input->post('subjects_name');
-            
-            if (! $id) {
-                // save into subject table
-                $this->subject_model->create($data);
-            } else {
-                $this->subject_model->update_by_pkey($id, $data);
-            }
-            unset($data);
-            
-            // remove cache after create/update
-            $this->lphcache->cleanCacheByFunction($this->subject_model->table_name, 'getAll');
-            
-            redirect(BACKEND_V2_TMPL_PATH . 'subject/lists');
         }
         
         $data['title'] = $header['title'];

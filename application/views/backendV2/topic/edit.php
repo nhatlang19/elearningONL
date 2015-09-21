@@ -17,6 +17,8 @@ list[<?php echo $item->storage_id; ?>] = <?php echo $item->num_question; ?>;
 				<h2 class="panel-title"><?php echo $title; ?></h2>
 			</header>
 			<div class="panel-body">
+				<?php echo validation_errors('<div class="alert alert-danger">
+                        <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>', '</div>'); ?>
 				<div class="form-group">
 					<label class="col-md-3 control-label" for="title">Tiêu đề <span
 						class="required">*</span>

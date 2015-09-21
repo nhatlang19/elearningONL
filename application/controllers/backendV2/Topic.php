@@ -20,6 +20,10 @@ class Topic extends Ext_Controller
         $this->load->model('question_model');
         $this->load->model('answer_model');
         $this->load->model('student_mark_model');
+        
+        $this->load->library([
+            'lib/topiclib',
+        ]);
     }
 
     public function lists()
@@ -199,93 +203,104 @@ class Topic extends Ext_Controller
         if ($post = $this->input->post()) {
             
             // request
-            $number_question = (int) $this->input->post('number_question'); // so cau hoi
-            $number_topic = (int) $this->input->post('number_topic'); // so de thi
-            $storage_id = (int) $this->input->post('storage_id'); // kho nao
-            $academic_id = (int) $this->input->post('academic_id'); // nien khoa
-            $exam_id = (int) $this->input->post('exam_id'); // loai hinh thi
-            $title = strip_tags($this->input->post('title')); // tiều đề đề thi
-                                                                    
-            // list storage_question_id
-            $list = $this->storage_question_model->getStorageQuestionByStorageIdRandom($storage_id, $number_question);
-            $sqid_list = explode('|||', $list['sqid']);
+            $number_question = (int) $this->input->post('number_question', 0); // so cau hoi
+            $number_topic = (int) $this->input->post('number_topic', 0); // so de thi
+            $storage_id = (int) $this->input->post('storage_id', 0); // kho nao
+            $academic_id = (int) $this->input->post('academic_id', 0); // nien khoa
+            $exam_id = (int) $this->input->post('exam_id', 0); // loai hinh thi
+            $title = sanitizeText($this->input->post('title')); // tiều đề đề thi
             
-            // lay danh sach cau tra loi tuong ung voi cau hoi
-            $answer_list = $this->storage_answer_model->getAnswerBySqid($sqid_list);
-            $array_data = array();
-            // duyet danh sach cau hoi
-            foreach ($sqid_list as $key => $sqid) {
-                $array_data[$key]['storage_question_id'] = $sqid;
-                // duyet danh sach cau tra loi
-                foreach ($answer_list as $k => $answer) {
-                    if ($answer->storage_question_id == $sqid) {
-                        $array_data[$key]['answers'][] = $answer->storage_answer_id . ':' . $answer->correct_answer;
-                        unset($answer_list[$k]);
+            $data = array(
+                'number_question' => $number_question,
+                'number_topic' => $number_topic,
+                'storage_id' => $storage_id,
+                'academic_id' => $academic_id,
+                'exam_id' => $exam_id,
+                'title' => $title
+            );
+            $isValid = $this->topiclib->validate($data);
+            if($isValid) {
+                // list storage_question_id
+                $list = $this->storage_question_model->getStorageQuestionByStorageIdRandom($storage_id, $number_question);
+                $sqid_list = explode('|||', $list['sqid']);
+                
+                // lay danh sach cau tra loi tuong ung voi cau hoi
+                $answer_list = $this->storage_answer_model->getAnswerBySqid($sqid_list);
+                $array_data = array();
+                // duyet danh sach cau hoi
+                foreach ($sqid_list as $key => $sqid) {
+                    $array_data[$key]['storage_question_id'] = $sqid;
+                    // duyet danh sach cau tra loi
+                    foreach ($answer_list as $k => $answer) {
+                        if ($answer->storage_question_id == $sqid) {
+                            $array_data[$key]['answers'][] = $answer->storage_answer_id . ':' . $answer->correct_answer;
+                            unset($answer_list[$k]);
+                        }
                     }
                 }
-            }
-            
-            if(empty($subjects_id)) {
-                $storage = $this->storage_model->getById($storage_id);
-                $subjects_id = $storage->subjects_id;
-            }
-            
-            // insert into topic_manage
-            $topic_data['exam_id'] = $exam_id;
-            $topic_data['academic_id'] = $academic_id;
-            $topic_data['created_time'] = date('Y-m-d');
-            $topic_data['title'] = $title;
-            $topic_data['number_questions'] = $number_question;
-            $topic_data['subjects_id'] = $subjects_id;
-            $topic_manage_id = $this->topic_manage_model->create($topic_data);
-            unset($topic_data);
-            
-            $question = array();
-            $answers = array();
-            $aindex = 0;
-            $qindex = 0;
-            
-            for ($i = 0; $i < $number_topic; $i ++) {
-                // insert topic
-                $topic_data['code'] = $i + 1;
-                $topic_data['topic_manage_id'] = $topic_manage_id;
-                $topic_newid = $this->topic_model->create($topic_data);
+                
+                if(empty($subjects_id)) {
+                    $storage = $this->storage_model->getById($storage_id);
+                    $subjects_id = $storage->subjects_id;
+                }
+                
+                // insert into topic_manage
+                $topic_data['exam_id'] = $exam_id;
+                $topic_data['academic_id'] = $academic_id;
+                $topic_data['created_time'] = date('Y-m-d');
+                $topic_data['title'] = $title;
+                $topic_data['number_questions'] = $number_question;
+                $topic_data['subjects_id'] = $subjects_id;
+                $topic_manage_id = $this->topic_manage_model->create($topic_data);
                 unset($topic_data);
                 
-                // random question sentences
-                shuffle($array_data);
-                $number = 1;
-                foreach ($array_data as $key => $item) {
-                    $question[$qindex]['storage_question_id'] = $item['storage_question_id'];
-                    $question[$qindex]['topic_id'] = $topic_newid;
-                    $question[$qindex]['number'] = $number ++;
-                    ++ $qindex;
+                $question = array();
+                $answers = array();
+                $aindex = 0;
+                $qindex = 0;
+                
+                for ($i = 0; $i < $number_topic; $i ++) {
+                    // insert topic
+                    $topic_data['code'] = $i + 1;
+                    $topic_data['topic_manage_id'] = $topic_manage_id;
+                    $topic_newid = $this->topic_model->create($topic_data);
+                    unset($topic_data);
                     
-                    // random answer sentences
-                    shuffle($item['answers']);
-                    
-                    $num = 1;
-                    foreach ($item['answers'] as $e) {
-                        $element = explode(':', $e);
-                        $answers[$aindex]['storage_answer_id'] = $element[0];
-                        $answers[$aindex]['correct_answer'] = $element[1];
-                        $answers[$aindex]['storage_question_id'] = $item['storage_question_id'];
-                        $answers[$aindex]['topic_id'] = $topic_newid;
-                        $answers[$aindex]['number'] = $num ++;
-                        ++ $aindex;
+                    // random question sentences
+                    shuffle($array_data);
+                    $number = 1;
+                    foreach ($array_data as $key => $item) {
+                        $question[$qindex]['storage_question_id'] = $item['storage_question_id'];
+                        $question[$qindex]['topic_id'] = $topic_newid;
+                        $question[$qindex]['number'] = $number ++;
+                        ++ $qindex;
+                        
+                        // random answer sentences
+                        shuffle($item['answers']);
+                        
+                        $num = 1;
+                        foreach ($item['answers'] as $e) {
+                            $element = explode(':', $e);
+                            $answers[$aindex]['storage_answer_id'] = $element[0];
+                            $answers[$aindex]['correct_answer'] = $element[1];
+                            $answers[$aindex]['storage_question_id'] = $item['storage_question_id'];
+                            $answers[$aindex]['topic_id'] = $topic_newid;
+                            $answers[$aindex]['number'] = $num ++;
+                            ++ $aindex;
+                        }
                     }
                 }
+                
+                // save question & answer ( batch )
+                // http://codeigniter.com/user_guide/database/active_record.html#insert
+                $this->question_model->create_batch($question);
+                $this->answer_model->create_batch($answers);
+                
+                unset($question);
+                unset($answers);
+                
+                redirect(BACKEND_V2_TMPL_PATH . 'topic/lists');
             }
-            
-            // save question & answer ( batch )
-            // http://codeigniter.com/user_guide/database/active_record.html#insert
-            $this->question_model->create_batch($question);
-            $this->answer_model->create_batch($answers);
-            
-            unset($question);
-            unset($answers);
-            
-            redirect(BACKEND_V2_TMPL_PATH . 'topic/lists');
         }
         
         $header['title'] = 'Tạo đề thi';

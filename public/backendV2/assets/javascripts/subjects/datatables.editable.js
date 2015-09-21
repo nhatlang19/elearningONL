@@ -41,6 +41,7 @@ Theme Version: 	1.3.0
 		},
 
 		build: function() {
+			var _self = this;
 			this.datatable = this.$table.DataTable({
 				aoColumns: [
 					null,
@@ -48,7 +49,15 @@ Theme Version: 	1.3.0
 					null,
 					null,
 					{ "bSortable": false }
-				]
+				],
+				"fnDrawCallback": function( oSettings ) {
+					if ( typeof Switch !== 'undefined' && $.isFunction( Switch ) ) {
+						_self.$table.find('[data-plugin-ios-switch]').each(function() {
+							var $this = $( this );
+							$this.themePluginIOS7Switch();
+						});
+					}
+				}
 			});
 
 			window.dt = this.datatable;

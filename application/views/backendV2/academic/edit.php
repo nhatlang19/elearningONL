@@ -11,12 +11,14 @@
 				<h2 class="panel-title"><?php echo $title; ?></h2>
 			</header>
 			<div class="panel-body">
+				<?php echo validation_errors('<div class="alert alert-danger">
+                        <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>', '</div>'); ?>
 				<div class="form-group">
 					<label class="col-md-3 control-label" for="inputDefault">Niên khoá <span
 						class="required">*</span>
 					</label>
 					<div class="col-md-6">
-						<input name="academic_name" type="text" class="form-control"
+						<input name="academic_name" maxlength="255" type="text" class="form-control"
 							id="inputDefault" required
 							value="<?php echo isset($academic->academic_name) ? $academic->academic_name : ''; ?>">
 					</div>

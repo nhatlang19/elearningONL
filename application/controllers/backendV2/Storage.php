@@ -13,7 +13,7 @@ class Storage extends Ext_Controller
         
         $this->load->library([
             'utils',
-            'components/storagelib',
+            'lib/storagelib',
             'form_validation'
         ]);
     }

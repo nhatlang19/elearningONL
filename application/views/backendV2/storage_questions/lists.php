@@ -61,10 +61,10 @@
 		</table>
 	</div>
 </section>
+<?php echo $this->load->view(BACKEND_V2_TMPL_PATH . 'dialogs/dialog_delete', null, true); ?>
 <!-- Specific Page Vendor -->
 <script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-datatables/media/js/jquery.dataTables.js"></script>
 <script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-datatables-bs3/assets/js/datatables.js"></script>
-<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>ios7-switch/ios7-switch.js"></script>
 <script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>magnific-popup/magnific-popup.js"></script>
 <script src="<?php echo BACKEND_V2_JS_PATH; ?>storage_questions/datatables.editable.js"></script>
 <script src="<?php echo BACKEND_V2_JS_PATH; ?>storage_questions/modals.js"></script>

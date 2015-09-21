@@ -56,7 +56,7 @@ class Userlib extends AppComponent {
             'Email',
             'required|valid_email',
             array(
-                'required' => 'Mật khẩu không được rỗng',
+                'required' => 'Email không được rỗng',
                 'valid_email' => 'Email không hợp lệ'
             )
         );

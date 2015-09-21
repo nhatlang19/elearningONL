@@ -34,7 +34,7 @@
                 ?>
 				<tr class="gradeX" data-id="<?php echo $value->	academic_id; ?>">
 					<td><?php echo $i++; ?></td>
-					<td><?php echo anchor(BACKEND_V2_TMPL_PATH . 'block/edit/' . $value->academic_id, $value->academic_name); ?></td>
+					<td><?php echo anchor(BACKEND_V2_TMPL_PATH . 'academic/edit/' . $value->academic_id, $value->academic_name); ?></td>
 					<td class="actions">
 						<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
 						<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
@@ -49,6 +49,5 @@
 <!-- Specific Page Vendor -->
 <script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-datatables/media/js/jquery.dataTables.js"></script>
 <script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-datatables-bs3/assets/js/datatables.js"></script>
-<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>ios7-switch/ios7-switch.js"></script>
 <script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>magnific-popup/magnific-popup.js"></script>
 <script src="<?php echo BACKEND_V2_JS_PATH; ?>academic/datatables.editable.js"></script>

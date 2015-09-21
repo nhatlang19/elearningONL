@@ -50,7 +50,7 @@
 		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>select2/select2.js"></script>
 		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-placeholder/jquery.placeholder.js"></script>
-		
+		<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>ios7-switch/ios7-switch.js"></script>
 		<!-- Theme Base, Components and Settings -->
 		<script src="<?php echo BACKEND_V2_JS_PATH; ?>theme.js"></script>
 		

@@ -41,6 +41,7 @@ Theme Version: 	1.3.0
 		},
 
 		build: function() {
+			var _self = this;
 			this.datatable = this.$table.DataTable({
 				aoColumns: [
 					null,

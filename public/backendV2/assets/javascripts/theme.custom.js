@@ -17,3 +17,4 @@ $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
     }
     options.data = $.param($.extend(data, { csrf_lph_token: $.cookie('csrf_cookie_name') }));
 });
+

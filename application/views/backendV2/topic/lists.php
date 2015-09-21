@@ -92,7 +92,6 @@
 <!-- Specific Page Vendor -->
 <script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-datatables/media/js/jquery.dataTables.js"></script>
 <script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-datatables-bs3/assets/js/datatables.js"></script>
-<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>ios7-switch/ios7-switch.js"></script>
 <script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>magnific-popup/magnific-popup.js"></script>
 <script src="<?php echo BACKEND_V2_JS_PATH; ?>topic/datatables.editable.js"></script>
 <script src="<?php echo BACKEND_V2_JS_PATH; ?>topic/lists.js"></script>

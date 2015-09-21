@@ -15,7 +15,7 @@ class Users extends CI_Controller
         $this->load->model('subject_model');
         
         $this->load->library([
-            'components/userlib',
+            'lib/userlib',
         ]);
     }
 
