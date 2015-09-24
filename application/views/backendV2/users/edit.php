@@ -95,4 +95,4 @@
 <script
 	src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-validation/jquery.validate.js"></script>
 <!-- Validate form -->
-<script src="<?php echo BACKEND_V2_JS_PATH; ?>forms/form.validation.js"></script>
+<script src="<?php echo BACKEND_V2_JS_PATH; ?>users/validation.js"></script>

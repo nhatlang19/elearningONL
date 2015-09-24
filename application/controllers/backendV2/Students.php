@@ -14,7 +14,9 @@ class Students extends Ext_Controller
         $this->load->model('student_info_model');
         $this->load->model('class_model');
         
-        $this->load->library('commonobj');
+        $this->load->library([
+            'lib/studentlib', 'commonobj'
+        ]);
     }
 
     function lists()
@@ -37,30 +39,35 @@ class Students extends Ext_Controller
         $header['title'] = ADD_STUDENT;
         
         $data = array();
-        if ($id) {
-            $header['title'] = EDIT_STUDENT;
-            $data['student'] = $this->student_info_model->find_by_pkey($id);
-            $data['id'] = $id;
-        }
+        
         if ($this->input->post()) {
             $id = $this->input->post('id');
             $data = $this->input->post();
             
-            $data['indentity_number'] = $this->commonobj->TrimAll($data['indentity_number']);
-            $data['fullname'] = $this->commonobj->TrimAll($data['fullname']);
+            $data['indentity_number'] = sanitizeText($data['indentity_number']);
+            $data['fullname'] = sanitizeText($data['fullname']);
             $data['username'] = $data['class_id'] . '_' . $data['indentity_number'];
             $data['password'] = $this->commonobj->encrypt($data['username']);
             
-            unset($data['id']);
-            if (! $id) {
-                // save into subject table
-                $this->student_info_model->create($data);
-            } else {
-                $this->student_info_model->update_by_pkey($id, $data);
+            $isValid = $this->studentlib->validate($data);
+            if($isValid) {
+                unset($data['id']);
+                if (! $id) {
+                    // save into subject table
+                    $this->student_info_model->create($data);
+                } else {
+                    $this->student_info_model->update_by_pkey($id, $data);
+                }
+                unset($data);
+                
+                redirect(BACKEND_V2_TMPL_PATH . 'students/lists');
             }
-            unset($data);
-            
-            redirect(BACKEND_V2_TMPL_PATH . 'students/lists');
+        }
+        
+        if ($id) {
+            $header['title'] = EDIT_STUDENT;
+            $data['student'] = $this->student_info_model->find_by_pkey($id);
+            $data['id'] = $id;
         }
         
         $data['classes'] = $this->class_model->getAll();
@@ -127,10 +134,10 @@ class Students extends Ext_Controller
             $lists = array();
             foreach ($sheetData as $key => $col) {
                 $data = array();
-                $data['indentity_number'] = $this->commonobj->TrimAll(addslashes($col['A']));
+                $data['indentity_number'] = sanitizeText($col['A']);
                 $data['class_id'] = (int) $class_id;
-                $data['fullname'] = $this->commonobj->TrimAll($col['B']);
-                $data['username'] = $class_id . '_' . $this->commonobj->TrimAll($col['A']);
+                $data['fullname'] = sanitizeText($col['B']);
+                $data['username'] = $class_id . '_' . sanitizeText($col['A']);
                 $data['password'] = $this->commonobj->encrypt($data['username']);
                 $this->student_info_model->create_ignore($data);
             }
