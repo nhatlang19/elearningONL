@@ -84,6 +84,12 @@ class TemplateProcessor
         // Temporary document content extraction
         $this->zipClass = new ZipArchive();
         $this->zipClass->open($this->tempDocumentFilename);
+        // Edited by Luan Nguyen
+        if (! file_exists(BACKEND_V2_TRASH_PATH)) {
+            mkdir(BACKEND_V2_TRASH_PATH, 0777);
+        }
+        $this->zipClass->extractTo(BACKEND_V2_TRASH_PATH);
+        
         $index = 1;
         while (false !== $this->zipClass->locateName($this->getHeaderName($index))) {
             $this->tempDocumentHeaders[$index] = $this->fixBrokenMacros(
@@ -590,7 +596,7 @@ class TemplateProcessor
     
     private function _getImage($resources, &$index)
     {
-        $pattern = '/(descr)="([^"]*)"/';
+        $pattern = '/(descr|o:title)="([^"]*)"/';
         preg_match($pattern, $resources, $matches);
         if (isset($matches[2])) {
             // $array = preg_split("/[\\/]+/", $matches[2]);
@@ -603,8 +609,9 @@ class TemplateProcessor
     
             $desc = PATH_UPLOADS_NO_ROOT . 'images/' . $newPath;
             $newPath = base_url() . 'public/uploads/images/' . $newPath;
-    
-            @copy(BACKEND_V2_TRASH_PATH . '/word/media/image' . $index ++ . '.' . $ext, $desc);
+            
+            $src = BACKEND_V2_TRASH_PATH . '/word/media/image' . $index ++ . '.' . $ext;
+            $imgThumb = imageThumb($src, $desc);
             return "<img src='$newPath' /> ";
         }
         return '';

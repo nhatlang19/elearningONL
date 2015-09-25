@@ -307,6 +307,7 @@ class Word extends AppComponent
                 $statusCell->addTextBreak();
             }
             
+            $number = 65;
             foreach ($answers as $k => $v) {
                 $correct = '';
                 if (isset($answer_of_student['answer']) && $answer_of_student['answer'] == $k + 1) {

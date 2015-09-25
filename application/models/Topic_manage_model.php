@@ -135,7 +135,7 @@ class Topic_manage_model extends Ext_Model
         $query = $this->db->get();
         $results = array();
         if (! empty($query) && $query->num_rows() > 0) {
-            $temp = $query->result_array();
+            $temp = $query->result();
             $results = $temp[0];
             unset($temp);
         }

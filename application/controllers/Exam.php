@@ -20,11 +20,12 @@ class Exam extends CI_Controller
         $this->load->model('student_info_model');
         $this->load->model('student_answer_model');
         $this->load->model('student_mark_model');
+        $this->load->model('student_topic_model');
         $this->load->model('score_model');
         $this->load->library([
             'commonobj',
             'components/score',
-            'components/word'
+            'components/word', 'utils'
         ]);
     }
 
@@ -33,16 +34,14 @@ class Exam extends CI_Controller
      */
     public function result()
     {
-        $this->load->library('utils');
-        
         $student = $this->session->userdata('studentInfo');
         if (isset($student->finished) && $student->finished) {
             $student_id = $student->student_id;
             $student_mark_id = $student->student_mark_id;
             $topic = $this->session->userdata('topic_' . $student_id);
-            $topic_id = $topic['topic_id'];
+            $topic_id = $topic->topic_id;
             
-            $review_show = $this->topic_manage_model->getReviewStatus($topic['topic_manage_id']);
+            $review_show = $this->topic_manage_model->getReviewStatus($topic->topic_manage_id);
             // get score of student
             $data['score'] = $this->student_mark_model->getMarkStudentById($student_mark_id);
             $data['answers_student'] = $this->student_answer_model->getAnswerOfStudentId($student_id, $topic_id, $student_mark_id);
@@ -67,6 +66,32 @@ class Exam extends CI_Controller
             show_404();
         }
     }
+    
+    public function student_finished() {
+        $student = $this->session->userdata('studentInfo');
+        $student_id = $student->student_id;
+        
+        $topic_manage = $this->topic_manage_model->getPublishedDistinct();
+        $studentTopic = $this->student_topic_model->getTopicStudent($topic_manage->topic_manage_id, $student->student_id);
+        $topic_id = $studentTopic->topic_id;
+        
+        $review_show = $this->topic_manage_model->getReviewStatus($studentTopic->topic_manage_id);
+        
+        // get score of student
+        $data['score'] = $this->student_mark_model->getMarkStudentById($studentTopic->student_mark_id);
+        $data['answers_student'] = $this->student_answer_model->getAnswerOfStudentId($student_id, $topic_id, $studentTopic->student_mark_id);
+        $data['list'] = $this->utils->makeList('question_id', $data['answers_student']);
+        $data['student'] = $student;
+        $data['info_user'] = $this->_loadInfoUser($studentTopic);
+        if ($review_show['review'] == 'SHOW') {
+            $data['topic_details'] = $this->topic_model->getData($topic_id);
+        }
+        
+        // load template
+        $content = $this->load->view(FRONT_END_TMPL_PATH . 'result', $data, TRUE);
+        $header['title'] = EXAM_RESULT;
+        $this->loadTemplate($header, $content);
+    }
 
     /**
      * save Action
@@ -79,9 +104,8 @@ class Exam extends CI_Controller
             $student = $this->session->userdata('studentInfo');
             $student_id = $student->student_id;
             $topic = $this->session->userdata('topic_' . $student_id);
-            $topic_id = $topic['topic_id'];
+            $topic_id = $topic->topic_id;
             if ($student_id) {
-                
                 $studentMarkData['student_id'] = $student_id;
                 $studentMarkData['topic_id'] = $topic_id;
                 $student_mark_id = $this->student_mark_model->create_ignore($studentMarkData);
@@ -125,6 +149,8 @@ class Exam extends CI_Controller
                     'studentInfo' => $student
                 );
                 $this->session->set_userdata($session);
+                
+                $this->student_topic_model->updateFinished($student_id, $topic_id, $student_mark_id);
             }
             
             redirect('exam/result');
@@ -132,7 +158,7 @@ class Exam extends CI_Controller
             show_404();
         }
     }
-
+    
     public function quote()
     {
         $student = $this->session->userdata('studentInfo');
@@ -144,27 +170,34 @@ class Exam extends CI_Controller
                 $page['noTopic'] = NO_TOPIC;
                 $content = $this->load->view(FRONT_END_TMPL_PATH . 'no_topic', $page, TRUE);
             } else {
-                $topic = $this->session->userdata('topic_' . $student->student_id);
-                if (! $topic) {
-                    $topic = $this->topic_model->getTopicByTopicManageIdRandom($topic_manage['topic_manage_id']);
+                $studentTopic = $this->student_topic_model->getTopicStudent($topic_manage->topic_manage_id, $student->student_id);
+                if(!empty($studentTopic)) {
+                    if($studentTopic->finished) {
+                        redirect('exam/student_finished');
+                    }
+                    $topic = $studentTopic;
+                } else {
+                    $topic = $this->topic_model->getTopicByTopicManageIdRandom($topic_manage->topic_manage_id);
+                    
+                    $this->student_topic_model->createData($student->student_id, $topic->topic_id);
                 }
                 // update session
-                $student->topic_id = $topic['topic_id'];
+                $student->topic_id = $topic->topic_id;
                 $session = array(
                     'studentInfo' => $student,
                     'topic_' . $student->student_id => $topic
                 );
                 $this->session->set_userdata($session);
                 
-                $data = $this->topic_model->getDataNoCorrectAnswer($topic['topic_id']);
+                $data = $this->topic_model->getDataNoCorrectAnswer($topic->topic_id);
                 // gen JSON data
                 $questions = array();
                 foreach ($data as $key => $question) {
                     $tmp = array();
-                    $tmp['q'] = stripslashes($question['question_name']);
-                    $tmp['storageQuestionId'] = $question['storage_question_id'];
-                    $arrayAnswer = explode('|||', $question['answer']);
-                    $tmp['number'] = $question['number'];
+                    $tmp['q'] = stripslashes($question->question_name);
+                    $tmp['storageQuestionId'] = $question->storage_question_id;
+                    $arrayAnswer = explode('|||', $question->answer);
+                    $tmp['number'] = $question->number;
                     $tmp['correct'] = '';
                     $tmp['incorrect'] = '';
                     foreach ($arrayAnswer as $answer) {
@@ -177,10 +210,10 @@ class Exam extends CI_Controller
                     $questions[] = $tmp;
                 }
                 
-                $page['minute'] = $topic_manage['time'];
+                $page['minute'] = $topic_manage->time;
                 $page['info_user'] = $this->_loadInfoUser($topic);
                 $page['jsonData'] = json_encode($questions);
-                $page['code'] = $topic['code'];
+                $page['code'] = $topic->code;
                 $content = $this->load->view(FRONT_END_TMPL_PATH . 'topics', $page, TRUE);
             }
             $this->loadTemplate($header, $content);
@@ -191,7 +224,7 @@ class Exam extends CI_Controller
 
     function _loadInfoUser($topic)
     {
-        $data['code'] = $topic['code'];
+        $data['code'] = $topic->code;
         return $this->load->view(FRONT_END_TMPL_PATH . 'info_user', $data, TRUE);
     }
 

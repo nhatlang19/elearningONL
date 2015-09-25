@@ -53,7 +53,7 @@ class Topic_model extends Ext_Model
             $query = $this->db->get();
             
             if (! empty($query) && $query->num_rows() > 0) {
-                $temp = $query->result_array();
+                $temp = $query->result();
                 $results = $temp[0];
                 unset($temp);
             }
@@ -86,7 +86,7 @@ class Topic_model extends Ext_Model
             $query = $this->db->get();
             
             if (! empty($query) && $query->num_rows() > 0) {
-                $results = $query->result_array();
+                $results = $query->result();
             }
         }
         return $results;

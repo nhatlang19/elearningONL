@@ -51,7 +51,7 @@ define('JS_PATH', ROOT . '/public/frontend/js/');
 define('CSS_PATH', ROOT . '/public/frontend/css/');
 
 define('PATH_UPLOADS', ROOT . '/public/uploads/');
-define('PATH_UPLOADS_NO_ROOT', 'public/uploads/');
+define('PATH_UPLOADS_NO_ROOT', DOCUMENT_ROOT . '/public/uploads/');
 define('PATH_FILES', DOCUMENT_ROOT . '/public/backendV2/files/');
 define('PATH_FILES_NO_ROOT', 'public/backendV2/files/');
 
@@ -67,7 +67,7 @@ define('BACKEND_V2_DOC_PATH_DIR', 'public/backendV2/docs/');
 define('BACKEND_V2_EXCEL_PATH_DIR', 'public/backendV2/xlss/');
 define('BACKEND_V2_TMP_PATH_ROOT', DOCUMENT_ROOT . '/public/backendV2/tmp/');
 define('BACKEND_V2_TEMPLATES_PATH', ROOT . '/public/backendV2/templates/');
-define('BACKEND_V2_TRASH_PATH', 'public/backendV2/trash');
+define('BACKEND_V2_TRASH_PATH', DOCUMENT_ROOT . '/public/backendV2/trash');
 
 define('TMPDIR_WORD', '/public/backendV2/tmpdir');
 
