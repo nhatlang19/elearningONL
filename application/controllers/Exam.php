@@ -75,6 +75,10 @@ class Exam extends CI_Controller
         $studentTopic = $this->student_topic_model->getTopicStudent($topic_manage->topic_manage_id, $student->student_id);
         $topic_id = $studentTopic->topic_id;
         
+        if(empty($studentTopic) || !$studentTopic->finished) {
+            show_404();
+        }
+        
         $review_show = $this->topic_manage_model->getReviewStatus($studentTopic->topic_manage_id);
         
         // get score of student
@@ -109,6 +113,8 @@ class Exam extends CI_Controller
                 $studentMarkData['student_id'] = $student_id;
                 $studentMarkData['topic_id'] = $topic_id;
                 $student_mark_id = $this->student_mark_model->create_ignore($studentMarkData);
+                
+                $this->student_topic_model->updateFinished($student_id, $topic_id, $student_mark_id);
                 /**
                  * luu cau tra loi cua student *
                  */
@@ -149,8 +155,6 @@ class Exam extends CI_Controller
                     'studentInfo' => $student
                 );
                 $this->session->set_userdata($session);
-                
-                $this->student_topic_model->updateFinished($student_id, $topic_id, $student_mark_id);
             }
             
             redirect('exam/result');
@@ -251,6 +255,17 @@ class Exam extends CI_Controller
         $template['footer'] = $this->load->view(COMMON_TMPL_PATH . 'footer', '', true);
         
         $this->load->view(COMMON_TMPL_PATH . 'template', $template);
+    }
+    
+    protected function sendAjax($status = 0, $message = '', $data = [])
+    {
+        $response = [
+            'status' => $status,
+            'message' => $message,
+            'data' => $data
+        ];
+    
+        $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 }
 

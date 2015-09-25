@@ -1,4 +1,7 @@
-<?php $student = $this->session->userdata('studentInfo'); ?>
+<?php $student = $this->session->userdata('studentInfo');
+$controller = $this->uri->segment(1);
+$action = $this->uri->segment(2);
+?>
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
 	<div class="container">
 		<div class="navbar-header">
@@ -12,7 +15,9 @@
 		<div class="navbar-collapse collapse navbar-responsive-collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="#" data-toggle="modal" data-target="#myModal"><?php echo $student->fullname; ?></a></li>
+				<?php if($action != 'quote') : ?>
 				<li><a class="logout" href="#">Thoát</a></li>
+				<?php endif; ?>
 			</ul>
 		</div>
 	</div>
