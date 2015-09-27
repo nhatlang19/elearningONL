@@ -3,7 +3,7 @@
 <!-- start: page -->
 <div class="row">
 	<div class="col-lg-12">
-		<?php echo form_open_multipart(BACKEND_V2_TMPL_PATH . 'students/import', ['id' => 'form', 'class' => 'form-horizontal form-bordered']); ?>
+		<?php echo form_open_multipart(BACKEND_V2_TMPL_PATH . 'students/import', ['id' => 'form', 'class' => 'form-horizontal form-bordered', 'autocomplete' => 'off']); ?>
 		<section class="panel">
 			<header class="panel-heading">
 				<div class="panel-actions">
@@ -47,6 +47,21 @@
     						foreach ($classes as $class) :
                             ?>
     							<option value="<?php echo $class->class_id; ?>"><?php echo $class->class_name; ?></option>
+    						<?php endforeach; ?>
+    					</select>
+    				</div>
+    			</div>
+    		</div>
+    		<div class="panel-body">
+    			<div class="form-group">
+    				<label class="col-md-3 control-label">Niên khoá</label>
+    				<div class="col-md-6">
+    					<select data-plugin-selectTwo class="form-control populate" name="class_id" id="class_id">
+    						<?php 
+    						foreach ($academics as $academic) :
+                            ?>
+    							<option
+    							value="<?php echo $academic->academic_id; ?>"><?php echo $academic->academic_name; ?></option>
     						<?php endforeach; ?>
     					</select>
     				</div>

@@ -447,14 +447,14 @@ class Ext_Model extends CI_Model
         return $this->update_by_pkey($id, ['deleted' => self::DELETED_YES]);
     }
     
-    public function getAll($start = null, $count = null, $cached = true)
+    public function getAll($cached = true)
     {
         if($cached) {
             $cacheName = $this->CI->lphcache->getCacheName($this->table_name, 'getAll');
             if (!$cacheName || ! $data = $this->CI->lphcache->get($cacheName))
             {
                 $filters = [$this->table_name . '.deleted' => self::DELETED_NO];
-                $data = $this->findAll($filters, $start, $count);
+                $data = $this->findAll($filters);
         
                 if($cacheName) {
                     // Save into the cache for 5 minutes
@@ -462,8 +462,8 @@ class Ext_Model extends CI_Model
                 }
             }
         } else {
-            $filters = ['deleted' => self::DELETED_NO];
-            $data = $this->findAll($filters, $start, $count);
+            $filters = [$this->table_name . '.deleted' => self::DELETED_NO];
+            $data = $this->findAll($filters);
         }
     
         return $data;

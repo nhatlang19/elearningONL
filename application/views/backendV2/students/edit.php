@@ -1,7 +1,7 @@
 <!-- start: page -->
 <div class="row">
 	<div class="col-lg-12">
-		<?php echo form_open(BACKEND_V2_TMPL_PATH . 'students/edit', ['id' => 'form', 'class' => 'form-horizontal form-bordered']); ?>
+		<?php echo form_open(BACKEND_V2_TMPL_PATH . 'students/edit', ['id' => 'form', 'class' => 'form-horizontal form-bordered', 'autocomplete' => 'off']); ?>
 		<section class="panel">
 			<header class="panel-heading">
 				<div class="panel-actions">
@@ -11,6 +11,18 @@
 				<h2 class="panel-title"><?php echo $title; ?></h2>
 			</header>
 			<div class="panel-body">
+				<?php
+                    $style = "hide";
+                    $error = '';
+                    if (($error = $this->session->flashdata('error'))) {
+                        $style = '';
+                        $this->session->set_flashdata('error', null);
+                    }
+                ?>
+				<div class="alert alert-danger <?php echo $style; ?>">
+                	<button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+                	<?php echo $error; ?>
+                </div>
 				<?php echo validation_errors('<div class="alert alert-danger">
                         <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>', '</div>'); ?>
 				<div class="form-group">
@@ -21,6 +33,7 @@
 						<input name="indentity_number" type="text" class="form-control"
 							id="inputDefault" required
 							value="<?php echo isset($student->indentity_number) ? $student->indentity_number : ''; ?>">
+							
 					</div>
 				</div>
 			</div>
@@ -50,6 +63,25 @@
                             ?>
     							<option <?php echo $selected; ?>
     							value="<?php echo $class->class_id; ?>"><?php echo $class->class_name; ?></option>
+    						<?php endforeach; ?>
+    					</select>
+    				</div>
+    			</div>
+    		</div>
+    		<div class="panel-body">
+    			<div class="form-group">
+    				<label class="col-md-3 control-label">Niên khoá</label>
+    				<div class="col-md-6">
+    					<select data-plugin-selectTwo class="form-control populate" name="class_id" id="class_id">
+    						<?php 
+    						foreach ($academics as $academic) :
+                                $selected = '';
+                                if ($student && $academic->academic_id == $student->academic_id) {
+                                    $selected = 'selected="selected"';
+                                }
+                            ?>
+    							<option <?php echo $selected; ?>
+    							value="<?php echo $academic->academic_id; ?>"><?php echo $academic->academic_name; ?></option>
     						<?php endforeach; ?>
     					</select>
     				</div>

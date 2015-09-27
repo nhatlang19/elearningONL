@@ -7,7 +7,7 @@ list[<?php echo $item->storage_id; ?>] = <?php echo $item->num_question; ?>;
 <!-- start: page -->
 <div class="row">
 	<div class="col-lg-12">
-		<?php echo form_open(BACKEND_V2_TMPL_PATH . 'topic/create', ['id' => 'form', 'class' => 'form-horizontal form-bordered']); ?>
+		<?php echo form_open(BACKEND_V2_TMPL_PATH . 'topic/create', ['id' => 'form', 'class' => 'form-horizontal form-bordered', 'autocomplete' => 'off']); ?>
 		<section class="panel">
 			<header class="panel-heading">
 				<div class="panel-actions">

@@ -13,6 +13,7 @@ class Students extends Ext_Controller
         
         $this->load->model('student_info_model');
         $this->load->model('class_model');
+        $this->load->model('academic_model');
         
         $this->load->library([
             'lib/studentlib', 'commonobj'
@@ -71,6 +72,14 @@ class Students extends Ext_Controller
         }
         
         $data['classes'] = $this->class_model->getAll();
+        
+        $data['academics'] = $this->academic_model->getAll();
+        
+        if(empty($data['academics'])) {
+            $this->session->set_flashdata('error', 'Vui lòng tạo niên khoá');
+        } else if(empty($data['classes'])) {
+            $this->session->set_flashdata('error', 'Vui lòng tạo lớp');
+        } 
         $data['title'] = $header['title'];
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'students/edit', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
@@ -112,6 +121,7 @@ class Students extends Ext_Controller
         }
         $data['title'] = $header['title'];
         $data['classes'] = $this->class_model->getAll();
+        $data['academics'] = $this->academic_model->getAll();
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'students/import', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
