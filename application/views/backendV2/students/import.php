@@ -10,10 +10,7 @@
 					<a href="#" class="fa fa-caret-down"></a>
 				</div>
 
-				<h2 class="panel-title">Import file 
-				<p>(Download template from <a
-							href="<?php echo BACKEND_V2_TEMPLATES_PATH; ?>template_student_lists.xls">here</a>)
-				</p>
+				<h2 class="panel-title">Thêm học sinh từ tệp 
 				</h2>
 			</header>
 			<div class="panel-body">
@@ -56,7 +53,7 @@
     			<div class="form-group">
     				<label class="col-md-3 control-label">Niên khoá</label>
     				<div class="col-md-6">
-    					<select data-plugin-selectTwo class="form-control populate" name="class_id" id="class_id">
+    					<select data-plugin-selectTwo class="form-control populate" name="academic_id" id="academic_id">
     						<?php 
     						foreach ($academics as $academic) :
                             ?>
@@ -72,6 +69,12 @@
 					<div class="col-sm-9 col-sm-offset-3">
 						<button class="btn btn-primary" onclick="$('.fileupload').fileupload();">Submit</button>
 						<button type="reset" class="btn btn-default">Phục hồi</button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-9">
+						(Tải về tệp mẫu tại <a
+							href="<?php echo BACKEND_V2_TEMPLATES_PATH; ?>template_student_lists.xls">đây</a>)
 					</div>
 				</div>
 			</footer>

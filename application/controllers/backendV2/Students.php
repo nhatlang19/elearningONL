@@ -44,11 +44,11 @@ class Students extends Ext_Controller
         if ($this->input->post()) {
             $id = $this->input->post('id');
             $data = $this->input->post();
-            
             $data['indentity_number'] = sanitizeText($data['indentity_number']);
             $data['fullname'] = sanitizeText($data['fullname']);
-            $data['username'] = $data['class_id'] . '_' . $data['indentity_number'];
+            $data['username'] = $this->commonobj->encrypt($data['academic_id'] . '_' . $data['class_id'] . '_' . $data['indentity_number']);
             $data['password'] = $this->commonobj->encrypt($data['username']);
+            $data['academic_id'] = (int) $data['academic_id'];
             
             $isValid = $this->studentlib->validate($data);
             if($isValid) {
@@ -108,8 +108,9 @@ class Students extends Ext_Controller
                 $filename = BACKEND_V2_TMP_PATH_ROOT . basename($file['name']);
                 if (move_uploaded_file($file['tmp_name'], $filename)) {
                     $class_id = intval($this->input->post('class_id'));
-                    if ($class_id) {
-                        $this->_saveFileData($class_id, $file['name']);
+                    $academic_id = intval($this->input->post('academic_id'));
+                    if ($class_id && $academic_id) {
+                        $this->_saveFileData($class_id, $academic_id, $file['name']);
                         redirect(BACKEND_V2_TMPL_PATH . 'students/lists');
                     }
                 } else {
@@ -126,7 +127,7 @@ class Students extends Ext_Controller
         $this->loadTemnplateBackend($header, $content);
     }
 
-    private function _saveFileData($class_id, $fileName)
+    private function _saveFileData($class_id, $academic_id, $fileName)
     {
         $uploadpath = 'public/backendV2/tmp/' . $fileName;
         
@@ -146,13 +147,18 @@ class Students extends Ext_Controller
                 $data = array();
                 $data['indentity_number'] = sanitizeText($col['A']);
                 $data['class_id'] = (int) $class_id;
+                $data['academic_id'] = (int) $academic_id;
                 $data['fullname'] = sanitizeText($col['B']);
-                $data['username'] = $class_id . '_' . sanitizeText($col['A']);
+                $data['username'] = $this->commonobj->encrypt($academic_id . '_' . $class_id . '_' . sanitizeText($col['A']));
                 $data['password'] = $this->commonobj->encrypt($data['username']);
                 $this->student_info_model->create_ignore($data);
             }
         }
         
         @unlink($uploadpath);
+    }
+    
+    public function login_list() {
+        
     }
 }

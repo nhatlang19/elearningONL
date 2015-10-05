@@ -16,16 +16,31 @@ class Studentlib extends AppComponent {
     public function validate(array $data) {
         $this->CI->form_validation->set_data($data);
         
-        $this->CI->form_validation->set_rules(
-            'indentity_number',
-            'Mã số học sinh',
-            'required|min_length[4]|max_length[255]',
-            array(
-                'required' => 'Mã số học sinh không được rỗng',
-                'min_length' => 'Mã số học sinh ít nhất phải có {param} ký tự',
-                'max_length' => 'Mã số học sinh phải nhỏ hơn {param} ký tự'
-            )
-        );
+        if(empty($data['id'])) {
+            $this->CI->form_validation->set_rules(
+                'indentity_number',
+                'Mã số học sinh',
+                'required|min_length[4]|max_length[255]|is_unique[student_info.indentity_number]',
+                array(
+                    'required' => 'Mã số học sinh không được rỗng',
+                    'min_length' => 'Mã số học sinh ít nhất phải có {param} ký tự',
+                    'max_length' => 'Mã số học sinh phải nhỏ hơn {param} ký tự',
+                    'is_unique' => 'Mã số học sinh đã tồn tại'
+                )
+            );
+        } else {
+            $this->CI->form_validation->set_rules(
+                'indentity_number',
+                'Mã số học sinh',
+                'required|min_length[4]|max_length[255]',
+                array(
+                    'required' => 'Mã số học sinh không được rỗng',
+                    'min_length' => 'Mã số học sinh ít nhất phải có {param} ký tự',
+                    'max_length' => 'Mã số học sinh phải nhỏ hơn {param} ký tự',
+                )
+            );
+        }
+        
         
         $this->CI->form_validation->set_rules(
             'fullname', 

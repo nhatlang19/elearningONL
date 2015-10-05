@@ -28,7 +28,6 @@
 					<th align="center">STT</th>
 					<th>Mã số học sinh</th>
 					<th>Tên học sinh</th>
-					<th>Tên đăng nhập</th>
 					<th>Lớp</th>
 					<th>Actions</th>
 				</tr>
@@ -42,7 +41,6 @@
 					<td><?php echo $i++; ?></td>
 					<td><?php echo $value->indentity_number; ?></td>
 					<td><?php echo anchor(BACKEND_V2_TMPL_PATH . 'students/edit/' . $value->student_id, $value->fullname); ?></td>
-					<td><?php echo $value->username; ?></td>
 					<td><?php echo $value->class_name; ?></td>
 					<td class="actions">
 						<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>

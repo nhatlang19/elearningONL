@@ -45,24 +45,6 @@
         <script>
         	var _BACKEND_V2_IMAGE_PATH = '<?php echo BACKEND_V2_IMAGE_PATH; ?>';
         </script>
-        <?php /* 
-        <script>document.write('<script src="<?php echo BACKEND_V2_JS_PATH; ?>jquery-1.10.2.min.js"><\/script>')</script>
-<link rel="stylesheet" href="<?php echo BACKEND_V2_CSS_PATH; ?>reset.css"
-	type="text/css" media="screen" />
-<link rel="stylesheet" href="<?php echo BACKEND_V2_CSS_PATH; ?>style.css"
-	type="text/css" media="screen" />
-<link rel="stylesheet"
-	href="<?php echo BACKEND_V2_CSS_PATH; ?>invalid.css" type="text/css"
-	media="screen" />
-
-<link rel="stylesheet"
-	href="<?php echo BACKEND_V2_CSS_PATH; ?>redmond/jquery.ui.all.css">
-	<link rel="stylesheet"
-		href="<?php echo BACKEND_V2_CSS_PATH; ?>redmond/jquery-ui.css">
-
-		<script src="<?php echo BACKEND_V2_JS_PATH; ?>underscore-min.js"></script>
-		<script src="<?php echo BACKEND_V2_JS_PATH; ?>backbone-min.js"></script>
-        */ ?>
 	</head>
 	<body>
 		<section class="body">

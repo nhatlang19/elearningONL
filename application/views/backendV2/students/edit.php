@@ -31,7 +31,7 @@
 					</label>
 					<div class="col-md-6">
 						<input name="indentity_number" type="text" class="form-control"
-							id="inputDefault" required
+							id="inputDefault" required <?php if(isset($id)) echo 'readonly'; ?>
 							value="<?php echo isset($student->indentity_number) ? $student->indentity_number : ''; ?>">
 							
 					</div>
@@ -72,7 +72,7 @@
     			<div class="form-group">
     				<label class="col-md-3 control-label">Niên khoá</label>
     				<div class="col-md-6">
-    					<select data-plugin-selectTwo class="form-control populate" name="class_id" id="class_id">
+    					<select data-plugin-selectTwo class="form-control populate" name="academic_id" id="academic_id">
     						<?php 
     						foreach ($academics as $academic) :
                                 $selected = '';
