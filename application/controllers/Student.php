@@ -11,6 +11,7 @@ class Student extends CI_Controller
         $this->load->library('commonobj');
         $this->load->model('student_info_model');
         $this->load->model('class_model');
+        $this->load->model('academic_model');
     }
     
     public function confirm_info() {
@@ -47,7 +48,8 @@ class Student extends CI_Controller
             if (empty($indentity_number)) {
                 $data['error'] = 'Mã số học sinh không hợp lệ';
             } else {
-                $username = $data['class_id'] . '_' . $data['indentity_number'];
+                $academic = $this->academic_model->getDefaultValue();
+                $username = $this->commonobj->encrypt($academic->academic_id . '_' . $data['class_id'] . '_' . $data['indentity_number']);
                 $password = $this->commonobj->encrypt($username);
                 $student = $this->student_info_model->login($username, $password);
                 if ($student) {

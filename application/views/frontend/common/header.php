@@ -41,4 +41,5 @@ var _TIME = <?php echo (isset($minute) && $minute)?$minute:15; ?>;
 var _CNAME = 'periods<?php echo $student->student_id; ?>';
 var BASEURL = '<?php echo base_url(); ?>';
 var _LOGOUT = false;
+var USERINFO = '<?php echo json_encode((array)$student); ?>';
 </script>

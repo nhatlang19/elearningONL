@@ -191,9 +191,9 @@ $config['menu'] = array(
                 'title' => 'Danh sách học sinh'
             ),
             array(
-                'class' => 'students-login',
-                'link' => BACKEND_V2_TMPL_PATH . 'students/login',
-                'title' => 'Danh sách học sinh đang login'
+                'class' => 'students-login_list',
+                'link' => BACKEND_V2_TMPL_PATH . 'students/login_list',
+                'title' => 'Danh sách học sinh đang đăng nhập'
             )
         )
     ),

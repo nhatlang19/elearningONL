@@ -159,6 +159,6 @@ class Students extends Ext_Controller
     }
     
     public function login_list() {
-        
+        $this->load->view(BACKEND_V2_TMPL_PATH . 'students/login_list');
     }
 }

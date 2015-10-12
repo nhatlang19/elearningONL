@@ -12,6 +12,8 @@
 	</footer>
 </div>
 <script type="text/javascript"
+	src="<?php echo JS_PATH; ?>client.js"></script>
+<script type="text/javascript"
 	src="<?php echo JS_PATH; ?>jquery.cookie.js"></script>
 
 <script src="<?php echo JS_PATH; ?>plugins.js"></script>
