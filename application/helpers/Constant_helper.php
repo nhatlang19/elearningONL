@@ -9,6 +9,11 @@ if (! defined('BASEPATH'))
  * Author :
  * Version : 1.0
  */
+ 
+if( ! ini_get('date.timezone') )
+{
+    date_default_timezone_set('GMT');
+}
 
 // number line of a question
 define('NUMBER_LINE_A_QUESTION', 6);

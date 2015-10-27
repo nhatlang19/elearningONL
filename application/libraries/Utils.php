@@ -2,6 +2,15 @@
 
 class Utils
 {
+    public function getLocalIp() {
+        $CI = & get_instance();
+        $ip = $CI->input->ip_address();
+        if($ip == '::1') {
+            $ip = getHostByName(getHostName());
+        }
+        return $ip;
+    }
+    
     public function remove_doublewhitespace($s = null){
         return  $ret = preg_replace('/([\s])\1+/', ' ', $s);
     }

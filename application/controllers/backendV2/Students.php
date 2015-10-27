@@ -159,6 +159,10 @@ class Students extends Ext_Controller
     }
     
     public function login_list() {
-        $this->load->view(BACKEND_V2_TMPL_PATH . 'students/login_list');
+        $header['title'] = 'Danh sách học sinh đang đăng nhập';
+        
+        $data['title'] = $header['title'];
+        $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'students/login_list', $data, TRUE);
+        $this->loadTemnplateBackend($header, $content);
     }
 }

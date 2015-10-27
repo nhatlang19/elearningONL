@@ -8,7 +8,7 @@ class Student extends CI_Controller
     {
         parent::__construct();
     
-        $this->load->library('commonobj');
+        $this->load->library(['commonobj', 'utils']);
         $this->load->model('student_info_model');
         $this->load->model('class_model');
         $this->load->model('academic_model');
@@ -52,6 +52,7 @@ class Student extends CI_Controller
                 $username = $this->commonobj->encrypt($academic->academic_id . '_' . $data['class_id'] . '_' . $data['indentity_number']);
                 $password = $this->commonobj->encrypt($username);
                 $student = $this->student_info_model->login($username, $password);
+                $student->ip_address = $this->utils->getLocalIp();
                 if ($student) {
                     $session = array(
                         'studentInfo' => $student

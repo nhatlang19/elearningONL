@@ -1,9 +1,9 @@
-var serverUrl = 'ws://127.0.0.1:8000';
 if (window.MozWebSocket) {
     socket = new MozWebSocket(serverUrl);
 } else if (window.WebSocket) {
     socket = new WebSocket(serverUrl);
 }
+
 socket.binaryType = 'blob';
 socket.onopen = function(msg) {
     $('#status').html('<span class="label label-info">Registering</span>');
@@ -19,34 +19,34 @@ socket.onmessage = function(msg) {
 };
 socket.onclose = function(msg) {
     $('#status').html('<span class="label label-danger">Disconnected</span>');
-    setTimeout(function(){
-            $('#status').html('<span class="label label-warning">Reconnecting</span>');
-        }
-    ,5000);
-    setTimeout(function(){
-            location.reload();
-        }
-    ,10000);
     return true;
 };
 
+$(window).on('beforeunload', function(){
+    socket.close();
+});
+
 function checkJson(res) {
-    console.log(res);
-    
+	console.log(res);
     if(res.action=='registred'){
-        $('#status').html('<span class="label label-success">Registred</span>');
-        $('#chat_button').removeAttr('disabled');
-        $('#text_message').removeAttr('disabled');
-        $('#chat-head').html('<b>User-'+res.user_id+'</b> ('+res.users_online+' Users Online)');
-        user_id = res.user_id;
-        
-    }else if(res.action=='add_list'){
-        if(res.user_id==user_id){
-            $('#text_message').val('');
+    	console.log('Hello');
+    } else if(res.action=='addList'){
+        if(res.userinfo != 'admin'){
+        	var userInfo = $.parseJSON(res.userinfo);
+        	
+        	var className = userInfo.ip_address.split('.').join('_');
+        	
+        	$('table tbody tr.' + className).remove();
+			var new_entry = '';
+			new_entry += '<tr class="gradeX ' + className + '">';
+			new_entry += '<td>' + userInfo.student_id + '</td>';
+			new_entry += '<td>' + userInfo.fullname + '</td>';
+			new_entry += '<td>' + userInfo.class_name + '</td>';
+			new_entry += '<td>' + userInfo.ip_address + '</td>';
+			new_entry += '</tr>';	
+	        $("table tbody").append(new_entry);
+	        $("table tbody").animate({ scrollTop: 50000 }, "slow");
         }
-        var new_entry = '<li><b>User-'+res.user_id+'&nbsp;&nbsp;</b>&nbsp;&nbsp;<span style="color: #DDD;width: 300px">'+res.date_time+' &nbsp;:&nbsp;</span>'+res.chat_text+'</li>'
-        $("#chat_text_list").append(new_entry);
-        $("#chat_text_list").animate({ scrollTop: 50000 }, "slow");
     }
 }
 
@@ -56,4 +56,3 @@ function register_user(){
     payload.userinfo = 'admin';
     socket.send(JSON.stringify(payload));
 }
-

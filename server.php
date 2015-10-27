@@ -4,9 +4,12 @@ if( ! ini_get('date.timezone') )
     date_default_timezone_set('GMT');
 }
 
+set_time_limit(0);
+
 include "./application/libraries/socket/Socket.php";
 include "./application/libraries/socket/Server.php";
 include "./application/libraries/socket/Connection.php";
+
 
 echo "\033[2J";
 echo "\033[0;0f";
@@ -15,17 +18,19 @@ class Application
 {
 
     private $connections = array();
+    private $portAdmin = 0;
  // Array to save
     public $server;
 
     public function __construct()
     {
-        $this->server = new Server('127.0.0.1', 8000, false);
+        include "./application/config/socket_config.php";
+        $this->server = new Server($config['socket.ipserver'], $config['socket.port'], false);
         $this->server->setMaxClients(100);
         $this->server->setCheckOrigin(false);
         // $this->server->setAllowedOrigin('192.168.1.153');
-        $this->server->setMaxConnectionsPerIp(100);
-        $this->server->setMaxRequestsPerMinute(2000);
+        $this->server->setMaxConnectionsPerIp(100000);
+        $this->server->setMaxRequestsPerMinute(200000);
         $this->server->setHook($this);
         $this->server->run();
     }
@@ -45,6 +50,9 @@ class Application
         if (isset($this->connections[$connection_id])) {
             unset($this->connections[$connection_id]);
         }
+        
+        // TODO: need to remove or update status of user when disconnect
+        //$this->sendDataToConnection($this->portAdmin, 'addList', $data);
     }
 
     /* Fired when data received */
@@ -53,7 +61,7 @@ class Application
         echo "\nData received from $connection_id :";
         
         $data = json_decode($data, true);
-        print_r($data);
+        print_r($data['action']);
         
         if (isset($data['action'])) {
             $action = 'action_' . $data['action'];
@@ -73,21 +81,22 @@ class Application
     }
     
     // /// ACTIONS ////
-    public function action_register($connection_id, $data)
+    public function action_register($connection_id, $data = [])
     {
         if(empty($this->connections)) {
             $this->connections[$connection_id] = 1;
         } else {
             $this->connections[$connection_id] = max($this->connections) + 1;
         }
-        
-        $data = array();
-        $data['user_id'] = $this->connections[$connection_id];
+       
+        // keep port of admin
+        if(isset($data['userinfo']) && $data['userinfo'] == 'admin') {
+            $this->portAdmin = $connection_id;
+        }
         $data['users_online'] = count($this->connections);
-        
+        $data['connection_id'] = $connection_id;
         // store user infor
-        
-        $this->server->sendData($connection_id, 'add_list', $data);
+        $this->sendDataToConnection($this->portAdmin, 'addList', $data);
     }
 }
 

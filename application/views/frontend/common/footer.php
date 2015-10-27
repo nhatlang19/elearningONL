@@ -11,6 +11,9 @@
 		</div>
 	</footer>
 </div>
+<script type="text/javascript">
+var serverUrl = '<?php echo 'ws://' . $this->config->item('socket.ipserver') . ':' . $this->config->item('socket.port'); ?>';
+</script>
 <script type="text/javascript"
 	src="<?php echo JS_PATH; ?>client.js"></script>
 <script type="text/javascript"

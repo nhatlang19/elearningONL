@@ -122,7 +122,7 @@ $autoload['helper'] = array(
 */
 
 $autoload['config'] = array(
-    'cache_config'
+    'cache_config', 'socket_config'
 );
 
 
