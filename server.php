@@ -1,6 +1,5 @@
 <?php
-if( ! ini_get('date.timezone') )
-{
+if (! ini_get('date.timezone')) {
     date_default_timezone_set('GMT');
 }
 
@@ -10,7 +9,6 @@ include "./application/libraries/socket/Socket.php";
 include "./application/libraries/socket/Server.php";
 include "./application/libraries/socket/Connection.php";
 
-
 echo "\033[2J";
 echo "\033[0;0f";
 
@@ -18,8 +16,17 @@ class Application
 {
 
     private $connections = array();
+    
+    private $connectionsData = array();
+
     private $portAdmin = 0;
- // Array to save
+
+    private $dataNoSend = array();
+
+    private $dataAll = array();
+    
+    private $ipList = array();
+    // Array to save
     public $server;
 
     public function __construct()
@@ -49,10 +56,15 @@ class Application
         
         if (isset($this->connections[$connection_id])) {
             unset($this->connections[$connection_id]);
+            
+            if(isset($this->connectionsData[$connection_id])) {
+                $data = $this->connectionsData[$connection_id];
+                $data['users_online'] = count($this->connections);
+                $data['connection_id'] = $connection_id;
+                $this->sendDataToConnection($this->portAdmin, 'removeList', $data);
+                unset($this->connectionsData[$connection_id]);
+            }
         }
-        
-        // TODO: need to remove or update status of user when disconnect
-        //$this->sendDataToConnection($this->portAdmin, 'addList', $data);
     }
 
     /* Fired when data received */
@@ -83,21 +95,71 @@ class Application
     // /// ACTIONS ////
     public function action_register($connection_id, $data = [])
     {
-        if(empty($this->connections)) {
+        // keep port of admin
+        if (isset($data['type']) && $data['type'] == 'admin') {
+            // when admin refresh page
+            if ($this->portAdmin != 0 && $this->portAdmin != $connection_id) {
+                if (! empty($this->connectionsData)) {
+                    foreach ($this->connectionsData as $key => $data) {
+                        $this->sendDataToConnection($this->portAdmin, 'addList', $data);
+                    }
+                }
+            }
+            $this->portAdmin = $connection_id;
+        }
+        
+        if(isset($data['userinfo'])) {
+            $dataDecoded = json_decode($data['userinfo'], true);
+            if(isset($dataDecoded['ip_address'])) {
+                $oldConnectionId = isset($this->ipList[$dataDecoded['ip_address']]) ? $this->ipList[$dataDecoded['ip_address']] : null;
+                if($oldConnectionId) {
+                    if(isset($this->connections[$oldConnectionId])) {
+                        unset($this->connections[$oldConnectionId]);
+                    }
+                    if(isset($this->connectionsData[$oldConnectionId])) {
+                        unset($this->connectionsData[$oldConnectionId]);
+                    }
+                    echo "\nOn disconnected : $oldConnectionId";
+                }
+                $this->ipList[$dataDecoded['ip_address']] = $connection_id;
+            }
+        }
+        
+        if (empty($this->connections)) {
             $this->connections[$connection_id] = 1;
         } else {
             $this->connections[$connection_id] = max($this->connections) + 1;
         }
-       
-        // keep port of admin
-        if(isset($data['userinfo']) && $data['userinfo'] == 'admin') {
-            $this->portAdmin = $connection_id;
-        }
+        
         $data['users_online'] = count($this->connections);
         $data['connection_id'] = $connection_id;
-        // store user infor
-        $this->sendDataToConnection($this->portAdmin, 'addList', $data);
+        
+        $this->connectionsData[$connection_id] = $data;
+        
+        if (! $this->portAdmin) {
+            $this->dataNoSend[] = $data;
+        } else {
+            // store user infor
+            $this->sendDataToConnection($this->portAdmin, 'addList', $data);
+            unset($data);
+            if (! empty($this->dataNoSend)) {
+                foreach ($this->dataNoSend as $key => $data) {
+                    $this->sendDataToConnection($this->portAdmin, 'addList', $data);
+                    unset($this->dataNoSend[$key]);
+                }
+            }
+        }
+    }
+    
+    public function action_start($connection_id, $data = [])
+    {
+        if (! empty($this->connectionsData)) {
+            foreach ($this->connectionsData as $connection_id => $data) {
+                $this->sendDataToConnection($connection_id, 'start', $data);
+            }
+        }
     }
 }
+
 
 $app = new Application();

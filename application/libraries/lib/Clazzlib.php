@@ -19,11 +19,12 @@ class Clazzlib extends AppComponent {
         $this->CI->form_validation->set_rules(
             'class_name', 
             'Tên lớp', 
-            'required|min_length[2]|max_length[255]',
+            'required|min_length[2]|max_length[255]|is_unique[class.class_name]',
             array(
                 'required' => 'Tên lớp không được rỗng',
                 'min_length' => 'Tên lớp ít nhất phải có {param} ký tự',
-                'max_length' => 'Tên lớp phải nhỏ hơn {param} ký tự'
+                'max_length' => 'Tên lớp phải nhỏ hơn {param} ký tự',
+                'is_unique' => 'Tên lớp đã tồn tại'
             )
         );
         

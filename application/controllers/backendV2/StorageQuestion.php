@@ -45,7 +45,7 @@ class StorageQuestion extends Ext_Controller
     public function save()
     {
         $id = intval($this->input->post('id'));
-        
+        pr($this->input->post());exit;
         if ($this->input->post()) {
             
             $data['question_name'] = addslashes($this->input->post('question_name'));

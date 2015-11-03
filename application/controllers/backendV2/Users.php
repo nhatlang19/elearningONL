@@ -15,7 +15,7 @@ class Users extends CI_Controller
         $this->load->model('subject_model');
         
         $this->load->library([
-            'lib/userlib',
+            'lib/userlib', 'utils'
         ]);
     }
 
@@ -92,7 +92,7 @@ class Users extends CI_Controller
             $username = addslashes($this->input->post('username'));
             $password = $this->input->post('password');
             $user = $this->user->get_user($username, $password);
-            
+            $user->ip_address = $this->utils->getLocalIp();
             if ($user) {
                 $newdata = array(
                     'user' => $user,

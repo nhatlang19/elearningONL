@@ -14,7 +14,7 @@ socket.onopen = function(msg) {
 socket.onmessage = function(msg) {
     var response;
     response = JSON.parse(msg.data);
-    console.log(response);
+    checkJson(response);
     return true;
 };
 socket.onclose = function(msg) {
@@ -26,9 +26,16 @@ function register_user(){
     payload = new Object();
     payload.action = 'register';
     payload.userinfo = USERINFO;
+    payload.type = 'client';
     socket.send(JSON.stringify(payload));
 }
 
+function checkJson(res) {
+	console.log(res);
+	if(res.action == 'start') {
+    	$('.startQuiz').trigger("click");
+    }
+}
 
 $(window).on('beforeunload', function(){
     socket.close();

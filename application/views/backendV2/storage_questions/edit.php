@@ -39,7 +39,7 @@
 					<div class="form-group">
 						<label class="col-md-3 control-label" for="inputDefault">Câu hỏi <span class="required">*</span></label>
 						<div class="col-md-9">
-							<div class="summernote" data-plugin-summernote data-plugin-options='{ "height": 180, "codemirror": { "theme": "ambiance" } }'>
+							<div class="summernote question_name" data-plugin-summernote data-plugin-options='{ "height": 180, "codemirror": { "theme": "ambiance" } }'>
 							<?php echo isset($storage_question->question_name) ? stripslashes($storage_question->question_name) : ''; ?>
 							</div>
 						</div>
@@ -49,16 +49,16 @@
 						for($i=97;$i< 101;$i++) : ?>
 					<div class="form-group">
 						<label class="col-md-3 control-label"><?php if(!$step) : ?>Câu trả lời:<?php endif; ?></label>
-    						<div class="col-md-1">
-    							<?php echo chr($i); ?>. <input type="checkbox" name="correct_answer"
-    								<?php if(isset($storage_answer[$step]->correct_answer) && $storage_answer[$step]->correct_answer == 1) echo 'checked="checked"'; ?>
-    								class="checkbox-answer" value="<?php echo $step; ?>" />
-    						</div>
-    						<div class="col-md-8">
-    							<div class="summernote" data-plugin-summernote data-plugin-options='{ "name" : "answer_name[]", "height": 100, "codemirror": { "theme": "ambiance" } }'>
-    							<?php if(isset($storage_answer[$step]->answer)) echo stripslashes($storage_answer[$step]->answer); ?>
-    							</div>
-    						</div>
+						<div class="col-md-1">
+							<?php echo chr($i); ?>. <input type="checkbox" name="correct_answer"
+								<?php if(isset($storage_answer[$step]->correct_answer) && $storage_answer[$step]->correct_answer == 1) echo 'checked="checked"'; ?>
+								class="checkbox-answer" value="<?php echo $step; ?>" />
+						</div>
+						<div class="col-md-8">
+							<div class="summernote answer_name" data-plugin-summernote data-plugin-options='{ "height": 100, "codemirror": { "theme": "ambiance" } }'>
+							<?php if(isset($storage_answer[$step]->answer)) echo stripslashes($storage_answer[$step]->answer); ?>
+							</div>
+						</div>
 					</div>
 					<?php $step++; endfor; ?>
 			</div>
@@ -76,6 +76,38 @@
 		<?php echo form_close(); ?>
 	</div>
 </div>
+
+
+<script type="text/javascript">
+
+$( "form" ).submit(function( event ) {
+	event.preventDefault();
+	var $form = $(this);
+	var formData = $(this).serializeArray();
+
+	var object = {name:"question_name", value:$('.question_name').code()}; 
+	formData.push(object);
+
+	$.each( $('.answer_name'), function( key, value ) {
+		var object = {name:"answer_name[]", value:$('.answer_name').code()}; 
+		formData.push(object);
+	});
+	
+	console.log(formData);
+	$.ajax({
+        url: $form.attr('action'),
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        type: 'POST',
+        success: function(result) {
+            console.log(result);
+//             location.href = 'list.html';
+        }
+    });
+});
+</script>
 <!-- Specific Page Vendor -->
 <script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-validation/jquery.validate.js"></script>
 <script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>summernote/summernote.js"></script>

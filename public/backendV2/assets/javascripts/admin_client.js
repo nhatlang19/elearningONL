@@ -28,31 +28,59 @@ $(window).on('beforeunload', function(){
 
 function checkJson(res) {
 	console.log(res);
+	var table = $('#datatable-editable').DataTable();
     if(res.action=='registred'){
     	console.log('Hello');
     } else if(res.action=='addList'){
-        if(res.userinfo != 'admin'){
+        if(res.type != 'admin'){
         	var userInfo = $.parseJSON(res.userinfo);
+        	var classNameIp = userInfo.ip_address.split('.').join('_');
+        	var className = classNameIp + '_' + userInfo.student_id;
+        	var listItem = $( 'table#datatable-editable tbody tr.' + className );
+        	table.row( listItem ).remove().draw();
         	
-        	var className = userInfo.ip_address.split('.').join('_');
+        	var findItem = $( 'table#datatable-editable tbody tr.' + classNameIp );
+        	var note = '';
+        	if(findItem.length != 0) {
+        		note = 'Có ' + (findItem.length + 1) + ' học sinh đang đăng nhập IP này';
+        	}
+        	var rowNode = table.row.add( [
+	            userInfo.student_id,
+	            userInfo.fullname,
+	            userInfo.class_name,
+	            userInfo.ip_address,
+	            note
+	        ] ).draw( false ).node();
         	
-        	$('table tbody tr.' + className).remove();
-			var new_entry = '';
-			new_entry += '<tr class="gradeX ' + className + '">';
-			new_entry += '<td>' + userInfo.student_id + '</td>';
-			new_entry += '<td>' + userInfo.fullname + '</td>';
-			new_entry += '<td>' + userInfo.class_name + '</td>';
-			new_entry += '<td>' + userInfo.ip_address + '</td>';
-			new_entry += '</tr>';	
-	        $("table tbody").append(new_entry);
-	        $("table tbody").animate({ scrollTop: 50000 }, "slow");
+        	
+        	$( rowNode ).addClass( classNameIp )
+        				.addClass( className )
+        				.attr("data-cnn", res.connection_id)
+	            		.animate({ scrollTop: 50000 }, "slow");
         }
+    } else if(res.action == 'removeList') {
+    	if(res.type != 'admin'){
+	    	var userInfo = $.parseJSON(res.userinfo);
+	    	var className = userInfo.ip_address.split('.').join('_') + '_' + userInfo.student_id;
+	    	var listItem = $( 'table#datatable-editable tbody tr.' + className );
+        	table.row( listItem ).remove().draw();
+    	}
+    } else if(res.action == 'start') {
+    	console.log('start Exam');
+    	console.log('TODO: nothing');
     }
 }
 
 function register_user(){
     payload = new Object();
     payload.action = 'register';
-    payload.userinfo = 'admin';
+    payload.userinfo = USERINFO;
+    payload.type = 'admin';
     socket.send(JSON.stringify(payload));
 }
+
+$('#startExam').click(function() {
+	 payload = new Object();
+	 payload.action = 'start';
+	 socket.send(JSON.stringify(payload));
+});

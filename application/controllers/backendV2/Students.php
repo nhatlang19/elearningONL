@@ -151,6 +151,9 @@ class Students extends Ext_Controller
                 $data['fullname'] = sanitizeText($col['B']);
                 $data['username'] = $this->commonobj->encrypt($academic_id . '_' . $class_id . '_' . sanitizeText($col['A']));
                 $data['password'] = $this->commonobj->encrypt($data['username']);
+                if(empty($data['indentity_number']) || empty($data['fullname'])) {
+                    continue;
+                }
                 $this->student_info_model->create_ignore($data);
             }
         }

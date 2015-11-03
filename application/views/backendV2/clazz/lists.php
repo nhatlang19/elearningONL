@@ -14,7 +14,7 @@
 			<div class="col-sm-6">
 				<div class="mb-md">
 					<button id="addToTable" class="btn btn-primary">
-						Add <i class="fa fa-plus"></i>
+						Tạo mới <i class="fa fa-plus"></i>
 					</button>
 				</div>
 			</div>
@@ -23,7 +23,7 @@
 			<thead>
 				<tr>
 					<th align="center">STT</th>
-					<th>Tên môn học</th>
+					<th>Tên lớp</th>
 					<th>Khối</th>
 					<th>Trạng thái</th>
 					<th>Id</th>

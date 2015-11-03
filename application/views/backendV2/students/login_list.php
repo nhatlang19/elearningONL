@@ -10,6 +10,15 @@
 		<h2 class="panel-title">Danh sách học sinh đang đăng nhập</h2>
 	</header>
 	<div class="panel-body">
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="mb-md">
+					<button id="startExam" class="btn btn-primary">
+						Bắt đầu
+					</button>
+				</div>
+			</div>
+		</div>
 		<table class="table table-bordered table-striped mb-none" id="datatable-editable">
 			<thead>
 				<tr>
@@ -17,6 +26,7 @@
 					<th>Tên học sinh</th>
 					<th>Lớp</th>
 					<th>Địa chỉ IP</th>
+					<th>Ghi chú</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -29,7 +39,7 @@
 <!-- Specific Page Vendor -->
 <script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-datatables/media/js/jquery.dataTables.js"></script>
 <script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-datatables-bs3/assets/js/datatables.js"></script>
-
+<script src="<?php echo BACKEND_V2_JS_PATH; ?>students/login.editable.js"></script>
 <ul id="chat_text_list">
 </ul>
 <script type="text/javascript">

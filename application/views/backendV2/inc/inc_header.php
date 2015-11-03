@@ -1,6 +1,9 @@
 <?php 
 $user = $this->session->userdata('user');
 ?>
+<script type="text/javascript">
+var USERINFO = '<?php echo json_encode((array)$user); ?>';
+</script>
 <!-- start: header -->
 			<header class="header">
 				<div class="logo-container">

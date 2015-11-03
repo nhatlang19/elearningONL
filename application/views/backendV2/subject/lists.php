@@ -14,7 +14,7 @@
 			<div class="col-sm-6">
 				<div class="mb-md">
 					<button id="addToTable" class="btn btn-primary">
-						Add <i class="fa fa-plus"></i>
+						Tạo mới <i class="fa fa-plus"></i>
 					</button>
 				</div>
 			</div>

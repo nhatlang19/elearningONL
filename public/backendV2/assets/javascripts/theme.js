@@ -3957,7 +3957,7 @@ window.theme = {};
 
 				$search
 					.attr({
-						placeholder: typeof options.searchPlaceholder !== 'undefined' ? options.searchPlaceholder : 'Search'
+						placeholder: typeof options.searchPlaceholder !== 'undefined' ? options.searchPlaceholder : 'Tìm kiếm'
 					})
 					.addClass('form-control');
 
