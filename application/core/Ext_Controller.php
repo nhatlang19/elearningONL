@@ -62,8 +62,9 @@ class Ext_Controller extends CI_Controller
     }
     
     public function delete($id = null) {
-        // @TODO: need to validate $this->mainModel before call 
-        // ....
+        if(empty($this->mainModel)) {
+            throw new Exception('Undefined mainModel in Controller');
+        }
         if($this->input->is_ajax_request() && $id) {
             $id = intval($id);
             $this->{$this->mainModel}->deleteById($id);

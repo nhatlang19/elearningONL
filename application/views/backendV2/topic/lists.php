@@ -57,14 +57,15 @@
 							href="published/<?php echo $value->topic_manage_id; ?>"
 							title="Đang đóng"> <img
 								src="<?php echo BACKEND_V2_IMAGE_PATH ?>cross_circle.png" />
-						</a> <?php endif; ?>
+						</a> 
+					<?php endif; ?>
 					</td>
 					<td style="text-align: center">
     					<?php
                             $checked = $value->review == 'SHOW' ? 'checked="checked"' : '';
                         ?>
     					<div class="switch switch-sm switch-primary">
-    						<input data-id="<?php echo $value->topic_manage_id; ?>" type="checkbox" data-review="<?php echo $change_to; ?>" name="switch" data-plugin-ios-switch-preview <?php echo $checked; ?>  />
+    						<input data-id="<?php echo $value->topic_manage_id; ?>" type="checkbox" data-review="<?php echo $change_to; ?>" name="switch" data-plugin-ios-switch <?php echo $checked; ?>  />
     					</div>
     					
 					</td>

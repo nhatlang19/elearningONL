@@ -26,7 +26,6 @@
 					<th>Câu hỏi</th>
 					<th>Tên kho</th>
 					<th>Thời gian tạo</th>
-					<th style="text-align: center;">Trạng thái</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -43,14 +42,6 @@
     					</a>
 					<td><?php echo $value->title; ?></td>
 					<td><?php echo setDate($value->updated_time, 'time'); ?></td>
-					<td style="text-align: center">
-					<?php
-                        $checked = $value->published ? 'checked="checked"' : '';
-                    ?>
-    					<div class="switch switch-sm switch-primary">
-    						<input type="checkbox" name="switch" data-plugin-ios-switch <?php echo $checked; ?>  />
-    					</div>
-					</td>
 					<td class="actions">
 						<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
 						<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>

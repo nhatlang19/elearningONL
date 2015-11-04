@@ -6,10 +6,14 @@
 		<meta charset="UTF-8">
 
 		<title><?php echo $title; ?></title>
-		<meta name="keywords" content="Elearning Online Admin Template" />
+		<meta name="keywords" content="Elearning Online Admin" />
 		<meta name="description" content="Elearning Online" />
 		<meta name="author" content="nhatlang19@gmail.com" />
-
+		<meta property="og:title" content="Elearning Online">
+        <meta property="og:description" content="Elearning Online">
+        <meta property="og:site_name" content="Elearning Online">
+        <meta property="og:image" content="<?php echo ROOT . '/public/elearning-icon.png'; ?>">
+		<link rel="shortcut icon" href="<?php echo ROOT . '/public/favicon.ico'; ?>" type="image/x-icon" >
 		<!-- Mobile Metas -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 

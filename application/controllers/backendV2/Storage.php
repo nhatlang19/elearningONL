@@ -1,7 +1,7 @@
 <?php
 class Storage extends Ext_Controller
 {
-
+    protected $mainModel = 'storage_model';
     public function __construct()
     {
         parent::__construct();
@@ -24,7 +24,6 @@ class Storage extends Ext_Controller
         
         // get data
         $per_page = 20;
-        $title = $this->input->post('title', null);
         $data = array();
         
         $segment = $this->uri->segment(self::URI_SEGMENT);
@@ -32,7 +31,7 @@ class Storage extends Ext_Controller
         // get user Information
         $user = $this->getUserInfo();
         
-        $data['lists'] = $this->storage_model->getStorageList($title, $user->subjects_id, $per_page, $segment);
+        $data['lists'] = $this->storage_model->getStorageList($user->subjects_id, $per_page, $segment);
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'storage/lists', $data, TRUE);
         
         $this->loadTemnplateBackend($header, $content);
@@ -79,14 +78,24 @@ class Storage extends Ext_Controller
         $this->loadTemnplateBackend($header, $content);
     }
     
-    public function delete($id = null)
+    public function change_status()
     {
-        if ($this->input->is_ajax_request() && $id) {
-            $id = intval($id);
-            $this->storage_model->delete_by_pkey($id);
-            $this->sendAjax();
+        if ($this->input->is_ajax_request() && $this->input->post()) {
+            $data = $this->input->post();
+            $id = intval($data['id']);
+            $status = $data['status'];
+    
+            $result = $this->storage_model->$status($id);
+            if ($result) {
+                $result = array();
+                $result['changeStatus'] = ($status == 'published') ? 'unpublished' : 'published';
+    
+                $this->sendAjax(1, '', $result);
+            } else {
+                $this->sendAjax(0, 'Can not change status');
+            }
         } else {
-            show_404();
+            exit('No direct script access allowed');
         }
     }
     

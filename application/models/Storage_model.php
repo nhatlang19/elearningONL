@@ -30,7 +30,7 @@ class Storage_model extends Ext_Model
         return $results;
     }
 
-    function getStorageList($title = NULL, $subjects_id = 0, $count = NULL, $start = NULL)
+    function getStorageList($subjects_id = 0, $count = NULL, $start = NULL)
     {
         // start cache
         $this->db->start_cache();
@@ -40,14 +40,10 @@ class Storage_model extends Ext_Model
         $this->db->from('storage as s');
         $this->db->join('subjects as sub', 'sub.subjects_id = s.subjects_id', 'left');
         
-        if ($title) {
-            $this->db->like('s.title', $title);
-        }
-        
         if ($subjects_id) {
             $this->db->where('s.subjects_id', $subjects_id);
         }
-        
+        $this->db->where('s.deleted', self::DELETED_NO);
         $query = $this->db->get();
         
         // stop cache
@@ -78,18 +74,20 @@ class Storage_model extends Ext_Model
         return $results;
     }
 
-    function getStorageAllByUser($subjects_id = 0)
+    function getStoragePublishedByUser($subjects_id = 0)
     {
         $subjects_id = (int) $subjects_id;
-        $filter = [];
+        
+        $filter = [
+            'published' => self::PUBLISHED,
+            'deleted' => self::DELETED_NO
+        ];
         if ($subjects_id) {
-            $filter = [
-                'subjects_id' => (int) $subjects_id
-            ];
+            $filter['subjects_id'] = (int) $subjects_id;
         }
         return $this->findAll($filter, null, null, 'title', 'asc');
     }
-
+    
     function count()
     {
         return $this->db->count_all_results();

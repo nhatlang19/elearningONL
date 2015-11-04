@@ -30,12 +30,11 @@ class StorageQuestion extends Ext_Controller
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'storage_questions/lists', $data, true);
         $this->loadTemnplateBackend($header, $content);
     }
-
+    
     public function delete($id = null) {
         if($this->input->is_ajax_request() && $id) {
             $id = intval($id);
-            $this->storage_question_model->delete_by_pkey($id);
-//             $this->lphcache->cleanCacheByFunction($this->storage_question_model->table_name, 'getAll');
+            $this->storage_question_model->deleteQuestion($id);
             $this->sendAjax();
         } else {
             show_404();
@@ -126,7 +125,7 @@ class StorageQuestion extends Ext_Controller
         }
         
         $data['title'] = $header['title'];
-        $data['storage'] = $this->storage_model->getStorageAllByUser($this->getUserInfo()->subjects_id);
+        $data['storage'] = $this->storage_model->getStoragePublishedByUser($this->getUserInfo()->subjects_id);
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'storage_questions/edit', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }

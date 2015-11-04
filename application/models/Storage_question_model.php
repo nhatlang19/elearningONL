@@ -18,6 +18,9 @@ class Storage_question_model extends Ext_Model
             $this->db->where('s.subjects_id', $subjects_id);
         }
         
+        $this->db->where('s.published', self::PUBLISHED);
+        $this->db->where('s.deleted', self::DELETED_NO);
+        
         $filters = [];
         return $this->findAll($filters, $start, $count);
     }
@@ -135,4 +138,13 @@ class Storage_question_model extends Ext_Model
         @unlink($filename);
     }
     
+    public function deleteQuestion($id) {
+        $data = $this->find_by_pkey($id);
+        if(empty($data)) {
+            return;
+        }
+        
+        $hash = md5($data->storage_id . '_' . $data->question_name . '_' . self::DELETED_YES . '_' . $data->updated_time);
+        return $this->update_by_pkey($id, ['deleted' => self::DELETED_YES, 'hashkey' => $hash]);
+    }
 }

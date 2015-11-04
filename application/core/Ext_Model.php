@@ -447,6 +447,22 @@ class Ext_Model extends CI_Model
         return $this->update_by_pkey($id, ['deleted' => self::DELETED_YES]);
     }
     
+    public function published($id)
+    {
+        $data = array(
+            'published' => self::PUBLISHED
+        );
+        return $this->update_by_pkey($id, $data);
+    }
+    
+    public function unpublished($id)
+    {
+        $data = array(
+            'published' => self::UNPUBLISHED
+        );
+        return $this->update_by_pkey($id, $data);
+    }
+    
     public function getAll($cached = true)
     {
         if($cached) {

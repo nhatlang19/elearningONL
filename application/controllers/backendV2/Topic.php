@@ -306,7 +306,7 @@ class Topic extends Ext_Controller
         $header['title'] = 'Tạo đề thi';
         $data['title'] = $header['title'];
         // load danh sach kho
-        $data['list_storage'] = $this->storage_model->getStorageList(NULL, $subjects_id);
+        $data['list_storage'] = $this->storage_model->getStoragePublishedByUser($subjects_id);
         
         // load nien khoa
         $data['list_academic'] = $this->academic_model->getAll();

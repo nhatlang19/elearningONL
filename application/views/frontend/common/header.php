@@ -11,6 +11,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <title>Trắc nghiệm online :: <?php echo $title; ?></title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="Elearning Online">
+<meta property="og:description" content="Elearning Online">
+<meta property="og:site_name" content="Elearning Online">
+<meta property="og:image" content="<?php echo ROOT . '/public/elearning-icon.png'; ?>">
+<link rel="shortcut icon" href="<?php echo ROOT . '/public/favicon.ico'; ?>" type="image/x-icon" >
 <script>document.write('<script src="<?php echo JS_PATH; ?>vendor/jquery-1.10.2.min.js"><\/script>')</script>
 <link rel="stylesheet" href="<?php echo CSS_PATH; ?>normalize.css">
 <link rel="stylesheet" href="<?php echo CSS_PATH; ?>main.css">
