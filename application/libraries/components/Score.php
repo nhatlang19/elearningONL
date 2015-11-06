@@ -29,7 +29,6 @@ class Score extends AppComponent
         if (count($result) && $number_question) {
             // tính ra điểm
             $score = $this->CI->commonobj->funcScoring(SCORE_MAX, $number_question, $result['number_correct']);
-            
             $data['score'] = $score;
             $data['number_correct'] = $result['number_correct'];
         }

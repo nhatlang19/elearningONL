@@ -53,6 +53,13 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label for="inputPassword" class="col-lg-3 control-label">Địa chỉ IP</label>
+							<div class="col-lg-9">
+								<input type="text" readonly class="form-control" id="inputPassword"
+									name="ip_address" value="<?php echo $ip_address; ?>">
+							</div>
+						</div>
+						<div class="form-group">
 							<div class="col-lg-9 col-lg-offset-3">
 								<button type="submit" class="btn btn-primary confirm">Xác nhận</button>
 								<button type="button" class="btn btn-primary logout">Thoát</button>

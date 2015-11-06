@@ -17,6 +17,10 @@ Theme Version: 	1.3.0
 				wrapper: '#dialog',
 				cancelButton: '#dialogCancel',
 				confirmButton: '#dialogConfirm',
+			},
+			dialogFailed: {
+				wrapper: '#dialogFailed',
+				confirmButton: '#dialogFailedAccecpted',
 			}
 		},
 
@@ -36,6 +40,10 @@ Theme Version: 	1.3.0
 			this.dialog.$wrapper	= $( this.options.dialog.wrapper );
 			this.dialog.$cancel		= $( this.options.dialog.cancelButton );
 			this.dialog.$confirm	= $( this.options.dialog.confirmButton );
+			
+			this.dialogFailed			= {};
+			this.dialogFailed.$wrapper	= $( this.options.dialogFailed.wrapper );
+			this.dialogFailed.$confirm	= $( this.options.dialogFailed.confirmButton );
 
 			return this;
 		},
@@ -59,7 +67,28 @@ Theme Version: 	1.3.0
 					if ( typeof Switch !== 'undefined' && $.isFunction( Switch ) ) {
 						_self.$table.find('[data-plugin-ios-switch]').each(function() {
 							var $this = $( this );
-							$this.themePluginIOS7Switch();
+							
+							$this.themePluginIOS7Switch(function() {
+								var id = $this.data('id');
+								var change_to = $this.data('review');
+								$.ajax({
+									type: 'post',
+									dataType : "json",
+									url : "change_review",
+									data : {topic_manage_id: id, change_to: change_to},
+									success : function(obj) {
+										if (obj.status) {
+											$this.data('review', obj.data.changeTo);
+										} else {
+											alert(obj.message);
+										}
+									},
+									error : function(e) {
+										/* handle the error code here */
+										console.log(e);
+									}
+								});
+							});
 						});
 					}
 				}
@@ -95,9 +124,8 @@ Theme Version: 	1.3.0
 							change: function() {
 								_self.dialog.$confirm.on( 'click', function( e ) {
 									e.preventDefault();
-
-									_self.rowRemove( $row );
 									$.magnificPopup.close();
+									_self.rowRemove( $row );
 								});
 							},
 							close: function() {
@@ -135,6 +163,8 @@ Theme Version: 	1.3.0
 		},
 
 		rowRemove: function( $row ) {
+			var _self = this;
+			
 			if ( $row.hasClass('adding') ) {
 				this.$addButton.removeAttr( 'disabled' );
 			}
@@ -145,13 +175,29 @@ Theme Version: 	1.3.0
 					if(!response.status) {
 						tmpDataTable.row( $row.get(0) ).remove().draw();
 					} else {
-						$('a.btn-danger').trigger('click');
-						alert(response.message);
+						$('.modal-text p').text(response.message);
+						$.magnificPopup.open({
+							items: {
+								src: '#dialogFailed',
+								type: 'inline'
+							},
+							preloader: false,
+							modal: true,
+							callbacks: {
+								change: function() {
+									_self.dialogFailed.$confirm.on( 'click', function( e ) {
+										e.preventDefault();
+										$.magnificPopup.close();
+									});
+								},
+								close: function() {
+									_self.dialogFailed.$confirm.off( 'click' );
+								}
+							}
+						});
 					}
 				},
 			});
-			
-			
 		},
 	};
 

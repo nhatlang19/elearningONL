@@ -36,7 +36,7 @@ class Storage_model extends Ext_Model
         $this->db->start_cache();
         
         $this->db->select('s.storage_id, s.title, s.updated_time, s.published, sub.subjects_name
-		, (select count(*) from storage_question as sq where sq.storage_id = s.storage_id) as num_question');
+		, (select count(*) from storage_question as sq where sq.storage_id = s.storage_id and sq.deleted = 0) as num_question');
         $this->db->from('storage as s');
         $this->db->join('subjects as sub', 'sub.subjects_id = s.subjects_id', 'left');
         
@@ -85,8 +85,12 @@ class Storage_model extends Ext_Model
         if ($subjects_id) {
             $filter['subjects_id'] = (int) $subjects_id;
         }
+        $this->db->select('(select count(*) from storage_question as sq where sq.storage_id = ' . $this->table_name . '.storage_id and sq.deleted = 0) as num_question');
+        
         return $this->findAll($filter, null, null, 'title', 'asc');
     }
+  
+    
     
     function count()
     {

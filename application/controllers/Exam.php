@@ -40,7 +40,7 @@ class Exam extends CI_Controller
             $student_mark_id = $student->student_mark_id;
             $topic = $this->session->userdata('topic_' . $student_id);
             $topic_id = $topic->topic_id;
-            
+            $this->score->calScore($topic_id, $student_id, $student_mark_id);
             $review_show = $this->topic_manage_model->getReviewStatus($topic->topic_manage_id);
             // get score of student
             $data['score'] = $this->student_mark_model->getMarkStudentById($student_mark_id);
@@ -114,7 +114,6 @@ class Exam extends CI_Controller
                 $studentMarkData['topic_id'] = $topic_id;
                 $student_mark_id = $this->student_mark_model->create_ignore($studentMarkData);
                 
-                $this->student_topic_model->updateFinished($student_id, $topic_id, $student_mark_id);
                 /**
                  * luu cau tra loi cua student *
                  */
@@ -124,20 +123,43 @@ class Exam extends CI_Controller
                 $student_answer = array();
                 $number = 0;
                 // $code = $posts['topic_id'];
-                unset($posts['topic_id']);
-                foreach ($posts as $question_id => $answer) {
-                    list ($qid, $number_question) = explode('_', $question_id);
-                    $array = array();
-                    $array['student_id'] = $student_id;
-                    $array['question_id'] = $qid;
-                    $array['topic_id'] = $topic_id;
-                    $array['answer'] = $answer + 1;
-                    $array['number_question'] = $number_question;
-                    $array['student_mark_id'] = $student_mark_id;
-                    // them vao mang
-                    $student_answer[] = $array;
+                
+                $answerData = isset($posts['data']) ? $posts['data'] : array();
+                if(!empty($answerData)) {
+                    if(isset($answerData['any'])) {
+                        foreach ($answerData['any'] as $question_id => $answer) {
+                            list ($qid, $number_question) = explode('_', $question_id);
+                            $array = array();
+                            $array['student_id'] = $student_id;
+                            $array['question_id'] = $qid;
+                            $array['topic_id'] = $topic_id;
+                            $array['answer'] = $answer + 1;
+                            $array['number_question'] = $number_question;
+                            $array['student_mark_id'] = $student_mark_id;
+                            // them vao mang
+                            $student_answer[] = $array;
+                        }
+                    }
+                    if(isset($answerData['many'])) {
+                        foreach ($answerData['many'] as $question_id => $answers) {
+                            $answers = array_filter($answers, function($answer) {
+                                return $answer + 1;
+                            });
+                            list ($qid, $number_question) = explode('_', $question_id);
+                            $array = array();
+                            $array['student_id'] = $student_id;
+                            $array['question_id'] = $qid;
+                            $array['topic_id'] = $topic_id;
+                            $array['answer'] = implode(SEPARATE_CORRECT_ANSWER, $answers);
+                            $array['number_question'] = $number_question;
+                            $array['student_mark_id'] = $student_mark_id;
+                            // them vao mang
+                            $student_answer[] = $array;
+                        }
+                    }
                 }
                 
+                $this->student_topic_model->updateFinished($student_id, $topic_id, $student_mark_id);
                 if (count($student_answer)) {
                     // them du lieu vao bang student_answer
                     $this->student_answer_model->create_batch($student_answer);
@@ -202,6 +224,7 @@ class Exam extends CI_Controller
                     $tmp['storageQuestionId'] = $question->storage_question_id;
                     $arrayAnswer = explode('|||', $question->answer);
                     $tmp['number'] = $question->number;
+                    $tmp['select_any'] = $question->select_any ? true : false;
                     $tmp['correct'] = '';
                     $tmp['incorrect'] = '';
                     foreach ($arrayAnswer as $answer) {
@@ -213,7 +236,6 @@ class Exam extends CI_Controller
                     
                     $questions[] = $tmp;
                 }
-                
                 $page['minute'] = $topic_manage->time;
                 $page['info_user'] = $this->_loadInfoUser($topic);
                 $page['jsonData'] = json_encode($questions);

@@ -17,6 +17,10 @@ Theme Version: 	1.3.0
 				wrapper: '#dialog',
 				cancelButton: '#dialogCancel',
 				confirmButton: '#dialogConfirm',
+			},
+			dialogFailed: {
+				wrapper: '#dialogFailed',
+				confirmButton: '#dialogFailedAccecpted',
 			}
 		},
 
@@ -36,6 +40,10 @@ Theme Version: 	1.3.0
 			this.dialog.$wrapper	= $( this.options.dialog.wrapper );
 			this.dialog.$cancel		= $( this.options.dialog.cancelButton );
 			this.dialog.$confirm	= $( this.options.dialog.confirmButton );
+			
+			this.dialogFailed			= {};
+			this.dialogFailed.$wrapper	= $( this.options.dialogFailed.wrapper );
+			this.dialogFailed.$confirm	= $( this.options.dialogFailed.confirmButton );
 
 			return this;
 		},
@@ -155,6 +163,8 @@ Theme Version: 	1.3.0
 		},
 
 		rowRemove: function( $row ) {
+			var _self = this;
+			
 			if ( $row.hasClass('adding') ) {
 				this.$addButton.removeAttr( 'disabled' );
 			}
@@ -165,12 +175,29 @@ Theme Version: 	1.3.0
 					if(!response.status) {
 						tmpDataTable.row( $row.get(0) ).remove().draw();
 					} else {
-						$('a.btn-danger').trigger('click');
+						$('.modal-text p').text(response.message);
+						$.magnificPopup.open({
+							items: {
+								src: '#dialogFailed',
+								type: 'inline'
+							},
+							preloader: false,
+							modal: true,
+							callbacks: {
+								change: function() {
+									_self.dialogFailed.$confirm.on( 'click', function( e ) {
+										e.preventDefault();
+										$.magnificPopup.close();
+									});
+								},
+								close: function() {
+									_self.dialogFailed.$confirm.off( 'click' );
+								}
+							}
+						});
 					}
 				},
 			});
-			
-			
 		},
 	};
 

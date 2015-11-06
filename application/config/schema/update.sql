@@ -15,3 +15,8 @@ CREATE TABLE IF NOT EXISTS `student_topic` (
 
 ALTER TABLE `storage` ADD `deleted` TINYINT NOT NULL DEFAULT '0' AFTER `published`;
 ALTER TABLE `storage_question` CHANGE `hashkey` `hashkey` CHAR(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `student_topic` ADD PRIMARY KEY(`id`);
+ALTER TABLE `student_topic` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `storage_question` ADD `select_any` TINYINT NOT NULL DEFAULT '1' AFTER `question_name`;
+ALTER TABLE `student_answer` CHANGE `answer` `answer` CHAR(100) NOT NULL DEFAULT '' COMMENT 'cau tra loi cua hoc sinh';
+ALTER TABLE `question` ADD `correct` TEXT NOT NULL AFTER `number`;

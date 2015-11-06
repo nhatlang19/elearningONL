@@ -23,6 +23,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- Xoá kho csdl
 SET FOREIGN_KEY_CHECKS = 0;
 truncate table question;
+truncate table answer;
 truncate table storage;
 truncate table storage_answer;
 truncate table storage_question;

@@ -20,6 +20,7 @@ class Storage_question_model extends Ext_Model
         
         $this->db->where('s.published', self::PUBLISHED);
         $this->db->where('s.deleted', self::DELETED_NO);
+        $this->db->where('sq.deleted', self::DELETED_NO);
         
         $filters = [];
         return $this->findAll($filters, $start, $count);
@@ -87,11 +88,9 @@ class Storage_question_model extends Ext_Model
             $sql .= " FROM " . $this->table_name . " as sq";
             $sql .= " WHERE sq.published = ?";
             $sql .= " AND sq.storage_id = ?";
+            $sql .= " AND sq.deleted = ?";
             
-            $query = $this->db->query($sql, array(
-                1,
-                $storage_id
-            ));
+            $query = $this->db->query($sql, array(1, $storage_id, self::DELETED_NO));
             
             if (! empty($query) && $query->num_rows() > 0) {
                 $temp = $query->result_array();
@@ -105,7 +104,8 @@ class Storage_question_model extends Ext_Model
     {
         $this->db->from($this->table_name);
         $this->db->where(array(
-            'published' => 1
+            'published' => self::PUBLISHED,
+            'deleted' =>  self::DELETED_NO
         ));
         return $this->db->count_all_results();
     }
@@ -114,7 +114,8 @@ class Storage_question_model extends Ext_Model
         $this->db->from($this->table_name);
         $this->db->where(array(
             'storage_id' => $storage_id,
-            'published' => 1
+            'published' => self::PUBLISHED,
+            'deleted' =>  self::DELETED_NO
         ));
         return $this->db->count_all_results();
     }
@@ -131,7 +132,7 @@ class Storage_question_model extends Ext_Model
                  " INTO TABLE {$this->table_name}" . 
                  " FIELDS TERMINATED BY '|' ".
                  " LINES TERMINATED BY '\n' ".
-                 " (question_name,storage_id,hashkey) ;";
+                 " (question_name,storage_id,hashkey,select_any) ;";
         
         $this->db->query($query);
         

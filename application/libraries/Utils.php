@@ -24,7 +24,7 @@ class Utils
     }
     
     public function smart_clean($s = null){
-        return $ret = trim( $this->remove_doublewhitespace( $this->remove_whitespace_feed($s) ) );
+        return trim( $this->remove_doublewhitespace( $this->remove_whitespace_feed($s) ) );
     }
     
     public function oleExcelReader($uploadpath, $flag = true)

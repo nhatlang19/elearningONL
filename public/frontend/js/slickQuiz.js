@@ -161,15 +161,15 @@
                         questionHTML.append('<div class="' + questionCountClass + '">Câu <span class="current">' + count + '</span> trên <span class="total">' + questionCount + '</span></div>');
                         questionHTML.append('<blockquote>' + count + '. ' + question.q + '</blockquote>');
                         // Count the number of true values
-                        var truths = 0;
-                        for (i in question.a) {
-                            if (question.a.hasOwnProperty(i)) {
-                                answer = question.a[i];
-                                if (answer.correct) {
-                                    truths++;
-                                }
-                            }
-                        }
+//                        var truths = 0;
+//                        for (i in question.a) {
+//                            if (question.a.hasOwnProperty(i)) {
+//                                answer = question.a[i];
+//                                if (answer.correct) {
+//                                    truths++;
+//                                }
+//                            }
+//                        }
 
                         // Now let's append the answers with checkboxes or radios depending on truth count
                         var answerHTML = $('<ul class="' + answersClass + '"></ul>');
@@ -182,15 +182,20 @@
                         // prepare a name for the answer inputs based on the question
                         var selectAny  = question.select_any ? question.select_any : false,
                             inputName  = 'question' + (count - 1),
-                            inputType  = (truths > 1 && !selectAny ? 'checkbox' : 'radio');
-
+//                            inputType  = (truths > 1 && !selectAny ? 'checkbox' : 'radio');
+                            inputType  = (!selectAny ? 'checkbox' : 'radio');
                         for (i in answers) {
                             if (answers.hasOwnProperty(i)) {
                                 answer   = answers[i],
                                 optionId = inputName + '_' + i.toString();
                                 // If question has >1 true answers and is not a select any, use checkboxes; otherwise, radios
-                                var input = '<input id="' + optionId + '" name="' + question.storageQuestionId + '_' + count +
-                                            '" type="' + inputType + '" value="' + i + '" /> ';
+                                if(inputType == 'radio') {
+                                	var input = '<input id="' + optionId + '" name="data[any][' + question.storageQuestionId + '_' + count +
+                                            ']" type="' + inputType + '" value="' + i + '" /> ';
+                                } else {
+                                	var input = '<input id="' + optionId + '" name="data[many][' + question.storageQuestionId + '_' + count +
+                                    '][]" type="' + inputType + '" value="' + i + '" /> ';
+                                }
 
                                 var optionLabel = '<label style="display: inline" for="' + optionId + '">' + answer.option + '</label>';
                                 
@@ -288,6 +293,11 @@
                     var firstQuestion = $(_element + ' ' + _questions + ' li').first();
                     if (firstQuestion.length) {
                         firstQuestion.fadeIn(500);
+                    }
+                    
+                    if(questionCount == 1) {
+                    	firstQuestion.find(_nextQuestionBtn).hide();
+                    	firstQuestion.find(_saveBtn).show();
                     }
                     
                     // Display All answer of user

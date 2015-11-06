@@ -5,7 +5,7 @@ if (! defined('BASEPATH'))
 class Topic extends Ext_Controller
 {
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         
@@ -68,7 +68,7 @@ class Topic extends Ext_Controller
         $this->loadTemnplateBackend($header, $content);
     }
 
-    function published($topic_manage_id)
+    public function published($topic_manage_id)
     {
         $topic_manage_id = intval($topic_manage_id);
         $this->topic_manage_model->published($topic_manage_id);
@@ -92,7 +92,7 @@ class Topic extends Ext_Controller
         $this->sendAjax($status, $message);
     }
 
-    function restore($topic_manage_id)
+    public function restore($topic_manage_id)
     {
         $topic_manage_id = intval($topic_manage_id);
         
@@ -100,7 +100,7 @@ class Topic extends Ext_Controller
         $this->sendAjax();
     }
 
-    function export($id)
+    public function export($id)
     {
         $tid = intval(substr($id, strpos($id, 'tid') + 3, strlen($id)));
         
@@ -196,7 +196,7 @@ class Topic extends Ext_Controller
         @unlink($zip);
     }
 
-    function create()
+    public function create()
     {
         $subjects_id = $this->getUserInfo()->subjects_id;
         
@@ -273,12 +273,12 @@ class Topic extends Ext_Controller
                         $question[$qindex]['storage_question_id'] = $item['storage_question_id'];
                         $question[$qindex]['topic_id'] = $topic_newid;
                         $question[$qindex]['number'] = $number ++;
-                        ++ $qindex;
                         
                         // random answer sentences
                         shuffle($item['answers']);
                         
                         $num = 1;
+                        $correctAnswers = [];
                         foreach ($item['answers'] as $e) {
                             $element = explode(':', $e);
                             $answers[$aindex]['storage_answer_id'] = $element[0];
@@ -286,8 +286,15 @@ class Topic extends Ext_Controller
                             $answers[$aindex]['storage_question_id'] = $item['storage_question_id'];
                             $answers[$aindex]['topic_id'] = $topic_newid;
                             $answers[$aindex]['number'] = $num ++;
+                            
+                            if($answers[$aindex]['correct_answer']) {
+                                $correctAnswers[] = $answers[$aindex]['number'];
+                            }
                             ++ $aindex;
                         }
+                        
+                        $question[$qindex]['correct'] = implode(SEPARATE_CORRECT_ANSWER, $correctAnswers);
+                        ++ $qindex;
                     }
                 }
                 
@@ -307,7 +314,6 @@ class Topic extends Ext_Controller
         $data['title'] = $header['title'];
         // load danh sach kho
         $data['list_storage'] = $this->storage_model->getStoragePublishedByUser($subjects_id);
-        
         // load nien khoa
         $data['list_academic'] = $this->academic_model->getAll();
         
@@ -318,7 +324,7 @@ class Topic extends Ext_Controller
         $this->loadTemnplateBackend($header, $content);
     }
 
-    function change_review()
+    public function change_review()
     {
         if ($this->input->is_ajax_request() && $this->input->post()) {
             $data = $this->input->post();
@@ -339,7 +345,7 @@ class Topic extends Ext_Controller
         }
     }
 
-    function get_list_for_download()
+    public function get_list_for_download()
     {
         if ($this->input->is_ajax_request() && $this->input->post()) {
             $data = $this->input->post();
@@ -355,7 +361,7 @@ class Topic extends Ext_Controller
         }
     }
 
-    function download_student_answer($folder = null)
+    public function download_student_answer($folder = null)
     {
         if ($folder) {
             $this->load->library('recursezip');
@@ -373,7 +379,7 @@ class Topic extends Ext_Controller
         }
     }
     
-    function download_student_result($class_id = null)
+    public function download_student_result($class_id = null)
     {
         $class_id = (int) $class_id;
         if ($class_id) {

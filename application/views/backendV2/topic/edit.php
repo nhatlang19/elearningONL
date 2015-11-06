@@ -90,7 +90,7 @@ list[<?php echo $item->storage_id; ?>] = <?php echo $item->num_question; ?>;
 					</label>
 					<div class="col-md-6">
 						<input name="number_question" type="text" class="form-control"
-							id="number_question" required
+							id="number_question"
 							value="">
 					</div>
 				</div>
@@ -102,7 +102,7 @@ list[<?php echo $item->storage_id; ?>] = <?php echo $item->num_question; ?>;
 					</label>
 					<div class="col-md-6">
 						<input name="number_topic" type="text" class="form-control"
-							id="number_topic" required
+							id="number_topic"
 							value="">
 					</div>
 				</div>
@@ -120,8 +120,4 @@ list[<?php echo $item->storage_id; ?>] = <?php echo $item->num_question; ?>;
 	</div>
 </div>
 <!-- Specific Page Vendor -->
-<script
-	src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-validation/jquery.validate.js"></script>
-<!-- Validate form -->
-<script src="<?php echo BACKEND_V2_JS_PATH; ?>forms/form.validation.js"></script>
 <script src="<?php echo BACKEND_V2_JS_PATH; ?>topic/edit.js"></script>

@@ -73,7 +73,7 @@ class Topic_model extends Ext_Model
         if ($topic_id) {
             $this->db->query("SET SESSION group_concat_max_len = " . GROUP_CONCAT_MAX_LENGTH . ";");
             
-            $this->db->select('sq.storage_question_id, sq.question_name, q.number, GROUP_CONCAT(sa.answer SEPARATOR "|||") AS answer');
+            $this->db->select('sq.storage_question_id, sq.question_name, sq.select_any, q.number, GROUP_CONCAT(sa.answer SEPARATOR "|||") AS answer');
             $this->db->from('question AS q');
             $this->db->join('answer AS a', 'a.storage_question_id = q.storage_question_id');
             $this->db->join('storage_question AS sq', 'sq.storage_question_id = q.storage_question_id');

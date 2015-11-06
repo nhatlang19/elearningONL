@@ -37,18 +37,6 @@
 					<fieldset>
 						<legend>Đăng nhập</legend>
 						<div class="form-group">
-							<label for="inputUsername" class="col-lg-3 control-label">Lớp</label>
-							<div class="col-lg-9">
-								<select class="form-control clazz" name="class_id">
-                                <?php 
-        						foreach ($classes as $class) :
-                                ?>
-    								<option	value="<?php echo $class->class_id; ?>"><?php echo $class->class_name; ?></option>
-    							<?php endforeach; ?>
-                                </select>	
-							</div>
-						</div>
-						<div class="form-group">
 							<label for="inputPassword" class="col-lg-3 control-label">Mã số học sinh</label>
 							<div class="col-lg-9">
 								<input type="text" class="form-control" id="inputPassword"

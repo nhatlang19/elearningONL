@@ -21,7 +21,7 @@
 	</section>
 </div>
 <a class="mb-xs mt-xs mr-xs modal-basic btn btn-danger hide" href="#modalHeaderColorDanger">Danger</a>
-<div id="modalHeaderColorDanger"
+<div id="dialogFailed"
 	class="modal-block modal-header-color modal-block-danger mfp-hide">
 	<section class="panel">
 		<header class="panel-heading">
@@ -41,7 +41,7 @@
 		<footer class="panel-footer">
 			<div class="row">
 				<div class="col-md-12 text-right">
-					<button class="btn btn-danger modal-dismiss">Chấp nhận</button>
+					<button id="dialogFailedAccecpted" class="btn btn-danger btn-dismiss">Chấp nhận</button>
 				</div>
 			</div>
 		</footer>

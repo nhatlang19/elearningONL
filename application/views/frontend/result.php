@@ -36,8 +36,14 @@
     for ($i = 0; $i < $n; $i += $plus) :
         ?>
 						<tr>
-							<?php for($j = $i; $j < $i + $plus; $j++) :?>
-							<td><?php if($i < $n) echo $answers_student[$j]['number_question'] . '. ' . Commonobj::convertNumberToChar($answers_student[$j]['answer']); ?>
+							<?php for($j = $i; $j < $i + $plus; $j++) :
+                                 $answers = explode(SEPARATE_CORRECT_ANSWER, $answers_student[$j]['answer']);
+    							 foreach ($answers as $key => $value) {
+    							     $answers[$key] = Commonobj::convertNumberToChar((int)$value); 
+    							 }
+                                 $answer = implode(SEPARATE_CORRECT_ANSWER, $answers);
+							?>
+							<td><?php if($i < $n) echo $answers_student[$j]['number_question'] . '. ' . $answer; ?>
 							</td>
 							<?php endfor; ?>
 						</tr>

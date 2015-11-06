@@ -43,17 +43,16 @@ class Student extends CI_Controller
         $data = array();
         if ($this->input->post()) {
             $data = $this->input->post();
-            $class_id = (int) $data['class_id'];
             $indentity_number = $this->commonobj->TrimAll($data['indentity_number']);
             if (empty($indentity_number)) {
                 $data['error'] = 'Mã số học sinh không hợp lệ';
             } else {
                 $academic = $this->academic_model->getDefaultValue();
-                $username = $this->commonobj->encrypt($academic->academic_id . '_' . $data['class_id'] . '_' . $data['indentity_number']);
-                $password = $this->commonobj->encrypt($username);
-                $student = $this->student_info_model->login($username, $password);
-                $student->ip_address = $this->utils->getLocalIp();
+//                 $username = $this->commonobj->encrypt($academic->academic_id . '_' . $data['class_id'] . '_' . $data['indentity_number']);
+//                 $password = $this->commonobj->encrypt($username);
+                $student = $this->student_info_model->login($indentity_number, $academic->academic_id);
                 if ($student) {
+                    $student->ip_address = $this->utils->getLocalIp();
                     $session = array(
                         'studentInfo' => $student
                     );
