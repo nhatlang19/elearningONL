@@ -1,7 +1,5 @@
 // iosSwitcher
 (function( $ ) {
-
-	'use strict';
 	$('.showListStudentAnswer').click(function() {
 		var id = $(this).attr('id');
 		$.ajax({
@@ -10,6 +8,7 @@
 			url : "get_list_for_download",
 			data : {topic_manage_id: id},
 			success : function(obj) {
+			console.log(obj);
 				if (!obj.status) {
 					$('#modalHeaderColorPrimary').html(obj.data);
 					$('.modal-basic').trigger('click');

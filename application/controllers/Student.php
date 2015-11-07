@@ -47,10 +47,12 @@ class Student extends CI_Controller
             if (empty($indentity_number)) {
                 $data['error'] = 'Mã số học sinh không hợp lệ';
             } else {
+				list($className, $mshs) = explode('_', $indentity_number);
                 $academic = $this->academic_model->getDefaultValue();
-//                 $username = $this->commonobj->encrypt($academic->academic_id . '_' . $data['class_id'] . '_' . $data['indentity_number']);
-//                 $password = $this->commonobj->encrypt($username);
-                $student = $this->student_info_model->login($indentity_number, $academic->academic_id);
+				$class = $this->class_model->getClassByClassName(strtoupper($className));
+                $username = $this->commonobj->encrypt($academic->academic_id . '_' . $class->class_id . '_' . $mshs);
+                $password = $this->commonobj->encrypt($username);
+                $student = $this->student_info_model->login($username, $password);
                 if ($student) {
                     $student->ip_address = $this->utils->getLocalIp();
                     $session = array(

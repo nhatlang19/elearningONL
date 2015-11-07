@@ -21,4 +21,16 @@ class Class_model extends Ext_Model
             'block_id' => $block_id
         ]);
     }
+	
+	public function getClassByClassName($className) {
+		$filter_rules = array(
+			'class_name' => $className
+        );
+        $result = $this->find($filter_rules);
+        if (! empty($result)) {
+            return $result[0];
+        }
+        
+        return $result;
+	}
 }

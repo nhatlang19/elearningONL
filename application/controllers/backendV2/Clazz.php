@@ -41,7 +41,7 @@ class Clazz extends Ext_Controller
         $data = array();
         if ($this->input->post()) {
             $id = $this->input->post('id', 0);
-            $data['class_name'] = sanitizeText($this->input->post('class_name'));
+            $data['class_name'] = strtoupper(sanitizeText($this->input->post('class_name')));
             $data['block_id'] = intval($this->input->post('block_id'));
             $isValid = $this->clazzlib->validate($data);
             if($isValid) {

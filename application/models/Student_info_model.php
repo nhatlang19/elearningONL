@@ -7,15 +7,15 @@ class Student_info_model extends Ext_Model
         parent::__construct('student_info', 'student_id');
     }
 
-    public function login($indentity_number, $academic_id)
+    public function login($username, $password)
     {
         $data = null;
         
         $this->db->select('s.*, c.class_name');
         $this->db->from($this->table_name . ' as s');
         $this->db->join('class as c', 'c.class_id = s.class_id', 'left');
-        $this->db->where('s.indentity_number', $indentity_number);
-        $this->db->where('s.academic_id', $academic_id);
+        $this->db->where('s.username', $username);
+        $this->db->where('s.password', $password);
         $this->db->where('s.deleted', self::DELETED_NO);
         $query = $this->db->get();
         

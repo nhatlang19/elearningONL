@@ -20,7 +20,7 @@ class Studentlib extends AppComponent {
             $this->CI->form_validation->set_rules(
                 'indentity_number',
                 'Mã số học sinh',
-                'required|min_length[4]|max_length[255]|is_unique[student_info.indentity_number]',
+                'required|min_length[1]|max_length[255]|is_unique[student_info.indentity_number]',
                 array(
                     'required' => 'Mã số học sinh không được rỗng',
                     'min_length' => 'Mã số học sinh ít nhất phải có {param} ký tự',
@@ -32,7 +32,7 @@ class Studentlib extends AppComponent {
             $this->CI->form_validation->set_rules(
                 'indentity_number',
                 'Mã số học sinh',
-                'required|min_length[4]|max_length[255]',
+                'required|min_length[1]|max_length[255]',
                 array(
                     'required' => 'Mã số học sinh không được rỗng',
                     'min_length' => 'Mã số học sinh ít nhất phải có {param} ký tự',

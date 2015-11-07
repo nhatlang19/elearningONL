@@ -152,13 +152,15 @@ class Topic extends Ext_Controller
             foreach ($data as $item) {
                 $answers = explode(',', $item['correct_answer']);
                 $num = 65;
+				$convertAnswers = [];
                 foreach ($answers as $i => $answer) {
                     if ($answer) {
-                        $cells[] = $item['number'] . chr($num);
-                        break;
+                        $convertAnswers[] = chr($num);
                     }
                     $num ++;
                 }
+				
+				$cells[] = $item['number'] . '.' . implode(SEPARATE_CORRECT_ANSWER, $convertAnswers);
                 
                 if (count($cells) == 4) {
                     $this->msdocgenerator->addTableRow($cells);
@@ -194,6 +196,7 @@ class Topic extends Ext_Controller
         
         // delete zip file
         @unlink($zip);
+		flush();
     }
 
     public function create()

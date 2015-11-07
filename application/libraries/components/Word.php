@@ -242,7 +242,12 @@ class Word extends AppComponent
             $array = array();
             for ($j = $i; $j < $i + $plus; $j ++) {
                 if ($j < $n) {
-                    $array[] = $answers_student[$j]['number_question'] . '. ' . Commonobj::convertNumberToChar($answers_student[$j]['answer']);
+					$answers = explode(SEPARATE_CORRECT_ANSWER, $answers_student[$j]['answer']);
+					foreach ($answers as $key => $value) {
+						$answers[$key] = Commonobj::convertNumberToChar((int)$value); 
+					}
+					$answer = implode(SEPARATE_CORRECT_ANSWER, $answers);
+                    $array[] = $answers_student[$j]['number_question'] . '. ' . $answer;
                 }
             }
             $text = implode('<br>', $array);
@@ -310,9 +315,13 @@ class Word extends AppComponent
             $number = 65;
             foreach ($answers as $k => $v) {
                 $correct = '';
-                if (isset($answer_of_student['answer']) && $answer_of_student['answer'] == $k + 1) {
-                    $correct = "<img src='public/backendV2/assets/images/cross_circle.png' />";
-                }
+				if (isset($answer_of_student['answer'])) {
+					$answerOfStudents = explode(SEPARATE_CORRECT_ANSWER, $answer_of_student['answer']);
+					if(in_array($k+1, $answerOfStudents)) {
+						$correct = "<img src='public/backendV2/assets/images/cross_circle.png' />";
+					}
+				}
+                
                 if ($positions[$k]) {
                     $correct = "<img src='public/backendV2/assets/images/tick_circle.png' />";
                 }

@@ -72,7 +72,6 @@
     );
     foreach ($topic_details as $key => $value) :
         $answers = explode('|||', $value['answer']);
-        ;
         $positions = explode(',', $value['correct_answer']);
         $answer_of_student = @$list[$value['storage_question_id']];
         ?>
@@ -86,10 +85,13 @@
 								<!-- where the quiz gets built -->
 							<?php
         
-foreach ($answers as $k => $v) :
+		foreach ($answers as $k => $v) :
             $correct = '';
-            if (isset($answer_of_student['answer']) && $answer_of_student['answer'] == $k + 1) {
-                $correct = "<img src='" . BACKEND_V2_IMAGE_PATH . "cross_circle.png' />";
+            if (isset($answer_of_student['answer'])) {
+				$answerOfStudents = explode(SEPARATE_CORRECT_ANSWER, $answer_of_student['answer']);
+				if(in_array($k+1, $answerOfStudents)) {
+					$correct = "<img src='" . BACKEND_V2_IMAGE_PATH . "cross_circle.png' />";
+				}
             }
             if ($positions[$k]) {
                 $correct = "<img src='" . BACKEND_V2_IMAGE_PATH . "tick_circle.png' />";
