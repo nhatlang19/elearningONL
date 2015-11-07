@@ -29,6 +29,7 @@ truncate table storage_answer;
 truncate table storage_question;
 truncate table student_answer;
 truncate table student_topic;
+truncate table student_info;
 truncate table student_mark;
 truncate table topic;
 truncate table topic_book;
