@@ -31,7 +31,7 @@
 					</label>
 					<div class="col-md-6">
 						<input name="indentity_number" type="text" class="form-control"
-							id="inputDefault" required <?php if(isset($id)) echo 'readonly'; ?>
+							id="inputDefault" required
 							value="<?php echo isset($student->indentity_number) ? $student->indentity_number : ''; ?>">
 							
 					</div>

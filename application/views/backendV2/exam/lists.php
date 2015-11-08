@@ -42,9 +42,10 @@
 					<td style="text-align: center">
 					<?php
                         $checked = $value->published ? 'checked="checked"' : '';
+                        $status = $value->published ? 'unpublished"' : 'published';
                     ?>
     					<div class="switch switch-sm switch-primary">
-    						<input type="checkbox" name="switch" data-plugin-ios-switch <?php echo $checked; ?>  />
+    						<input type="checkbox" name="switch" data-plugin-ios-switch <?php echo $checked; ?> data-id="<?php echo $value->exam_id; ?>" data-status="<?php echo $status; ?>"  />
     					</div>
 					</td>
 					<td><?php echo $value->exam_id; ?></td>

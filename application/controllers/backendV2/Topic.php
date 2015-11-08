@@ -321,7 +321,7 @@ class Topic extends Ext_Controller
         $data['list_academic'] = $this->academic_model->getAll();
         
         // load loai hinh thi
-        $data['list_exam'] = $this->exam_model->getAll();
+        $data['list_exam'] = $this->exam_model->getAllPublished();
         
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'topic/edit', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);

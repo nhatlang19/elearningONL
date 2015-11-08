@@ -23,3 +23,5 @@ ALTER TABLE `question` ADD `correct` TEXT NOT NULL AFTER `number`;
 
 -- 20151108
 ALTER TABLE exam DROP INDEX time;
+ALTER TABLE `academic_year` ADD `published` TINYINT NOT NULL DEFAULT '1' AFTER `default`;
+ALTER TABLE `storage_question` CHANGE `question_name` `question_name` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;

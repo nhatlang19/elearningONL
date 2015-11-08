@@ -78,27 +78,6 @@ class Storage extends Ext_Controller
         $this->loadTemnplateBackend($header, $content);
     }
     
-    public function change_status()
-    {
-        if ($this->input->is_ajax_request() && $this->input->post()) {
-            $data = $this->input->post();
-            $id = intval($data['id']);
-            $status = $data['status'];
-    
-            $result = $this->storage_model->$status($id);
-            if ($result) {
-                $result = array();
-                $result['changeStatus'] = ($status == 'published') ? 'unpublished' : 'published';
-    
-                $this->sendAjax(1, '', $result);
-            } else {
-                $this->sendAjax(0, 'Can not change status');
-            }
-        } else {
-            exit('No direct script access allowed');
-        }
-    }
-    
     // xuat excel
     public function export($id)
     {

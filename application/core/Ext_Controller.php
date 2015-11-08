@@ -75,6 +75,30 @@ class Ext_Controller extends CI_Controller
             show_404();
         }
     }
+    
+    public function change_status()
+    {
+        if(empty($this->mainModel)) {
+            throw new Exception('Undefined mainModel in Controller');
+        }
+        if ($this->input->is_ajax_request() && $this->input->post()) {
+            $data = $this->input->post();
+            $id = intval($data['id']);
+            $status = $data['status'];
+    
+            $result = $this->{$this->mainModel}->$status($id);
+            if ($result) {
+                $result = array();
+                $result['changeStatus'] = ($status == 'published') ? 'unpublished' : 'published';
+    
+                $this->sendAjax(1, '', $result);
+            } else {
+                $this->sendAjax(0, 'Can not change status');
+            }
+        } else {
+            exit('No direct script access allowed');
+        }
+    }
 }
 
 ?>

@@ -484,5 +484,15 @@ class Ext_Model extends CI_Model
     
         return $data;
     }
+    
+    public function getAllPublished($cached = true)
+    {
+        $filters = [
+            $this->table_name . '.published' => self::PUBLISHED,
+            $this->table_name . '.deleted' => self::DELETED_NO
+        ];
+        $data = $this->findAll($filters);
+        return $data;
+    }
 }
 ?>
