@@ -38,7 +38,7 @@ $config['menu'] = array(
             ADMINISTRATOR
         ],
         'icon' => 'fa fa-tasks',
-        'title' => 'Quản lý kho câu hỏi',
+        'title' => 'Quản lý câu hỏi',
         'child' => array(
             array(
                 'class' => 'storage-question-add storage-question-edit',
@@ -48,7 +48,7 @@ $config['menu'] = array(
             array(
                 'class' => 'storage-question-lists',
                 'link' => BACKEND_V2_TMPL_PATH . 'storage-question/lists',
-                'title' => 'Danh sách kho câu hỏi'
+                'title' => 'Danh sách câu hỏi'
             )
         )
     ),

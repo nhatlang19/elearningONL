@@ -7,7 +7,7 @@
 				class="fa fa-times"></a>
 		</div>
 
-		<h2 class="panel-title">Danh sách khối</h2>
+		<h2 class="panel-title">Danh sách hình thức thi</h2>
 	</header>
 	<div class="panel-body">
 		<div class="row">

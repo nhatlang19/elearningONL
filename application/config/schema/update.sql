@@ -20,3 +20,6 @@ ALTER TABLE `student_topic` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `storage_question` ADD `select_any` TINYINT NOT NULL DEFAULT '1' AFTER `question_name`;
 ALTER TABLE `student_answer` CHANGE `answer` `answer` CHAR(100) NOT NULL DEFAULT '' COMMENT 'cau tra loi cua hoc sinh';
 ALTER TABLE `question` ADD `correct` TEXT NOT NULL AFTER `number`;
+
+-- 20151108
+ALTER TABLE exam DROP INDEX time;
