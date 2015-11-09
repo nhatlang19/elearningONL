@@ -49,7 +49,7 @@ class Storagelib extends AppComponent {
         // contents
         $storages = $this->CI->storage_model->exportData($storage_id);
         $storage = $this->CI->storage_model->find_by_pkey($storage_id);
-        $filename = $this->CI->utils->formatTitleExprortDocx($storage->title);
+        $filename = $this->CI->utils->formatTitleExportDocx($storage->title);
         $this->CI->word->exportStorages($filename, $storages);
     }
     
@@ -58,7 +58,6 @@ class Storagelib extends AppComponent {
         $uploadpath = BACKEND_V2_TMP_PATH_ROOT . $fileName;
         $storage_id = (int) $storage_id;
         $rows = $this->CI->word->importFromDocx($uploadpath);
-        
         @unlink($uploadpath);
         if (! empty($rows)) {
             $batchDataQuestions = [];
@@ -68,7 +67,7 @@ class Storagelib extends AppComponent {
                 $cell = $rows[$i][1];
     
                 $data = [];
-                $data['question_name'] = $this->CI->utils->smart_clean($rows[$i][1]);
+                $data['question_name'] = $this->CI->utils->smart_clean(addslashes($rows[$i][1]));
                 if(!empty($data['question_name'])) {
                     $cell_correct_answer = explode(',', trim(strip_tags($rows[$i + 5][1])));
                     $cell_correct_answer = array_filter(array_map('trim', $cell_correct_answer));
@@ -90,7 +89,7 @@ class Storagelib extends AppComponent {
                             $data['correct_answer'] = 0;
                         }
         
-                        $data['answer'] = $this->CI->utils->smart_clean($rows[$k][1]);
+                        $data['answer'] = $this->CI->utils->smart_clean(addslashes($rows[$k][1]));
                         $data['hashkey'] = $hash;
                         if(!empty($data['answer'])) {
                             $batchDataAnswers[] = $data;
@@ -98,7 +97,6 @@ class Storagelib extends AppComponent {
                     }
                 }
             }
-            
             // import csv into storage questions
             $questionsCsvName = BACKEND_V2_TMP_PATH_ROOT . uniqid() . '.csv';
             $this->exportToCsvTemp($questionsCsvName, $batchDataQuestions);

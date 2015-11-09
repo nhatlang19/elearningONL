@@ -58,7 +58,7 @@ class Word extends AppComponent
                     $src = trim(str_replace(base_url(), '', $item['src']));
                     $statusCellTextRun->addImage($src);
                 } else {
-                    $statusCellTextRun->addText($item['text']);
+                    $statusCellTextRun->addText('<![CDATA[ ' . htmlspecialchars_decode($item['text']) . ' ]]>');
                 }
             }
         }
@@ -115,6 +115,102 @@ class Word extends AppComponent
     private function convertDoubleToSingleQuotes($string)
     {
         return str_replace("\"", "'", $string);
+    }
+    
+    private function addParagraph($section, $text, $bold = false) {
+        $lists = $this->convertToArray($text);
+        foreach ($lists as $values) {
+            $textRun = $section->addTextRun();
+            foreach ($values as $item) {
+                if ($item['type'] == 'IMAGE') {
+                    $src = trim(str_replace(base_url(), '', $item['src']));
+                    $textRun->addImage($src);
+                } else {
+                    $textRun->addText('<![CDATA[ ' . htmlspecialchars_decode($item['text']) . ' ]]>', ['bold' => $bold]);
+                }
+            }
+        }
+    }
+    
+    public function exportTopic($topics, $title) {
+        // Include the PHPWord.php, all other classes were loaded by an autoloader
+        require_once APPPATH . 'libraries/PhpOffice/PhpWord/PHPWord.php';
+        
+        // New portrait section
+        $styleTable = array(
+            'borderSize' => 6,
+            'borderColor' => '006699',
+            'cellMargin' => 80
+        );
+        // Add table
+        $styleCell = array(
+            'valign' => 'center',
+            'borderSize' => 6,
+            'borderColor' => '006699'
+        );
+        $array_topic = array();
+        try {
+            $CI = & get_instance();
+            $CI->load->model('topic_model');
+            $results = array();
+            foreach ($topics as $key => $topic) {
+                // New Word Document
+                $PHPWord = new \PhpOffice\PhpWord\PhpWord();
+                $xmlWriter = IOFactory::createWriter($PHPWord, 'Word2007');
+                $section = $PHPWord->createSection();
+                // đề thứ i
+                $title_topic = 'De ' . $topic['code'] . DOCX;
+            
+                $data = $CI->topic_model->getData($topic['topic_id']);
+                $results[$key]['code'] = $topic['code'];
+                $results[$key]['data'] = $data;
+                foreach ($data as $item) {
+                    $this->addParagraph($section, 'Câu ' . $item['number'] . ': ' . $item['question_name'], true);
+                    $answers = explode(SEPARATE_ANSWER, $item['answer']);
+                    $num = 65;
+                    foreach ($answers as $answer) {
+                        $text = chr($num) . '. ' . stripslashes($answer);
+                        $this->addParagraph($section, $text);
+                        $num ++;
+                    }
+                }
+                
+                $filename = BACKEND_V2_DOC_PATH_DIR . $title . '/' . $title_topic;
+                $xmlWriter->save($filename);
+                $array_topic[] = $filename;
+            
+                // New Word Document
+                $PHPWord = new \PhpOffice\PhpWord\PhpWord();
+                $xmlWriter = IOFactory::createWriter($PHPWord, 'Word2007');
+                $section = $PHPWord->createSection();
+                $table = $section->addTable('myOwnTableStyle');
+                // Add table style
+                $PHPWord->addTableStyle('myOwnTableStyle', $styleTable);
+                // ghi file dap an
+                $title_topic = 'De ' . $topic['code'] . " - dap an" . DOCX;
+                foreach ($data as $item) {
+                    $answers = explode(',', $item['correct_answer']);
+                    $num = 65;
+                    $convertAnswers = [];
+                    foreach ($answers as $i => $answer) {
+                        if ($answer) {
+                            $convertAnswers[] = chr($num);
+                        }
+                        $num ++;
+                    }
+                    $cells = array();
+                    $cells['col1'] = 'Câu ' . $item['number'];
+                    $cells['col2'] = implode(SEPARATE_CORRECT_ANSWER, $convertAnswers);
+                    $this->_addDataToRow($table, $cells, $styleCell);
+                }
+                $filename = BACKEND_V2_DOC_PATH_DIR . $title . '/' . $title_topic;
+                $xmlWriter->save($filename);
+                $array_topic[] = $filename;
+            }
+        } catch(Exception $ex) {
+            return $array_topic;
+        }
+        return $array_topic;
     }
 
     function exportStorages($filename, $storages)
@@ -242,12 +338,14 @@ class Word extends AppComponent
             $array = array();
             for ($j = $i; $j < $i + $plus; $j ++) {
                 if ($j < $n) {
-					$answers = explode(SEPARATE_CORRECT_ANSWER, $answers_student[$j]['answer']);
-					foreach ($answers as $key => $value) {
-						$answers[$key] = Commonobj::convertNumberToChar((int)$value); 
-					}
-					$answer = implode(SEPARATE_CORRECT_ANSWER, $answers);
-                    $array[] = $answers_student[$j]['number_question'] . '. ' . $answer;
+                    if(isset($answers_student[$j]['answer'])) {
+    					$answers = explode(SEPARATE_CORRECT_ANSWER, $answers_student[$j]['answer']);
+    					foreach ($answers as $key => $value) {
+    						$answers[$key] = Commonobj::convertNumberToChar((int)$value); 
+    					}
+    					$answer = implode(SEPARATE_CORRECT_ANSWER, $answers);
+                        $array[] = $answers_student[$j]['number_question'] . '. ' . $answer;
+                    }
                 }
             }
             $text = implode('<br>', $array);

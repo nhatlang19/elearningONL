@@ -24,6 +24,21 @@ class Student_info_model extends Ext_Model
             $data = $rows[0];
         return $data;
     }
+    
+    public function isExistsStudent($indentity_number, $class_id) {
+        $data = null;
+        
+        $this->db->select('s.id');
+        $this->db->from($this->table_name . ' as s');
+        $this->db->where('s.indentity_number', $indentity_number);
+        $this->db->where('s.class_id', $class_id);
+        $this->db->where('s.deleted', self::DELETED_NO);
+        $query = $this->db->get();
+        
+        $rows = $query->result();
+        pr($rows);exit;
+        return count($rows) ? true : false;
+    }
 
     function getAllStudents($class_id = -1)
     {
@@ -46,7 +61,7 @@ class Student_info_model extends Ext_Model
         $this->db->join('class as c', 'c.class_id = si.class_id');
         $this->db->where('si.class_id', $class_id);
         
-        $this->db->order_by('si.indentity_number');
+        $this->db->order_by('cast(si.indentity_number as unsigned)');
         $query = $this->db->get();
         
         $rows = $query->result();

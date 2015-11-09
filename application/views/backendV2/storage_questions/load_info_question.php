@@ -13,7 +13,7 @@
             ?>
     		<p>
     		<b><?php echo $i; ?>. </b>
-			<?php echo nl2br(stripslashes($answer->answer)); ?>			
+			<?php echo $answer->answer; ?>			
 			<?php
             if ($answer->correct_answer == 1) :
                 ?>

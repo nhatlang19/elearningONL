@@ -24,6 +24,7 @@
 				<tr>
 					<th align="center">STT</th>
 					<th>Niên khoá</th>
+					<th>Trạng thái</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -35,6 +36,15 @@
 				<tr class="gradeX" data-id="<?php echo $value->	academic_id; ?>">
 					<td><?php echo $i++; ?></td>
 					<td><?php echo anchor(BACKEND_V2_TMPL_PATH . 'academic/edit/' . $value->academic_id, $value->academic_name); ?></td>
+					<td style="text-align: center">
+					<?php
+                        $checked = $value->published ? 'checked="checked"' : '';
+                        $status = $value->published ? 'unpublished"' : 'published';
+                    ?>
+    					<div class="switch switch-sm switch-primary">
+    						<input type="checkbox" name="switch" data-plugin-ios-switch <?php echo $checked; ?> data-id="<?php echo $value->academic_id; ?>" data-status="<?php echo $status; ?>"  />
+    					</div>
+					</td>
 					<td class="actions">
 						<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
 						<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>

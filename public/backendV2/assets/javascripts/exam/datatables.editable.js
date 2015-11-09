@@ -55,7 +55,27 @@ Theme Version: 	1.3.0
 					if ( typeof Switch !== 'undefined' && $.isFunction( Switch ) ) {
 						_self.$table.find('[data-plugin-ios-switch]').each(function() {
 							var $this = $( this );
-							$this.themePluginIOS7Switch();
+							$this.themePluginIOS7Switch(function() {
+								var id = $this.data('id');
+								var status = $this.data('status');
+								$.ajax({
+									type: 'post',
+									dataType : "json",
+									url : "change_status",
+									data : {id: id, status: status},
+									success : function(obj) {
+										if (obj.status) {
+											$this.data('status', obj.data.changeStatus);
+										} else {
+											alert(obj.message);
+										}
+									},
+									error : function(e) {
+										/* handle the error code here */
+										console.log(e);
+									}
+								});
+							});
 						});
 					}
 				}

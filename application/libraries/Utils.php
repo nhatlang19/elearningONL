@@ -38,7 +38,7 @@ class Utils
         return $sheetData;
     }
 
-    public function formatTitleExprortDocx($str)
+    public function formatTitleExportDocx($str)
     {
         return BACKEND_V2_TMP_PATH_ROOT . preg_replace('/[_\/ "]/s', '-', $str) . DOCX;
     }

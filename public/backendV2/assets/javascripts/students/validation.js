@@ -5,7 +5,7 @@
 	  'indentity_number': {
 	    required: true,
 	    maxlength: '255',
-	    minlength: '4'
+	    minlength: '1'
 	  },
 	  'fullname': {
 		    required: true,

@@ -1,6 +1,6 @@
 <?php
 
-function imageThumb($src, $desc, $height = 200, $width = 200)
+function imageThumb($src, $desc, $height = 300, $width = 300)
 {
     // Get the CodeIgniter super object
     $CI = & get_instance();

@@ -23,6 +23,7 @@ class Topic extends Ext_Controller
         
         $this->load->library([
             'lib/topiclib',
+            'components/word',
         ]);
     }
 
@@ -119,63 +120,7 @@ class Topic extends Ext_Controller
         $topics = $this->topic_model->getTopicByTopicManageId($tid);
         
         // gen msdoc
-        $this->load->library('msdocgenerator');
-        $array_topic = array();
-        $results = array();
-        foreach ($topics as $key => $topic) {
-            
-            // đề thứ i
-            $title_topic = 'De ' . $topic['code'] . ".doc";
-            
-            $data = $this->topic_model->getData($topic['topic_id']);
-            $results[$key]['code'] = $topic['code'];
-            $results[$key]['data'] = $data;
-            foreach ($data as $item) {
-                $this->msdocgenerator->addParagraph('<b>Câu ' . $item['number'] . ':</b> ' . stripslashes(nl2br($item['question_name'])));
-                
-                $answers = explode('|||', $item['answer']);
-                $num = 65;
-                foreach ($answers as $answer) {
-                    $this->msdocgenerator->addParagraph(chr($num) . '. ' . stripslashes(nl2br($answer)));
-                    $num ++;
-                }
-            }
-            $this->msdocgenerator->setDocumentCharset('UTF-8');
-            $this->msdocgenerator->output($title_topic, BACKEND_V2_DOC_PATH_DIR . $title);
-            $array_topic[] = BACKEND_V2_DOC_PATH_DIR . $title . '/' . $title_topic;
-            
-            // ghi file dap an
-            $title_topic = 'De ' . $topic['code'] . " - dap an.doc";
-            $this->msdocgenerator->addParagraph('<b>Đáp án:</b>');
-            $this->msdocgenerator->startTable();
-            $cells = array();
-            foreach ($data as $item) {
-                $answers = explode(',', $item['correct_answer']);
-                $num = 65;
-				$convertAnswers = [];
-                foreach ($answers as $i => $answer) {
-                    if ($answer) {
-                        $convertAnswers[] = chr($num);
-                    }
-                    $num ++;
-                }
-				
-				$cells[] = $item['number'] . '.' . implode(SEPARATE_CORRECT_ANSWER, $convertAnswers);
-                
-                if (count($cells) == 4) {
-                    $this->msdocgenerator->addTableRow($cells);
-                    unset($cells);
-                }
-            }
-            if (isset($cells) && count($cells) <= 4) {
-                $this->msdocgenerator->addTableRow($cells);
-            }
-            $this->msdocgenerator->endTable();
-            $this->msdocgenerator->setDocumentCharset('UTF-8');
-            $this->msdocgenerator->output($title_topic, BACKEND_V2_DOC_PATH_DIR . $title);
-            $array_topic[] = BACKEND_V2_DOC_PATH_DIR . $title . '/' . $title_topic;
-        }
-        
+        $array_topic =  $this->word->exportTopic($topics, $title);
         // zip folder
         $this->load->library('recursezip');
         $src = BACKEND_V2_DOC_PATH_DIR . $title;
@@ -321,7 +266,7 @@ class Topic extends Ext_Controller
         $data['list_academic'] = $this->academic_model->getAll();
         
         // load loai hinh thi
-        $data['list_exam'] = $this->exam_model->getAll();
+        $data['list_exam'] = $this->exam_model->getAllPublished();
         
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'topic/edit', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);

@@ -48,7 +48,6 @@ class Topic_manage_model extends Ext_Model
         $this->db->join('academic_year as ay', 'ay.academic_id = ' . $this->table_name . '.academic_id', 'left');
         $this->db->join('exam as e', 'e.exam_id = ' . $this->table_name . ' .exam_id', 'left');
         $this->db->where($this->table_name . '.status', self::STATUS_DELETED);
-        
         if ($academic_id) {
             $this->db->where($this->table_name . '.academic_id', $academic_id);
         }
