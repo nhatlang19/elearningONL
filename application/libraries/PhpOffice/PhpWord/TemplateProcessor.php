@@ -59,6 +59,11 @@ class TemplateProcessor
      * @var string[]
      */
     protected $tempDocumentFooters = array();
+    
+    /**
+     * Luan modified
+     */
+    protected $temporaryDocumentRels;
 
     /**
      * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception.
@@ -105,6 +110,7 @@ class TemplateProcessor
             $index++;
         }
         $this->tempDocumentMainPart = $this->fixBrokenMacros($this->zipClass->getFromName('word/document.xml'));
+        $this->temporaryDocumentRels = $this->zipClass->getFromName('word/_rels/document.xml.rels');
     }
 
     /**
@@ -519,7 +525,6 @@ class TemplateProcessor
         $xml = $this->tempDocumentMainPart;
         $rowData = array();
         $rows = $this->_filterRows($xml);
-        $index = 1;
         foreach ($rows as $row) {
             $cells = $this->_filterCells($row);
             $cellData = array();
@@ -527,13 +532,12 @@ class TemplateProcessor
                 $paragraphs = $this->_filterParagraph($cell);
                 $html = array();
                 foreach ($paragraphs as $key => $paragraph) {
-                    $html[] = $this->_getContent($paragraph, $index);
+                    $html[] = $this->_getContent($paragraph);
                 }
                 $cellData[] = implode('<br>', $html);
             }
             $rowData[] = $cellData;
         }
-    
         $CI = & get_instance();
         $CI->load->library('commonobj');
         $CI->commonobj->deleteDir(BACKEND_V2_TRASH_PATH);
@@ -571,7 +575,7 @@ class TemplateProcessor
         return array();
     }
     
-    private function _getContent($resources, &$index)
+    private function _getContent($resources)
     {
         $pattern = '/<w\:r(.*?)>(.*?)<\/w\:r>/';
         preg_match_all($pattern, $resources, $matches);
@@ -583,7 +587,7 @@ class TemplateProcessor
                 preg_match($pattern, $row, $matches);
                 if (empty($matches)) {
                     // get images
-                    $html .= $this->_getImage($row, $index);
+                    $html .= $this->_getImage($row);
                 } else {
                     if (isset($matches[count($matches) - 1])) {
                         $html .= $matches[count($matches) - 1] . ' ';
@@ -594,26 +598,54 @@ class TemplateProcessor
         return $html;
     }
     
-    private function _getImage($resources, &$index)
+    private function _getImage($resources)
     {
-        $pattern = '/(descr|o:title)="([^"]*)"/';
-        preg_match($pattern, $resources, $matches);
-        if (isset($matches[2])) {
-            // $array = preg_split("/[\\/]+/", $matches[2]);
-            $array = preg_split("/[\\\\\/]/", $matches[2]);
-            $newPath = array_pop($array);
-            $ext = pathinfo($newPath, PATHINFO_EXTENSION);
-            if ($ext == 'jpg') {
-                $ext = 'jpeg';
+        $rId = $this->seachImagerId('<wp:docPr' , $resources);
+        if(!empty($rId)) {
+            $fileName = $this->getImgFileName($rId);
+            if(!empty($fileName)) {
+                $src = BACKEND_V2_TRASH_PATH . '/word/media/' . $fileName;
+                
+                $ext = pathinfo($src, PATHINFO_EXTENSION);
+                $newFileName = uniqid(date('YmdHis')) . '.' . $ext;
+                
+                $desc = PATH_UPLOADS_NO_ROOT . 'images/' . $newFileName;
+                if(file_exists($src)) {
+                    $imgThumb = imageThumb($src, $desc);
+                    $newPath = base_url() . 'public/uploads/images/' . $newFileName;
+                    return "<img src='$newPath' /> ";
+                }
             }
-    
-            $desc = PATH_UPLOADS_NO_ROOT . 'images/' . $newPath;
-            $newPath = base_url() . 'public/uploads/images/' . $newPath;
-            
-            $src = BACKEND_V2_TRASH_PATH . '/word/media/image' . $index ++ . '.' . $ext;
-            $imgThumb = imageThumb($src, $desc);
-            return "<img src='$newPath' /> ";
         }
         return '';
+    }
+
+    /**
+     * Search for the labeled image's rId
+     *
+     * @param string $search            
+     */
+    public function seachImagerId($search, $resources)
+    {
+        if (substr($search, 0, 2) !== '${' && substr($search, - 1) !== '}') {
+            $search = '${' . $search . '}';
+        }
+        $tagPos = strpos($resources, $search);
+        $rIdStart = strpos($resources, 'r:embed="', $tagPos) + 9;
+        $rId = strstr(substr($resources, $rIdStart), '"', true);
+        return $rId;
+    }
+
+    /**
+     * Get img filename with it's rId
+     *
+     * @param string $rId            
+     */
+    public function getImgFileName($rId)
+    {
+        $tagPos = strpos($this->temporaryDocumentRels, $rId);
+        $fileNameStart = strpos($this->temporaryDocumentRels, 'Target="media/', $tagPos) + 14;
+        $fileName = strstr(substr($this->temporaryDocumentRels, $fileNameStart), '"', true);
+        return $fileName;
     }
 }

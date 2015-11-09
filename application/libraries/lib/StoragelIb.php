@@ -49,7 +49,7 @@ class Storagelib extends AppComponent {
         // contents
         $storages = $this->CI->storage_model->exportData($storage_id);
         $storage = $this->CI->storage_model->find_by_pkey($storage_id);
-        $filename = $this->CI->utils->formatTitleExprortDocx($storage->title);
+        $filename = $this->CI->utils->formatTitleExportDocx($storage->title);
         $this->CI->word->exportStorages($filename, $storages);
     }
     
@@ -58,7 +58,6 @@ class Storagelib extends AppComponent {
         $uploadpath = BACKEND_V2_TMP_PATH_ROOT . $fileName;
         $storage_id = (int) $storage_id;
         $rows = $this->CI->word->importFromDocx($uploadpath);
-        
         @unlink($uploadpath);
         if (! empty($rows)) {
             $batchDataQuestions = [];
