@@ -61,7 +61,7 @@ class Student_info_model extends Ext_Model
         $this->db->join('class as c', 'c.class_id = si.class_id');
         $this->db->where('si.class_id', $class_id);
         
-        $this->db->order_by('si.indentity_number');
+        $this->db->order_by('cast(si.indentity_number as unsigned)');
         $query = $this->db->get();
         
         $rows = $query->result();

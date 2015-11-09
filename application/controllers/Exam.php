@@ -57,7 +57,6 @@ class Exam extends CI_Controller
                 'studentInfo' => $student
             );
             $this->session->set_userdata($session);
-            
             // load template
             $content = $this->load->view(FRONT_END_TMPL_PATH . 'result', $data, TRUE);
             $header['title'] = EXAM_RESULT;
@@ -113,7 +112,6 @@ class Exam extends CI_Controller
                 $studentMarkData['student_id'] = $student_id;
                 $studentMarkData['topic_id'] = $topic_id;
                 $student_mark_id = $this->student_mark_model->create_ignore($studentMarkData);
-                
                 /**
                  * luu cau tra loi cua student *
                  */
@@ -158,7 +156,6 @@ class Exam extends CI_Controller
                         }
                     }
                 }
-                
                 $this->student_topic_model->updateFinished($student_id, $topic_id, $student_mark_id);
                 if (count($student_answer)) {
                     // them du lieu vao bang student_answer

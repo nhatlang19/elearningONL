@@ -338,12 +338,14 @@ class Word extends AppComponent
             $array = array();
             for ($j = $i; $j < $i + $plus; $j ++) {
                 if ($j < $n) {
-					$answers = explode(SEPARATE_CORRECT_ANSWER, $answers_student[$j]['answer']);
-					foreach ($answers as $key => $value) {
-						$answers[$key] = Commonobj::convertNumberToChar((int)$value); 
-					}
-					$answer = implode(SEPARATE_CORRECT_ANSWER, $answers);
-                    $array[] = $answers_student[$j]['number_question'] . '. ' . $answer;
+                    if(isset($answers_student[$j]['answer'])) {
+    					$answers = explode(SEPARATE_CORRECT_ANSWER, $answers_student[$j]['answer']);
+    					foreach ($answers as $key => $value) {
+    						$answers[$key] = Commonobj::convertNumberToChar((int)$value); 
+    					}
+    					$answer = implode(SEPARATE_CORRECT_ANSWER, $answers);
+                        $array[] = $answers_student[$j]['number_question'] . '. ' . $answer;
+                    }
                 }
             }
             $text = implode('<br>', $array);

@@ -47,15 +47,17 @@ class Excel extends AppComponent
             ++ $row;
             $sheet->setCellValue("A$row", $student['indentity_number']);
             $sheet->setCellValue("B$row", $student['fullname']);
-            $sheet->setCellValue("C$row", (float) $student['score']);
             if (in_array($student['indentity_number'], $listIndentities)) {
                 $sheet->setCellValue("D$row", "Trùng nhau");
-            } else 
-                if (empty($student['score'])) {
-                    $sheet->setCellValue("D$row", "Không làm bài");
-                } else {
-                    $sheet->setCellValue("D$row", "");
-                }
+            } 
+            
+            if (empty($student['score'])) {
+                $sheet->setCellValue("D$row", "Chưa làm bài");
+                $sheet->setCellValue("C$row", "");
+            } else {
+                $sheet->setCellValue("D$row", "");
+                $sheet->setCellValue("C$row", (float) $student['score']);
+            }
             $listIndentities[] = $student['indentity_number'];
         }
         

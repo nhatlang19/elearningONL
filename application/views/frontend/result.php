@@ -37,6 +37,7 @@
         ?>
 						<tr>
 							<?php for($j = $i; $j < $i + $plus; $j++) :
+							if(isset($answers_student[$j]['answer'])) :
                                  $answers = explode(SEPARATE_CORRECT_ANSWER, $answers_student[$j]['answer']);
     							 foreach ($answers as $key => $value) {
     							     $answers[$key] = Commonobj::convertNumberToChar((int)$value); 
@@ -45,6 +46,9 @@
 							?>
 							<td><?php if($i < $n) echo $answers_student[$j]['number_question'] . '. ' . $answer; ?>
 							</td>
+							<?php else:?>
+								<td></td>
+							<?php endif; ?>
 							<?php endfor; ?>
 						</tr>
 						<?php endfor; ?>
