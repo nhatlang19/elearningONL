@@ -23,9 +23,17 @@ class Student_answer_model extends Ext_Model
         
         $results = array();
         if (! empty($query) && $query->num_rows() > 0) {
-            $results = $query->result_array();
+            $results = $query->result();
         }
         
         return $results;
+    }
+    
+    public function deleteAnswerOfStudent($student_id, $topic_id) 
+    {
+        $this->delete(array(
+           'student_id' => $student_id,
+           'topic_id' => $topic_id
+        ));
     }
 }

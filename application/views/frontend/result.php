@@ -37,14 +37,14 @@
         ?>
 						<tr>
 							<?php for($j = $i; $j < $i + $plus; $j++) :
-							if(isset($answers_student[$j]['answer'])) :
-                                 $answers = explode(SEPARATE_CORRECT_ANSWER, $answers_student[$j]['answer']);
+							if(isset($answers_student[$j]->answer)) :
+                                 $answers = explode(SEPARATE_CORRECT_ANSWER, $answers_student[$j]->answer);
     							 foreach ($answers as $key => $value) {
     							     $answers[$key] = Commonobj::convertNumberToChar((int)$value); 
     							 }
                                  $answer = implode(SEPARATE_CORRECT_ANSWER, $answers);
 							?>
-							<td><?php if($i < $n) echo $answers_student[$j]['number_question'] . '. ' . $answer; ?>
+							<td><?php if($i < $n) echo $answers_student[$j]->number_question . '. ' . $answer; ?>
 							</td>
 							<?php else:?>
 								<td></td>
@@ -82,7 +82,7 @@
 					<div class="quiz" id="slickQuiz" style="width: 100%">
 						<blockquote>
 							<?php echo ($key+1) . '. ' . $value['question_name']; ?>
-							<?php echo !isset($answer_of_student['answer'])?'<small class="no_answer">(Không có câu trả lời)</small>':''; ?>
+							<?php echo !isset($answer_of_student->answer)?'<small class="no_answer">(Không có câu trả lời)</small>':''; ?>
 						</blockquote>
 						<div class="quizArea">
 							<ul class="answers">
@@ -91,8 +91,8 @@
         
 		foreach ($answers as $k => $v) :
             $correct = '';
-            if (isset($answer_of_student['answer'])) {
-				$answerOfStudents = explode(SEPARATE_CORRECT_ANSWER, $answer_of_student['answer']);
+            if (isset($answer_of_student->answer)) {
+				$answerOfStudents = explode(SEPARATE_CORRECT_ANSWER, $answer_of_student->answer);
 				if(in_array($k+1, $answerOfStudents)) {
 					$correct = "<img src='" . BACKEND_V2_IMAGE_PATH . "cross_circle.png' />";
 				}

@@ -58,7 +58,7 @@ class Student_info_model extends Ext_Model
         $this->db->select('sm.*, si.indentity_number, si.fullname, si.class_id, c.class_name');
         $this->db->from($this->table_name . ' as si');
         $this->db->join('student_mark as sm', 'si.student_id = sm.student_id', 'LEFT');
-        $this->db->join('class as c', 'c.class_id = si.class_id');
+        $this->db->join('class as c', 'c.class_id = si.class_id', 'LEFT');
         $this->db->where('si.class_id', $class_id);
         
         $this->db->order_by('cast(si.indentity_number as unsigned)');
