@@ -76,27 +76,31 @@ class Storagelib extends AppComponent {
                     $hash = md5($data['storage_id'] . '_' . $data['question_name']);
                     $data['hashkey'] = $hash;
                     $data['select_any'] = count($cell_correct_answer) > 1 ? 0 : 1;
-                    $batchDataQuestions[$hash] = $data;
-        
-                    $listHashQuestions[] = $hash;
-                    // answers
-                    for ($k = $i + 1; $k < $i + 5; $k ++) {
-                        $data = [];
-                        $char = trim(strip_tags($rows[$k][0]));
-                        if (in_array($char, $cell_correct_answer)) {
-                            $data['correct_answer'] = 1;
-                        } else {
-                            $data['correct_answer'] = 0;
-                        }
-        
-                        $data['answer'] = $this->CI->utils->smart_clean(addslashes($rows[$k][1]));
-                        $data['hashkey'] = $hash;
-                        if(!empty($data['answer'])) {
-                            $batchDataAnswers[] = $data;
+                    
+                    if(!in_array($hash, $listHashQuestions)) {
+                        $batchDataQuestions[$hash] = $data;
+            
+                        $listHashQuestions[] = $hash;
+                        // answers
+                        for ($k = $i + 1; $k < $i + 5; $k ++) {
+                            $data = [];
+                            $char = trim(strip_tags($rows[$k][0]));
+                            if (in_array($char, $cell_correct_answer)) {
+                                $data['correct_answer'] = 1;
+                            } else {
+                                $data['correct_answer'] = 0;
+                            }
+            
+                            $data['answer'] = $this->CI->utils->smart_clean(addslashes($rows[$k][1]));
+                            $data['hashkey'] = $hash;
+                            if(!empty($data['answer'])) {
+                                $batchDataAnswers[] = $data;
+                            }
                         }
                     }
                 }
             }
+            
             // import csv into storage questions
             $questionsCsvName = BACKEND_V2_TMP_PATH_ROOT . uniqid() . '.csv';
             $this->exportToCsvTemp($questionsCsvName, $batchDataQuestions);
