@@ -17,7 +17,7 @@ var USERINFO = '<?php echo json_encode((array)$user); ?>';
 			
 				<!-- start: search & user box -->
 				<div class="header-right">
-			
+			<!-- SEARCH ALL
 					<form action="pages-search-results.html" class="search nav-form">
 						<div class="input-group input-search">
 							<input type="text" class="form-control" name="q" id="q" placeholder="Search...">
@@ -26,7 +26,7 @@ var USERINFO = '<?php echo json_encode((array)$user); ?>';
 							</span>
 						</div>
 					</form>
-			
+			-->
 					<span class="separator"></span>
 			
 					<div id="userbox" class="userbox">

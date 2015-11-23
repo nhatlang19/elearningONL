@@ -50,31 +50,15 @@ class Users extends CI_Controller
         $confirm_pass = $this->input->post('re-pass');
         
         if ((! $pass || ! $confirm_pass) || $pass != $confirm_pass) {
-            
-            $newdata = array(
-                'error_change' => 'Mật khẩu không trùng nhau'
-            );
-            
-            $this->session->set_userdata($newdata);
+            $this->session->set_flashdata('error', 'Mật khẩu không trùng nhau');
         } else {
             // update status
-            $newdata = array(
-                'success_change' => 'Đã cập nhật thành công'
-            );
-            $this->session->set_userdata($newdata);
+            $this->session->set_flashdata('success', 'Cập nhật thành công');
             
             $user = $this->session->userdata('user');
             
             // update password into db
             $this->user->update_password($user->username, $pass);
-            
-            // update password into session
-            // $user->password = $pass;
-            // $newdata = array(
-            // 'user' => $user,
-            // 'logged_in' => TRUE
-            // );
-            // $this->session->set_userdata ( $newdata );
         }
         
         // redirect to change password page
