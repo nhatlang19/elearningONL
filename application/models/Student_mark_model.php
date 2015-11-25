@@ -46,7 +46,7 @@ class Student_mark_model extends Ext_Model
         $this->db->where('sm.topic_id', $topic_id);
         
         $query = $this->db->get();
-        $row - $query->row();
+        $row = $query->row();
         if(empty($row)) {
             $studentMarkData['student_id'] = $student_id;
             $studentMarkData['topic_id'] = $topic_id;

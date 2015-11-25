@@ -20,6 +20,7 @@
 		</div>
 	</div>
 </div>
+<?php if(isset($topic_details)) : ?>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
@@ -58,7 +59,7 @@
 		</div>
 	</div>
 </div>
-<?php if(isset($topic_details)) : ?>
+
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
