@@ -44,60 +44,63 @@ class StorageQuestion extends Ext_Controller
     public function save()
     {
         $id = intval($this->input->post('id'));
-        pr($this->input->post());exit;
         if ($this->input->post()) {
-            
-            $data['question_name'] = addslashes($this->input->post('question_name'));
+            $data['question_name'] = trim(addslashes($this->input->post('question_name')));
             $data['storage_id'] = intval($this->input->post('storage'));
-            
-            $hash = md5($data['storage_id'] . '_' . $data['question_name']);
-            $data['hashkey'] = $hash;
-            
-            // save into storage table
-            if ($id) {
-                $storage_question_id = $id;
-                $this->storage_question_model->update_by_pkey($id, $data);
-            } else {
-                $storage_question_id = $this->storage_question_model->create_ignore($data);
-            }
-            unset($data);
-            // save into storage_answer
-            $data['storage_question_id'] = $storage_question_id;
-            $data['hashkey'] = $hash;
-            $this->storage_answer_model->deleteByHash([$hash]);
             
             // answer for text
             $answers = $this->input->post('answer_name');
-            $correct_answer = $this->input->post('correct_answer');
+            $correct_answers = $this->input->post('correct_answer');
             
-            // duyet danh sach cau tra loi va luu db
-            $idx = 0;
-            foreach ($answers as $answer) {
-                if ($answer) {
-                    if ($idx == $correct_answer) {
-                        $data['correct_answer'] = 1;
-                    } else {
-                        $data['correct_answer'] = 0;
-                    }
-                    $data['answer'] = addslashes($answer);
-                    $this->storage_answer_model->create($data);
-                    $idx ++;
-                }
-            }
-            
-            if ($storage_question_id) {
-                redirect(BACKEND_V2_TMPL_PATH . 'storage-question/lists');
+            $invalidQuestionName = empty($data['question_name']);
+            $invalidCorrectAnswer = empty($correct_answers) || !count($correct_answers);
+            $invalidAnswer = empty($answers) || !count($answers);
+            if($invalidQuestionName || $invalidCorrectAnswer || $invalidAnswer) {
+                if($invalidQuestionName) {
+                    $this->sendAjax(1, 'Câu hỏi không thể rỗng');
+                } elseif($invalidCorrectAnswer) {
+                    $this->sendAjax(1, 'Phải có ít nhất 1 câu trả lời đúng');
+                } elseif($invalidAnswer) {
+                    $this->sendAjax(1, 'Phải có ít nhất 1 câu trả lời');
+                } 
             } else {
-                $newdata = array(
-                    'error' => 'Câu hỏi đã tồn tại'
-                );
+                $hash = md5($data['storage_id'] . '_' . $data['question_name']);
+                $data['hashkey'] = $hash;
                 
-                $this->session->set_userdata($newdata);
-                $task = $this->input->post('task');
-                if ($task == 'add') {
-                    redirect(BACKEND_V2_TMPL_PATH . 'storage-question/edit');
+                // save into storage table
+                if ($id) {
+                    $storage_question_id = $id;
+                    $this->storage_question_model->update_by_pkey($id, $data);
                 } else {
-                    redirect(BACKEND_V2_TMPL_PATH . 'storage-question/edit/' . $id);
+                    $storage_question_id = $this->storage_question_model->create_ignore($data);
+                }
+                unset($data);
+                // save into storage_answer
+                $data['storage_question_id'] = $storage_question_id;
+                $data['hashkey'] = $hash;
+                $this->storage_answer_model->deleteByHash([$hash]);
+                
+                
+                
+                // duyet danh sach cau tra loi va luu db
+                $idx = 0;
+                foreach ($answers as $answer) {
+                    if ($answer) {
+                        if (in_array($idx, $correct_answers)) {
+                            $data['correct_answer'] = 1;
+                        } else {
+                            $data['correct_answer'] = 0;
+                        }
+                        $data['answer'] = addslashes($answer);
+                        $this->storage_answer_model->create($data);
+                        $idx ++;
+                    }
+                }
+                
+                if ($storage_question_id) {
+                    $this->sendAjax();
+                } else {
+                    $this->sendAjax(1, 'Câu hỏi đã tồn tại');
                 }
             }
         }

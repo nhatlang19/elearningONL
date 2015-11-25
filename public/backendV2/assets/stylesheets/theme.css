@@ -63,7 +63,7 @@ a:active {
 /* Layout Base - Content Body */
 .content-body {
 	display: table-cell;
-	padding: 40px;
+	_padding: 40px;
 	position: relative;
 	vertical-align: top;
 }
