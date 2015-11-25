@@ -27,7 +27,7 @@ Theme Version: 	1.3.0
 	        type: 'POST',
 	        success: function(result) {
 	            if(!result.status) {
-	         	   location.href = 'lists.html';
+	         	   location.href = '../lists.html';
 	            } else {
 	                $('.alert-danger div').html(result.message);
 	                $('.alert-danger').removeClass('hide');
