@@ -280,7 +280,7 @@
             		if(i && i % 2 == 0) {
             			html += '</tr><tr>';
             		}
-            		html += '<td width="50%" class="td-question' + i + '">' + (i + 1) + '. _</td>';
+            		html += '<td width="50%" class="td-question' + i + '">' + (i + 1) + '.</td>';
             	}
             	html += '</tr>';
             	html += '</table>';

@@ -56,7 +56,9 @@ class Word extends AppComponent
             foreach ($values as $item) {
                 if ($item['type'] == 'IMAGE') {
                     $src = trim(str_replace(base_url(), '', $item['src']));
-                    $statusCellTextRun->addImage($src);
+                    if(file_exists($src)) {
+                        $statusCellTextRun->addImage($src);
+                    }
                 } else {
                     $statusCellTextRun->addText('<![CDATA[ ' . htmlspecialchars_decode($item['text']) . ' ]]>');
                 }
@@ -124,7 +126,9 @@ class Word extends AppComponent
             foreach ($values as $item) {
                 if ($item['type'] == 'IMAGE') {
                     $src = trim(str_replace(base_url(), '', $item['src']));
-                    $textRun->addImage($src);
+                    if(file_exists($src)) {
+                        $textRun->addImage($src);
+                    }
                 } else {
                     $textRun->addText('<![CDATA[ ' . htmlspecialchars_decode($item['text']) . ' ]]>', ['bold' => $bold]);
                 }
@@ -299,7 +303,9 @@ class Word extends AppComponent
                 foreach ($values as $item) {
                     if ($item['type'] == 'IMAGE') {
                         $src = trim(str_replace(base_url(), '', $item['src']));
-                        $statusCellTextRun->addImage($src);
+                        if(file_exists($src)) {
+                            $statusCellTextRun->addImage($src);
+                        }
                     } else {
                         $statusCellTextRun->addText($item['text'], $styleText);
                     }
@@ -368,8 +374,9 @@ class Word extends AppComponent
                     $src = trim(str_replace(base_url(), '', $item['src']));
 					// fix for localhost
 					$src = DOCUMENT_ROOT . '/' . $src;
-				
-                    $statusCellTextRun->addImage($src);
+				    if(file_exists($src)) {
+                        $statusCellTextRun->addImage($src);
+				    }
                 } else {
                     $statusCellTextRun->addText($item['text'], $styleText);
                 }
