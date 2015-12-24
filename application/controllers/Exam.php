@@ -109,9 +109,7 @@ class Exam extends CI_Controller
             $topic = $this->session->userdata('topic_' . $student_id);
             $topic_id = $topic->topic_id;
             if ($student_id) {
-                $studentMarkData['student_id'] = $student_id;
-                $studentMarkData['topic_id'] = $topic_id;
-                $student_mark_id = $this->student_mark_model->create_ignore($studentMarkData);
+                $student_mark_id = $this->student_mark_model->createNew($student_id, $topic_id);
                 /**
                  * luu cau tra loi cua student *
                  */
@@ -158,6 +156,8 @@ class Exam extends CI_Controller
                 }
                 $this->student_topic_model->updateFinished($student_id, $topic_id, $student_mark_id);
                 if (count($student_answer)) {
+                    // xoa du lieu trung
+                    $this->student_answer_model->deleteAnswerOfStudent($student_id, $topic_id);
                     // them du lieu vao bang student_answer
                     $this->student_answer_model->create_batch($student_answer);
                 }
@@ -211,7 +211,6 @@ class Exam extends CI_Controller
                     'topic_' . $student->student_id => $topic
                 );
                 $this->session->set_userdata($session);
-                
                 $data = $this->topic_model->getDataNoCorrectAnswer($topic->topic_id);
                 // gen JSON data
                 $questions = array();

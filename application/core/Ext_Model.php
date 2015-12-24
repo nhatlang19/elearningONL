@@ -373,7 +373,7 @@ class Ext_Model extends CI_Model
      * @param
      *            array filters
      */
-    function delete($filters)
+    public function delete($filters)
     {
         
         // filters could be an array or filter values or an SQL string.

@@ -39,6 +39,25 @@ class Topic_model extends Ext_Model
         }
         return $results;
     }
+    
+    function getTopicIdByTopicManageId($topic_manage_id)
+    {
+        $results = array();
+        if ($topic_manage_id) {
+            $this->db->query("SET SESSION group_concat_max_len = " . GROUP_CONCAT_MAX_LENGTH . ";");
+            $this->db->select('GROUP_CONCAT(t.topic_id SEPARATOR ",") AS topic_id');
+            $this->db->from('topic as t');
+            $this->db->where('t.topic_manage_id', $topic_manage_id);
+    
+            $query = $this->db->get();
+    
+            if (! empty($query) && $query->num_rows() > 0) {
+                $results = $query->result();
+                $results = $results[0];
+            }
+        }
+        return $results;
+    }
 
     function getTopicByTopicManageIdRandom($topic_manage_id)
     {

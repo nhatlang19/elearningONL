@@ -46,13 +46,11 @@ class Utils
     public function makeList($id, $resources)
     {
         $results = array();
-        foreach ($resources as $array) {
-            if (isset($array[$id])) {
-                $val = $array[$id];
-                unset($array[$id]);
-                foreach ($array as $k => $value) {
-                    $results[$val][$k] = $value;
-                }
+        foreach ($resources as $obj) {
+            if (isset($obj->$id)) {
+                $val = $obj->$id;
+                unset($obj->$id);
+                $results[$val] = $obj;
             }
         }
         return $results;

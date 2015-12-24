@@ -54,6 +54,7 @@ define('COMMON_TMPL_PATH', FRONT_END_TMPL_PATH . 'common/');
 define('IMAGE_PATH', ROOT . '/public/frontend/images/');
 define('JS_PATH', ROOT . '/public/frontend/js/');
 define('CSS_PATH', ROOT . '/public/frontend/css/');
+define('VENDOR_PATH', ROOT . '/public/frontend/vendor/');
 
 define('PATH_UPLOADS', ROOT . '/public/uploads/');
 define('PATH_UPLOADS_NO_ROOT', DOCUMENT_ROOT . '/public/uploads/');

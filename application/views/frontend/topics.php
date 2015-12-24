@@ -1,4 +1,6 @@
 	<?php echo $info_user; ?>
+	
+	<link rel="stylesheet" href="<?php echo VENDOR_PATH; ?>malihu-custom-scrollbar/jquery.mCustomScrollbar.css" />
 <!-- hien thi cac cau hoi & cau tra loi -->
 <script>
 	// Setup your quiz text and questions here
@@ -75,8 +77,15 @@
 </form>
 <script src="<?php echo JS_PATH; ?>slickQuiz.js"></script>
 <script src="<?php echo JS_PATH; ?>master.js"></script>
+<!-- custom scrollbar plugin -->
+<script src="<?php echo VENDOR_PATH; ?>malihu-custom-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
 <script>
 $(function () {
+	$(window).load(function(){
+		$.mCustomScrollbar.defaults.scrollButtons.enable=true;
+		$(".answer-user").mCustomScrollbar({theme:"dark"});
+    });
+	
 	$(window).bind('beforeunload', function(e) {    
 		return 'Bạn không nên refresh hay tắt trình duyệt khi chưa lưu bài';
 	});

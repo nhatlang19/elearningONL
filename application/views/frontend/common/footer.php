@@ -1,15 +1,9 @@
-<div class="container">
-	<footer>
-		<div class="row">
-			<div class="col-lg-12">
-				<p>
-				@ <?php echo date('Y'); ?> Copyright. Made by <a href="#"
-						rel="nofollow">Trang Ngọc Mỹ Phước</a>.<br /> Liên hệ tại <a
-						href="mailto:trangngocmyphuoc@gmail.com">trangngocmyphuoc@gmail.com</a>.
-				</p>
-			</div>
-		</div>
-	</footer>
+<div class="col-lg-12">
+	<p>
+	@ <?php echo date('Y'); ?> Copyright. Made by <a href="#"
+			rel="nofollow">Trang Ngọc Mỹ Phước</a>.<br /> Liên hệ tại <a
+			href="mailto:trangngocmyphuoc@gmail.com">trangngocmyphuoc@gmail.com</a>.
+	</p>
 </div>
 <script type="text/javascript">
 var serverUrl = '<?php echo 'ws://' . $this->config->item('socket.ipserver') . ':' . $this->config->item('socket.port'); ?>';

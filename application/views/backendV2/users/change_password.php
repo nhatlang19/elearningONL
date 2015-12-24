@@ -1,101 +1,70 @@
-<div id="main-content">
-	<!-- Main Content Section with everything -->
-
-
-	<!-- Page Head -->
-	<h2>Change Password</h2>
-	<p id="page-intro"></p>
-
-
-
-	<div class="clear"></div>
-	<!-- End .clear -->
-	<?php
-if ($this->session->userdata('error_change')) {
-    $style = "display: none;";
-    if ($this->session->userdata('error_change')) {
-        $error = $this->session->userdata('error_change');
-        $style = '';
-        $this->session->unset_userdata('error_change');
+<?php
+    $error = '';
+    if (($error = $this->session->flashdata('error'))) {
+        $this->session->set_flashdata('error', null);
     }
-    ?>
-		<div class="notification information error png_bg" style="<?php echo $style; ?>">
-		<div>
-				<?php echo $error; ?>
-			</div>
-	</div>
-		<?php } ?>
-		<?php if($this->session->userdata('success_change')) { ?>
-		<div id="report">		
-			<?php
-    $style = "display: none;";
-    $success = $this->session->userdata('success_change');
-    $style = '';
-    $this->session->unset_userdata('success_change');
     
-    ?>
-			<meta http-equiv="refresh"
-			content="5; URL=<?php echo site_url(BACKEND_V2_TMPL_PATH . 'dashboard'); ?>">
-		<div class="notification information success png_bg" style="<?php echo $style; ?> margin-bottom: 100px;">
-			<div>
-					<?php echo $success; ?>
+    $success = '';
+    if (($success = $this->session->flashdata('success'))) {
+        $this->session->set_flashdata('success', null);
+    }
+?>
+<div class="row">
+	<div class="col-lg-12">
+		<?php echo form_open(BACKEND_V2_TMPL_PATH . 'users/save', ['id' => 'form', 'class' => 'form-horizontal form-bordered', 'autocomplete' => 'off']); ?>
+		<section class="panel">
+			<header class="panel-heading">
+				<div class="panel-actions">
+					<a href="#" class="fa fa-caret-down"></a>
 				</div>
-			<div style="text-align: center">Vui lòng chờ trong 5 giây. Click vào <?php echo anchor(site_url(BACKEND_V2_TMPL_PATH . 'dashboard'), 'đây')?> để không phải chờ lâu</div>
-			<br clear='all' />
-		</div>
-										
-		<?php } else {?>
-	<div class="content-box">
-			<!-- Start Content Box -->
 
-			<div class="content-box-header">
-
-				<h3>Edit</h3>
-
-				<div class="clear"></div>
-
+				<h2 class="panel-title">Thay đổi mật khẩu</h2>
+			</header>
+			<div class="panel-body">
+				<?php if(!empty($error)) : ?>
+				<div class="alert alert-danger">
+                        <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+                        <?php echo $error; ?>
+                </div>
+                <?php endif; ?>
+                <?php if(!empty($success)) : ?>
+				<div class="alert alert-success">
+                        <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+                        <?php echo $success; ?>
+                        <br clear='all' />
+                        <meta http-equiv="refresh"
+							content="5; URL=<?php echo site_url(BACKEND_V2_TMPL_PATH . 'dashboard'); ?>">
+						Vui lòng chờ trong 5 giây. Click vào <?php echo anchor(site_url(BACKEND_V2_TMPL_PATH . 'dashboard'), 'đây')?> để không phải chờ lâu
+                </div>
+                <?php endif; ?>
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="inputDefault">Mật khẩu mới <span class="required">*</span>
+					</label>
+					<div class="col-md-6">
+						<input type="text" name="pass" class="form-control"
+							id="inputDefault" required
+							value="">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="inputDefault">Xác nhận mật khẩu <span class="required">*</span>
+					</label>
+					<div class="col-md-6">
+						<input type="text" name="re-pass" class="form-control"
+							id="inputDefault" required
+							value="">
+					</div>
+				</div>
 			</div>
-			<!-- End .content-box-header -->
-
-
-			<div class="content-box-content">
-
-				<div class="tab-content" id="tab1">
-				
-
-				<?php echo form_open_multipart(BACKEND_V2_TMPL_PATH . 'users/save'); ?>
-
-					<fieldset>
-						<!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
-
-
-						<p>
-							<label>Mật khẩu mới</label> <input type="password"
-								class="text-input small-input" name="pass" id="passfield"
-								value="" /> <span class="input-error" id="error_name"></span>
-						</p>
-						<p>
-							<label>Xác nhận mật khẩu</label> <input type="password"
-								class="text-input small-input" name="re-pass" id="re-pass"
-								value="" /> <span class="input-error" id="error_name"></span>
-						</p>
-						<p>
-							<input class="button" type="submit" value="Submit" />
-						</p>
-
-					</fieldset>
-
-					<div class="clear"></div>
-					<!-- End .clear -->
-				<?php echo form_close(); ?>	
-				
-			</div>
-				<!-- End #tab2 -->
-
-
-
-			</div>
-			<!-- End .content-box-content -->
-
-			<!-- </div>  End .content-box -->
-<?php } ?>
+			<footer class="panel-footer">
+				<div class="row">
+					<div class="col-sm-9 col-sm-offset-3">
+						<button class="btn btn-primary">Cập nhật</button>
+						<button type="reset" class="btn btn-default">Phục hồi</button>
+					</div>
+				</div>
+			</footer>
+		</section>
+		<?php echo form_close(); ?>
+	</div>
+</div>

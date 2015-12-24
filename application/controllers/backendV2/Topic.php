@@ -327,12 +327,12 @@ class Topic extends Ext_Controller
         }
     }
     
-    public function download_student_result($class_id = null)
+    public function download_student_result($class_id = null, $topic_manage_id)
     {
         $class_id = (int) $class_id;
         if ($class_id) {
             $this->load->library('components/excel');
-            $this->excel->downloadStudentResult($class_id, false);
+            $this->excel->downloadStudentResult($class_id, $topic_manage_id);
         } else {
             exit('No direct script access allowed');
         }

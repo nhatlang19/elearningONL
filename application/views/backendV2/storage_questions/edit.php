@@ -13,12 +13,10 @@
 				<h2 class="panel-title"><?php echo $title; ?></h2>
 			</header>
 			<div class="panel-body">
-					<?php if(isset($error)) : ?>
-					<div class="alert alert-danger">
+					<div class="alert alert-danger hide">
                         <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
-                        <?php echo $error; ?>.
+                        <div></div>
 					</div>
-					<?php endif; ?>
 					<div class="form-group">
 						<label class="col-md-3 control-label">Chọn kho</label>
 						<div class="col-md-6">
@@ -50,7 +48,7 @@
 					<div class="form-group">
 						<label class="col-md-3 control-label"><?php if(!$step) : ?>Câu trả lời:<?php endif; ?></label>
 						<div class="col-md-1">
-							<?php echo chr($i); ?>. <input type="checkbox" name="correct_answer"
+							<?php echo chr($i); ?>. <input type="checkbox" name="correct_answer[]"
 								<?php if(isset($storage_answer[$step]->correct_answer) && $storage_answer[$step]->correct_answer == 1) echo 'checked="checked"'; ?>
 								class="checkbox-answer" value="<?php echo $step; ?>" />
 						</div>
@@ -76,40 +74,7 @@
 		<?php echo form_close(); ?>
 	</div>
 </div>
-
-
-<script type="text/javascript">
-
-$( "form" ).submit(function( event ) {
-	event.preventDefault();
-	var $form = $(this);
-	var formData = $(this).serializeArray();
-
-	var object = {name:"question_name", value:$('.question_name').code()}; 
-	formData.push(object);
-
-	$.each( $('.answer_name'), function( key, value ) {
-		var object = {name:"answer_name[]", value:$('.answer_name').code()}; 
-		formData.push(object);
-	});
-	
-	console.log(formData);
-	$.ajax({
-        url: $form.attr('action'),
-        data: formData,
-        cache: false,
-        contentType: false,
-        processData: false,
-        type: 'POST',
-        success: function(result) {
-            console.log(result);
-//             location.href = 'list.html';
-        }
-    });
-});
-</script>
 <!-- Specific Page Vendor -->
-<script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-validation/jquery.validate.js"></script>
 <script src="<?php echo BACKEND_V2_VENDOR_PATH; ?>summernote/summernote.js"></script>
 <!-- Validate form -->
-<script src="<?php echo BACKEND_V2_JS_PATH; ?>forms/form.validation.js"></script>
+<script src="<?php echo BACKEND_V2_JS_PATH; ?>storage_questions/edit.js"></script>

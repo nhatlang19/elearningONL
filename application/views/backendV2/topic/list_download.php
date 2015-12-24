@@ -18,7 +18,7 @@
             				href="download_student_answer/<?php echo $item['folder_name']; ?>"
             				class="downloadZipFiles">Download</a></td>
             			<td><a
-            				href="download_student_result/<?php echo $item['class_id']; ?>"
+            				href="download_student_result/<?php echo $item['class_id']; ?>/<?php echo $item['topic_manage_id']; ?>"
             				class="downloadStudentResult">Download</a></td>
             		</tr>
             		<?php endforeach; ?>

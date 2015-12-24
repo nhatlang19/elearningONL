@@ -17,7 +17,7 @@ var USERINFO = '<?php echo json_encode((array)$user); ?>';
 			
 				<!-- start: search & user box -->
 				<div class="header-right">
-			
+			<!-- SEARCH ALL
 					<form action="pages-search-results.html" class="search nav-form">
 						<div class="input-group input-search">
 							<input type="text" class="form-control" name="q" id="q" placeholder="Search...">
@@ -26,13 +26,13 @@ var USERINFO = '<?php echo json_encode((array)$user); ?>';
 							</span>
 						</div>
 					</form>
-			
+			-->
 					<span class="separator"></span>
 			
 					<div id="userbox" class="userbox">
 						<a href="#" data-toggle="dropdown">
 							<figure class="profile-picture">
-								<img src="<?php echo BACKEND_V2_IMAGE_PATH; ?>!logged-user.jpg" alt="Joseph Doe" class="img-circle" data-lock-picture="<?php echo BACKEND_V2_IMAGE_PATH; ?>!logged-user.jpg" />
+								<img src="<?php echo BACKEND_V2_IMAGE_PATH; ?>!user.jpg" alt="Joseph Doe" class="img-circle" data-lock-picture="<?php echo BACKEND_V2_IMAGE_PATH; ?>!logged-user.jpg" />
 							</figure>
 							<div class="profile-info" data-lock-name="<?php echo $user->username; ?>" data-lock-email="<?php echo $user->username; ?>">
 								<span class="name"><?php echo $user->username; ?></span>
@@ -50,9 +50,9 @@ var USERINFO = '<?php echo json_encode((array)$user); ?>';
 								<li>
 									<a role="menuitem" tabindex="-1" href="<?php echo site_url(BACKEND_V2_TMPL_PATH . 'users/change_password'); ?>"><i class="fa fa-user"></i> Thay đổi mật khẩu</a>
 								</li>
-								<li>
-									<a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>
-								</li>
+<!-- 								<li> -->
+<!-- 									<a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a> -->
+<!-- 								</li> -->
 								<li>
 									<a role="menuitem" tabindex="-1" href="<?php echo site_url(BACKEND_V2_TMPL_PATH . 'users/logout'); ?>"><i class="fa fa-power-off"></i> Thoát</a>
 								</li>

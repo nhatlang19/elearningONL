@@ -34,7 +34,7 @@
 	href="<?php echo CSS_PATH; ?>fancybox2/jquery.fancybox-buttons.css?v=1.0.5" />
 <link rel="stylesheet" type="text/css"
 	href="<?php echo CSS_PATH; ?>fancybox2/jquery.fancybox-thumbs.css?v=1.0.7" />
-
+	
 <script src="<?php echo JS_PATH; ?>vendor/modernizr-2.6.2.min.js"></script>
 </head>
 <body>

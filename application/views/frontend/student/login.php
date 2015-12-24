@@ -33,7 +33,7 @@
 					<strong><?php echo $error; ?></strong>
 				</div>
 				<?php endif; ?>
-				<?php echo form_open('dang-nhap', ['id' => 'login', 'class' => 'form-horizontal']); ?>
+				<?php echo form_open('dang-nhap', ['id' => 'login', 'class' => 'form-horizontal', 'autocomplete' => 'off']); ?>
 					<fieldset>
 						<legend>Đăng nhập</legend>
 						<div class="form-group">
