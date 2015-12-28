@@ -1,4 +1,6 @@
 	<?php echo $info_user; ?>
+	
+	<link rel="stylesheet" href="<?php echo VENDOR_PATH; ?>malihu-custom-scrollbar/jquery.mCustomScrollbar.css" />
 <!-- hien thi cac cau hoi & cau tra loi -->
 <script>
 	// Setup your quiz text and questions here
@@ -12,8 +14,8 @@
 	};
 	</script>
 <div class="col-lg-12">
-            <h2 id="type-blockquotes">Đề <?php echo $code; ?></h2>
-          </div>
+	<h2 id="type-blockquotes">Đề <?php echo $code; ?></h2>
+</div>
 <form name="myform" id="myform" action="save" method="post">
 	<input type="hidden" name="topic_id" value="<?php echo $code; ?>" />
 	<div class="container-fluid">
@@ -42,14 +44,12 @@
 
 								<div class="quizResults">
 									<h3 class="quizScore">
-										You Scored: <span>
-											<!-- where the quiz score goes -->
+										You Scored: <span> <!-- where the quiz score goes -->
 										</span>
 									</h3>
 
 									<h3 class="quizLevel">
-										<strong>Ranking:</strong> <span>
-											<!-- where the quiz ranking level goes -->
+										<strong>Ranking:</strong> <span> <!-- where the quiz ranking level goes -->
 										</span>
 									</h3>
 
@@ -75,8 +75,17 @@
 		</div>
 	</div>
 </form>
+<script src="<?php echo JS_PATH; ?>slickQuiz.js"></script>
+<script src="<?php echo JS_PATH; ?>master.js"></script>
+<!-- custom scrollbar plugin -->
+<script src="<?php echo VENDOR_PATH; ?>malihu-custom-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
 <script>
 $(function () {
+	$(window).load(function(){
+		$.mCustomScrollbar.defaults.scrollButtons.enable=true;
+		$(".answer-user").mCustomScrollbar({theme:"dark"});
+    });
+	
 	$(window).bind('beforeunload', function(e) {    
 		return 'Bạn không nên refresh hay tắt trình duyệt khi chưa lưu bài';
 	});
@@ -87,5 +96,4 @@ $(function () {
 	
 	$("html, body").keydown(false);
 });
-	
-	</script>
+</script>

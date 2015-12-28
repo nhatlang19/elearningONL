@@ -1,1 +1,11 @@
 user_guide/*
+.buildpath
+.project
+.settings/org.eclipse.php.core.prefs
+.settings/org.eclipse.wst.common.project.facet.core.xml
+public/backendV2/files/*
+application/config/database.php
+application/cache/*
+public/backendV2/tmpdir/*
+public/backendV2/tmp/*
+public/uploads/images/*

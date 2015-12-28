@@ -1,26 +1,26 @@
 <?php
-//============================================================+
-// File name   : makeallttffonts.php
-// Begin       : 2008-12-07
+// ============================================================+
+// File name : makeallttffonts.php
+// Begin : 2008-12-07
 // Last Update : 2010-08-08
 //
-// Description : Process all TTF files on current directory to 
-//               build TCPDF compatible font files.
+// Description : Process all TTF files on current directory to
+// build TCPDF compatible font files.
 //
 // Author: Nicola Asuni
 //
 // (c) Copyright:
-//               Nicola Asuni
-//               Tecnick.com S.r.l.
-//               Via della Pace, 11
-//               09044 Quartucciu (CA)
-//               ITALY
-//               www.tecnick.com
-//               info@tecnick.com
+// Nicola Asuni
+// Tecnick.com S.r.l.
+// Via della Pace, 11
+// 09044 Quartucciu (CA)
+// ITALY
+// www.tecnick.com
+// info@tecnick.com
 //
-// License: 
-//    Copyright (C) 2004-2010  Nicola Asuni - Tecnick.com S.r.l.
-//    
+// License:
+// Copyright (C) 2004-2010 Nicola Asuni - Tecnick.com S.r.l.
+//
 // This file is part of TCPDF software library.
 //
 // TCPDF is free software: you can redistribute it and/or modify it
@@ -34,13 +34,14 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with TCPDF.  If not, see <http://www.gnu.org/licenses/>.
+// along with TCPDF. If not, see <http://www.gnu.org/licenses/>.
 //
 // See LICENSE.TXT file for more information.
-//============================================================+
+// ============================================================+
 
 /**
  * Process all TTF files on current directory to build TCPDF compatible font files.
+ * 
  * @package com.tecnick.tcpdf
  * @author Nicola Asuni
  * @copyright Copyright &copy; 2004-2009, Nicola Asuni - Tecnick.com S.r.l. - ITALY - www.tecnick.com - info@tecnick.com
@@ -54,13 +55,13 @@
 
 // read directory for files (only graphics files).
 $handle = opendir('.');
-while($file = readdir($handle)) {
-	$path_parts = pathinfo($file);
-	$file_ext = strtolower($path_parts['extension']);
-	if ($file_ext == 'ttf') {
-		exec('./ttf2ufm -a -F '.$path_parts['basename'].'');
-		exec('php -q makefont.php '.$path_parts['basename'].' '.$path_parts['filename'].'.ufm');
-	}
+while ($file = readdir($handle)) {
+    $path_parts = pathinfo($file);
+    $file_ext = strtolower($path_parts['extension']);
+    if ($file_ext == 'ttf') {
+        exec('./ttf2ufm -a -F ' . $path_parts['basename'] . '');
+        exec('php -q makefont.php ' . $path_parts['basename'] . ' ' . $path_parts['filename'] . '.ufm');
+    }
 }
 closedir($handle);
 

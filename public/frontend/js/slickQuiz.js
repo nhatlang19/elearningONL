@@ -147,7 +147,7 @@
                 if (plugin.config.tryAgainText && plugin.config.tryAgainText !== '') {
                     $quizResultsCopy.before('<a class="button ' + tryAgainClass + '" href="#">' + plugin.config.tryAgainText + '</a>');
                 }
-
+                
                 // Setup questions
                 var quiz  = $('<ol class="' + questionGroupClass + '"></ol>'),
                     count = 1;
@@ -161,15 +161,15 @@
                         questionHTML.append('<div class="' + questionCountClass + '">Câu <span class="current">' + count + '</span> trên <span class="total">' + questionCount + '</span></div>');
                         questionHTML.append('<blockquote>' + count + '. ' + question.q + '</blockquote>');
                         // Count the number of true values
-                        var truths = 0;
-                        for (i in question.a) {
-                            if (question.a.hasOwnProperty(i)) {
-                                answer = question.a[i];
-                                if (answer.correct) {
-                                    truths++;
-                                }
-                            }
-                        }
+//                        var truths = 0;
+//                        for (i in question.a) {
+//                            if (question.a.hasOwnProperty(i)) {
+//                                answer = question.a[i];
+//                                if (answer.correct) {
+//                                    truths++;
+//                                }
+//                            }
+//                        }
 
                         // Now let's append the answers with checkboxes or radios depending on truth count
                         var answerHTML = $('<ul class="' + answersClass + '"></ul>');
@@ -182,15 +182,20 @@
                         // prepare a name for the answer inputs based on the question
                         var selectAny  = question.select_any ? question.select_any : false,
                             inputName  = 'question' + (count - 1),
-                            inputType  = (truths > 1 && !selectAny ? 'checkbox' : 'radio');
-
+//                            inputType  = (truths > 1 && !selectAny ? 'checkbox' : 'radio');
+                            inputType  = (!selectAny ? 'checkbox' : 'radio');
                         for (i in answers) {
                             if (answers.hasOwnProperty(i)) {
                                 answer   = answers[i],
                                 optionId = inputName + '_' + i.toString();
                                 // If question has >1 true answers and is not a select any, use checkboxes; otherwise, radios
-                                var input = '<input id="' + optionId + '" name="' + question.storageQuestionId + '_' + count +
-                                            '" type="' + inputType + '" value="' + i + '" /> ';
+                                if(inputType == 'radio') {
+                                	var input = '<input id="' + optionId + '" name="data[any][' + question.storageQuestionId + '_' + count +
+                                            ']" type="' + inputType + '" value="' + i + '" /> ';
+                                } else {
+                                	var input = '<input id="' + optionId + '" name="data[many][' + question.storageQuestionId + '_' + count +
+                                    '][]" type="' + inputType + '" value="' + i + '" /> ';
+                                }
 
                                 var optionLabel = '<label style="display: inline" for="' + optionId + '">' + answer.option + '</label>';
                                 
@@ -230,6 +235,10 @@
                             questionHTML.append('<a href="#" class="btn btn-primary ' + nextQuestionClass + '">' + plugin.config.nextQuestionText + '</a>');
                             questionHTML.append('<a href="#" class="btn btn-primary ' + checkAnswerClass + '">' + plugin.config.checkAnswerText + '</a>');
                         }
+                        
+                        // csrf token
+                        var csrf = '<input type="hidden" name="csrf_lph_token" value="' + $.cookie('csrf_cookie_name') + '" style="display:none;" />';
+                        questionHTML.append(csrf);
 
                         // Append question & answers to quiz
                         quiz.append(questionHTML);
@@ -271,7 +280,7 @@
             		if(i && i % 2 == 0) {
             			html += '</tr><tr>';
             		}
-            		html += '<td width="50%" class="td-question' + i + '">' + (i + 1) + '. _</td>';
+            		html += '<td width="50%" class="td-question' + i + '">' + (i + 1) + '.</td>';
             	}
             	html += '</tr>';
             	html += '</table>';
@@ -284,6 +293,11 @@
                     var firstQuestion = $(_element + ' ' + _questions + ' li').first();
                     if (firstQuestion.length) {
                         firstQuestion.fadeIn(500);
+                    }
+                    
+                    if(questionCount == 1) {
+                    	firstQuestion.find(_nextQuestionBtn).hide();
+                    	firstQuestion.find(_saveBtn).show();
                     }
                     
                     // Display All answer of user
