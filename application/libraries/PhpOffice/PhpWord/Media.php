@@ -44,16 +44,16 @@ class Media
      * @since 0.9.2
      * @since 0.10.0
      */
-    public static function addElement($container, $mediaType, $source, Image &$image = null)
+    public static function addElement($container, $mediaType, $source, Image $image = null)
     {
         // Assign unique media Id and initiate media container if none exists
         $mediaId = md5($container . $source);
-        if (!array_key_exists($container, self::$elements)) {
+        if (!isset(self::$elements[$container])) {
             self::$elements[$container] = array();
         }
 
         // Add media if not exists or point to existing media
-        if (!array_key_exists($mediaId, self::$elements[$container])) {
+        if (!isset(self::$elements[$container][$mediaId])) {
             $mediaCount = self::countElements($container);
             $mediaTypeCount = self::countElements($container, $mediaType);
             $mediaTypeCount++;
@@ -69,8 +69,6 @@ class Media
                     }
                     $isMemImage = $image->isMemImage();
                     $extension = $image->getImageExtension();
-                    // change extension jpg to jpeg
-                    $extension = $extension === 'jpg'?'jpeg':$extension;
                     $mediaData['imageExtension'] = $extension;
                     $mediaData['imageType'] = $image->getImageType();
                     if ($isMemImage) {
@@ -78,8 +76,7 @@ class Media
                         $mediaData['createFunction'] = $image->getImageCreateFunction();
                         $mediaData['imageFunction'] = $image->getImageFunction();
                     }
-//                     $target = "{$container}_image{$mediaTypeCount}.{$extension}";
-                    $target = "image{$mediaTypeCount}.{$extension}";
+                    $target = "{$container}_image{$mediaTypeCount}.{$extension}";
                     $image->setTarget($target);
                     $image->setMediaIndex($mediaTypeCount);
                     break;
@@ -123,7 +120,7 @@ class Media
     {
         $mediaCount = 0;
 
-        if (array_key_exists($container, self::$elements)) {
+        if (isset(self::$elements[$container])) {
             foreach (self::$elements[$container] as $mediaData) {
                 if (!is_null($mediaType)) {
                     if ($mediaType == $mediaData['type']) {
@@ -159,7 +156,7 @@ class Media
             }
             return $elements;
         } else {
-            if (!array_key_exists($container, self::$elements)) {
+            if (!isset(self::$elements[$container])) {
                 return $elements;
             }
             return self::getElementsByType($container, $type);

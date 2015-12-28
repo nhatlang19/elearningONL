@@ -1,6 +1,8 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
- | -------------------------------------------------------------------
+| -------------------------------------------------------------------
 | AUTO-LOADER
 | -------------------------------------------------------------------
 | This file specifies which systems should be loaded by default.
@@ -20,16 +22,17 @@
 |
 | 1. Packages
 | 2. Libraries
-| 3. Helper files
-| 4. Custom config files
-| 5. Language files
-| 6. Models
+| 3. Drivers
+| 4. Helper files
+| 5. Custom config files
+| 6. Language files
+| 7. Models
 |
 */
 
 /*
- | -------------------------------------------------------------------
-|  Auto-load Packges
+| -------------------------------------------------------------------
+|  Auto-load Packages
 | -------------------------------------------------------------------
 | Prototype:
 |
@@ -41,7 +44,7 @@ $autoload['packages'] = array();
 
 
 /*
- | -------------------------------------------------------------------
+| -------------------------------------------------------------------
 |  Auto-load Libraries
 | -------------------------------------------------------------------
 | These are the classes located in the system/libraries folder
@@ -49,14 +52,41 @@ $autoload['packages'] = array();
 |
 | Prototype:
 |
-|	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
+|	$autoload['libraries'] = array('database', 'email', 'session');
+|
+| You can also supply an alternative library name to be assigned
+| in the controller:
+|
+|	$autoload['libraries'] = array('user_agent' => 'ua');
 */
 
-$autoload['libraries'] = array('database', 'session', 'pagination', 'ckeditor');
+$autoload['libraries'] = array(
+    'database',
+    'session',
+    'lphcache'
+);
 
 
 /*
- | -------------------------------------------------------------------
+| -------------------------------------------------------------------
+|  Auto-load Drivers
+| -------------------------------------------------------------------
+| These classes are located in the system/libraries folder or in your
+| application/libraries folder within their own subdirectory. They
+| offer multiple interchangeable driver options.
+|
+| Prototype:
+|
+|	$autoload['drivers'] = array('cache');
+*/
+
+$autoload['drivers'] = array(
+    'cache'
+);
+
+
+/*
+| -------------------------------------------------------------------
 |  Auto-load Helper Files
 | -------------------------------------------------------------------
 | Prototype:
@@ -64,11 +94,22 @@ $autoload['libraries'] = array('database', 'session', 'pagination', 'ckeditor');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('url', 'nlimage' , 'date', 'constant', 'nlfunction', 'nlstring','form', 'html', 'download');
+$autoload['helper'] = array(
+    'url',
+    'nlimage',
+    'date',
+    'constant',
+    'nlfunction',
+    'nlstring',
+    'form',
+    'html',
+    'download',
+    'text'
+);
 
 
 /*
- | -------------------------------------------------------------------
+| -------------------------------------------------------------------
 |  Auto-load Config files
 | -------------------------------------------------------------------
 | Prototype:
@@ -80,11 +121,13 @@ $autoload['helper'] = array('url', 'nlimage' , 'date', 'constant', 'nlfunction',
 |
 */
 
-$autoload['config'] = array();
+$autoload['config'] = array(
+    'cache_config', 'socket_config'
+);
 
 
 /*
- | -------------------------------------------------------------------
+| -------------------------------------------------------------------
 |  Auto-load Language files
 | -------------------------------------------------------------------
 | Prototype:
@@ -96,21 +139,21 @@ $autoload['config'] = array();
 |
 */
 
-$autoload['language'] = array();
+$autoload['language'] = array('storage');
 
 
 /*
- | -------------------------------------------------------------------
+| -------------------------------------------------------------------
 |  Auto-load Models
 | -------------------------------------------------------------------
 | Prototype:
 |
-|	$autoload['model'] = array('model1', 'model2');
+|	$autoload['model'] = array('first_model', 'second_model');
 |
+| You can also supply an alternative model name to be assigned
+| in the controller:
+|
+|	$autoload['model'] = array('first_model' => 'first');
 */
 
 $autoload['model'] = array();
-
-
-/* End of file autoload.php */
-/* Location: ./application/config/autoload.php */

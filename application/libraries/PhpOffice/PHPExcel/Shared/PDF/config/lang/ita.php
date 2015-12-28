@@ -1,26 +1,27 @@
 <?php
-//============================================================+
-// File name   : ita.php
-// Begin       : 2004-03-03
+// ============================================================+
+// File name : ita.php
+// Begin : 2004-03-03
 // Last Update : 2010-08-08
-// 
+//
 // Description : Language module for TCPDF
-//               (contains translated texts)
-// 
+// (contains translated texts)
+//
 // Author: Nicola Asuni
-// 
+//
 // (c) Copyright:
-//               Nicola Asuni
-//               Tecnick.com s.r.l.
-//               Via Della Pace, 11
-//               09044 Quartucciu (CA)
-//               ITALY
-//               www.tecnick.com
-//               info@tecnick.com
-//============================================================+
+// Nicola Asuni
+// Tecnick.com s.r.l.
+// Via Della Pace, 11
+// 09044 Quartucciu (CA)
+// ITALY
+// www.tecnick.com
+// info@tecnick.com
+// ============================================================+
 
 /**
  * TCPDF language file (contains translated texts).
+ * 
  * @package com.tecnick.tcpdf
  * @abstract TCPDF language file.
  * @author Nicola Asuni
@@ -29,9 +30,8 @@
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  * @since 2004-03-03
  */
- 
-// ENGLISH
 
+// ENGLISH
 global $l;
 $l = Array();
 

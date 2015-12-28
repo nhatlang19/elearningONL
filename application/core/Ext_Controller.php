@@ -1,83 +1,104 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Ext_Controller extends CI_Controller {
+<?php
 
-	const _URI_SEGMENT = 4;
-	var $url_return = '';
+if (! defined('BASEPATH'))
+    exit('No direct script access allowed');
+    
+include_once APPPATH . 'helpers/Traits/TemplateTrait.php';
+include_once APPPATH . 'helpers/Traits/PaginateTrait.php';
+include_once APPPATH . 'helpers/Traits/ExportCsvTrait.php';
 
-	function __construct() {
+class Ext_Controller extends CI_Controller
+{
+    use TemplateTrait;
+    use PaginateTrait;
+    use ExportCsvTrait;
+    
+    const URI_SEGMENT = 4;
 
-		parent::__construct();
+    var $url_return = '';
+    protected $mainModel = '';
+    
+    public function __construct()
+    {
+        parent::__construct();
+        
+        if (! $this->session->userdata('logged_in')) {
+            redirect('admin/signin');
+        }
+        
+        // set header charset of ouput is UTF-8
+        $this->output->set_header('Content-Type: text/html; charset=UTF-8');
+    }
 
-		if(!$this->session->userdata('logged_in')) {
-			redirect('admin/signin');
-		}
+    protected function getUserInfo()
+    {
+        return $this->session->userdata('user');
+    }
 
-		// set header charset of ouput is UTF-8
-		$this->output->set_header('Content-Type: text/html; charset=UTF-8');
-	}
-	
-	function getUserInfo() {
-		$user = $this->session->userdata('user');
-		return $user;
-	}
+    protected function __configUpload($path = 'public/images/products/')
+    {
+        $config['upload_path'] = $path;
+        $config['allowed_types'] = 'gif|jpg|png|jpeg|GIF|JPG|PNG|JPEG';
+        $config['max_size'] = '100000';
+        $config['max_width'] = '1024';
+        $config['max_height'] = '768';
+        return $config;
+    }
 
-	function __configUpload($path='public/images/products/')
-	{
-		$config['upload_path'] = $path;
-		$config['allowed_types'] = 'gif|jpg|png|jpeg|GIF|JPG|PNG|JPEG';
-		$config['max_size']	= '100000';
-		$config['max_width']  = '1024';
-		$config['max_height']  = '768';
-		return $config;
-	}
-
-	function _loadTemnplateAdmin($header = "", $content = "")
-	{
-		$temp['header'] = $this->load->view(BACK_END_INC_TMPL_PATH . 'inc_header', $header, TRUE);
-		$temp['sidebar'] = $this->load->view(BACK_END_INC_TMPL_PATH . 'inc_sidebar', null, TRUE);
-		$temp['content'] = $content;
-		$temp['footer'] = $this->load->view(BACK_END_INC_TMPL_PATH . 'inc_footer', null, TRUE);
-		$this->load->view(BACK_END_TMPL_PATH . 'template', $temp);
-	}
-
-	function configPagination($base_url, $total_rows, $per_page=20, $uri_segment = 4)
-	{
-		$config['base_url'] = $base_url;
-		$config['total_rows'] = $total_rows;
-		$config['per_page'] = $per_page;
-		$config['num_links'] = 10;
-		$config['uri_segment'] = "$uri_segment";
-		$config['first_link'] = '&laquo; First';
-		$config['last_link'] = 'Last &raquo;';
-		$config['prev_link'] = '&laquo; Previous';
-		$config['next_link'] = 'Next &raquo;';
-		$config['anchor_class'] = 'class="number"';
-		return $config;
-	}
-
-	/**
-	 * load template file
-	 * $header : array header data
-	 * $content : content data
-	 */
-	function _loadTemplate($header="", $content="") {
-
-		// load header template
-		$template['header'] = $this->load->view(COMMON_TMPL_PATH . 'header', $header, true);
-
-		$template['content'] = $content;
-
-		// load footer template
-		$template['footer'] = $this->load->view(COMMON_TMPL_PATH . 'footer', '', true);
-
-		$this->load->view(COMMON_TMPL_PATH . 'template', $template);
-	}
-	
-	function sendAjax($status = 0, $message = '') {
-		$data = array('status' => $status, 'message' => $message);
-		echo json_encode($data);
-		exit;
-	}
+    protected function sendAjax($status = 0, $message = '', $data = [])
+    {
+        $response = [
+            'status' => $status,
+            'message' => $message,
+            'data' => $data
+        ];
+        
+        $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
+    
+    public function index() {
+        $controller = $this->uri->segment(2);
+        redirect(BACKEND_V2_TMPL_PATH . $controller . '/lists' ); 
+    }
+    
+    public function delete($id = null) {
+        if(empty($this->mainModel)) {
+            throw new Exception('Undefined mainModel in Controller');
+        }
+        if($this->input->is_ajax_request() && $id) {
+            $id = intval($id);
+            $this->{$this->mainModel}->deleteById($id);
+            
+            $this->lphcache->cleanCacheByFunction($this->{$this->mainModel}->table_name, 'getAll');
+            $this->sendAjax();
+        } else {
+            show_404();
+        }
+    }
+    
+    public function change_status()
+    {
+        if(empty($this->mainModel)) {
+            throw new Exception('Undefined mainModel in Controller');
+        }
+        if ($this->input->is_ajax_request() && $this->input->post()) {
+            $data = $this->input->post();
+            $id = intval($data['id']);
+            $status = $data['status'];
+    
+            $result = $this->{$this->mainModel}->$status($id);
+            if ($result) {
+                $result = array();
+                $result['changeStatus'] = ($status == 'published') ? 'unpublished' : 'published';
+    
+                $this->sendAjax(1, '', $result);
+            } else {
+                $this->sendAjax(0, 'Can not change status');
+            }
+        } else {
+            exit('No direct script access allowed');
+        }
+    }
 }
 
 ?>
