@@ -387,6 +387,7 @@ class Word extends AppComponent
     private function _writeAnswerOfStudentDetail($section, $studentAnswerList, $topicDetails)
     {
         $CI = & get_instance();
+        $CI->load->library('utils');
         
         $table = $section->addTable('myOwnTableStyle');
         $this->_addResultStudentToRow($table, 'CÂU TRẢ LỜI CHI TIẾT', true);
@@ -401,7 +402,7 @@ class Word extends AppComponent
             $positions = explode(',', $value['correct_answer']);
             $answer_of_student = @$studentAnswerList[$value['storage_question_id']];
             // write Question
-            $this->_writeQuestionOrAnswer($statusCell, ($key + 1) . '. ' . $value['question_name'], array(
+            $this->_writeQuestionOrAnswer($statusCell, ($key + 1) . '. ' . $CI->utils->changeLocalhostToServerIP($value['question_name']), array(
                 'bold' => true,
                 'italic' => true,
                 'size' => 16
@@ -418,7 +419,7 @@ class Word extends AppComponent
             }
             
             $number = 65;
-            foreach ($answers as $k => $v) {
+            foreach ($answers as $k => $answer) {
                 $correct = '';
 				if (isset($answer_of_student->answer)) {
 					$answerOfStudents = explode(SEPARATE_CORRECT_ANSWER, $answer_of_student->answer);
@@ -431,7 +432,7 @@ class Word extends AppComponent
                     $correct = "<img src='public/backendV2/assets/images/tick_circle.png' />";
                 }
                 // write Answer
-                $this->_writeQuestionOrAnswer($statusCell, chr($number ++) . '. ' . $v . ' ' . $correct, array(
+                $this->_writeQuestionOrAnswer($statusCell, chr($number ++) . '. ' . $CI->utils->changeLocalhostToServerIP($answer) . ' ' . $correct, array(
                     'size' => 12
                 ));
             }

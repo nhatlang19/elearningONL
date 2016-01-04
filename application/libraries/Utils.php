@@ -2,31 +2,56 @@
 
 class Utils
 {
-    public function getLocalIp() {
+
+    public function getLocalIp()
+    {
         $CI = & get_instance();
         $ip = $CI->input->ip_address();
-        if($ip == '::1') {
+        if ($ip == '::1') {
             $ip = getHostByName(getHostName());
         }
         return $ip;
     }
     
-    public function remove_doublewhitespace($s = null){
-        return  $ret = preg_replace('/([\s])\1+/', ' ', $s);
+    public function changeLocalhostToServerIP($path) {
+        if(!empty($path)) {
+            $serverIp = $this->getServerIp();
+            return str_replace('localhost', $serverIp, $path);
+        }
+        return '';
     }
-    
-    public function remove_whitespace($s = null){
-        return $ret = preg_replace('/[\s]+/', '', $s );
+
+    public function getServerIp()
+    {
+        $CI = & get_instance();
+        $ip = $CI->input->server('SERVER_ADDR');
+        if (empty($ip) || $ip == '::1') {
+            $header = $CI->input->request_headers();
+            $ip = $header['Host'];
+        }
+        return $ip;
     }
-    
-    public function remove_whitespace_feed( $s = null){
+
+    public function remove_doublewhitespace($s = null)
+    {
+        return $ret = preg_replace('/([\s])\1+/', ' ', $s);
+    }
+
+    public function remove_whitespace($s = null)
+    {
+        return $ret = preg_replace('/[\s]+/', '', $s);
+    }
+
+    public function remove_whitespace_feed($s = null)
+    {
         return $ret = preg_replace('/[\t\n\r\0\x0B]/', '', $s);
     }
-    
-    public function smart_clean($s = null){
-        return trim( $this->remove_doublewhitespace( $this->remove_whitespace_feed($s) ) );
+
+    public function smart_clean($s = null)
+    {
+        return trim($this->remove_doublewhitespace($this->remove_whitespace_feed($s)));
     }
-    
+
     public function oleExcelReader($uploadpath, $flag = true)
     {
         @require_once APPPATH . 'libraries/PhpOffice/PHPExcel/IOFactory.php';

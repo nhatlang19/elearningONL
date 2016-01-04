@@ -75,6 +75,7 @@
         'c',
         'd'
     );
+    $utils = new Utils();
     foreach ($topic_details as $key => $value) :
         $answers = explode('|||', $value['answer']);
         $positions = explode(',', $value['correct_answer']);
@@ -82,7 +83,7 @@
         ?>
 					<div class="quiz" id="slickQuiz" style="width: 100%">
 						<blockquote>
-							<?php echo ($key+1) . '. ' . $value['question_name']; ?>
+							<?php echo ($key+1) . '. ' . $utils->changeLocalhostToServerIP($value['question_name']); ?>
 							<?php echo !isset($answer_of_student->answer)?'<small class="no_answer">(Không có câu trả lời)</small>':''; ?>
 						</blockquote>
 						<div class="quizArea">
@@ -90,7 +91,7 @@
 								<!-- where the quiz gets built -->
 							<?php
         
-		foreach ($answers as $k => $v) :
+		foreach ($answers as $k => $answer) :
             $correct = '';
             if (isset($answer_of_student->answer)) {
 				$answerOfStudents = explode(SEPARATE_CORRECT_ANSWER, $answer_of_student->answer);
@@ -102,7 +103,7 @@
                 $correct = "<img src='" . BACKEND_V2_IMAGE_PATH . "tick_circle.png' />";
             }
             ?>
-								<li><?php echo $list_answer[$k] . '. ' . $v; ?> <?php echo $correct; ?></li>
+								<li><?php echo $list_answer[$k] . '. ' . $utils->changeLocalhostToServerIP($answer); ?> <?php echo $correct; ?></li> 
 							<?php endforeach;?>
 							</ul>
 						</div>
