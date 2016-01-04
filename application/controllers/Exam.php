@@ -216,7 +216,7 @@ class Exam extends CI_Controller
                 $questions = array();
                 foreach ($data as $key => $question) {
                     $tmp = array();
-                    $tmp['q'] = stripslashes($question->question_name);
+                    $tmp['q'] = $this->utils->changeLocalhostToServerIP(stripslashes($question->question_name));
                     $tmp['storageQuestionId'] = $question->storage_question_id;
                     $arrayAnswer = explode('|||', $question->answer);
                     $tmp['number'] = $question->number;
@@ -225,7 +225,7 @@ class Exam extends CI_Controller
                     $tmp['incorrect'] = '';
                     foreach ($arrayAnswer as $answer) {
                         $tmp['a'][] = array(
-                            'option' => stripslashes($answer),
+                            'option' => $this->utils->changeLocalhostToServerIP(stripslashes($answer)),
                             'correct' => false
                         );
                     }
