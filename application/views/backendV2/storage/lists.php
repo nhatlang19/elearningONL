@@ -1,4 +1,16 @@
 <link rel="stylesheet" href="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-datatables-bs3/assets/css/datatables.css" />
+<?php
+    $style = "hide";
+    $error = '';
+    if (($error = $this->session->flashdata('error'))) {
+        $style = '';
+        $this->session->set_flashdata('error', null);
+    }
+?>
+<div class="alert alert-danger <?php echo $style; ?>">
+<button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+<?php echo $error; ?>.
+</div>
 <!-- start: page -->
 <section class="panel">
 	<header class="panel-heading">

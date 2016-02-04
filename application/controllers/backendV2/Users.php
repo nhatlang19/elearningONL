@@ -3,14 +3,28 @@ if (! defined('BASEPATH'))
     exit('No direct script access allowed');
 
 include_once APPPATH . 'helpers/Traits/TemplateTrait.php';
+include_once APPPATH . 'helpers/Traits/PaginateTrait.php';
+include_once APPPATH . 'helpers/Traits/ManageRoleTrait.php';
 class Users extends CI_Controller
 {
     use TemplateTrait;
     use PaginateTrait;
+    use ManageRoleTrait; 
     
     public function __construct()
     {
         parent::__construct();
+        
+        
+        if ($this->session->userdata('logged_in')) {
+            // check permission
+            $allowActions = array('index', 'change_password', 'login', 'logout');
+            if(!$this->allowPermissions($allowActions)) {
+                $this->session->set_flashdata('error', 'Bạn không có quyền truy cập');
+                redirect(BACKEND_V2_TMPL_PATH . 'storage/lists');
+            }
+        }
+        
         $this->load->model('User_model', 'user', TRUE);
         $this->load->model('subject_model');
         
@@ -76,8 +90,8 @@ class Users extends CI_Controller
             $username = addslashes($this->input->post('username'));
             $password = $this->input->post('password');
             $user = $this->user->get_user($username, $password);
-            $user->ip_address = $this->utils->getLocalIp();
             if ($user) {
+                $user->ip_address = $this->utils->getLocalIp();
                 $newdata = array(
                     'user' => $user,
                     'logged_in' => TRUE

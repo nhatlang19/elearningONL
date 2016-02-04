@@ -6,12 +6,14 @@ if (! defined('BASEPATH'))
 include_once APPPATH . 'helpers/Traits/TemplateTrait.php';
 include_once APPPATH . 'helpers/Traits/PaginateTrait.php';
 include_once APPPATH . 'helpers/Traits/ExportCsvTrait.php';
+include_once APPPATH . 'helpers/Traits/ManageRoleTrait.php';
 
 class Ext_Controller extends CI_Controller
 {
     use TemplateTrait;
     use PaginateTrait;
     use ExportCsvTrait;
+    use ManageRoleTrait; 
     
     const URI_SEGMENT = 4;
 
@@ -28,6 +30,12 @@ class Ext_Controller extends CI_Controller
         
         // set header charset of ouput is UTF-8
         $this->output->set_header('Content-Type: text/html; charset=UTF-8');
+        
+        // check permission
+        if(!$this->allowPermissions()) {
+            $this->session->set_flashdata('error', 'Bạn không có quyền truy cập');
+            redirect(BACKEND_V2_TMPL_PATH . 'storage/lists');
+        }
     }
 
     protected function getUserInfo()

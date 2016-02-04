@@ -33,7 +33,7 @@
                         <?php echo $success; ?>
                         <br clear='all' />
                         <meta http-equiv="refresh"
-							content="5; URL=<?php echo site_url(BACKEND_V2_TMPL_PATH . 'dashboard'); ?>">
+							content="5; URL=<?php echo site_url(BACKEND_V2_TMPL_PATH . 'storage/lists'); ?>">
 						Vui lòng chờ trong 5 giây. Click vào <?php echo anchor(site_url(BACKEND_V2_TMPL_PATH . 'dashboard'), 'đây')?> để không phải chờ lâu
                 </div>
                 <?php endif; ?>
