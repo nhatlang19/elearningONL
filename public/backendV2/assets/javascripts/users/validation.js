@@ -12,16 +12,19 @@
 		    maxlength: '255',
 		    minlength: '6'
 		  },
-	  'password': {
-		    required: true,
-		    maxlength: '255',
-		    minlength: '6'
-		  },
 	  'email': {
 		    required: true,
 		    email: true
 		  },
 	};
+	
+	if(action == 'add') {
+		rules.push('password': {
+		    required: true,
+		    maxlength: '255',
+		    minlength: '6'
+		  });
+	}
 
 	// basic
 	$("#form").validate({

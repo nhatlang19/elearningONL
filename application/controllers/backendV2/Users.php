@@ -133,17 +133,13 @@ class Users extends CI_Controller
         $this->loadTemnplateBackend($header, $content);
     }
 
-    function edit($id = null)
+    function edit($username = null)
     {
         $header['title'] = 'Thêm User';
+        
         $data = array();
-        if ($id) {
-            $header['title'] = 'Chỉnh sửa user';
-            $data['userInfo'] = $this->user->find_by_pkey($id);
-            $data['id'] = $id;
-        }
         if ($this->input->post()) {
-            $id = $this->input->post('id', 0);
+            $action = $this->input->post('action', 'add');
             $data['fullname'] = sanitizeText($this->input->post('fullname'));
             $data['username'] = sanitizeText($this->input->post('username'));
             $data['password'] = $this->input->post('password');
@@ -151,9 +147,13 @@ class Users extends CI_Controller
             $data['subjects_id'] = (int)$this->input->post('subjects_id');
             $data['published'] = 1;
             $data['role'] = 10;
-            $isValid = $this->userlib->validate($data);
+            if ($action != 'add') {
+                unset($data['username']);
+            }
+            
+            $isValid = $this->userlib->validate($data, $action);
             if($isValid) {
-                if (! $id) {
+                if ($action == 'add') {
                     // save into user table
                     $data['password'] = md5($data['password']);
                     $this->user->create($data);
@@ -163,7 +163,7 @@ class Users extends CI_Controller
                     } else {
                         unset($data['password']);
                     }
-                    $this->user->update_by_pkey($id, $data);
+                    $this->user->update_by_pkey($username, $data);
                 }
                 unset($data);
                 
@@ -171,9 +171,34 @@ class Users extends CI_Controller
             }
         }
         
+        $action = 'add';
+        if ($username) {
+            $header['title'] = 'Chỉnh sửa user';
+            $data['userInfo'] = $this->user->find_by_pkey($username);
+            $action = 'edit';
+        }
+        
+        $data['action'] = $action;
         $data['title'] = $header['title'];
         $data['subjects'] = $this->subject_model->getAll();
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'users/edit', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
+    }
+    
+    public function delete($username = null) {
+        if($this->input->is_ajax_request() && !empty($username)) {
+            $id = sanitizeText($username);
+            $this->user->deleteById($id);
+            
+            $response = [
+                'status' => 0,
+                'message' => ''
+            ];
+            
+            $this->output->set_content_type('application/json')->set_output(json_encode($response));
+            
+        } else {
+            show_404();
+        }
     }
 }

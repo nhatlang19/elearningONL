@@ -2,6 +2,7 @@
 /************ BACKEND ************/
 $config['menu'] = array(
     'dashboard' => array(
+        'visible' => false, 
         'role' => [
             MANAGER,
             ADMINISTRATOR
@@ -13,6 +14,7 @@ $config['menu'] = array(
         'child' => []
     ),
     'storage' => array(
+        'visible' => true,
         'role' => [
             MANAGER,
             ADMINISTRATOR
@@ -33,6 +35,7 @@ $config['menu'] = array(
         )
     ),
     'storage-question' => array(
+        'visible' => true,
         'role' => [
             MANAGER,
             ADMINISTRATOR
@@ -53,6 +56,7 @@ $config['menu'] = array(
         )
     ),
     'topic' => array(
+        'visible' => true,
         'role' => [
             MANAGER,
             ADMINISTRATOR
@@ -79,6 +83,7 @@ $config['menu'] = array(
         )
     ),
     'exam' => array(
+        'visible' => true,
         'role' => [
             ADMINISTRATOR
         ],
@@ -98,6 +103,7 @@ $config['menu'] = array(
         )
     ),
     'academic' => array(
+        'visible' => true,
         'role' => [
             ADMINISTRATOR
         ],
@@ -117,6 +123,7 @@ $config['menu'] = array(
         )
     ),
     'block' => array(
+        'visible' => true,
         'role' => [
             ADMINISTRATOR
         ],
@@ -136,6 +143,7 @@ $config['menu'] = array(
         )
     ),
     'clazz' => array(
+        'visible' => true,
         'role' => [
             ADMINISTRATOR
         ],
@@ -155,6 +163,7 @@ $config['menu'] = array(
         )
     ),
     'subject' => array(
+        'visible' => true,
         'role' => [
             ADMINISTRATOR
         ],
@@ -174,6 +183,7 @@ $config['menu'] = array(
         )
     ),
     'students' => array(
+        'visible' => true,
         'role' => [
             ADMINISTRATOR
         ],
@@ -198,6 +208,7 @@ $config['menu'] = array(
         )
     ),
     'users' => array(
+        'visible' => true,
         'role' => [
             ADMINISTRATOR
         ],
