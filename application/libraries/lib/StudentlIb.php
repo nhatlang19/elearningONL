@@ -27,18 +27,18 @@ class Studentlib extends AppComponent {
                     'required' => 'Mã số học sinh không được rỗng',
                     'min_length' => 'Mã số học sinh ít nhất phải có {param} ký tự',
                     'max_length' => 'Mã số học sinh phải nhỏ hơn {param} ký tự',
+                    //'check_student' => 'Mã số học sinh này thuộc về học sinh khác'
                 )
             );
         } else {
             $this->CI->form_validation->set_rules(
                 'indentity_number',
                 'Mã số học sinh',
-                'required|min_length[1]|max_length[255]|callback_check_student',
+                'required|min_length[1]|max_length[255]',
                 array(
                     'required' => 'Mã số học sinh không được rỗng',
                     'min_length' => 'Mã số học sinh ít nhất phải có {param} ký tự',
-                    'max_length' => 'Mã số học sinh phải nhỏ hơn {param} ký tự',
-                    'check_student' => 'Mã số học sinh này thuộc về học sinh khác'
+                    'max_length' => 'Mã số học sinh phải nhỏ hơn {param} ký tự'
                 )
             );
         }
