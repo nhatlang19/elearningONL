@@ -22,12 +22,11 @@ class Studentlib extends AppComponent {
             $this->CI->form_validation->set_rules(
                 'indentity_number',
                 'Mã số học sinh',
-                'required|min_length[1]|max_length[255]|is_unique[student_info.indentity_number, student_info.class_id]',
+                'required|min_length[1]|max_length[255]',
                 array(
                     'required' => 'Mã số học sinh không được rỗng',
                     'min_length' => 'Mã số học sinh ít nhất phải có {param} ký tự',
                     'max_length' => 'Mã số học sinh phải nhỏ hơn {param} ký tự',
-                    'is_unique' => 'Mã số học sinh đã tồn tại'
                 )
             );
         } else {
@@ -62,7 +61,6 @@ class Studentlib extends AppComponent {
     public function check_student($indentity_number, $class_id)
     { 
         $return_value = $this->student_topic_model->isExistsStudent($indentity_number, $class_id);
-        pr($return_value);exit;
         return !$return_value;
     }
 }
