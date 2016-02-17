@@ -2,13 +2,6 @@
 
 class Ext_Model extends CI_Model
 {
-    const DELETED_YES = 1;
-    const DELETED_NO = 0;
-    
-    const PUBLISHED = 1;
-    const UNPUBLISHED = 0;
-    
-
     public $table_name = NULL;
 
     public $pkey = NULL;
@@ -444,13 +437,13 @@ class Ext_Model extends CI_Model
     }
     
     public function deleteById($id) {
-        return $this->update_by_pkey($id, ['deleted' => self::DELETED_YES]);
+        return $this->update_by_pkey($id, ['deleted' => DELETED_YES]);
     }
     
     public function published($id)
     {
         $data = array(
-            'published' => self::PUBLISHED
+            'published' => PUBLISHED
         );
         return $this->update_by_pkey($id, $data);
     }
@@ -458,7 +451,7 @@ class Ext_Model extends CI_Model
     public function unpublished($id)
     {
         $data = array(
-            'published' => self::UNPUBLISHED
+            'published' => UNPUBLISHED
         );
         return $this->update_by_pkey($id, $data);
     }
@@ -469,7 +462,7 @@ class Ext_Model extends CI_Model
             $cacheName = $this->CI->lphcache->getCacheName($this->table_name, 'getAll');
             if (!$cacheName || ! $data = $this->CI->lphcache->get($cacheName))
             {
-                $filters = [$this->table_name . '.deleted' => self::DELETED_NO];
+                $filters = [$this->table_name . '.deleted' => DELETED_NO];
                 $data = $this->findAll($filters);
         
                 if($cacheName) {
@@ -478,7 +471,7 @@ class Ext_Model extends CI_Model
                 }
             }
         } else {
-            $filters = [$this->table_name . '.deleted' => self::DELETED_NO];
+            $filters = [$this->table_name . '.deleted' => DELETED_NO];
             $data = $this->findAll($filters);
         }
     
@@ -488,8 +481,8 @@ class Ext_Model extends CI_Model
     public function getAllPublished($cached = true)
     {
         $filters = [
-            $this->table_name . '.published' => self::PUBLISHED,
-            $this->table_name . '.deleted' => self::DELETED_NO
+            $this->table_name . '.published' => PUBLISHED,
+            $this->table_name . '.deleted' => DELETED_NO
         ];
         $data = $this->findAll($filters);
         return $data;

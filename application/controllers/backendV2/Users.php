@@ -183,6 +183,8 @@ class Users extends CI_Controller
                 
                 redirect(BACKEND_V2_TMPL_PATH . 'users/lists');
             }
+            
+            $data['userInfo'] = (object)$data;
         }
         
         $action = 'add';
@@ -202,7 +204,7 @@ class Users extends CI_Controller
     public function delete($username = null) {
         if($this->input->is_ajax_request() && !empty($username)) {
             $id = sanitizeText($username);
-            $this->user->deleteById($id);
+            $this->user->update_by_pkey($id, ['deleted' => DELETED_YES, 'username' => $username . '_' . date('YmdHis') . uniqid()]);
             
             $response = [
                 'status' => 0,
