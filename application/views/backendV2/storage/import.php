@@ -18,7 +18,7 @@
 	<footer class="panel-footer">
 		<div class="row">
 			<div class="col-md-9 text-left">
-				<div>Tại về tệp mẫu tại <a
+				<div>Tải về tệp mẫu tại <a
 				href="<?php echo BACKEND_V2_TEMPLATES_PATH; ?>template_import_questions.docx">đây</a></div>
 			</div>
 			<div class="col-md-3 text-right">
