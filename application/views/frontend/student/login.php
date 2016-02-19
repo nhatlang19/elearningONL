@@ -57,7 +57,9 @@
 						</div>
 						<div class="form-group">
 							<div class="col-lg-9 col-lg-offset-3">
+								<?php if(!empty($classes) && !empty($academic)): ?>
 								<button type="submit" class="btn btn-primary">Đăng nhập</button>
+								<?php endif; ?>
 							</div>
 						</div>
 					</fieldset>

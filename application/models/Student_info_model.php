@@ -28,7 +28,7 @@ class Student_info_model extends Ext_Model
     public function isExistsStudent($indentity_number, $class_id) {
         $data = null;
         
-        $this->db->select('s.id');
+        $this->db->select('s.student_id');
         $this->db->from($this->table_name . ' as s');
         $this->db->where('s.indentity_number', $indentity_number);
         $this->db->where('s.class_id', $class_id);
@@ -36,7 +36,6 @@ class Student_info_model extends Ext_Model
         $query = $this->db->get();
         
         $rows = $query->result();
-        pr($rows);exit;
         return count($rows) ? true : false;
     }
 

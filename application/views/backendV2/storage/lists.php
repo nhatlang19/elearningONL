@@ -43,7 +43,7 @@
 					<th>Import</th>
 					<th>Trạng thái</th>
 					<th>Id</th>
-					<th>Actions</th>
+					<th>Xử lý</th>
 				</tr>
 			</thead>
 			<tbody>

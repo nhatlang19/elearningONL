@@ -68,6 +68,15 @@ class Academic extends Ext_Controller
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'academic/edit', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
+    
+    public function setDefault($id = null) {
+        if(!$id) {
+            $this->session->set_flashdata('error', 'Không thể cập nhật');
+            redirect(BACKEND_V2_TMPL_PATH . 'academic/lists');
+        }
+        $this->academic_model->setDefault($id);
+        redirect(BACKEND_V2_TMPL_PATH . 'academic/lists');
+    }
 }
 
 /* End of file academic.php */

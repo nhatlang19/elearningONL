@@ -1,3 +1,7 @@
 + edit user <= Done
 + check role for all actions <= Done
 + track user do somethins : tao cau hoi, tao kho, tao de. 
+
++ Major
+1. set default academic_year 
+2. update role for users and student

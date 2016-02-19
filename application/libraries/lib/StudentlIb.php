@@ -12,7 +12,7 @@ class Studentlib extends AppComponent {
             'form_validation'
         ]);
         
-        $this->CI->load->model('student_topic_model');
+        $this->CI->load->model('student_info_model');
     }
     
     public function validate(array $data) {
@@ -60,7 +60,7 @@ class Studentlib extends AppComponent {
     
     public function check_student($indentity_number, $class_id)
     { 
-        $return_value = $this->student_topic_model->isExistsStudent($indentity_number, $class_id);
+        $return_value = $this->student_info_model->isExistsStudent($indentity_number, $class_id);
         return !$return_value;
     }
 }

@@ -54,14 +54,22 @@ class Students extends Ext_Controller
             if($isValid) {
                 unset($data['id']);
                 if (! $id) {
-                    // save into subject table
-                    $this->student_info_model->create($data);
+                    $exists = $this->student_info_model->isExistsStudent($data['indentity_number'], $data['class_id']);
+                    if(!$exists) {
+                        // save into subject table
+                        $this->student_info_model->create($data);
+                        unset($data);
+                
+                        redirect(BACKEND_V2_TMPL_PATH . 'students/lists');
+                    } else {
+                        $this->session->set_flashdata('error', 'Mã số học sinh này thuộc về học sinh khác');
+                    }
                 } else {
                     $this->student_info_model->update_by_pkey($id, $data);
-                }
-                unset($data);
+                    unset($data);
                 
-                redirect(BACKEND_V2_TMPL_PATH . 'students/lists');
+                    redirect(BACKEND_V2_TMPL_PATH . 'students/lists');
+                }
             }
         }
         

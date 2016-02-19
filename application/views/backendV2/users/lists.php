@@ -26,7 +26,7 @@
 					<th>Tên đăng nhập</th>
 					<th>Họ tên</th>
 					<th>Môn học</th>
-					<th>Actions</th>
+					<th>Xử lý</th>
 				</tr>
 			</thead>
 			<tbody>
