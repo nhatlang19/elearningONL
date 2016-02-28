@@ -21,7 +21,7 @@ class Users extends CI_Controller
             $allowActions = array('index', 'change_password', 'login', 'logout');
             if(!$this->allowPermissions($allowActions)) {
                 $this->session->set_flashdata('error', 'Bạn không có quyền truy cập');
-                redirect(BACKEND_V2_TMPL_PATH . 'dashboard');
+                redirect(BACKEND_V2_TMPL_PATH . 'storage/lists');
             }
         }
         
@@ -36,7 +36,7 @@ class Users extends CI_Controller
     function index()
     {
         if ($this->session->userdata('logged_in')) {
-            redirect(BACKEND_V2_TMPL_PATH . 'dashboard');
+            redirect(BACKEND_V2_TMPL_PATH . 'storage/lists');
         } else {
             redirect('admin/signin');
         }
@@ -82,7 +82,7 @@ class Users extends CI_Controller
     function login()
     {
         if ($this->session->userdata('logged_in')) {
-            redirect(BACKEND_V2_TMPL_PATH . 'dashboard');
+            redirect(BACKEND_V2_TMPL_PATH . 'storage/lists');
         }
         $data = ['username' => ''];
         if ($this->input->post()) {
@@ -99,7 +99,7 @@ class Users extends CI_Controller
                 $_SESSION['islogin'] = TRUE;
                 $this->session->set_userdata($newdata);
                 
-                redirect(BACKEND_V2_TMPL_PATH . 'dashboard');
+                redirect(BACKEND_V2_TMPL_PATH . 'storage/lists');
             } else {
                 $this->session->set_flashdata('error', 'Tên đăng nhập / mật khẩu không hợp lệ');
             }

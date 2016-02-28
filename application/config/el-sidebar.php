@@ -2,7 +2,7 @@
 /************ BACKEND ************/
 $config['menu'] = array(
     'dashboard' => array(
-        'visible' => true, 
+        'visible' => false, 
         'role' => [
             MANAGER,
             ADMINISTRATOR
