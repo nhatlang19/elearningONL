@@ -18,7 +18,7 @@ trait TemplateTrait
         $template['breadcrumbs'] = $this->load->view(BACKEND_V2_INC_TMPL_PATH . 'inc_breadcrumbs', null, true);
         $template['content'] = $content;
         $template['footer'] = $this->load->view(BACKEND_V2_INC_TMPL_PATH . 'inc_footer', null, true);
-        
+        $template['debug'] = $this->load->view(BACKEND_V2_INC_TMPL_PATH . 'inc_debug', null, true);
         $this->load->view(BACKEND_V2_TMPL_PATH . 'template', $template);
     }
     

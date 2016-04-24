@@ -19,7 +19,7 @@
 				class="fa fa-times"></a>
 		</div>
 
-		<h2 class="panel-title">Trạng thái lỗi</h2>
+		<h2 class="panel-title">Trạng thái hệ thống</h2>
 	</header>
 	<div class="panel-body">
 		<table class="table table-bordered table-striped mb-none" id="datatable-editable">

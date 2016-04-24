@@ -8,5 +8,6 @@
     </section>
 </div>
 <?php echo $footer; ?>
+<?php echo $debug; ?>
 
 	
