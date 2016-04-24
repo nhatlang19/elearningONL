@@ -1,7 +1,10 @@
+<script type="text/javascript">
+var action = '<?php echo $action; ?>';
+</script>
 <!-- start: page -->
 <div class="row">
 	<div class="col-lg-12">
-		<?php echo form_open(BACKEND_V2_TMPL_PATH . 'users/edit', ['id' => 'form', 'class' => 'form-horizontal form-bordered', 'autocomplete' => 'off']); ?>
+		<?php echo form_open('', ['id' => 'form', 'class' => 'form-horizontal form-bordered', 'autocomplete' => 'off']); ?>
 		<section class="panel">
 			<header class="panel-heading">
 				<div class="panel-actions">
@@ -28,22 +31,20 @@
 					</label>
 					<div class="col-md-6">
 						<input type="text" name="username" class="form-control"
-							id="inputDefault" required
+							id="inputDefault" required <?php echo $action != 'add' ? 'readonly' : ''; ?>
 							value="<?php echo isset($userInfo->username) ? $userInfo->username : ''; ?>">
 					</div>
 				</div>
-				<?php if(!isset($id)) : ?>
 				<div class="form-group">
 					<label class="col-md-3 control-label" for="inputPassword">Mật khẩu
-						<span class="required">*</span>
+						<?php echo $action == 'add' ? '<span class="required">*</span>' : ''; ?>
 					</label>
 					<div class="col-md-6">
 						<input type="password" name="password" class="form-control"
-							id="inputPassword" required
+							id="inputPassword" <?php echo $action == 'add' ? 'required' : ''; ?>
 							value="">
 					</div>
 				</div>
-				<?php endif; ?>
 				<div class="form-group">
 					<label class="col-md-3 control-label" for="inputEmail">Email <span
 						class="required">*</span></label>
@@ -80,13 +81,13 @@
 			<footer class="panel-footer">
 				<div class="row">
 					<div class="col-sm-9 col-sm-offset-3">
-						<button class="btn btn-primary"><?php echo isset($id) ? 'Cập nhật' : 'Tạo mới'; ?></button>
+						<button class="btn btn-primary"><?php echo $action != 'add' ? 'Cập nhật' : 'Tạo mới'; ?></button>
 						<button type="reset" class="btn btn-default">Phục hồi</button>
 					</div>
 				</div>
 			</footer>
-			<input type='hidden' name='id' id='id'
-				value='<?php if(isset($id)) echo $id; ?>' />
+			<input type='hidden' name='action' id='action'
+				value='<?php if(isset($action)) echo $action; ?>' />
 		</section>
 		<?php echo form_close(); ?>
 	</div>

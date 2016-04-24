@@ -7,7 +7,7 @@
 				class="fa fa-times"></a>
 		</div>
 
-		<h2 class="panel-title">Danh sách học sinh</h2>
+		<h2 class="panel-title">Danh sách Users</h2>
 	</header>
 	<div class="panel-body">
 		<div class="row">
@@ -24,9 +24,9 @@
 				<tr>
 					<th align="center">STT</th>
 					<th>Tên đăng nhập</th>
-					<th>Email</th>
+					<th>Họ tên</th>
 					<th>Môn học</th>
-					<th>Actions</th>
+					<th>Xử lý</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -37,7 +37,7 @@
 				<tr class="gradeX" data-id="<?php echo $value->username; ?>">
 					<td><?php echo $i++; ?></td>
 					<td><?php echo anchor(BACKEND_V2_TMPL_PATH . 'users/edit/' . $value->username, $value->username); ?></td>
-					<td><?php echo $value->email; ?></td>
+					<td><?php echo $value->fullname; ?></td>
 					<td><?php echo $value->subjects_name; ?></td>
 					<td class="actions">
 						<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>

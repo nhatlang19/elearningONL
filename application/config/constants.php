@@ -57,6 +57,12 @@ define('USERNAME', 'Tên đăng nhập');
 define('PASSWORD', 'Mật khẩu');
 define('NO_TOPIC', 'Hiện không có 1 đề thi nào. Vui lòng liên hệ giáo viên của bạn hay quản trị viên để tạo đề thi');
 
+
+define('DELETED_YES', 1);
+define('DELETED_NO', 0);
+define('PUBLISHED', 1);
+define('UNPUBLISHED', 0);
+
 /*
 |--------------------------------------------------------------------------
 | Display Debug backtrace

@@ -18,9 +18,9 @@ class Storage_question_model extends Ext_Model
             $this->db->where('s.subjects_id', $subjects_id);
         }
         
-        $this->db->where('s.published', self::PUBLISHED);
-        $this->db->where('s.deleted', self::DELETED_NO);
-        $this->db->where('sq.deleted', self::DELETED_NO);
+        $this->db->where('s.published', PUBLISHED);
+        $this->db->where('s.deleted', DELETED_NO);
+        $this->db->where('sq.deleted', DELETED_NO);
         
         $filters = [];
         return $this->findAll($filters, $start, $count);
@@ -90,7 +90,7 @@ class Storage_question_model extends Ext_Model
             $sql .= " AND sq.storage_id = ?";
             $sql .= " AND sq.deleted = ?";
             
-            $query = $this->db->query($sql, array(1, $storage_id, self::DELETED_NO));
+            $query = $this->db->query($sql, array(1, $storage_id, DELETED_NO));
             
             if (! empty($query) && $query->num_rows() > 0) {
                 $temp = $query->result_array();
@@ -104,8 +104,8 @@ class Storage_question_model extends Ext_Model
     {
         $this->db->from($this->table_name);
         $this->db->where(array(
-            'published' => self::PUBLISHED,
-            'deleted' =>  self::DELETED_NO
+            'published' => PUBLISHED,
+            'deleted' =>  DELETED_NO
         ));
         return $this->db->count_all_results();
     }
@@ -114,8 +114,8 @@ class Storage_question_model extends Ext_Model
         $this->db->from($this->table_name);
         $this->db->where(array(
             'storage_id' => $storage_id,
-            'published' => self::PUBLISHED,
-            'deleted' =>  self::DELETED_NO
+            'published' => PUBLISHED,
+            'deleted' =>  DELETED_NO
         ));
         return $this->db->count_all_results();
     }
@@ -145,7 +145,7 @@ class Storage_question_model extends Ext_Model
             return;
         }
         
-        $hash = md5($data->storage_id . '_' . $data->question_name . '_' . self::DELETED_YES . '_' . $data->updated_time);
-        return $this->update_by_pkey($id, ['deleted' => self::DELETED_YES, 'hashkey' => $hash]);
+        $hash = md5($data->storage_id . '_' . $data->question_name . '_' . DELETED_YES . '_' . $data->updated_time);
+        return $this->update_by_pkey($id, ['deleted' => DELETED_YES, 'hashkey' => $hash]);
     }
 }

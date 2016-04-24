@@ -15,7 +15,7 @@ class Userlib extends AppComponent {
         ]);
     }
     
-    public function validate(array $data) {
+    public function validate(array $data, $action = 'add') {
         $this->CI->form_validation->set_data($data);
         
         $this->CI->form_validation->set_rules(
@@ -29,27 +29,30 @@ class Userlib extends AppComponent {
             )
         );
         
-        $this->CI->form_validation->set_rules(
-            'username',
-            'Tên đăng nhập',
-            'required|min_length[6]|max_length[255]',
-            array(
-                'required' => 'Tên đăng nhập không được rỗng',
-                'min_length' => 'Tên đăng nhập ít nhất phải có {param} ký tự',
-                'max_length' => 'Tên đăng nhập phải nhỏ hơn {param} ký tự'
-            )
-        );
+        if($action == 'add') {
+            $this->CI->form_validation->set_rules(
+                'username',
+                'Tên đăng nhập',
+                'required|min_length[6]|max_length[255]|is_unique[users.username]',
+                array(
+                    'required' => 'Tên đăng nhập không được rỗng',
+                    'min_length' => 'Tên đăng nhập ít nhất phải có {param} ký tự',
+                    'max_length' => 'Tên đăng nhập phải nhỏ hơn {param} ký tự',
+                    'is_unique' => 'Tên đăng nhập đã tồn tại',
+                )
+            );
         
-        $this->CI->form_validation->set_rules(
-            'password',
-            'Mật khẩu',
-            'required|min_length[6]|max_length[255]',
-            array(
-                'required' => 'Mật khẩu không được rỗng',
-                'min_length' => 'Mật khẩu ít nhất phải có {param} ký tự',
-                'max_length' => 'Mật khẩu phải nhỏ hơn {param} ký tự'
-            )
-        );
+            $this->CI->form_validation->set_rules(
+                'password',
+                'Mật khẩu',
+                'required|min_length[6]|max_length[255]',
+                array(
+                    'required' => 'Mật khẩu không được rỗng',
+                    'min_length' => 'Mật khẩu ít nhất phải có {param} ký tự',
+                    'max_length' => 'Mật khẩu phải nhỏ hơn {param} ký tự'
+                )
+            );
+        }
         
         $this->CI->form_validation->set_rules(
             'email',

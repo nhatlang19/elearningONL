@@ -3,14 +3,28 @@ if (! defined('BASEPATH'))
     exit('No direct script access allowed');
 
 include_once APPPATH . 'helpers/Traits/TemplateTrait.php';
+include_once APPPATH . 'helpers/Traits/PaginateTrait.php';
+include_once APPPATH . 'helpers/Traits/ManageRoleTrait.php';
 class Users extends CI_Controller
 {
     use TemplateTrait;
     use PaginateTrait;
+    use ManageRoleTrait; 
     
     public function __construct()
     {
         parent::__construct();
+        
+        
+        if ($this->session->userdata('logged_in')) {
+            // check permission
+            $allowActions = array('index', 'change_password', 'login', 'logout');
+            if(!$this->allowPermissions($allowActions)) {
+                $this->session->set_flashdata('error', 'Bạn không có quyền truy cập');
+                redirect(BACKEND_V2_TMPL_PATH . 'storage/lists');
+            }
+        }
+        
         $this->load->model('User_model', 'user', TRUE);
         $this->load->model('subject_model');
         
@@ -22,7 +36,7 @@ class Users extends CI_Controller
     function index()
     {
         if ($this->session->userdata('logged_in')) {
-            redirect(BACKEND_V2_TMPL_PATH . 'storage');
+            redirect(BACKEND_V2_TMPL_PATH . 'storage/lists');
         } else {
             redirect('admin/signin');
         }
@@ -76,8 +90,8 @@ class Users extends CI_Controller
             $username = addslashes($this->input->post('username'));
             $password = $this->input->post('password');
             $user = $this->user->get_user($username, $password);
-            $user->ip_address = $this->utils->getLocalIp();
             if ($user) {
+                $user->ip_address = $this->utils->getLocalIp();
                 $newdata = array(
                     'user' => $user,
                     'logged_in' => TRUE
@@ -133,17 +147,13 @@ class Users extends CI_Controller
         $this->loadTemnplateBackend($header, $content);
     }
 
-    function edit($id = null)
+    function edit($username = null)
     {
         $header['title'] = 'Thêm User';
+        
         $data = array();
-        if ($id) {
-            $header['title'] = 'Chỉnh sửa user';
-            $data['userInfo'] = $this->user->find_by_pkey($id);
-            $data['id'] = $id;
-        }
         if ($this->input->post()) {
-            $id = $this->input->post('id', 0);
+            $action = $this->input->post('action', 'add');
             $data['fullname'] = sanitizeText($this->input->post('fullname'));
             $data['username'] = sanitizeText($this->input->post('username'));
             $data['password'] = $this->input->post('password');
@@ -151,9 +161,13 @@ class Users extends CI_Controller
             $data['subjects_id'] = (int)$this->input->post('subjects_id');
             $data['published'] = 1;
             $data['role'] = 10;
-            $isValid = $this->userlib->validate($data);
+            if ($action != 'add') {
+                unset($data['username']);
+            }
+            
+            $isValid = $this->userlib->validate($data, $action);
             if($isValid) {
-                if (! $id) {
+                if ($action == 'add') {
                     // save into user table
                     $data['password'] = md5($data['password']);
                     $this->user->create($data);
@@ -163,17 +177,44 @@ class Users extends CI_Controller
                     } else {
                         unset($data['password']);
                     }
-                    $this->user->update_by_pkey($id, $data);
+                    $this->user->update_by_pkey($username, $data);
                 }
                 unset($data);
                 
                 redirect(BACKEND_V2_TMPL_PATH . 'users/lists');
             }
+            
+            $data['userInfo'] = (object)$data;
         }
         
+        $action = 'add';
+        if ($username) {
+            $header['title'] = 'Chỉnh sửa user';
+            $data['userInfo'] = $this->user->find_by_pkey($username);
+            $action = 'edit';
+        }
+        
+        $data['action'] = $action;
         $data['title'] = $header['title'];
         $data['subjects'] = $this->subject_model->getAll();
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'users/edit', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
+    }
+    
+    public function delete($username = null) {
+        if($this->input->is_ajax_request() && !empty($username)) {
+            $id = sanitizeText($username);
+            $this->user->update_by_pkey($id, ['deleted' => DELETED_YES, 'username' => $username . '_' . date('YmdHis') . uniqid()]);
+            
+            $response = [
+                'status' => 0,
+                'message' => ''
+            ];
+            
+            $this->output->set_content_type('application/json')->set_output(json_encode($response));
+            
+        } else {
+            show_404();
+        }
     }
 }

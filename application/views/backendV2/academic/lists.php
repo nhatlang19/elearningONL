@@ -1,4 +1,16 @@
 <link rel="stylesheet" href="<?php echo BACKEND_V2_VENDOR_PATH; ?>jquery-datatables-bs3/assets/css/datatables.css" />
+<?php
+    $style = "hide";
+    $error = '';
+    if (($error = $this->session->flashdata('error'))) {
+        $style = '';
+        $this->session->set_flashdata('error', null);
+    }
+?>
+<div class="alert alert-danger <?php echo $style; ?>">
+<button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+<?php echo $error; ?>.
+</div>
 <!-- start: page -->
 <section class="panel">
 	<header class="panel-heading">
@@ -24,8 +36,8 @@
 				<tr>
 					<th align="center">STT</th>
 					<th>Niên khoá</th>
-					<th>Trạng thái</th>
-					<th>Actions</th>
+					<th>Mặc định</th>
+					<th>Xử lý</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -33,10 +45,10 @@
                     $i = 1;
                     foreach ($lists as $key => $value) :
                 ?>
-				<tr class="gradeX" data-id="<?php echo $value->	academic_id; ?>">
+				<tr class="gradeX" data-id="<?php echo $value->academic_id; ?>">
 					<td><?php echo $i++; ?></td>
 					<td><?php echo anchor(BACKEND_V2_TMPL_PATH . 'academic/edit/' . $value->academic_id, $value->academic_name); ?></td>
-					<td style="text-align: center">
+					<?php /* <td style="text-align: center">
 					<?php
                         $checked = $value->published ? 'checked="checked"' : '';
                         $status = $value->published ? 'unpublished"' : 'published';
@@ -44,6 +56,13 @@
     					<div class="switch switch-sm switch-primary">
     						<input type="checkbox" name="switch" data-plugin-ios-switch <?php echo $checked; ?> data-id="<?php echo $value->academic_id; ?>" data-status="<?php echo $status; ?>"  />
     					</div>
+					</td> */ ?>
+					<td style="text-align: center">
+						<?php if(!$value->default) :?>
+    					<a href="<?php echo site_url(BACKEND_V2_TMPL_PATH . 'academic/setDefault/' . $value->academic_id); ?>" class="on-default"><span class="label label-primary">Set Default</span></a>
+    					<?php else: ?>
+    					<span class="label label-success">Default</span>
+    					<?php endif; ?>
 					</td>
 					<td class="actions">
 						<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>

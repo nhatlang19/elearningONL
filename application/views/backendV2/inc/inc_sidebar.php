@@ -22,7 +22,8 @@ $menu = $this->config->item('menu');
 					<?php
 					foreach ($menu as $key => $item) :
 					   $roles = $item['role'];
-					   if (in_array($user->role, $roles)) :
+					   $visible = $item['visible'];
+					   if (in_array($user->role, $roles) && $visible) :
 					       $hasChild = !empty($item['child']);
 					?>
 					<li class="<?php echo $key;?> <?php echo $hasChild ? 'nav-parent': ''; ?>">

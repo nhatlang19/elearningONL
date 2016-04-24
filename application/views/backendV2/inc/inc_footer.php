@@ -34,12 +34,6 @@
 
 <script src="<?php echo BACKEND_V2_JS_PATH; ?>topic/download-lists.js"></script>
  */ ?>
-
-<p class="footer">
-	Page rendered in <strong>{elapsed_time}</strong> seconds
-</p> 
-<br clear="all" />
-		<?php echo $template['footer'] = $this->load->view(BACKEND_V2_INC_TMPL_PATH . 'inc_debug', null, true); ?>
  </section>
 
 		<!-- Vendor -->

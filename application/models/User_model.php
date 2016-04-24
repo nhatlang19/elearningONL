@@ -20,6 +20,7 @@ class User_model extends Ext_Model
             $this->db->like('u.username', $title);
         }
         $this->db->where('u.role', 10);
+        $this->db->where('u.deleted', DELETED_NO);
         $query = $this->db->get();
         // stop cache
         $this->db->stop_cache();

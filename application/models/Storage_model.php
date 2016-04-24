@@ -43,7 +43,7 @@ class Storage_model extends Ext_Model
         if ($subjects_id) {
             $this->db->where('s.subjects_id', $subjects_id);
         }
-        $this->db->where('s.deleted', self::DELETED_NO);
+        $this->db->where('s.deleted', DELETED_NO);
         $query = $this->db->get();
         
         // stop cache
@@ -79,8 +79,8 @@ class Storage_model extends Ext_Model
         $subjects_id = (int) $subjects_id;
         
         $filter = [
-            'published' => self::PUBLISHED,
-            'deleted' => self::DELETED_NO
+            'published' => PUBLISHED,
+            'deleted' => DELETED_NO
         ];
         if ($subjects_id) {
             $filter['subjects_id'] = (int) $subjects_id;

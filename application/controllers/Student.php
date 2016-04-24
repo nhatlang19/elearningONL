@@ -4,23 +4,28 @@ if (! defined('BASEPATH'))
 
 class Student extends CI_Controller
 {
+
     public function __construct()
     {
         parent::__construct();
-    
-        $this->load->library(['commonobj', 'utils']);
+        
+        $this->load->library([
+            'commonobj',
+            'utils'
+        ]);
         $this->load->model('student_info_model');
         $this->load->model('class_model');
         $this->load->model('academic_model');
     }
-    
-    public function confirm_info() {
-        if (!$this->session->userdata('studentInfo')) {
+
+    public function confirm_info()
+    {
+        if (! $this->session->userdata('studentInfo')) {
             redirect('dang-nhap');
         }
         
         $data = $this->session->userdata('studentInfo');
-        if(isset($data->confirm) && $data->confirm) {
+        if (isset($data->confirm) && $data->confirm) {
             redirect('exam/quote');
         }
         if ($this->input->post()) {
@@ -34,43 +39,55 @@ class Student extends CI_Controller
         }
         $this->load->view(FRONT_END_TMPL_PATH . 'student/confirm_info', $data);
     }
-    
-    public function login() {
+
+    public function login()
+    {
         if ($this->session->userdata('studentInfo')) {
             redirect('exam/quote');
         }
-
+        
+        $academic = $this->academic_model->getDefaultValue();
+        
         $data = array();
         if ($this->input->post()) {
             $data = $this->input->post();
             $indentity_number = $this->commonobj->TrimAll($data['indentity_number']);
-			$class_id = (int) $data['class_id'];
+            $class_id = (int) $data['class_id'];
             if (empty($indentity_number)) {
                 $data['error'] = 'Mã số học sinh không hợp lệ';
+            } elseif (empty($academic)) {
+                $data['error'] = 'Niên khoá chưa được mặc định. Vui lòng liên hệ quản trị viên để cập nhật';
             } else {
-				$academic = $this->academic_model->getDefaultValue();
-				$username = $this->commonobj->encrypt($academic->academic_id . '_' . $class_id . '_' . $indentity_number);
-				$password = $this->commonobj->encrypt($username);
-				$student = $this->student_info_model->login($username, $password);
-				if ($student) {
-					$student->ip_address = $this->utils->getLocalIp();
-					$session = array(
-						'studentInfo' => $student
-					);
-					$this->session->set_userdata($session);
-		
-					redirect('xac-nhan-thong-tin');
-				} else {
-					$data['error'] = 'Mã số học sinh không hợp lệ';
-				}
+                $username = $this->commonobj->encrypt($academic->academic_id . '_' . $class_id . '_' . $indentity_number);
+                $password = $this->commonobj->encrypt($username);
+                $student = $this->student_info_model->login($username, $password);
+                if ($student) {
+                    $student->ip_address = $this->utils->getLocalIp();
+                    $session = array(
+                        'studentInfo' => $student
+                    );
+                    $this->session->set_userdata($session);
+                    
+                    redirect('xac-nhan-thong-tin');
+                } else {
+                    $data['error'] = 'Mã số học sinh không hợp lệ';
+                }
             }
         }
         
+        $data['academic'] = $academic;
+        if (empty($academic)) {
+            $data['error'] = 'Niên khoá chưa được mặc định. Vui lòng liên hệ quản trị viên để cập nhật';
+        }
         $data['classes'] = $this->class_model->getAll();
+        if (empty($data['classes'])) {
+            $data['error'] = 'Lớp chưa tồn tại. Vui lòng liên hệ quản trị viên để tạo mới';
+        }
         $this->load->view(FRONT_END_TMPL_PATH . 'student/login', $data);
     }
-    
-    public function logout() {
+
+    public function logout()
+    {
         $student = $this->session->userdata('studentInfo');
         $this->session->unset_userdata('studentInfo');
         $student_id = $student->student_id;

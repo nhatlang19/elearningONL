@@ -29,7 +29,7 @@
 					<th>Mã số học sinh</th>
 					<th>Tên học sinh</th>
 					<th>Lớp</th>
-					<th>Actions</th>
+					<th>Xử lý</th>
 				</tr>
 			</thead>
 			<tbody>

@@ -1,4 +1,7 @@
-<?php
-if(ENVIRONMENT == 'development') {
+
+<?php 
+if(ENVIRONMENT == 'development') :
     $this->output->enable_profiler(TRUE);
-}
+endif;
+?>
+	

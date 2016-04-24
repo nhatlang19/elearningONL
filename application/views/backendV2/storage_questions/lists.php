@@ -26,7 +26,7 @@
 					<th>Câu hỏi</th>
 					<th>Tên kho</th>
 					<th>Thời gian tạo</th>
-					<th>Actions</th>
+					<th>Xử lý</th>
 				</tr>
 			</thead>
 			<tbody>
