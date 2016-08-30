@@ -470,10 +470,10 @@ class Word extends AppComponent
         $file_path = PATH_FILES_NO_ROOT . $folderName;
         if (! file_exists($file_path)) {
             mkdir($file_path, 0777);
-            
-            $data['folder_name'] = $folderName;
-            $CI->topic_file_model->create_ignore($data);
         }
+		$data['folder_name'] = $folderName;
+		$CI->topic_file_model->create_ignore($data);
+        
         $file_path .= '/';
         
         $filename = $file_path . $CI->stringobj->createAlias($student_name, '-') . '-' . $indentity_number . '-' . date('dmYHis') . DOCX;
