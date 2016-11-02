@@ -16,12 +16,12 @@ class Word extends AppComponent
     function __construct()
     {
         parent::__construct();
-        
+
         Autoloader::register();
         Settings::loadConfig();
-        
+
         Settings::setTempDir(getcwd() . TMPDIR_WORD);
-        
+
         // Set writers
         $writers = array(
             'Word2007' => 'docx',
@@ -30,12 +30,12 @@ class Word extends AppComponent
             'HTML' => 'html',
             'PDF' => 'pdf'
         );
-        
+
         // Set PDF renderer
         if (Settings::getPdfRendererPath() === null) {
             $writers['PDF'] = null;
         }
-        
+
         // Return to the caller script when runs by CLI
         if (PHP_SAPI == 'cli') {
             return;
@@ -60,7 +60,7 @@ class Word extends AppComponent
                         $statusCellTextRun->addImage($src);
                     }
                 } else {
-                    $statusCellTextRun->addText('<![CDATA[ ' . htmlspecialchars_decode($item['text']) . ' ]]>');
+                    $statusCellTextRun->addText('<![CDATA[' . ($item['text']) . ']]>');
                 }
             }
         }
@@ -85,14 +85,14 @@ class Word extends AppComponent
                     } else {
                         $arrayString[] = array(
                             'type' => 'TEXT',
-                            'text' => $str . ' '
+                            'text' => trim_all($str) . ' '
                         );
                     }
                 }
                 $array[] = $arrayString;
             }
         }
-        
+
         return $array;
     }
 
@@ -118,7 +118,7 @@ class Word extends AppComponent
     {
         return str_replace("\"", "'", $string);
     }
-    
+
     private function addParagraph($section, $text, $bold = false) {
         $lists = $this->convertToArray($text);
         foreach ($lists as $values) {
@@ -135,11 +135,11 @@ class Word extends AppComponent
             }
         }
     }
-    
+
     public function exportTopic($topics, $title) {
         // Include the PHPWord.php, all other classes were loaded by an autoloader
         require_once APPPATH . 'libraries/PhpOffice/PhpWord/PHPWord.php';
-        
+
         // New portrait section
         $styleTable = array(
             'borderSize' => 6,
@@ -164,7 +164,7 @@ class Word extends AppComponent
                 $section = $PHPWord->createSection();
                 // đề thứ i
                 $title_topic = 'De ' . $topic['code'] . DOCX;
-            
+
                 $data = $CI->topic_model->getData($topic['topic_id']);
                 $results[$key]['code'] = $topic['code'];
                 $results[$key]['data'] = $data;
@@ -178,11 +178,11 @@ class Word extends AppComponent
                         $num ++;
                     }
                 }
-                
+
                 $filename = BACKEND_V2_DOC_PATH_DIR . $title . '/' . $title_topic;
                 $xmlWriter->save($filename);
                 $array_topic[] = $filename;
-            
+
                 // New Word Document
                 $PHPWord = new \PhpOffice\PhpWord\PhpWord();
                 $xmlWriter = IOFactory::createWriter($PHPWord, 'Word2007');
@@ -221,12 +221,12 @@ class Word extends AppComponent
     {
         // Include the PHPWord.php, all other classes were loaded by an autoloader
         require_once APPPATH . 'libraries/PhpOffice/PhpWord/PHPWord.php';
-        
+
         // New Word Document
         $PHPWord = new \PhpOffice\PhpWord\PhpWord();
         // New portrait section
         $section = $PHPWord->createSection();
-        
+
         $styleTable = array(
             'borderSize' => 6,
             'borderColor' => '006699',
@@ -243,30 +243,31 @@ class Word extends AppComponent
         );
         for ($i = 0, $n = count($storages); $i < $n; $i ++) {
             $item = $storages[$i];
-            
+
             $list_answer = explode(SEPARATE_ANSWER, $item->answer);
             $list_correct_answer = explode(SEPARATE_CORRECT_ANSWER, $item->correct_answer);
-            
+
             $template = array(
                 'col1' => 'Câu hỏi',
                 'col2' => trim_all($item->question_name)
             );
+
             $this->_addDataToRow($table, $template, $styleCell);
-            
+
             $c = 65;
             $index = array();
             foreach ($list_answer as $idx => $answer) {
                 if ($list_correct_answer[$idx] == 1) {
                     $index[] = chr($c);
                 }
-                
+
                 $template = array(
                     'col1' => chr($c ++),
-                    'col2' => $answer
+                    'col2' => trim_all($answer)
                 );
                 $this->_addDataToRow($table, $template, $styleCell);
             }
-            
+
             $template = array(
                 'col1' => 'Câu trả lời đúng',
                 'col2' => implode(SEPARATE_CORRECT_ANSWER, $index)
@@ -280,7 +281,7 @@ class Word extends AppComponent
 
     private function _addResultStudentToRow($table, $text, $isTitle = false, $styleText = array())
     {
-        
+
         // Add row
         $table->addRow();
         if ($isTitle) {
@@ -318,7 +319,7 @@ class Word extends AppComponent
     {
         $table = $section->addTable('myOwnTableStyle');
         $this->_addResultStudentToRow($table, 'THÔNG TIN CÁ NHÂN', true);
-        
+
         $array[] = 'MSHS: ' . $student->indentity_number;
         $array[] = 'Họ tên: ' . $student->fullname;
         $array[] = 'Lớp: ' . $student->class_name;
@@ -333,13 +334,13 @@ class Word extends AppComponent
     {
         $CI = & get_instance();
         $CI->load->library('commonobj');
-        
+
         $table = $section->addTable('myOwnTableStyle');
         $this->_addResultStudentToRow($table, 'CÂU TRẢ LỜI', true);
         $maxCol = 5;
         $n = count($answers_student);
         $plus = $n < $maxCol ? $n : $maxCol;
-        
+
         for ($i = 0; $i < $n; $i += $plus) {
             $array = array();
             for ($j = $i; $j < $i + $plus; $j ++) {
@@ -347,7 +348,7 @@ class Word extends AppComponent
                     if(isset($answers_student[$j]->answer)) {
     					$answers = explode(SEPARATE_CORRECT_ANSWER, $answers_student[$j]->answer);
     					foreach ($answers as $key => $value) {
-    						$answers[$key] = Commonobj::convertNumberToChar((int)$value); 
+    						$answers[$key] = Commonobj::convertNumberToChar((int)$value);
     					}
     					$answer = implode(SEPARATE_CORRECT_ANSWER, $answers);
                         $array[] = $answers_student[$j]->number_question . '. ' . $answer;
@@ -369,7 +370,7 @@ class Word extends AppComponent
         foreach ($lists as $values) {
             $statusCellTextRun = $statusCell->createTextRun();
             foreach ($values as $item) {
-			
+
                 if ($item['type'] == 'IMAGE') {
                     $src = trim(str_replace(base_url(), '', $item['src']));
 					// fix for localhost
@@ -388,15 +389,15 @@ class Word extends AppComponent
     {
         $CI = & get_instance();
         $CI->load->library('utils');
-        
+
         $table = $section->addTable('myOwnTableStyle');
         $this->_addResultStudentToRow($table, 'CÂU TRẢ LỜI CHI TIẾT', true);
-        
+
         // Add row
         $table->addRow();
         // add cell
         $statusCell = $table->addCell(9000);
-        
+
         foreach ($topicDetails as $key => $value) {
             $answers = explode('|||', $value['answer']);
             $positions = explode(',', $value['correct_answer']);
@@ -408,7 +409,7 @@ class Word extends AppComponent
                 'size' => 16
             ));
             $statusCell->addTextBreak();
-            
+
             if (! isset($answer_of_student->answer)) {
                 $this->_writeQuestionOrAnswer($statusCell, '__ (Không có câu trả lời) __', array(
                     'italic' => true,
@@ -417,7 +418,7 @@ class Word extends AppComponent
                 ));
                 $statusCell->addTextBreak();
             }
-            
+
             $number = 65;
             foreach ($answers as $k => $answer) {
                 $correct = '';
@@ -427,7 +428,7 @@ class Word extends AppComponent
 						$correct = "<img src='public/backendV2/assets/images/cross_circle.png' />";
 					}
 				}
-                
+
                 if ($positions[$k]) {
                     $correct = "<img src='public/backendV2/assets/images/tick_circle.png' />";
                 }
@@ -444,28 +445,28 @@ class Word extends AppComponent
     function exportResultStudent($student, $topic, $student_mark_id = 0)
     {
         $CI = & get_instance();
-        
+
         $topic = (object) $topic;
-        
+
         ob_start();
         $CI->load->library('stringobj');
         $CI->load->library('utils');
         $CI->load->library('commonobj');
-        
+
         $CI->load->model('student_answer_model');
         $CI->load->model('topic_model');
         $CI->load->model('topic_file_model');
-        
+
         $student_id = $student->student_id;
         $student_name = $student->fullname;
         $indentity_number = $student->indentity_number;
         $student_id = intval($student_id);
-        
+
         $data = array(
             'topic_manage_id' => $topic->topic_manage_id,
             'class_id' => $student->class_id
         );
-        
+
         $folderName = $CI->commonobj->encrypt(implode(',', $data));
         $file_path = PATH_FILES_NO_ROOT . $folderName;
         if (! file_exists($file_path)) {
@@ -473,23 +474,23 @@ class Word extends AppComponent
         }
 		$data['folder_name'] = $folderName;
 		$CI->topic_file_model->create_ignore($data);
-        
+
         $file_path .= '/';
-        
+
         $filename = $file_path . $CI->stringobj->createAlias($student_name, '-') . '-' . $indentity_number . '-' . date('dmYHis') . DOCX;
-        
+
         $answers_student = $CI->student_answer_model->getAnswerOfStudentId($student_id, $topic->topic_id, $student_mark_id);
         $studentAnswerList = $CI->utils->makeList('question_id', $answers_student);
         $topicDetails = $CI->topic_model->getData($topic->topic_id);
-        
+
         // Include the PHPWord.php, all other classes were loaded by an autoloader
         require_once APPPATH . 'libraries/PhpOffice/PhpWord/PHPWord.php';
-        
+
         // New Word Document
         $PHPWord = new \PhpOffice\PhpWord\PhpWord();
         // New portrait section
         $section = $PHPWord->createSection();
-        
+
         $styleTable = array(
             'borderSize' => 6,
             'borderColor' => '006699',
@@ -500,11 +501,11 @@ class Word extends AppComponent
             'lineHeight' => 2
         ));
         $PHPWord->addTableStyle('myOwnTableStyle', $styleTable);
-        
+
         $this->_writeInfoStudent($section, $student, $topic);
         $this->_writeAnswerOfStudent($section, $answers_student);
         $this->_writeAnswerOfStudentDetail($section, $studentAnswerList, $topicDetails);
-        
+
         // write docx
         $xmlWriter = IOFactory::createWriter($PHPWord, 'Word2007');
         $xmlWriter->save($filename);
@@ -512,14 +513,14 @@ class Word extends AppComponent
 
     /**
      * allow download word file
-     * 
+     *
      * @param
      *            $filename
      */
     function export($filename)
     {
         $name = basename($filename);
-        
+
         header('Content-Description: File Transfer');
         header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
         header("Content-Disposition: attachment; filename=$name");
@@ -530,7 +531,7 @@ class Word extends AppComponent
         header('Content-Length: ' . filesize($filename));
         flush();
         readfile($filename);
-        
+
         @unlink($filename);
     }
 

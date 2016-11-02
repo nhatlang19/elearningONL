@@ -37,3 +37,9 @@ truncate table topic_files;
 truncate table topic_manage;
 truncate table user_manage_class;
 SET FOREIGN_KEY_CHECKS = 1;
+
+
+SET FOREIGN_KEY_CHECKS = 0;
+truncate table storage_answer;
+truncate table storage_question;
+SET FOREIGN_KEY_CHECKS = 1;

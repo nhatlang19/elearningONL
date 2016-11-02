@@ -11,7 +11,18 @@ if (! function_exists('trim_all')) {
 
     function trim_all($str, $charlist = "\t\n\r\0\x0B")
     {
-        return str_replace(str_split($charlist), '', $str);
+        $str = preg_replace( "/\s+/", " ", $str );
+        return trim(str_replace(str_split($charlist), '', $str));
+    }
+}
+
+if (! function_exists('debug')) {
+
+    function debug($str)
+    {
+        echo '<pre>';
+        print_r($str);
+        echo '</pre>';
     }
 }
 
