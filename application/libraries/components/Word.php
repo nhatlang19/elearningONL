@@ -130,7 +130,8 @@ class Word extends AppComponent
                         $textRun->addImage($src);
                     }
                 } else {
-                    $textRun->addText('<![CDATA[ ' . htmlspecialchars_decode($item['text']) . ' ]]>', ['bold' => $bold]);
+                    $textRun->addText('<![CDATA[' . htmlspecialchars_decode($item['text']) . ']]>', ['bold' => $bold]);
+
                 }
             }
         }
@@ -166,6 +167,7 @@ class Word extends AppComponent
                 $title_topic = 'De ' . $topic['code'] . DOCX;
 
                 $data = $CI->topic_model->getData($topic['topic_id']);
+
                 $results[$key]['code'] = $topic['code'];
                 $results[$key]['data'] = $data;
                 foreach ($data as $item) {

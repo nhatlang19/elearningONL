@@ -8,7 +8,7 @@ class Topic extends Ext_Controller
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->load->model('storage_model');
         $this->load->model('storage_question_model');
         $this->load->model('storage_answer_model');
@@ -20,7 +20,7 @@ class Topic extends Ext_Controller
         $this->load->model('question_model');
         $this->load->model('answer_model');
         $this->load->model('student_mark_model');
-        
+
         $this->load->library([
             'lib/topiclib',
             'components/word',
@@ -32,17 +32,17 @@ class Topic extends Ext_Controller
         // initialize
         $per_page = PER_PAGE;
         $segment = $this->uri->segment(self::URI_SEGMENT);
-        
+
         $header['title'] = 'Quản lý đề thi';
         $data = array();
-        
+
         // filter
         $storage_id = $this->input->post('storage_id'); // kho nao
         $academic_id = $this->input->post('academic_id'); // nien khoa
         $exam_id = $this->input->post('exam_id'); // loai hinh thi
-        
+
         $data['topics'] = $this->topic_manage_model->getTopicList($academic_id, $exam_id, $this->getUserInfo()->subjects_id, $per_page, $segment);
-        
+
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'topic/lists', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
@@ -55,15 +55,15 @@ class Topic extends Ext_Controller
         // initialize
         $per_page = PER_PAGE;
         $segment = $this->uri->segment(self::URI_SEGMENT);
-        
+
         $header['title'] = 'Quản lý đề thi';
         $data = array();
-        
+
         // filter
         $storage_id = $this->input->post('storage_id'); // kho nao
         $academic_id = $this->input->post('academic_id'); // nien khoa
         $exam_id = $this->input->post('exam_id'); // loai hinh thi
-        
+
         $data['topics'] = $this->topic_manage_model->getTopicListTrash($academic_id, $exam_id, $this->getUserInfo()->subjects_id, $per_page, $segment);
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'topic/list_trash', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
@@ -73,7 +73,7 @@ class Topic extends Ext_Controller
     {
         $topic_manage_id = intval($topic_manage_id);
         $this->topic_manage_model->published($topic_manage_id);
-        
+
         redirect(BACKEND_V2_TMPL_PATH . 'topic/lists');
     }
 
@@ -96,7 +96,7 @@ class Topic extends Ext_Controller
     public function restore($topic_manage_id)
     {
         $topic_manage_id = intval($topic_manage_id);
-        
+
         $result = $this->topic_manage_model->restore($topic_manage_id);
         $this->sendAjax();
     }
@@ -104,21 +104,22 @@ class Topic extends Ext_Controller
     public function export($id)
     {
         $tid = intval(substr($id, strpos($id, 'tid') + 3, strlen($id)));
-        
+
         $topic_manage = $this->topic_manage_model->findById($tid);
         $topic_manage['created_time'] = setDate($topic_manage['created_time'], 'notime');
-        
+
         // create folder name
         ob_start();
         $this->load->library('stringobj');
         $title = $this->stringobj->createAlias(implode('_', $topic_manage), '_');
+
         if (! file_exists(BACKEND_V2_DOC_PATH_DIR . $title)) {
             mkdir(BACKEND_V2_DOC_PATH_DIR . $title);
         }
-        
+
         // danh sach đề thi
         $topics = $this->topic_model->getTopicByTopicManageId($tid);
-        
+
         // gen msdoc
         $array_topic =  $this->word->exportTopic($topics, $title);
         // zip folder
@@ -127,18 +128,18 @@ class Topic extends Ext_Controller
         // Destination folder where we create Zip file.
         $dst = BACKEND_V2_DOC_PATH_DIR;
         $zip = $this->recursezip->compress($src, $dst);
-        
+
         // delete doc file
         foreach ($array_topic as $topic) {
             @unlink($topic);
         }
         // delete folder
         @rmdir($src);
-        
+
         // Download zip file.
         my_force_download($title . '.zip', $zip);
         flush();
-        
+
         // delete zip file
         @unlink($zip);
 		flush();
@@ -147,9 +148,9 @@ class Topic extends Ext_Controller
     public function create()
     {
         $subjects_id = $this->getUserInfo()->subjects_id;
-        
+
         if ($post = $this->input->post()) {
-            
+
             // request
             $number_question = (int) $this->input->post('number_question', 0); // so cau hoi
             $number_topic = (int) $this->input->post('number_topic', 0); // so de thi
@@ -157,7 +158,7 @@ class Topic extends Ext_Controller
             $academic_id = (int) $this->input->post('academic_id', 0); // nien khoa
             $exam_id = (int) $this->input->post('exam_id', 0); // loai hinh thi
             $title = sanitizeText($this->input->post('title')); // tiều đề đề thi
-            
+
             $data = array(
                 'number_question' => $number_question,
                 'number_topic' => $number_topic,
@@ -171,7 +172,7 @@ class Topic extends Ext_Controller
                 // list storage_question_id
                 $list = $this->storage_question_model->getStorageQuestionByStorageIdRandom($storage_id, $number_question);
                 $sqid_list = explode('|||', $list['sqid']);
-                
+
                 // lay danh sach cau tra loi tuong ung voi cau hoi
                 $answer_list = $this->storage_answer_model->getAnswerBySqid($sqid_list);
                 $array_data = array();
@@ -186,12 +187,12 @@ class Topic extends Ext_Controller
                         }
                     }
                 }
-                
+
                 if(empty($subjects_id)) {
                     $storage = $this->storage_model->getById($storage_id);
                     $subjects_id = $storage->subjects_id;
                 }
-                
+
                 // insert into topic_manage
                 $topic_data['exam_id'] = $exam_id;
                 $topic_data['academic_id'] = $academic_id;
@@ -201,19 +202,19 @@ class Topic extends Ext_Controller
                 $topic_data['subjects_id'] = $subjects_id;
                 $topic_manage_id = $this->topic_manage_model->create($topic_data);
                 unset($topic_data);
-                
+
                 $question = array();
                 $answers = array();
                 $aindex = 0;
                 $qindex = 0;
-                
+
                 for ($i = 0; $i < $number_topic; $i ++) {
                     // insert topic
                     $topic_data['code'] = $i + 1;
                     $topic_data['topic_manage_id'] = $topic_manage_id;
                     $topic_newid = $this->topic_model->create($topic_data);
                     unset($topic_data);
-                    
+
                     // random question sentences
                     shuffle($array_data);
                     $number = 1;
@@ -221,10 +222,10 @@ class Topic extends Ext_Controller
                         $question[$qindex]['storage_question_id'] = $item['storage_question_id'];
                         $question[$qindex]['topic_id'] = $topic_newid;
                         $question[$qindex]['number'] = $number ++;
-                        
+
                         // random answer sentences
                         shuffle($item['answers']);
-                        
+
                         $num = 1;
                         $correctAnswers = [];
                         foreach ($item['answers'] as $e) {
@@ -234,40 +235,40 @@ class Topic extends Ext_Controller
                             $answers[$aindex]['storage_question_id'] = $item['storage_question_id'];
                             $answers[$aindex]['topic_id'] = $topic_newid;
                             $answers[$aindex]['number'] = $num ++;
-                            
+
                             if($answers[$aindex]['correct_answer']) {
                                 $correctAnswers[] = $answers[$aindex]['number'];
                             }
                             ++ $aindex;
                         }
-                        
+
                         $question[$qindex]['correct'] = implode(SEPARATE_CORRECT_ANSWER, $correctAnswers);
                         ++ $qindex;
                     }
                 }
-                
+
                 // save question & answer ( batch )
                 // http://codeigniter.com/user_guide/database/active_record.html#insert
                 $this->question_model->create_batch($question);
                 $this->answer_model->create_batch($answers);
-                
+
                 unset($question);
                 unset($answers);
-                
+
                 redirect(BACKEND_V2_TMPL_PATH . 'topic/lists');
             }
         }
-        
+
         $header['title'] = 'Tạo đề thi';
         $data['title'] = $header['title'];
         // load danh sach kho
         $data['list_storage'] = $this->storage_model->getStoragePublishedByUser($subjects_id);
         // load nien khoa
         $data['list_academic'] = $this->academic_model->getAll();
-        
+
         // load loai hinh thi
         $data['list_exam'] = $this->exam_model->getAllPublished();
-        
+
         $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'topic/edit', $data, TRUE);
         $this->loadTemnplateBackend($header, $content);
     }
@@ -278,12 +279,12 @@ class Topic extends Ext_Controller
             $data = $this->input->post();
             $topic_manage_id = intval($data['topic_manage_id']);
             $change_to = $data['change_to'];
-            
+
             $result = $this->topic_manage_model->change_review($topic_manage_id, $change_to);
             if ($result) {
                 $result = array();
                 $result['changeTo'] = ($change_to == 'show') ? 'hide' : 'show';
-                
+
                 $this->sendAjax(1, '', $result);
             } else {
                 $this->sendAjax(0, 'Can not change review');
@@ -298,11 +299,11 @@ class Topic extends Ext_Controller
         if ($this->input->is_ajax_request() && $this->input->post()) {
             $data = $this->input->post();
             $topic_manage_id = intval($data['topic_manage_id']);
-            
+
             $data = array();
             $data['lists'] = $this->topic_file_model->getFilesTopicManageId($topic_manage_id);
             $content = $this->load->view(BACKEND_V2_TMPL_PATH . 'topic/list_download', $data, TRUE);
-            
+
             $this->sendAjax(0, '', $content);
         } else {
             exit('No direct script access allowed');
@@ -317,16 +318,16 @@ class Topic extends Ext_Controller
             // Destination folder where we create Zip file.
             $dst = PATH_FILES_NO_ROOT;
             $zip = $this->recursezip->compress($src, $dst);
-            
+
             // Download zip file.
             my_force_download($folder . '.zip', $zip);
-            
+
             @unlink($zip);
         } else {
             exit('No direct script access allowed');
         }
     }
-    
+
     public function download_student_result($class_id = null, $topic_manage_id)
     {
         $class_id = (int) $class_id;
