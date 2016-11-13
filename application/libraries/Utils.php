@@ -12,9 +12,9 @@ class Utils
         }
         return $ip;
     }
-    
+
     public function changeLocalhostToServerIP($path) {
-        if(!empty($path)) {
+        if(isset($path)) {
             $serverIp = $this->getServerIp();
             return str_replace('localhost', $serverIp, $path);
         }
