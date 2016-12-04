@@ -93,7 +93,7 @@ class Storagelib extends AppComponent {
 
                             $data['answer'] = trim_all($this->CI->utils->smart_clean(addslashes($rows[$k][1])));
                             $data['hashkey'] = $hash;
-                            if(isset($data['answer'])) {
+                            if(!empty($data['answer']) || (trim($data['answer']) != '' && intval($data['answer']) == 0)) {
                                 $batchDataAnswers[] = $data;
                             }
                         }

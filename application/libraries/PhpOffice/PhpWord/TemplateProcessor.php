@@ -59,7 +59,7 @@ class TemplateProcessor
      * @var string[]
      */
     protected $tempDocumentFooters = array();
-    
+
     /**
      * Luan modified
      */
@@ -94,7 +94,7 @@ class TemplateProcessor
             mkdir(BACKEND_V2_TRASH_PATH, 0777);
         }
         $this->zipClass->extractTo(BACKEND_V2_TRASH_PATH);
-        
+
         $index = 1;
         while (false !== $this->zipClass->locateName($this->getHeaderName($index))) {
             $this->tempDocumentHeaders[$index] = $this->fixBrokenMacros(
@@ -518,7 +518,7 @@ class TemplateProcessor
 
         return substr($this->tempDocumentMainPart, $startPosition, ($endPosition - $startPosition));
     }
-    
+
     // Edited by Luan Nguyen
     public function getContentTable()
     {
@@ -544,7 +544,7 @@ class TemplateProcessor
     
         return $rowData;
     }
-    
+
     private function _filterRows($resources)
     {
         $pattern = '/<w\:tr(.*?)>(.*?)<\/w\:tr>/';
@@ -554,7 +554,7 @@ class TemplateProcessor
         }
         return array();
     }
-    
+
     private function _filterCells($resources)
     {
         $pattern = '/<w\:tc(.*?)>(.*?)<\/w\:tc>/';
@@ -564,7 +564,7 @@ class TemplateProcessor
         }
         return array();
     }
-    
+
     private function _filterParagraph($resources)
     {
         $pattern = '/<w\:p(.*?)>(.*?)<\/w\:p>/';
@@ -574,7 +574,7 @@ class TemplateProcessor
         }
         return array();
     }
-    
+
     private function _getContent($resources)
     {
         $pattern = '/<w\:r(.*?)>(.*?)<\/w\:r>/';
@@ -597,7 +597,7 @@ class TemplateProcessor
         }
         return $html;
     }
-    
+
     private function _getImage($resources)
     {
         $rId = $this->seachImagerId('<wp:docPr' , $resources);
@@ -605,10 +605,10 @@ class TemplateProcessor
             $fileName = $this->getImgFileName($rId);
             if(!empty($fileName)) {
                 $src = BACKEND_V2_TRASH_PATH . '/word/media/' . $fileName;
-                
+
                 $ext = pathinfo($src, PATHINFO_EXTENSION);
                 $newFileName = uniqid(date('YmdHis')) . '.' . $ext;
-                
+
                 $desc = PATH_UPLOADS_NO_ROOT . 'images/' . $newFileName;
                 if(file_exists($src)) {
                     $imgThumb = imageThumb($src, $desc);
@@ -623,7 +623,7 @@ class TemplateProcessor
     /**
      * Search for the labeled image's rId
      *
-     * @param string $search            
+     * @param string $search
      */
     public function seachImagerId($search, $resources)
     {
@@ -639,13 +639,17 @@ class TemplateProcessor
     /**
      * Get img filename with it's rId
      *
-     * @param string $rId            
+     * @param string $rId
      */
     public function getImgFileName($rId)
     {
         $tagPos = strpos($this->temporaryDocumentRels, $rId);
+        if($tagPos === false) {
+            return '';
+        }
         $fileNameStart = strpos($this->temporaryDocumentRels, 'Target="media/', $tagPos) + 14;
         $fileName = strstr(substr($this->temporaryDocumentRels, $fileNameStart), '"', true);
+
         return $fileName;
     }
 }
