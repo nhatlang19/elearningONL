@@ -23,6 +23,7 @@ if (! function_exists('debug')) {
         echo '<pre>';
         print_r($str);
         echo '</pre>';
+        echo "\n";
     }
 }
 

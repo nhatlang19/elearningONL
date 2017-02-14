@@ -541,7 +541,7 @@ class TemplateProcessor
         $CI = & get_instance();
         $CI->load->library('commonobj');
         $CI->commonobj->deleteDir(BACKEND_V2_TRASH_PATH);
-    
+
         return $rowData;
     }
 
@@ -607,7 +607,7 @@ class TemplateProcessor
                 $src = BACKEND_V2_TRASH_PATH . '/word/media/' . $fileName;
 
                 $ext = pathinfo($src, PATHINFO_EXTENSION);
-                $newFileName = uniqid(date('YmdHis')) . '.' . $ext;
+                $newFileName = md5(uniqid(mt_rand(), true)) . '.' . date('YmdHis') . '.' . $ext;
 
                 $desc = PATH_UPLOADS_NO_ROOT . 'images/' . $newFileName;
                 if(file_exists($src)) {
@@ -643,7 +643,7 @@ class TemplateProcessor
      */
     public function getImgFileName($rId)
     {
-        $tagPos = strpos($this->temporaryDocumentRels, $rId);
+        $tagPos = strpos($this->temporaryDocumentRels, '"' . $rId . '"');
         if($tagPos === false) {
             return '';
         }
