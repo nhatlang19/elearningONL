@@ -3,9 +3,17 @@
 	"name" : "codeigniter/framework",
 	"license": "MIT",
 	"require": {
-		"php": ">=5.2.4"
+		"php": ">=5.2.4",
+        "phpoffice/phpword": "v0.13.*",
+		"phpoffice/phpexcel": "^1.8"
 	},
 	"require-dev": {
 		"mikey179/vfsStream": "1.1.*"
-	}
+	},
+	"autoload": {
+        "files": [
+        	"application/libraries/Word/PhpWordSingleton.php",
+        	"application/libraries/Word/CustomTemplateProcessor.php"
+        ]
+    }
 }
