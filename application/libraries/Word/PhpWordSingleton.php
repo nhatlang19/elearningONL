@@ -1,6 +1,7 @@
 <?php
 namespace App\Libraries\Word;
 
+use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 
 class PhpWordSingleton
@@ -57,5 +58,11 @@ class PhpWordSingleton
         } else {
             throw new \Exception("Template file {$filename} not found.");
         }
+    }
+
+    public function write($fileName, $writerType = 'Word2007')
+    {
+        $xmlWriter = IOFactory::createWriter($this->phpWord, $writerType);
+        $xmlWriter->save($fileName);
     }
 }

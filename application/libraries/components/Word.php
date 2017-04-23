@@ -47,7 +47,7 @@ class Word extends AppComponent
         // Add row
         $table->addRow();
         // Add Cell
-        $table->addCell(2000)->addText($template['col1']);
+        $table->addCell(2000, $styleCell)->addText($template['col1']);
         // Add Cell
         $statusCell = $table->addCell(7000, $styleCell);
         $lists = $this->convertToArray($template['col2']);
@@ -270,8 +270,7 @@ class Word extends AppComponent
             );
             $this->_addDataToRow($table, $template, $styleCell);
         }
-        $xmlWriter = IOFactory::createWriter($PHPWord->getObject(), 'Word2007');
-        $xmlWriter->save($filename);
+        $PHPWord->write($filename);
         $this->export($filename);
     }
 
