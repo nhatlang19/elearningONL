@@ -13,7 +13,8 @@
 	"autoload": {
         "files": [
         	"application/libraries/Word/PhpWordSingleton.php",
-        	"application/libraries/Word/CustomTemplateProcessor.php"
+        	"application/libraries/Word/CustomTemplateProcessor.php",
+            "application/libraries/Excel/PhpExcelSingleton.php"
         ]
     }
 }
