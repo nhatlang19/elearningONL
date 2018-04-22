@@ -9,3 +9,4 @@ application/cache/*
 public/backendV2/tmpdir/*
 public/backendV2/tmp/*
 public/uploads/images/*
+application/logs/*
