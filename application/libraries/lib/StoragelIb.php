@@ -58,7 +58,9 @@ class Storagelib extends AppComponent {
         $uploadpath = BACKEND_V2_TMP_PATH_ROOT . $fileName;
         $storage_id = (int) $storage_id;
         $rows = $this->CI->word->importFromDocx($uploadpath);
-        @unlink($uploadpath);
+        if (file_exists($uploadpath)) {
+            unlink($uploadpath);
+        }
         if (! empty($rows)) {
             $batchDataQuestions = [];
             $batchDataAnswers = [];
