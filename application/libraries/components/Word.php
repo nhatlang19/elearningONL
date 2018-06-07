@@ -533,7 +533,6 @@ class Word extends AppComponent
         $document = $phpWord->loadTemplate($filename);
         // check valid
         $rows = $document->getContentTable();
-        debug($rows);exit;
         if (count($rows) % NUMBER_LINE_A_QUESTION == 0) {
             return $rows;
         }

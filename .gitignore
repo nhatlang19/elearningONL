@@ -8,6 +8,7 @@ application/config/database.php
 application/cache/*
 public/backendV2/tmpdir/*
 public/backendV2/tmp/*
+public/uploads/images/*
 vendor/*
 public/backendV2/trash/docProps/*
 public/backendV2/trash/word/*
