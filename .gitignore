@@ -10,3 +10,10 @@ public/backendV2/tmpdir/*
 public/backendV2/tmp/*
 public/uploads/images/*
 application/logs/*
+vendor/*
+public/backendV2/trash/docProps/*
+public/backendV2/trash/word/*
+[Content_Types].xml
+[Content_Types].xml
+application/logs
+public/backendV2/trash/_rels/.rels

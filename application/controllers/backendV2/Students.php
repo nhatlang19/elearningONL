@@ -96,9 +96,9 @@ class Students extends Ext_Controller
     function import()
     {
         $header['title'] = IMPORT_STUDENT;
-        
         $data['error'] = '';
         if ($this->input->post()) {
+
             $file = $_FILES['uploadfile'];
             $error = null;
             if($file['error']) {
@@ -121,7 +121,7 @@ class Students extends Ext_Controller
                         $this->_saveFileData($class_id, $academic_id, $file['name']);
                         redirect(BACKEND_V2_TMPL_PATH . 'students/lists');
                     }
-                } else {
+                } else { 
                     $data['error'] = "Không thể upload file";
                 }
             } else {
@@ -147,6 +147,7 @@ class Students extends Ext_Controller
 		
         $this->load->library('utils');
         $sheetData = $this->utils->oleExcelReader($uploadpath, false);
+
         if (count($sheetData)) {
             unset($sheetData[1]); // delete title
             
@@ -166,7 +167,9 @@ class Students extends Ext_Controller
             }
         }
         
-        @unlink($uploadpath);
+        if (file_exists($uploadpath)) {
+            unlink($uploadpath);
+        }
     }
     
     public function login_list() {

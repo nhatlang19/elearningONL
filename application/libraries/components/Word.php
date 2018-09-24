@@ -4,8 +4,9 @@ use PhpOffice\PhpWord\Autoloader;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\IOFactory;
 use App\Libraries\AppComponent;
-//error_reporting(E_ALL);
-require_once __DIR__ . '/../PhpOffice/PhpWord/Autoloader.php';
+
+use App\Libraries\Word\PhpWordSingleton;
+
 require_once APPPATH . 'libraries/components/AppComponent.php';
 /**
  * refs: https://github.com/PHPOffice/PHPWord/blob/master/samples/
@@ -17,7 +18,6 @@ class Word extends AppComponent
     {
         parent::__construct();
 
-        Autoloader::register();
         Settings::loadConfig();
 
         Settings::setTempDir(getcwd() . TMPDIR_WORD);
@@ -47,7 +47,7 @@ class Word extends AppComponent
         // Add row
         $table->addRow();
         // Add Cell
-        $table->addCell(2000)->addText($template['col1']);
+        $table->addCell(2000, $styleCell)->addText($template['col1']);
         // Add Cell
         $statusCell = $table->addCell(7000, $styleCell);
         $lists = $this->convertToArray($template['col2']);
@@ -138,9 +138,6 @@ class Word extends AppComponent
     }
 
     public function exportTopic($topics, $title) {
-        // Include the PHPWord.php, all other classes were loaded by an autoloader
-        require_once APPPATH . 'libraries/PhpOffice/PhpWord/PHPWord.php';
-
         // New portrait section
         $styleTable = array(
             'borderSize' => 6,
@@ -160,8 +157,8 @@ class Word extends AppComponent
             $results = array();
             foreach ($topics as $key => $topic) {
                 // New Word Document
-                $PHPWord = new \PhpOffice\PhpWord\PhpWord();
-                $xmlWriter = IOFactory::createWriter($PHPWord, 'Word2007');
+                $PHPWord = PhpWordSingleton::getInstance();
+                $xmlWriter = IOFactory::createWriter($PHPWord->getObject(), 'Word2007');
                 $section = $PHPWord->createSection();
                 // đề thứ i
                 $title_topic = 'De ' . $topic['code'] . DOCX;
@@ -186,8 +183,8 @@ class Word extends AppComponent
                 $array_topic[] = $filename;
 
                 // New Word Document
-                $PHPWord = new \PhpOffice\PhpWord\PhpWord();
-                $xmlWriter = IOFactory::createWriter($PHPWord, 'Word2007');
+                // $PHPWord = PhpWordSingleton::getInstance();
+                $xmlWriter = IOFactory::createWriter($PHPWord->getObject(), 'Word2007');
                 $section = $PHPWord->createSection();
                 $table = $section->addTable('myOwnTableStyle');
                 // Add table style
@@ -221,11 +218,8 @@ class Word extends AppComponent
 
     function exportStorages($filename, $storages)
     {
-        // Include the PHPWord.php, all other classes were loaded by an autoloader
-        require_once APPPATH . 'libraries/PhpOffice/PhpWord/PHPWord.php';
-
         // New Word Document
-        $PHPWord = new \PhpOffice\PhpWord\PhpWord();
+        $PHPWord = PhpWordSingleton::getInstance();
         // New portrait section
         $section = $PHPWord->createSection();
 
@@ -276,8 +270,7 @@ class Word extends AppComponent
             );
             $this->_addDataToRow($table, $template, $styleCell);
         }
-        $xmlWriter = IOFactory::createWriter($PHPWord, 'Word2007');
-        $xmlWriter->save($filename);
+        $PHPWord->write($filename);
         $this->export($filename);
     }
 
@@ -485,11 +478,8 @@ class Word extends AppComponent
         $studentAnswerList = $CI->utils->makeList('question_id', $answers_student);
         $topicDetails = $CI->topic_model->getData($topic->topic_id);
 
-        // Include the PHPWord.php, all other classes were loaded by an autoloader
-        require_once APPPATH . 'libraries/PhpOffice/PhpWord/PHPWord.php';
-
         // New Word Document
-        $PHPWord = new \PhpOffice\PhpWord\PhpWord();
+        $PHPWord = PhpWordSingleton::getInstance();
         // New portrait section
         $section = $PHPWord->createSection();
 
@@ -509,7 +499,7 @@ class Word extends AppComponent
         $this->_writeAnswerOfStudentDetail($section, $studentAnswerList, $topicDetails);
 
         // write docx
-        $xmlWriter = IOFactory::createWriter($PHPWord, 'Word2007');
+        $xmlWriter = IOFactory::createWriter($PHPWord->getObject(), 'Word2007');
         $xmlWriter->save($filename);
     }
 
@@ -539,7 +529,7 @@ class Word extends AppComponent
 
     function importFromDocx($filename)
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = PhpWordSingleton::getInstance();
         $document = $phpWord->loadTemplate($filename);
         // check valid
         $rows = $document->getContentTable();
