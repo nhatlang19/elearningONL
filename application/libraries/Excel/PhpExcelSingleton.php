@@ -1,19 +1,19 @@
 <?php
 namespace App\Libraries\Excel;
 
-use PHPExcel;
-use PHPExcel_Writer_Excel5;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class PhpExcelSingleton
 {
-    private $phpExcel;
+    private $spreadSheet;
 
     protected static $instance = null;
 
     protected function __construct()
     {
         # Thou shalt not construct that which is unconstructable!
-        $this->phpExcel = new PHPExcel();
+        $this->spreadSheet = new Spreadsheet();
     }
 
     public static function getInstance()
@@ -26,18 +26,22 @@ class PhpExcelSingleton
 
     public function __call($method, $arguments)
     {
-        if (method_exists($this->phpExcel, $method)) {
-            return call_user_func_array([$this->phpExcel, $method], $arguments);
+        if (method_exists($this->spreadSheet, $method)) {
+            return call_user_func_array([$this->spreadSheet, $method], $arguments);
         }
 
         return null;
     }
 
-    public function download($fileName)
+    public function downloadExcel($fileName)
     {
+        $writer = new Xlsx($this->spreadSheet);
+
         header('Content-type: application/vnd.ms-excel');
         header("Content-Disposition: attachment; filename=\"$fileName\"");
-        $writer = new \PHPExcel_Writer_Excel5($this->phpExcel);
-        $writer->save('php://output');
+        header('Cache-Control: max-age=0');
+
+        ob_end_clean();
+        $writer->save('php://output', 'xls');
     }
 }

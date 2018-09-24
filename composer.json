@@ -5,7 +5,7 @@
 	"require": {
 		"php": ">=5.2.4",
         "phpoffice/phpword": "v0.13.*",
-		"phpoffice/phpexcel": "^1.8"
+		"phpoffice/phpspreadsheet": "^1.4.0"
 	},
 	"require-dev": {
 		"mikey179/vfsStream": "1.1.*"
