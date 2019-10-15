@@ -54,7 +54,7 @@ class Utils
 
     public function oleExcelReader($uploadpath, $flag = true)
     {
-        $objPHPExcel = \PHPExcel_IOFactory::load($uploadpath);
+		$objPHPExcel = \PhpOffice\PhpSpreadsheet\IOFactory::load($uploadpath);
         $sheetData = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
         if (count($sheetData) && $flag) {
             unset($sheetData[1]); // delete title
