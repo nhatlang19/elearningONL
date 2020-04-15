@@ -43,7 +43,12 @@ define('WRONG_IMAGE', 'public/backendV2/assets/images/cross_circle.png');
  * Use define direction path
  * Usefuly for all controller using this path to load template
  */
-define('ROOT', '/elearningOnline');
+if (!empty(getenv("CLEARDB_DATABASE_URL"))) {
+    define('ROOT', '');
+} else {
+    define('ROOT', '/elearningOnline');
+}
+
 define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT'] . ROOT);
 // BACKUP
 define('NAME_BACKUP', 'mybackup_' . date('dmYHis') . '.gz');
