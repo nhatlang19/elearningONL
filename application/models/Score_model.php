@@ -11,8 +11,8 @@ class Score_model extends Ext_Model
             $this->db->from('question AS q');
             $this->db->join('student_answer AS stu_ans', 'stu_ans.question_id = q.storage_question_id', 'left');
             $this->db->join('student_info AS si', 'si.student_id = stu_ans.student_id', 'left');
-            $this->db->where_in('q.topic_id', $topic_id);
-            $this->db->where_in('stu_ans.topic_id', $topic_id);
+            $this->db->where('q.topic_id', $topic_id);
+            $this->db->where('stu_ans.topic_id', $topic_id);
             $this->db->where('q.`correct` = `stu_ans`.`answer`');
             // $this->db->where('si.is_mark', 0);
             if ($student_id) {
