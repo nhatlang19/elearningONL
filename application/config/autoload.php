@@ -96,14 +96,14 @@ $autoload['drivers'] = array(
 
 $autoload['helper'] = array(
     'url',
-    //'nlimage',
-    //'date',
-    //'constant',
-    //'nlfunction',
-    //'nlstring',
+    'nlimage',
+    'date',
+    'constant',
+    'nlfunction',
+    'nlstring',
     'form',
     'html',
-    //'download',
+    'download',
     'text',
 );
 
