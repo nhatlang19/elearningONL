@@ -128,18 +128,41 @@ class Storage_question_model extends Ext_Model
     
     public function loadDataInfile($filename) {
 
-        $local = empty(getenv("CLEARDB_DATABASE_URL")) ? 'LOCAL ' : 'LOCAL ';
+        if (empty(getenv("CLEARDB_DATABASE_URL"))) {
+            $this->insertData($filename);
+        } else {
+            $query = "LOAD DATA LOCAL INFILE '$filename'" .
+                " IGNORE" .
+                " INTO TABLE {$this->table_name}" .
+                " FIELDS TERMINATED BY '|' " .
+                " LINES TERMINATED BY '\n' " .
+                " (question_name,storage_id,hashkey,select_any) ;";
 
-        $query = "LOAD DATA " . $local . "INFILE '$filename'" . 
-                 " IGNORE" .
-                 " INTO TABLE {$this->table_name}" . 
-                 " FIELDS TERMINATED BY '|' ".
-                 " LINES TERMINATED BY '\n' ".
-                 " (question_name,storage_id,hashkey,select_any) ;";
-        
-        $this->db->query($query);
-        
+            $this->db->query($query);
+        }
+
         @unlink($filename);
+    }
+
+    public function insertData($fileName) {
+        $importData = array();
+
+        $CSVfp = fopen($fileName, "r");
+        if ($CSVfp !== FALSE) {
+            while (!feof($CSVfp)) {
+                $data = fgetcsv($CSVfp, 1000, "|");
+                if (!empty($data)) {
+                    $importData[] = '(' . '"' . $data[0] . '",' . $data[1] . ',' . '"' . $data[2] . '",' . $data[3] . ')';
+                }
+            }
+        }
+        fclose($CSVfp);
+
+        $query = "INSERT INTO {$this->table_name}(question_name,storage_id,hashkey,select_any) VALUES ";
+        $query .= implode(', ', $importData);
+
+        // pr($query);
+        $this->db->query($query);
     }
     
     public function deleteQuestion($id) {

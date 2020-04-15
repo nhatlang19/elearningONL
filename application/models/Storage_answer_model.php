@@ -53,15 +53,40 @@ class Storage_answer_model extends Ext_Model
     }
     
     public function loadDataInfile($filename) {
-        $query = "LOAD DATA LOCAL INFILE '$filename'" .
-        " IGNORE" .
-        " INTO TABLE {$this->table_name}" .
-        " FIELDS TERMINATED BY '|' ".
-        " LINES TERMINATED BY '\n' ".
-        " (correct_answer,answer,hashkey) ;";
-        $this->db->query($query);
+        if (empty(getenv("CLEARDB_DATABASE_URL"))) {
+            $this->insertData($filename);
+        } else {
+            $query = "LOAD DATA LOCAL INFILE '$filename'" .
+            " IGNORE" .
+            " INTO TABLE {$this->table_name}" .
+            " FIELDS TERMINATED BY '|' ".
+            " LINES TERMINATED BY '\n' ".
+            " (correct_answer,answer,hashkey) ;";
+            $this->db->query($query);
+        }
         
         @unlink($filename);
+    }
+
+    public function insertData($fileName)
+    {
+        $importData = array();
+
+        $CSVfp = fopen($fileName, "r");
+        if ($CSVfp !== FALSE) {
+            while (!feof($CSVfp)) {
+                $data = fgetcsv($CSVfp, 1000, "|");
+                if (!empty($data)) {
+                    $importData[] = '(' . $data[0] . ',' . '"' . $data[1] . '",' . '"' . $data[2] . '"' . ')';
+                }
+            }
+        }
+        fclose($CSVfp);
+
+        $query = "INSERT INTO {$this->table_name}(correct_answer,answer,hashkey) VALUES ";
+        $query .= implode(', ', $importData);
+
+        $this->db->query($query);
     }
     
     public function deleteByHash($hashKeys) {
