@@ -107,5 +107,3 @@ if (!empty(getenv("CLEARDB_DATABASE_URL"))) {
 		'save_queries' => TRUE
 	);
 }
-
-print_r($db['default']);exit;
