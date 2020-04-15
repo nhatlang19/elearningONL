@@ -288,4 +288,5 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
+echo 111;exit;
 require_once BASEPATH.'core/CodeIgniter.php';
