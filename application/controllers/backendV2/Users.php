@@ -29,7 +29,7 @@ class Users extends CI_Controller
         $this->load->model('subject_model');
         
         $this->load->library([
-            'lib/userlib', 'utils'
+            'lib/Userlib', 'utils'
         ]);
     }
 
