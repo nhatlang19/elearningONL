@@ -53,7 +53,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	define('ENVIRONMENT', 'production');
+	define('ENVIRONMENT', 'development');
 
 /*
  *---------------------------------------------------------------
@@ -288,5 +288,4 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
-echo 111;exit;
 require_once BASEPATH.'core/CodeIgniter.php';
