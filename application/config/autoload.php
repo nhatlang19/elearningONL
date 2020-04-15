@@ -104,7 +104,7 @@ $autoload['helper'] = array(
     'form',
     'html',
     'download',
-    'text'
+    'text',
 );
 
 
