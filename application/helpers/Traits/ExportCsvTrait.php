@@ -7,7 +7,7 @@ trait ExportCsvTrait
     {
         $f = fopen($filename, "w");
         foreach ($data as $line) {
-            fputs($f, implode($line, '|')."\n");
+            fputs($f, implode('|', $line)."\n");
         }
         fclose($f);
     }
