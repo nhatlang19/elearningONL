@@ -36,8 +36,8 @@ if (! class_exists('Commonobj')) {
 
         public static function encrypt($string)
         {
-            $CI = & get_instance();
-            $CI->load->library('encrypt');
+            // $CI = & get_instance();
+            // $CI->load->library('encrypt');
             
 //             $hash = $CI->encrypt->sha1($string);
             $hash = md5($string);
