@@ -53,7 +53,7 @@ class Storage_answer_model extends Ext_Model
     }
     
     public function loadDataInfile($filename) {
-        if (empty(getenv("CLEARDB_DATABASE_URL"))) {
+        if (!empty(getenv("CLEARDB_DATABASE_URL"))) {
             $this->insertData($filename);
         } else {
             $query = "LOAD DATA LOCAL INFILE '$filename'" .
