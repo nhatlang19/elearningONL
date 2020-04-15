@@ -128,7 +128,7 @@ class Storage_question_model extends Ext_Model
     
     public function loadDataInfile($filename) {
 
-        $local = empty(getenv("CLEARDB_DATABASE_URL")) ? 'LOCAL ' : '';
+        $local = empty(getenv("CLEARDB_DATABASE_URL")) ? 'LOCAL ' : 'LOCAL ';
 
         $query = "LOAD DATA " . $local . "INFILE '$filename'" . 
                  " IGNORE" .
