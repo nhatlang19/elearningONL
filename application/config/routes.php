@@ -52,7 +52,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $route['admin'] = "backendV2/users";
 $route['admin/signin'] = "backendV2/users/login";
-$route['backendV2/storage-question/(.+)'] = "backendV2/storagequestion/$1";
+if (!empty(getenv("CLEARDB_DATABASE_URL"))) {
+    $route['backendV2/storage-question/(.+)'] = "backendV2/storageQuestion/$1";
+} else {
+    $route['backendV2/storage-question/(.+)'] = "backendV2/storagequestion/$1";
+}
+
+
 
 $route['dang-nhap'] = "student/login";
 $route['thoat'] = "student/logout";
