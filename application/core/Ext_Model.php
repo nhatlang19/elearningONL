@@ -15,8 +15,6 @@ class Ext_Model extends CI_Model
      */
     function __construct($table_name = NULL, $pkey = NULL)
     {
-        parent::__construct();
-        
         $this->CI = & get_instance();
         
         $this->init_table_info($table_name, $pkey);
