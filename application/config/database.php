@@ -61,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $active_group = 'default';
 $query_builder = TRUE;
-
+echo getenv("CLEARDB_DATABASE_URL");exit;
 if (!empty(getenv("CLEARDB_DATABASE_URL"))) {
 	$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
 
