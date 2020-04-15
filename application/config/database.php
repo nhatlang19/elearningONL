@@ -90,7 +90,7 @@ if (!empty(getenv("CLEARDB_DATABASE_URL"))) {
 		'hostname' => '127.0.0.1',
 		'username' => 'root',
 		'password' => '',
-		'database' => 'el',
+		'database' => 'el1',
 		'dbdriver' => 'mysqli',
 		'dbprefix' => '',
 		'pconnect' => FALSE,
