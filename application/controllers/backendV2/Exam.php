@@ -14,7 +14,7 @@ class Exam extends Ext_Controller
         $this->load->model('exam_model');
         
         $this->load->library([
-            'lib/examlib',
+            'lib/Examlib',
         ]);
     }
 

@@ -13,7 +13,7 @@ class Block extends Ext_Controller
         $this->load->model('block_model');
         
         $this->load->library([
-            'lib/blocklib',
+            'lib/Blocklib',
         ]);
     }
 

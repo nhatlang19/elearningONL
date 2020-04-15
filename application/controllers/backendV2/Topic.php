@@ -22,7 +22,7 @@ class Topic extends Ext_Controller
         $this->load->model('student_mark_model');
 
         $this->load->library([
-            'lib/topiclib',
+            'lib/Topiclib',
             'components/word',
         ]);
     }

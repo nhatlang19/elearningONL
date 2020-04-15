@@ -14,7 +14,7 @@ class Subject extends Ext_Controller
         $this->load->model('subject_model');
         
         $this->load->library([
-            'lib/subjectlib',
+            'lib/SubjectlIb',
         ]);
     }
 

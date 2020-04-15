@@ -13,7 +13,7 @@ class Academic extends Ext_Controller
         $this->load->model('academic_model');
         
         $this->load->library([
-            'lib/academiclib',
+            'lib/Academiclib',
         ]);
     }
 

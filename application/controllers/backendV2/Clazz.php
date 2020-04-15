@@ -15,7 +15,7 @@ class Clazz extends Ext_Controller
         $this->load->model('block_model');
         
         $this->load->library([
-            'lib/clazzlib',
+            'lib/Clazzlib',
         ]);
     }
 

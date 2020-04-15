@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-$config['base_url'] = 'https://elearning-online.herokuapp.com/';
+$config['base_url'] = !empty(getenv("CLEARDB_DATABASE_URL")) ? 'https://elearning-online.herokuapp.com/' : '';
 
 /*
 |--------------------------------------------------------------------------

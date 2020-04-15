@@ -16,7 +16,7 @@ class Students extends Ext_Controller
         $this->load->model('academic_model');
         
         $this->load->library([
-            'lib/studentlib', 'commonobj'
+            'lib/StudentlIb', 'commonobj'
         ]);
     }
 
