@@ -35,6 +35,10 @@ class Users extends CI_Controller
 
     function index()
     {
+        print_r($this->session->userdata('logged_in'));
+        print(BACKEND_V2_TMPL_PATH);
+        exit;
+
         if ($this->session->userdata('logged_in')) {
             redirect(BACKEND_V2_TMPL_PATH . 'storage/lists');
         } else {
