@@ -21,7 +21,7 @@ class Topic_manage_model extends Ext_Model
         $this->db->select('ay.academic_name, e.title as etitle');
         $this->db->from('topic_manage as t');
         $this->db->join('academic_year as ay', 'ay.academic_id = ' . $this->table_name . '.academic_id', 'left');
-        $this->db->join('exam as e', 'e.exam_id = ' . $this->table_name . ' .exam_id', 'left');
+        $this->db->join('exam as e', 'e.exam_id = ' . $this->table_name . '.exam_id', 'left');
         $this->db->where($this->table_name . '.status', self::STATUS_ACTIVE);
         
         if ($academic_id) {
