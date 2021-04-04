@@ -328,7 +328,7 @@ class Topic extends Ext_Controller
         }
     }
 
-    public function download_student_result($class_id = null, $topic_manage_id)
+    public function download_student_result($class_id = null, $topic_manage_id = 0)
     {
         $class_id = (int) $class_id;
         if ($class_id) {
