@@ -3,7 +3,7 @@
 class Score_model extends Ext_Model
 {
 
-    function scoring($topic_id = 0, $student_id = null, $student_mark_id)
+    function scoring($topic_id = 0, $student_id = null, $student_mark_id = 0)
     {
         $results = array();
         if ($topic_id) {
