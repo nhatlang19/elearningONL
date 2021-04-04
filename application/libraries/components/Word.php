@@ -42,7 +42,7 @@ class Word extends AppComponent
         }
     }
 
-    private function _addDataToRow($table, $template = array(), $styleCell)
+    private function _addDataToRow($table, $template = array(), $styleCell = null)
     {
         // Add row
         $table->addRow();

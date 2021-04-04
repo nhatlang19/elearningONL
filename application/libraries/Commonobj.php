@@ -38,7 +38,7 @@ if (! class_exists('Commonobj')) {
         {
             // $CI = & get_instance();
             // $CI->load->library('encrypt');
-            
+
 //             $hash = $CI->encrypt->sha1($string);
             $hash = md5($string);
             return $hash;
@@ -46,7 +46,7 @@ if (! class_exists('Commonobj')) {
 
         /**
          * Hàm tính điểm
-         * 
+         *
          * @param int $total_score
          *            số điểm tối đa ( 10 )
          * @param int $number_question
@@ -121,9 +121,9 @@ if (! class_exists('Commonobj')) {
         {
             $date = explode('to', $rangeDate);
             $steps = 0;
-            
+
             $post_array = array();
-            
+
             if (! isset($date[1])) {
                 $dateLabel = new DateTime(date('Y/m/d'));
                 return self::setDate($rangeDate);
@@ -137,9 +137,9 @@ if (! class_exists('Commonobj')) {
         {
             $date = explode('to', $rangeDate);
             $steps = 0;
-            
+
             $post_array = array();
-            
+
             if (! isset($date[1])) {
                 return self::setDate($rangeDate, $format);
             } else {
@@ -151,7 +151,7 @@ if (! class_exists('Commonobj')) {
         {
             if ($datestr == '')
                 return '--';
-            
+
             $time = strtotime($datestr);
             switch ($format) {
                 case 'short':
@@ -191,7 +191,7 @@ if (! class_exists('Commonobj')) {
             for ($i = 0; $i < $length; $i ++) {
                 $str .= substr($pool, mt_rand(0, strlen($pool) - 1), 1);
             }
-            
+
             return $str;
         }
 
@@ -222,10 +222,10 @@ if (! class_exists('Commonobj')) {
             if ($filesize != 0) {
                 if ($filesize >= 1099511627776) {
                     $fsize = number_format($filesize / 1099511627776, 2, ',', '.') . ' TB';
-                } else 
+                } else
                     if ($filesize >= 1073741824) {
                         $fsize = number_format($filesize / 1073741824, 2, ',', '.') . ' GB';
-                    } else 
+                    } else
                         if ($filesize >= 1048576) {
                             $fsize = number_format($filesize / 1048576, 2, ',', '.') . ' MB';
                         } else {
@@ -313,7 +313,7 @@ if (! class_exists('Commonobj')) {
         {
             if (strlen($phone) < 7)
                 return false;
-            
+
             $valid_chars = "0123456789-+() ";
             $chars = array();
             $len = strlen($valid_chars);
@@ -327,13 +327,13 @@ if (! class_exists('Commonobj')) {
             return true;
         }
 
-        function upload_file($file_upload, $new_filename = '', $file_types, $max_size, $filename_valid_chars, $destination, &$message)
+        function upload_file($file_upload, $new_filename = '', $file_types = [] , $max_size = 1000000, $filename_valid_chars = '', $destination = '', &$message = '')
         {
             if ($_FILES[$file_upload]['name']) {
                 if (! in_array($_FILES[$file_upload]["type"], $file_types)) {
                     $message = "File type is invalid.";
                     return '';
-                } else 
+                } else
                     if (($_FILES[$file_upload]["size"] > $max_size)) {
                         $message = "File size too big.";
                         return '';
@@ -342,14 +342,14 @@ if (! class_exists('Commonobj')) {
                         $pointPosition = strrpos($ffilename, ".");
                         $name = substr($ffilename, 0, $pointPosition);
                         $ext = substr($ffilename, $pointPosition + 1, strlen($ffilename) - $pointPosition - 1);
-                        
+
                         if ($new_filename != '') {
                             $newfilename = $new_filename . '.' . $ext;
                         } else {
                             // Cắt bớt phần tên còn 30 kí tự nếu tên file quá dài
                             if (strlen($name) > 30)
                                 $name = substr($name, 0, 30);
-                                
+
                                 // Xử lý những kí tự không hợp lệ trong tên file / Xử lý upload script (thay dấu . thành dấu _)
                             for ($i = 0; $i < strlen($name); $i ++) {
                                 if (strpos($filename_valid_chars, $name[$i]) === false)
@@ -358,7 +358,7 @@ if (! class_exists('Commonobj')) {
                             // Xử lý trùng tên file
                             $dest = $destination . $name . "." . $ext;
                             $fileName = $name . "." . $ext;
-                            
+
                             while (file_exists($dest)) {
                                 srand((double) microtime() * 1000000); // random number inizializzation
                                 $fileName = $name . rand(1, 9999) . "." . $ext; // add number to file name
@@ -366,12 +366,12 @@ if (! class_exists('Commonobj')) {
                             }
                             $newfilename = $fileName;
                         }
-                        
+
                         if (! @is_uploaded_file($_FILES[$file_upload]['tmp_name'])) {
                             $message = "Upload file error.";
                             return '';
                         }
-                        
+
                         if (! @move_uploaded_file($_FILES[$file_upload]['tmp_name'], $destination . $newfilename)) {
                             $message = "Can't write file, please check folder's permission.";
                             return '';
@@ -383,10 +383,10 @@ if (! class_exists('Commonobj')) {
             }
         }
 
-        function resize_crop($dir_path_source, $dir_path_dest, $oldfilename, $newfilename = '', $width, $height, &$message)
+        function resize_crop($dir_path_source, $dir_path_dest, $oldfilename, $newfilename = '', $width = 100, $height = 100, &$message = '')
         {
             require_once ('phpThumb_1.7.9/phpthumb.class.php');
-            
+
             if ($newfilename != '') {
                 $pointPosition = strrpos($newfilename, ".");
                 $name = substr($newfilename, 0, $pointPosition);
@@ -395,17 +395,17 @@ if (! class_exists('Commonobj')) {
             } else {
                 $newfilename = $oldfilename;
             }
-            
+
             $phpThumb = new phpThumb();
             // $phpThumb->setSourceData(file_get_contents($_FILES[$file_name]['tmp_name']));
             $phpThumb->setSourceFilename($dir_path_source . $oldfilename);
             $phpThumb->setParameter('zc', true);
-            
+
             $output_filename = $dir_path_dest . $newfilename;
             $phpThumb->setParameter('w', $width);
             $phpThumb->setParameter('h', $height);
             $phpThumb->setParameter('is_alpha', true);
-            
+
             // generate & output thumbnail
             if ($phpThumb->GenerateThumbnail()) { // this line is VERY important, do not remove it!
                 if ($phpThumb->RenderToFile($output_filename)) {
@@ -414,17 +414,17 @@ if (! class_exists('Commonobj')) {
                     // do something with debug/error messages
                     $message = "Render file bị lỗi.";
                     return false;
-                    
+
                     // echo 'Failed:<pre>'.implode("\n\n", $phpThumb->debugmessages).'</pre>';
                 }
             } else {
                 // do something with debug/error messages
                 $message = "Resize / Crop file bị lỗi.";
                 return false;
-                
+
                 // echo 'Failed:<pre>'.$phpThumb->fatalerror."\n\n".implode("\n\n", $phpThumb->debugmessages).'</pre>';
             }
-            
+
             return true;
         }
 
@@ -464,7 +464,7 @@ if (! class_exists('Commonobj')) {
             if (strlen($string) <= $length) {
                 return $string;
             }
-            
+
             $strcut = '';
             if (strtolower($encoding) == 'utf8') {
                 $n = $tn = $noc = 0;
@@ -514,7 +514,7 @@ if (! class_exists('Commonobj')) {
                     }
                 }
             }
-            
+
             return $strcut . $dot;
         }
 
@@ -523,7 +523,7 @@ if (! class_exists('Commonobj')) {
             $stamp = strtotime($str);
             if (! is_numeric($stamp))
                 return FALSE;
-                
+
                 // checkdate(month, day, year)
             if (checkdate(date('m', $stamp), date('d', $stamp), date('Y', $stamp))) {
                 return TRUE;
